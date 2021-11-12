@@ -18,6 +18,7 @@ public class DCMain {
 	public static ApplicationContext appContext;
 
 	public DCMain() {
+		
 	}
 
 	public static void main(String[] args) throws Exception {
