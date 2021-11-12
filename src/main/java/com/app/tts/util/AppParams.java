@@ -5,6 +5,9 @@ package com.app.tts.util;
  */
 public class AppParams {
 
+	public static final String POSTAL_CODE = "postal_code";
+	public static final String S_POSTAL_CODE = "s_postal_code";
+	
 	/**
 	 * Header Params
 	 */
