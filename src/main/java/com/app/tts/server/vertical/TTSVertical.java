@@ -14,6 +14,9 @@ import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.user.DelUserByIdHandler;
+import com.app.tts.server.handler.user.GetAllUserHandler;
+import com.app.tts.server.handler.user.RegisterUserHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -135,16 +138,16 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
-//		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-//
-//		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
-//		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler());
-//
-//		router.route(HttpMethod.POST, "/insert_user").handler(new InsertUserHandler());
-//		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
-//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-//		router.route(HttpMethod.GET, "/get_all_user").handler(new GetAllUserHandler());
-//		router.route(HttpMethod.PUT, "/login_user").handler(new LoginUserHandler());
+		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+
+		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
+		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler());
+
+		router.route(HttpMethod.POST, "/insert_user").handler(new RegisterUserHandler());
+		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
+		router.route(HttpMethod.DELETE, "/delete_user").handler(new DelUserByIdHandler());
+		router.route(HttpMethod.GET, "/get_all_user").handler(new GetAllUserHandler());
+		router.route(HttpMethod.PUT, "/login_user").handler(new LoginUserHandler());
 		return router;
 	}
 }
