@@ -19,50 +19,7 @@ public class UserService  extends MasterService{
     public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?)}";
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
 
-    public static List<Map> getAllUser(String state) throws SQLException {
-        List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_ALL_USER, new Object[]{state});
 
-        LOGGER.info("=> All USER result: " + resultDataList);
-
-        for (Map b : resultDataList) {
-            b = format(b);
-            result.add(b);
-        }
-
-        return result;
-
-    }
-
-    public static List<Map> getUserById(String id, String state) throws SQLException {
-        List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_USER_BY_ID, new Object[]{id, state});
-
-        LOGGER.info("=> GET USER by id result: " + resultDataList);
-        for (Map b : resultDataList) {
-            b = format(b);
-            result.add(b);
-        }
-
-        return result;
-
-    }
-    public static List<Map> delUserById(String id) throws SQLException {
-        List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(DEL_USER_BY_ID, new Object[]{id});
-
-        LOGGER.info("=> DELETE USER by id result: " + resultDataList);
-        for (Map b : resultDataList) {
-            b = format(b);
-            result.add(b);
-        }
-
-        return result;
-
-
-
-    }
-    // insert user in tts_user
 
     public static  List<Map> insertUser(String email, String password, String username, String address,
                                  String phone, String state) throws SQLException {
@@ -104,26 +61,6 @@ public class UserService  extends MasterService{
         return resultDataList;
     }
     //update PASSWORD BY email
-    public static List<Map> updatePass(String email, String password) throws SQLException, OracleException {
-
-        Map resultMap = new HashMap<>();
-        List<Map> resultDataList = excuteQuery(UPDATE_PASSWORD, new Object[]{email, password});
-
-        LOGGER.info("=> UPDATE_PASSWORD BY EMAIL result: " + resultDataList );
-
-        return resultDataList;
-    }
-    //get pass word
-
-    public static List<Map> getPassByEmail(String email)throws SQLException {
-
-
-        List<Map> resultDataList = excuteQuery(GET_PASS_BY_EMAIL, new Object[]{email});
-
-        LOGGER.info("=> GET PASSWORD BY EMAIL  result: " + resultDataList);
-
-        return resultDataList;
-    }
 
     private static Map format(Map queryData) throws SQLException {
 
