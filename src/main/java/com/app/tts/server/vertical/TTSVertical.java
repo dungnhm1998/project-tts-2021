@@ -135,16 +135,16 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
-		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-
-		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
-		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler());
-
-		router.route(HttpMethod.POST, "/insert_user").handler(new InsertUserHandler());
-		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
-		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-		router.route(HttpMethod.GET, "/get_all_user").handler(new GetAllUserHandler());
-		router.route(HttpMethod.PUT, "/login_user").handler(new LoginUserHandler());
+//		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+//
+//		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
+//		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler());
+//
+//		router.route(HttpMethod.POST, "/insert_user").handler(new InsertUserHandler());
+//		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
+//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+//		router.route(HttpMethod.GET, "/get_all_user").handler(new GetAllUserHandler());
+//		router.route(HttpMethod.PUT, "/login_user").handler(new LoginUserHandler());
 		return router;
 	}
 }
