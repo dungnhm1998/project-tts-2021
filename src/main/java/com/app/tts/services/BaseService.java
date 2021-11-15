@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class BaseService {
+public class BaseService extends MasterService{
 	private static DataSource dataSource;
 
 	public void setDataSource(DataSource dataSource) {
@@ -24,7 +24,7 @@ public class BaseService {
 	}
 
 	public static final String GET_LIST_BASE = "{call PKG_BASE.get_list_base(?,?,?)}";
-
+	public static final String GET_LIST_BASE1 = "{call PKG_QUY.get_all_base(?,?,?,?,?,?)}";
 	public static List<Map> getListBase() throws SQLException {
 
 		Map inputParams = new LinkedHashMap<Integer, String>();
@@ -57,6 +57,18 @@ public class BaseService {
 		}
 
 		return result;
+	}
+
+	public static List<Map> getListBase1(String page, String page_size, String name) throws SQLException {
+		List<Map> result = new ArrayList();
+		List<Map> resultDataList = excuteQuery(GET_LIST_BASE1, new Object[]{page  , page_size, name});
+		for (Map b : resultDataList) {
+			b = format(b);
+			result.add(b);
+		}
+
+		return result;
+
 	}
 
 	private static Map format(Map queryData) {
