@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class BaseService {
+public class BaseService extends MasterService{
 	private static DataSource dataSource;
 
 	public void setDataSource(DataSource dataSource) {
@@ -24,6 +24,13 @@ public class BaseService {
 	}
 
 	public static final String GET_LIST_BASE = "{call PKG_BASE.get_list_base(?,?,?)}";
+
+	public static final String GET_10_BASE = "{call PKG_PHUONG.GET_10_BASE(?,?,?,?,?)}";
+
+	public static List<Map> get10Base(int posStart, int posNumber) throws SQLException{
+		List<Map> result = excuteQuery(GET_10_BASE, new Object[]{posStart, posNumber});
+		return result;
+	}
 
 	public static List<Map> getListBase() throws SQLException {
 
