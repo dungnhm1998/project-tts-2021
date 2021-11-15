@@ -34,6 +34,7 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 				String postal = json.getString(AppParams.POSTAL_CODE);
 				
 				Map data = new HashMap<>();
+				
 
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
