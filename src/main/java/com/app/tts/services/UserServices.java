@@ -10,11 +10,17 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class UserServices extends MasterService{
+    public static final String LOGIN_USER = "{call PKG_PHUONG.LOGIN_USER(?,?,?,?)}";
     public static final String INSERT_USER = "{call PKG_PHUONG.INSERT_USER(?,?,?,?,?)}";
     private static final String SEARCH_USER_BY_EMAIL = "{call PKG_PHUONG.SEARCH_USER_BY_EMAIL(?,?,?,?)}";
     private static final String  UPDATE_USER = "{call PKG_PHUONG.UPDATE_USER(?,?,?,?,?)}";
     private static final String  DELETE_USER = "{call PKG_PHUONG.DELETE_USER(?,?,?,?)}";
     private static final String GET_ALL_USER = "{call PKG_PHUONG.GET_ALL_USER(?,?,?)}";
+
+    public static List<Map> loginUser(String email) throws SQLException{
+        List<Map> resultMap = excuteQuery(LOGIN_USER, new Object[]{email});
+        return resultMap;
+    }
 
     public static List<Map> getAllUser() throws SQLException{
         List<Map> resultMap = searchAll(GET_ALL_USER, new Object[]{});
