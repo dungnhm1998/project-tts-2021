@@ -23,7 +23,7 @@ public class GetUserByEmail implements Handler<RoutingContext>, SessionStore {
                 JsonObject json = routingContext.getBodyAsJson();
                 String email = json.getString("email");
                 Map data = new HashMap();
-                List<Map> User = SubService.getUserByEmail(email);
+                List<Map> User = SubService.getUserByEmail2(email);
                 LOGGER.info("Result: " + User);
 //                JsonArray ListCusJson = new JsonArray(ListCus);
                 data.put("User", User);
