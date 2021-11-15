@@ -24,7 +24,14 @@ public class BaseService extends MasterService{
 	}
 
 	public static final String GET_LIST_BASE = "{call PKG_BASE.get_list_base(?,?,?)}";
-	public static final String GET_LIST_BASE1 = "{call PKG_QUY.get_all_base(?,?,?,?,?,?)}";
+
+	public static final String GET_10_BASE = "{call PKG_PHUONG.GET_10_BASE(?,?,?,?,?)}";
+
+	public static List<Map> get10Base(int posStart, int posNumber) throws SQLException{
+		List<Map> result = excuteQuery(GET_10_BASE, new Object[]{posStart, posNumber});
+		return result;
+	}
+
 	public static List<Map> getListBase() throws SQLException {
 
 		Map inputParams = new LinkedHashMap<Integer, String>();
@@ -57,18 +64,6 @@ public class BaseService extends MasterService{
 		}
 
 		return result;
-	}
-
-	public static List<Map> getListBase1(String page, String page_size, String name) throws SQLException {
-		List<Map> result = new ArrayList();
-		List<Map> resultDataList = excuteQuery(GET_LIST_BASE1, new Object[]{page  , page_size, name});
-		for (Map b : resultDataList) {
-			b = format(b);
-			result.add(b);
-		}
-
-		return result;
-
 	}
 
 	private static Map format(Map queryData) {
