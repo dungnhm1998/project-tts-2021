@@ -29,7 +29,12 @@ public class BaseService extends MasterService{
 
 	public static List<Map> get10Base(int posStart, int posNumber) throws SQLException{
 		List<Map> result = excuteQuery(GET_10_BASE, new Object[]{posStart, posNumber});
-		return result;
+		List<Map> resultMap = new ArrayList<>();
+		for (Map b : result) {
+			b = format(b);
+			resultMap.add(b);
+		}
+		return resultMap;
 	}
 
 	public static List<Map> getListBase() throws SQLException {
