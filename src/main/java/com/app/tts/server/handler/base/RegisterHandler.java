@@ -88,11 +88,11 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 //			SubService.insertUser( userName,  password,  firstName,  lastName,  phone, email,  address,  postal);
 //		}
 		
-		public static boolean isValid(String email) {
-			boolean valid = false;
-			valid = EmailValidator.getInstance().isValid(email);
-			return true;
-		}
-		
-		private static final Logger LOGGER = Logger.getLogger(SubService.class.getName());
+	public static boolean isValid(String email) {
+		boolean valid = false;
+		valid = EmailValidator.getInstance().isValid(email);
+		return true;
+	}
+	
+	private static final Logger LOGGER = Logger.getLogger(SubService.class.getName());
 }

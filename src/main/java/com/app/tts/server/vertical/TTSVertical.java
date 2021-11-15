@@ -5,6 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
+import com.app.tts.server.handler.base.ChangePasswordHandler;
 import com.app.tts.server.handler.base.GetUserByEmail;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.base.RegisterHandler;
@@ -137,6 +138,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 		router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
 		router.route(HttpMethod.GET, "/getByEmail").handler(new GetUserByEmail());
+		router.route(HttpMethod.PUT, "/changePassword").handler(new ChangePasswordHandler());
 		return router;
 	}
 }
