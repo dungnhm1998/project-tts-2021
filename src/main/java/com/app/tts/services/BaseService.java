@@ -37,6 +37,11 @@ public class BaseService extends MasterService{
 		return resultMap;
 	}
 
+	public static List<Map> searchBase(String page, String page_size, String name) throws SQLException{
+		List<Map> result = excuteQuery(GET_10_BASE, new Object[]{page, page_size, name});
+		return result;
+	}
+
 	public static List<Map> getListBase() throws SQLException {
 
 		Map inputParams = new LinkedHashMap<Integer, String>();
