@@ -38,22 +38,17 @@ public class ChangePasswordHandler implements Handler<RoutingContext>, SessionSt
 				
 				LOGGER.info("Username = " + userName);
 				List<Map> pass = SubService.getPasswordByUserName(userName);
-
-				pass = new ArrayList<Map>();
-				List <String> result = new ArrayList<String>();
-				for(Map map: pass) {
-					result.addAll(map.values());
-				}
 				
-				LOGGER.info("result" + result);
+//				
+//				LOGGER.info("result" + result);
 				boolean check = false;
 				if (!pass.isEmpty()) {
 					check = true;
 				} 
 				if (!isValid(userName)) {
 					data.put("message", "Username khong ton tai");
-				} else if (!result.contains(password)) {
-					data.put("message", "Mat khau khong chinh xac");
+//				} else if (!result.contains(password)) {
+//					data.put("message", "Mat khau khong chinh xac");
 				} else if (!newPassword.equals(confirmPassword)) {
 					data.put("message", "Mat khau khong trung khop");
 				} else if (!check && isValid(userName)) {
