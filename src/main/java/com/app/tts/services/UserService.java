@@ -5,6 +5,7 @@ import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -31,6 +32,21 @@ public class UserService  extends MasterService{
         List<Map> resultDataList = excuteQuery(UPDATE_USER, new Object[]{email, username, address, phone, state});
         LOGGER.info("=> UPDATE BY ID result: " + resultDataList );
         return resultDataList;
+    }
+    
+    public static final String GET_ALL_USER = "{call PKG_QUY.get_all_user(?,?,?,?)}";
+    
+    public static List<Map> getAllUser(String state) throws SQLException {
+        List<Map> result = new ArrayList();
+        List<Map> resultDataList = excuteQuery(GET_ALL_USER, new Object[]{state});
+
+        LOGGER.info("=> All USER result: " + resultDataList);
+
+        for (Map b : resultDataList) {
+            b = format(b);
+            result.add(b);
+        }
+        return result;
     }
     
     public static List<Map> delUserById(String id) throws SQLException {
