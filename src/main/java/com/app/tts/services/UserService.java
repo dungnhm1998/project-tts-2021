@@ -15,9 +15,10 @@ public class UserService  extends MasterService{
     public static final String GET_ALL_USER = "{call PKG_QUY.get_all_user(?,?,?,?)}";
     public static final String DEL_USER_BY_ID = "{call PKG_QUY.del_user_by_id(?,?,?,?)}";
     public static final String UPDATE_USER = "{call PKG_QUY.update_user(?,?,?,?,?,?,?,?)}";
-    public static final String GET_USER_BY_EMAIL = "{call PKG_QUY.get_user_by_email(?,?,?,?)}";
+    public static final String GET_USER_BY_EMAIL = "{call PKG_PHUONG.SEARCH_USER_BY_EMAIL(?,?,?,?)}";
     public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?)}";
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
+    public static final String DELETE_USER_BY_EMAIL = "{call PKG_PHUONG.DELETE_USER(?,?,?,?)}";
 
 
 
@@ -33,6 +34,11 @@ public class UserService  extends MasterService{
             result.add(b);
         }
 
+        return result;
+    }
+
+    public static List<Map> deleteUser(String email) throws SQLException{
+        List<Map> result = excuteQuery(DELETE_USER_BY_EMAIL, new Object[]{email});
         return result;
     }
 

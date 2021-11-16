@@ -252,5 +252,7 @@
     <orderEntry type="library" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.16" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.18.22" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.8" level="project" />
+    <orderEntry type="library" name="Maven: com.oracle.database.jdbc:ojdbc8:21.1.0.0" level="project" />
+    <orderEntry type="library" name="wss-1.0.201705151" level="project" />
   </component>
 </module>
