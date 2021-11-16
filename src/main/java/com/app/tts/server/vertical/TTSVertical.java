@@ -16,6 +16,8 @@ import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
+
+
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
@@ -137,10 +139,13 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
 		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler());
 
-	
+
 		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
 		router.route(HttpMethod.DELETE, "/delete_user").handler(new DelUserByIdHandler());
 
+
+		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
+		router.route(HttpMethod.DELETE, "/delete_user").handler(new DelUserByIdHandler());
 		router.route(HttpMethod.PUT, "/login_user").handler(new LoginUserHandler());
 		router.route(HttpMethod.PUT, "/user").handler(new UpdateUserHandler());
 		return router;
