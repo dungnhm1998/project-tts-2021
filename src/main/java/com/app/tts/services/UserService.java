@@ -1,7 +1,6 @@
 package com.app.tts.services;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,14 +13,7 @@ public class UserService extends MasterService {
 	public static final String DEL_USER_BY_ID = "{call PKG_QUY.del_user_by_id(?,?,?,?)}";
 
 	public static List<Map> delUserById(String id) throws SQLException {
-		List<Map> result = new ArrayList();
-		List<Map> resultDataList = excuteQuery(DEL_USER_BY_ID, new Object[] { id });
-		LOGGER.info("=> DELETE USER by id result: " + resultDataList);
-		for (Map b : resultDataList) {
-			b = format(b);
-			result.add(b);
-		}
-		return result;
+		return excuteQuery(DEL_USER_BY_ID, new Object[] { id });
 	}
 	
 
