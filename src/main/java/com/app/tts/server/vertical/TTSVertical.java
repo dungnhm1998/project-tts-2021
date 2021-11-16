@@ -5,18 +5,14 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.User.UpdateUserHandler;
-import com.app.tts.server.handler.base.ListBaseHandler;
-import com.app.tts.server.handler.option.OptionHandler;
-import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.User.GetBaseHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
-
-
+import com.app.tts.server.handler.option.OptionHandler;
+import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
-
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
@@ -24,11 +20,7 @@ import io.vertx.rxjava.core.AbstractVerticle;
 import io.vertx.rxjava.core.http.HttpClient;
 import io.vertx.rxjava.core.http.HttpServer;
 import io.vertx.rxjava.ext.web.Router;
-import io.vertx.rxjava.ext.web.handler.BodyHandler;
-import io.vertx.rxjava.ext.web.handler.CookieHandler;
-import io.vertx.rxjava.ext.web.handler.ResponseTimeHandler;
-import io.vertx.rxjava.ext.web.handler.SessionHandler;
-import io.vertx.rxjava.ext.web.handler.TimeoutHandler;
+import io.vertx.rxjava.ext.web.handler.*;
 import io.vertx.rxjava.ext.web.sstore.LocalSessionStore;
 
 /**
@@ -129,15 +121,15 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 	private Router initAPI() {
 
 		Router router = Router.router(vertx);
-		
+
 		// xet uri de xem handler nao se bat login, handler nao khong bat login
 		router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
-		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+		router.route(HttpMethod.GET, "/list-base").handler(new GetBaseHandler());
 
-		router.route(HttpMethod.PUT, "/user").handler(new UpdateUserHandler());
+
 
 		return router;
 	}

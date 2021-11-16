@@ -156,6 +156,8 @@ public class AppParams {
 	/**
 	 * DB COLUMNS
 	 */
+	public static final String S_RESOLUTION_REQUIRE = "S_RESOLUTION_REQUIRE";
+	public static final String RESOLUTION_REQUIRE = "resolution_require";
 	public static final String S_ID = "TTS_ID";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
