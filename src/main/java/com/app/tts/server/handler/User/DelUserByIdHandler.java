@@ -1,16 +1,17 @@
-package com.app.tts.server.handler.user;
-
-import com.app.tts.services.UserService;
-import com.app.tts.util.AppParams;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.Handler;
-import io.vertx.rxjava.core.http.HttpServerRequest;
-import io.vertx.rxjava.ext.web.RoutingContext;
+package com.app.tts.server.handler.User;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import com.app.tts.services.UserService;
+import com.app.tts.util.AppParams;
+
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Handler;
+import io.vertx.rxjava.core.http.HttpServerRequest;
+import io.vertx.rxjava.ext.web.RoutingContext;
 
 public class DelUserByIdHandler implements Handler<RoutingContext> {
 
@@ -19,14 +20,14 @@ public class DelUserByIdHandler implements Handler<RoutingContext> {
         rc.vertx().executeBlocking(future -> {
             try {
                 HttpServerRequest httpServerRequest = rc.request();
-                String cusId = httpServerRequest.getParam("cusId");
-                LOGGER.info("---cusId  = "+ cusId);
+                String userId = httpServerRequest.getParam("userId");
+                LOGGER.info("---userId  = "+ userId);
                 Map data = new HashMap();
 
-                List<Map> Cus=  UserService.delUserById(cusId);
+                List<Map> user=  UserService.delUserById(userId);
 
-                data.put("xóa thành công ID: " + cusId +
-                        " || "+ "ALL_Cus", Cus);
+                data.put("xóa thành công ID: " + userId +
+                        " || "+ "ALL_user", user);
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
