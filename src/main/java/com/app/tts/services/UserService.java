@@ -23,6 +23,8 @@ public class UserService extends MasterService {
 		}
 		return result;
 	}
+	
+
 
 	private static Map format(Map queryData) throws SQLException {
 
