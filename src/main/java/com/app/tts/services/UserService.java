@@ -17,7 +17,6 @@ public class UserService extends MasterService {
 	}
 
 	private static Map format(Map queryData) throws SQLException {
-
 		Map resultMap = new LinkedHashMap<>();
 		resultMap.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
 		resultMap.put(AppParams.EMAIL, ParamUtil.getString(queryData, AppParams.S_EMAIL));
@@ -28,7 +27,6 @@ public class UserService extends MasterService {
 		resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE));
 		resultMap.put(AppParams.CREATE_AT, ParamUtil.getString(queryData, AppParams.D_CREATED_AT));
 		resultMap.put(AppParams.UPDATE_AT, ParamUtil.getString(queryData, AppParams.D_UPDATED_AT));
-
 		return resultMap;
 	}
 

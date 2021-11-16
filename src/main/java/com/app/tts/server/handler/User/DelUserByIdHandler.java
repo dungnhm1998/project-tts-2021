@@ -25,9 +25,7 @@ public class DelUserByIdHandler implements Handler<RoutingContext> {
 				Map data = new HashMap();
 
 				List<Map> Cus = UserService.delUserById(cusId);
-
 				data.put("xóa thành công ID: " + cusId + " || " + "ALL_Cus", Cus);
-
 				rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 				rc.put(AppParams.RESPONSE_DATA, data);
