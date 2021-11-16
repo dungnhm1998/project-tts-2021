@@ -4,7 +4,23 @@ package com.app.tts.util;
  * Created by Hung on 8/5/2015.
  */
 public class AppParams {
-
+	
+	public static final String SOURCE = "source";
+	public static final String NOTE = "note";
+	public static final String STORE_ID = "store_id";
+	public static final String REFERENCE_ID = "reference_id";
+	public static final String SHIPPING_METHOD = "shipping_method";
+	public static final String PHONE_EXT = "phone_ext";
+	public static final String LINE1 = "line1";
+	public static final String LINE2 = "line2";
+	public static final String CITY = "city";
+	public static final String POSTAL_CODE = "postal_code";
+	public static final String COUNTRY = "country";
+	public static final String COUNTRY_NAME = "country_name";
+	public static final String ADDR_VERIFIED = "addr_verified";
+	public static final String ADD_VERIFIED_NOTE = "add_verified_note";
+	
+	
 	/**
 	 * Header Params
 	 */
