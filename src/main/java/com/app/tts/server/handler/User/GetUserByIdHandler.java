@@ -12,21 +12,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class DelUserByIdHandler implements Handler<RoutingContext> {
+public class GetUserByIdHandler implements Handler<RoutingContext> {
 
     @Override
     public void handle(RoutingContext rc) {
         rc.vertx().executeBlocking(future -> {
             try {
                 HttpServerRequest httpServerRequest = rc.request();
-                String cusId = httpServerRequest.getParam("cusId");
+                String cusId = httpServerRequest.getParam("userId");
+
+
                 LOGGER.info("---cusId  = "+ cusId);
                 Map data = new HashMap();
 
-                List<Map> Cus=  UserService.delUserById(cusId);
+                List<Map> Cus =  UserService.getUserById(cusId, "active");
 
-                data.put("xóa thành công ID: " + cusId +
-                        " || "+ "ALL_Cus", Cus);
+                data.put("Ges_Cus_By_Id", Cus);
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
@@ -43,5 +44,6 @@ public class DelUserByIdHandler implements Handler<RoutingContext> {
             }
         });
     }
-    private static final Logger LOGGER = Logger.getLogger(DelUserByIdHandler.class.getName());
+
+    private static final Logger LOGGER = Logger.getLogger(GetUserByIdHandler.class.getName());
 }

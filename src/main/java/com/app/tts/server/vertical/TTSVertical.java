@@ -5,13 +5,18 @@
  */
 package com.app.tts.server.vertical;
 
-
-import com.app.tts.server.handler.User.DelUserByIdHandler;
+import com.app.tts.server.handler.User.*;
+import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
+import com.app.tts.server.handler.base.ListBaseHandler;
+import com.app.tts.server.handler.base.ListBaseHandler2;
+import com.app.tts.server.handler.option.OptionHandler;
+import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
-import com.app.tts.server.handler.option.OptionHandler;
-import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.user.DelUserByIdHandler;
+import com.app.tts.server.handler.user.GetAllUserHandler;
+import com.app.tts.server.handler.user.RegisterUserHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -83,10 +88,14 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route().handler(CookieHandler.create());
 		router.route().handler(BodyHandler.create());
 		router.route().handler(io.vertx.rxjava.ext.web.handler.CorsHandler.create("*")
-				.allowedMethod(io.vertx.core.http.HttpMethod.GET).allowedMethod(io.vertx.core.http.HttpMethod.POST)
-				.allowedMethod(io.vertx.core.http.HttpMethod.OPTIONS).allowedHeader("Access-Control-Request-Method")
-				.allowedHeader("Access-Control-Allow-Credentials").allowedHeader("Access-Control-Allow-Origin")
-				.allowedHeader("Access-Control-Allow-Headers").allowedHeader("Content-Type"));
+				.allowedMethod(io.vertx.core.http.HttpMethod.GET)
+				.allowedMethod(io.vertx.core.http.HttpMethod.POST)
+				.allowedMethod(io.vertx.core.http.HttpMethod.OPTIONS)
+				.allowedHeader("Access-Control-Request-Method")
+				.allowedHeader("Access-Control-Allow-Credentials")
+				.allowedHeader("Access-Control-Allow-Origin")
+				.allowedHeader("Access-Control-Allow-Headers")
+				.allowedHeader("Content-Type"));
 
 		router.route().handler(ResponseTimeHandler.create());
 		router.route().handler(TimeoutHandler.create(connectionTimeOut));
@@ -115,8 +124,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 			if (result.failed()) {
 				logger.error("[INIT] START TTS API ERROR " + result.cause());
 			} else {
-				logger.info("[INIT] TTS SERVER STARTED AT " + StringPool.SPACE + serverHost + StringPool.COLON
-						+ serverPort);
+				logger.info("[INIT] TTS SERVER STARTED AT " + StringPool.SPACE + serverHost + StringPool.COLON + serverPort);
 			}
 		});
 	}
@@ -124,14 +132,22 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 	private Router initAPI() {
 
 		Router router = Router.router(vertx);
-
+		
 		// xet uri de xem handler nao se bat login, handler nao khong bat login
 		router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
+		//api
+		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 
-		// api
-		router.route(HttpMethod.DELETE, "/user/:userId").handler(new DelUserByIdHandler());
+		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
+		router.route(HttpMethod.GET, "/list_base_group_color_size").handler(new ListBaseGroupColorSizeHandler());
+
+		router.route(HttpMethod.POST, "/insert_user").handler(new RegisterUserHandler());
+		router.route(HttpMethod.PUT, "/update_user").handler(new UpdateUserHandler());
+		router.route(HttpMethod.DELETE, "/delete_user").handler(new DelUserByIdHandler());
+		router.route(HttpMethod.GET, "/get_all_user").handler(new GetAllUserHandler());
+		router.route(HttpMethod.PUT, "/login_user").handler(new LoginUserHandler());
 		return router;
 	}
 }
