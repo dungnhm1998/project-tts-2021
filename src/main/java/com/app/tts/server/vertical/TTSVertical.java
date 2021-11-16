@@ -7,6 +7,7 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.User.*;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
+import com.app.tts.server.handler.User.UpdateUserHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.option.OptionHandler;
@@ -17,6 +18,8 @@ import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.user.DelUserByIdHandler;
 
 import com.app.tts.server.handler.user.RegisterUserHandler;
+
+
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -148,6 +151,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.DELETE, "/delete_user").handler(new DelUserByIdHandler());
 		router.route(HttpMethod.GET, "/get_all_user").handler(new GetAllUserHandler());
 		router.route(HttpMethod.PUT, "/login_user").handler(new LoginUserHandler());
+		router.route(HttpMethod.PUT, "/user").handler(new UpdateUserHandler());
 		return router;
 	}
 }
