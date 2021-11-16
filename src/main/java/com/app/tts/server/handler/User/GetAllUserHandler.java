@@ -1,10 +1,8 @@
 package com.app.tts.server.handler.User;
 
-import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.HashMap;
