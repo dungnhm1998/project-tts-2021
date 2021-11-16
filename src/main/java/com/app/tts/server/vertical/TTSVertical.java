@@ -6,6 +6,7 @@
 package com.app.tts.server.vertical;
 
 
+import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.User.GetAllUserHandler;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
@@ -134,13 +135,15 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-//<<<<<<< HEAD
+
 		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
 		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
-//=======
+
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-//>>>>>>> dev_insert
+
+		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
+
 		return router;
 	}
 }
