@@ -3,6 +3,7 @@ package com.app.tts.server.handler.User;
 import com.app.tts.data.type.RedisKeyEnum;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.services.BaseService;
+import com.app.tts.services.GetBaseService;
 import com.app.tts.services.RedisService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
@@ -45,7 +46,7 @@ public class GetBaseHandler implements Handler<RoutingContext> {
 
     public static Map getListBaseFromDB() throws SQLException {
         Map listBaseDB = new HashMap();
-        List<Map> listBaseAndGroup = BaseService.getListBase();
+        List<Map> listBaseAndGroup = GetBaseService.getBaseService();
         Set<String> listBaseGroupId = new HashSet();
 
         for (Map baseAndGroup : listBaseAndGroup) {
@@ -68,16 +69,16 @@ public class GetBaseHandler implements Handler<RoutingContext> {
 
         //list base group
         for (String groupId : listBaseGroupId) {
-            List<Map> listBaseGroup = new ArrayList();
-            String baseGroupName = "";
+            List<Map> listBaseGroup1 = new ArrayList();
+            String baseGroupName1 = "";
             for (Map baseAndGroup : listBaseAndGroup) {
                 String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
                 if (groupId.equals(baseGroupId)) {
-                    listBaseGroup.add(baseAndGroup);
-                    baseGroupName = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
+                    listBaseGroup1.add(baseAndGroup);
+                    baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
                 }
             }
-            listBaseDB.put(baseGroupName, listBaseGroup);
+            listBaseDB.put(baseGroupName1, listBaseGroup1);
         }
 
 //		RedisService.persistMap(RedisKeyEnum.BASES_MAP, listBaseDB);

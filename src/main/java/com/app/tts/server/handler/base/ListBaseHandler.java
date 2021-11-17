@@ -58,33 +58,24 @@ public class ListBaseHandler implements Handler<RoutingContext>, SessionStore {
 			String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
 			String strColor = ParamUtil.getString(baseAndGroup, AppParams.COLORS);
 			listBaseGroupId.add(baseGroupId);
-
-			//get list size
-//			List<Map> listSize = BaseSizeService.getSizeAndPrice(baseId);
-
-			// get list colors
-//			List<Map> list_colors = BaseColorService.getColor(strColor);
-
-//			baseAndGroup.put("sizes", listSize);
-//			baseAndGroup.put("colors", list_colors);
 		}
 
 
 		//list base group
 		for (String groupId : listBaseGroupId) {
-			List<Map> listBaseGroup = new ArrayList();
-			String baseGroupName = "";
+			List<Map> listBaseGroup1 = new ArrayList();
+			String baseGroupName1 = "";
 			for (Map baseAndGroup : listBaseAndGroup) {
 				String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
 				if (groupId.equals(baseGroupId)) {
-					listBaseGroup.add(baseAndGroup);
-					baseGroupName = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
+					listBaseGroup1.add(baseAndGroup);
+					baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
 				}
 			}
-			listBaseDB.put(baseGroupName, listBaseGroup);
+			listBaseDB.put(baseGroupName1, listBaseGroup1);
 		}
 
-//		RedisService.persistMap(RedisKeyEnum.BASES_MAP, listBaseDB);
+
 
 		return listBaseDB;
 	}

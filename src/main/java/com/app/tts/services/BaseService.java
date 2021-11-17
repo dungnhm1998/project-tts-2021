@@ -60,13 +60,6 @@ public class BaseService extends MasterService {
     }
 
 
-    public static List<Map> seachAll(String page, String pages, String name) throws SQLException {
-
-        List<Map> resultDataList = excuteQuery(GET_LIST_BASE1, new Object[]{page, pages, name});
-        LOGGER.info("list base"+ resultDataList);
-        return  resultDataList;
-    }
-
 
 
     private static Map format(Map queryData) {

@@ -11,11 +11,12 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class GetBaseService extends MasterService {
-    public static final String GET_LIST_BASE = "{call PKG_QUY.get_list_base(?,?,?)}";
-        
+    public static final String GET_LIST_BASE = "{call PKG_QUY.getAllBase(?,?,?,?,?)}";
+
     public static List<Map> getBaseService() throws SQLException {
         List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_LIST_BASE, new Object[]{});
+        List<Map> resultDataList = excuteQuery1(GET_LIST_BASE, new Object[]{});
+        LOGGER.info("resultDataList"+ resultDataList);
         for (Map b : resultDataList) {
             b = format(b);
             result.add(b);
@@ -24,7 +25,7 @@ public class GetBaseService extends MasterService {
         return result;
     }
 
-    private static Map format(Map queryData) {
+    public static Map format(Map queryData) {
 
         Map resultMap = new LinkedHashMap<>();
         Map printTable = new LinkedHashMap<>();
@@ -33,20 +34,11 @@ public class GetBaseService extends MasterService {
         Map sizes = new LinkedHashMap<>();
         resultMap.put(AppParams.GROUP_ID, ParamUtil.getString(queryData, AppParams.S_GROUP_ID));
         resultMap.put(AppParams.GROUP_NAME, ParamUtil.getString(queryData, AppParams.S_GROUP_NAME));
-
         resultMap.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
         resultMap.put(AppParams.TYPE_ID, ParamUtil.getString(queryData, AppParams.S_TYPE_ID));
         resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, AppParams.S_NAME));
         resultMap.put(AppParams.RESOLUTION_REQUIRE, ParamUtil.getString(queryData, AppParams.S_RESOLUTION_REQUIRE));
 
-
-        //sizes
-        sizes.put("default_profit", ParamUtil.getString(queryData, AppParams.S_DEFAULT_COLOR_ID));
-        //colors
-        colors.put("id", ParamUtil.getString(queryData, AppParams.S_COLORS));
-        colors.put("name", ParamUtil.getString(queryData, AppParams.S_NAME));
-        colors.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
-        colors.put("position", ParamUtil.getString(queryData, AppParams.N_POSITION));
 
         //printable
         printTable.put("front_top", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_TOP));
@@ -65,12 +57,18 @@ public class GetBaseService extends MasterService {
         image.put("back_url", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_URL));
         image.put("back_width", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_WIDTH));
         image.put("back_height", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_HEIGHT));
+        //colors
+        colors.put("id", ParamUtil.getString(queryData, AppParams.S_COLORS));
+        colors.put("name", ParamUtil.getString(queryData, AppParams.S_NAME));
+        colors.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
+        colors.put("position", ParamUtil.getString(queryData, AppParams.N_POSITION));
+        //sizes
+        sizes.put("id", ParamUtil.getString(queryData, AppParams.SIZE_ID));
 
-
-        resultMap.put(AppParams.SIZES, sizes);
-        resultMap.put(AppParams.COLORS, colors);
-        resultMap.put(AppParams.IMAGE, image);
         resultMap.put(AppParams.PRINTABLE, printTable);
+        resultMap.put(AppParams.IMAGE, image);
+        resultMap.put(AppParams.COLORS, colors);
+        resultMap.put(AppParams.SIZES, sizes);
 
         return resultMap;
     }

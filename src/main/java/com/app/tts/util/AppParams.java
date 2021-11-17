@@ -158,7 +158,9 @@ public class AppParams {
 	 */
 	public static final String S_RESOLUTION_REQUIRE = "S_RESOLUTION_REQUIRE";
 	public static final String RESOLUTION_REQUIRE = "resolution_require";
-	public static final String S_ID = "TTS_ID";
+	public static final String S_ID = "S_ID";
+	public static final String SIZE_ID = "S_ID";
+
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
@@ -195,9 +197,10 @@ public class AppParams {
 	public static final String S_IMAGE_ID = "S_IMAGE_ID";
 	public static final String IMAGE_ID = "image_id";
 	public static final String S_IMAGE_URL = "S_IMAGE_URL";
-	public static final String S_COLORS = "S_COLORS";
+	public static final String S_COLORS = "S_ID";
 	public static final String S_COLORS_COUNT = "S_COLORS_COUNT";
 	public static final String S_DEFAULT_COLOR_ID = "S_DEFAULT_COLOR_ID";
+	public static final String S_DEFAULT_PROFIT = "S_DEFAULT_PROFIT";
 	public static final String S_COLOR_VALUE = "S_COLOR_VALUE";
 	public static final String S_VALUE = "S_VALUE";
 	public static final String N_POSITION = "N_POSITION";
