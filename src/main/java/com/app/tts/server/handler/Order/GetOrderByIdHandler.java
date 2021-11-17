@@ -7,7 +7,6 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
-import org.apache.http.HttpRequest;
 
 import java.sql.SQLException;
 import java.util.Map;
