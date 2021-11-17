@@ -67,6 +67,8 @@ public class GetBaseService extends MasterService {
         //sizes
         sizes.put("id", ParamUtil.getString(queryData, AppParams.SIZE_ID));
         sizes.put("name", ParamUtil.getString(queryData, AppParams.S_SIZE_NAME));
+        sizes.put("unit", ParamUtil.getString(queryData, AppParams.S_UNIT));
+
 
 
         resultMap.put(AppParams.PRINTABLE, printTable);

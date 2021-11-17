@@ -163,7 +163,7 @@ public class AppParams {
 	public static final String S_ID = "S_ID";
 	public static final String SIZE_ID = "S_SIZE_ID";
 	public static final String S_SIZE_NAME = "S_SIZE_NAME";
-
+	public static final String S_UNIT = "S_UNIT";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";

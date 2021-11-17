@@ -6,17 +6,15 @@
 package com.app.tts.server.vertical;
 
 
+import com.app.tts.server.handler.User.DeleteUserHandler;
 import com.app.tts.server.handler.User.GetAllUserHandler;
-import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
-import com.app.tts.server.handler.base.ListBaseHandler;
+import com.app.tts.server.handler.User.getBaseHandler;
 import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
-//import com.app.tts.server.handler.User.RegisterUserHandler;
-import com.app.tts.server.handler.User.DeleteUserHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
@@ -133,14 +131,11 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
-		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-//<<<<<<< HEAD
+		router.route(HttpMethod.GET, "/list-base").handler(new getBaseHandler());
 		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
 		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
-//=======
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-//>>>>>>> dev_insert
 		return router;
 	}
 }
