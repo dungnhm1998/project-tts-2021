@@ -49,22 +49,9 @@ public class getBaseHandler implements Handler<RoutingContext> {
 
         for (Map baseAndGroup : listBaseAndGroup) {
             //get base id
-            String baseId = ParamUtil.getString(baseAndGroup, AppParams.ID);
             String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
-            String strColor = ParamUtil.getString(baseAndGroup, AppParams.COLORS);
             listBaseGroupId.add(baseGroupId);
-
-            //get list size
-//			List<Map> listSize = BaseSizeService.getSizeAndPrice(baseId);
-
-            // get list colors
-//			List<Map> list_colors = BaseColorService.getColor(strColor);
-
-//			baseAndGroup.put("sizes", listSize);
-//			baseAndGroup.put("colors", list_colors);
         }
-
-
         //list base group
         for (String groupId : listBaseGroupId) {
             List<Map> listBaseGroup1 = new ArrayList();
@@ -74,6 +61,7 @@ public class getBaseHandler implements Handler<RoutingContext> {
                 if (groupId.equals(baseGroupId)) {
                     listBaseGroup1.add(baseAndGroup);
                     baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
+
                 }
             }
             listBaseDB.put(baseGroupName1, listBaseGroup1);

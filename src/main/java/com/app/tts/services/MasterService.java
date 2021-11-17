@@ -115,8 +115,8 @@ public class MasterService {
 		List<Map> queryDataList3 = ParamUtil.getListData(queryResult, AppParams.RESULT_DATA_3);
 
 		resultMap.put("base", queryDataList);
-		resultMap.put("colors", queryDataList);
-		resultMap.put("sizes", queryDataList);
+		resultMap.put("colors", queryDataList2);
+		resultMap.put("sizes", queryDataList3);
 //		if (!resultDataList.isEmpty()) {
 //			resultMap = format(resultDataList.get(0));
 //		}
@@ -127,7 +127,7 @@ public class MasterService {
 //		result.put("colors", queryDataList2);
 //		result.put("size", queryDataList3);
 
-		return resultMap;
+		return queryDataList3;
 	}
 
 
