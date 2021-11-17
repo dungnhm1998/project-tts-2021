@@ -1,8 +1,6 @@
 package com.app.tts.server.handler.User;
 
 import com.app.tts.data.type.RedisKeyEnum;
-import com.app.tts.server.handler.base.ListBaseHandler;
-import com.app.tts.services.BaseService;
 import com.app.tts.services.GetBaseService;
 import com.app.tts.services.RedisService;
 import com.app.tts.util.AppParams;
@@ -16,7 +14,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class GetBaseHandler implements Handler<RoutingContext> {
+public class getBaseHandler implements Handler<RoutingContext> {
 
     @Override
     public void handle(RoutingContext routingContext) {
@@ -85,5 +83,5 @@ public class GetBaseHandler implements Handler<RoutingContext> {
 
         return listBaseDB;
     }
-    private static final Logger LOGGER = Logger.getLogger(GetBaseHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(getBaseHandler.class.getName());
 }

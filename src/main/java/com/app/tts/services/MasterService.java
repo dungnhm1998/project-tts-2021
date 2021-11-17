@@ -127,7 +127,7 @@ public class MasterService {
 //		result.put("colors", queryDataList2);
 //		result.put("size", queryDataList3);
 
-		return  queryDataList2;
+		return resultMap;
 	}
 
 
