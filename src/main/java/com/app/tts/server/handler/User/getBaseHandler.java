@@ -52,6 +52,7 @@ public class getBaseHandler implements Handler<RoutingContext> {
             String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
             listBaseGroupId.add(baseGroupId);
         }
+
         //list base group
         for (String groupId : listBaseGroupId) {
             List<Map> listBaseGroup1 = new ArrayList();
