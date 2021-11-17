@@ -156,6 +156,10 @@ public class AppParams {
 	/**
 	 * DB COLUMNS
 	 */
+	public static final String S_ORDER_ID = "S_ORDER_ID";
+	public static final String S_ID_2 = "S_ID";
+	public static final String ORDER_PRODUCT = "ORDER_PRODUCT";
+
 	public static final String S_ID = "TTS_ID";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
