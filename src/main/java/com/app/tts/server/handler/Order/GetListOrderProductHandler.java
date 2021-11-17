@@ -19,7 +19,7 @@ public class GetListOrderProductHandler implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
-            try{
+            try {
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 JsonObject data = new JsonObject();
@@ -27,18 +27,19 @@ public class GetListOrderProductHandler implements Handler<RoutingContext> {
                 data.put(AppParams.RESPONSE_DATA, getListOrderProduct());
 
                 routingContext.response().end(Json.encodePrettily(data));
-            }catch (Exception e){
+            } catch (Exception e) {
                 routingContext.fail(e);
             }
         }, asyncResult -> {
-            if(asyncResult.succeeded()){
+            if (asyncResult.succeeded()) {
                 routingContext.next();
-            }else{
+            } else {
                 routingContext.fail(asyncResult.cause());
             }
         });
     }
-    public static List<Map> getProduct() throws SQLException{
+
+    public static List<Map> getProduct() throws SQLException {
         List<Map> listProduct = OrderService.getOrderProduct();
         return listProduct;
     }
@@ -51,22 +52,22 @@ public class GetListOrderProductHandler implements Handler<RoutingContext> {
 
         Map<String, List<Map>> orderProductMap = new LinkedHashMap<>();
         List<Map> orderProductList = new ArrayList<>();
-        for(int number = 0; number < listProduct.size(); number++){
+        for (int number = 0; number < listProduct.size(); number++) {
             Map productMap = listProduct.get(number);
             String sOrderId = ParamUtil.getString(productMap, AppParams.S_ORDER_ID);
-            if(orderProductMap.containsKey(sOrderId)){
+            if (orderProductMap.containsKey(sOrderId)) {
                 orderProductList.add(productMap);
-            }else{
+            } else {
                 orderProductList = new ArrayList<>();
                 orderProductList.add(productMap);
                 orderProductMap.put(sOrderId, orderProductList);
             }
         }
 
-        for(int number = 0; number < listOrder.size(); number++){
+        for (int number = 0; number < listOrder.size(); number++) {
             Map orderMap = listOrder.get(number);
             String orderId = ParamUtil.getString(orderMap, AppParams.S_ID_2);
-            if(orderProductMap.containsKey(orderId)){
+            if (orderProductMap.containsKey(orderId)) {
                 orderMap.put(AppParams.ORDER_PRODUCT, orderProductMap.get(orderId));
             }
         }

@@ -16,7 +16,7 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
-            try{
+            try {
                 String id = routingContext.request().getParam("id");
                 JsonObject data = new JsonObject();
 
@@ -25,21 +25,21 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
 
                 Map resultOrder = getOrder(id);
                 String message;
-                if(resultOrder.isEmpty()){
+                if (resultOrder.isEmpty()) {
                     message = "Can't find order with id = " + id;
                     data.put(AppParams.RESPONSE_MSG, message);
-                }else{
+                } else {
                     data.put(AppParams.RESPONSE_DATA, resultOrder);
                 }
                 routingContext.response().end(Json.encodePrettily(data));
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 routingContext.fail(e);
             }
         }, asyncResult -> {
-            if(asyncResult.succeeded()){
+            if (asyncResult.succeeded()) {
                 routingContext.next();
-            }else{
+            } else {
                 routingContext.fail(asyncResult.cause());
             }
         });
