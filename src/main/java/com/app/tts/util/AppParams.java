@@ -5,6 +5,9 @@ package com.app.tts.util;
  */
 public class AppParams {
 	
+	/**
+	 * order params
+	 */
 	public static final String SOURCE = "source";
 	public static final String NOTE = "note";
 	public static final String STORE_ID = "store_id";
@@ -18,7 +21,7 @@ public class AppParams {
 	public static final String COUNTRY = "country";
 	public static final String COUNTRY_NAME = "country_name";
 	public static final String ADDR_VERIFIED = "addr_verified";
-	public static final String ADD_VERIFIED_NOTE = "add_verified_note";
+	public static final String ADDR_VERIFIED_NOTE = "add_verified_note";
 	public static final String EXTRA_FEE = "extra_fee";
 	public static final String ISEDIT = "isEdit";
 	public static final String BASE_NAME = "base_name";
@@ -34,6 +37,19 @@ public class AppParams {
 	public static final String SHIPPINGEXPRESS = "shippingExpress";
 	public static final String TAX_AMOUNT = "tax_amount";
 	public static final String IOSS_NUMBER = "ioss_number";
+	
+	/**
+	 * column dtb
+	 */
+	
+	public static final String S_SOURCE = "s_source";
+	public static final String S_NOTE = "s_note";
+	public static final String S_STORE_ID = "s_store_id";
+	public static final String S_REFERENCE_ID = "s_reference_id";
+	public static final String S_SHIPPING_METHOD = "s_shipping_method";
+	public static final String S_ADDR_VERIFIED = "s_addr_verified";
+	public static final String S_ADDR_VERIFIED_NOTE = "s_addr_verified_note";
+	public static final String S_EXTRA_FEE = "s_extra_fee";
 	
 	/**
 	 * Header Params
