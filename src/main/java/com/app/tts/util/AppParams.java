@@ -39,6 +39,8 @@ public class AppParams {
 	 * Common Params
 	 */
 	public static final String ID = "id";
+	public static final String BASE_ID = "base_id";
+	public static final String S_BASE_ID = "S_BASE_ID";
 	public static final String DATA = "DATA";
 	public static final String FRAUD_DATA_ID = "FRAUD_DATA_ID";
 	public static final String STATUS = "status";
@@ -156,7 +158,12 @@ public class AppParams {
 	/**
 	 * DB COLUMNS
 	 */
-	public static final String S_ID = "TTS_ID";
+	public static final String S_RESOLUTION_REQUIRE = "S_RESOLUTION_REQUIRE";
+	public static final String RESOLUTION_REQUIRE = "resolution_require";
+	public static final String S_ID = "S_ID";
+	public static final String SIZE_ID = "S_SIZE_ID";
+	public static final String S_SIZE_NAME = "S_SIZE_NAME";
+
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
@@ -186,6 +193,8 @@ public class AppParams {
 	public static final String S_MD5 = "S_MD5";
 	public static final String MD5 = "md5";
 	public static final String S_NAME = "S_NAME";
+	public static final String S_BASE_NAME = "S_BASE_NAME";
+	public static final String S_NAME_COLOR = "S_NAME_COLOR";
 	public static final String N_QUANTITY = "N_QUANTITY";
 	public static final String S_AVATAR = "S_AVATAR";
 	public static final String S_USER_ID = "S_USER_ID";
@@ -193,9 +202,10 @@ public class AppParams {
 	public static final String S_IMAGE_ID = "S_IMAGE_ID";
 	public static final String IMAGE_ID = "image_id";
 	public static final String S_IMAGE_URL = "S_IMAGE_URL";
-	public static final String S_COLORS = "S_COLORS";
+	public static final String S_COLORS = "S_COLOR_ID";
 	public static final String S_COLORS_COUNT = "S_COLORS_COUNT";
 	public static final String S_DEFAULT_COLOR_ID = "S_DEFAULT_COLOR_ID";
+	public static final String S_DEFAULT_PROFIT = "S_DEFAULT_PROFIT";
 	public static final String S_COLOR_VALUE = "S_COLOR_VALUE";
 	public static final String S_VALUE = "S_VALUE";
 	public static final String N_POSITION = "N_POSITION";
@@ -278,8 +288,8 @@ public class AppParams {
 	public static final String PRICES = "prices";
 	public static final String S_CAMPAIGN_ID = "S_CAMPAIGN_ID";
 	public static final String CAMPAIGN_ID = "campaign_id";
-	public static final String BASE_ID = "base_id";
-	public static final String S_BASE_ID = "S_BASE_ID";
+
+
 	public static final String DESIGNS = "designs";
 	public static final String VERSION = "version";
 	public static final String DESIGN_FRONT_URL = "design_front_url";
