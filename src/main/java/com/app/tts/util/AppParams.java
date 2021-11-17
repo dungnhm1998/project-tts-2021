@@ -19,7 +19,21 @@ public class AppParams {
 	public static final String COUNTRY_NAME = "country_name";
 	public static final String ADDR_VERIFIED = "addr_verified";
 	public static final String ADD_VERIFIED_NOTE = "add_verified_note";
-	
+	public static final String EXTRA_FEE = "extra_fee";
+	public static final String ISEDIT = "isEdit";
+	public static final String BASE_NAME = "base_name";
+	public static final String COLOR = "color";
+	public static final String COLOR_NAME = "color_name";
+	public static final String SIZE_ID = "size_id";
+	public static final String SIZE_NAME = "size_name";
+	public static final String QUANTITY = "quantity";
+	public static final String MOCKUP_FRONT_URL = "mockup_front_url";
+	public static final String MOCKUP_BACK_URL = "mockup_back_url";
+	public static final String VARIANT_NAME = "variant_name";
+	public static final String UNIT_AMOUNT = "unit_amount";
+	public static final String SHIPPINGEXPRESS = "shippingExpress";
+	public static final String TAX_AMOUNT = "tax_amount";
+	public static final String IOSS_NUMBER = "ioss_number";
 	
 	/**
 	 * Header Params

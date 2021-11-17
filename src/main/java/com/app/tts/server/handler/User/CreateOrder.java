@@ -47,6 +47,35 @@ public class CreateOrder implements Handler<RoutingContext> {
                 String country_name = address.getString(AppParams.COUNTRY_NAME);
                 Boolean addr_verified = address.getBoolean(AppParams.ADDR_VERIFIED);
                 String add_verified_note = address.getString(AppParams.ADD_VERIFIED_NOTE);
+                
+                String extra_fee = jsonRequest.getString(AppParams.EXTRA_FEE);
+                
+                JsonObject items = jsonRequest.getJsonObject("items");
+                String id = items.getString(AppParams.ID);
+                Boolean isEdit = items.getBoolean(AppParams.ISEDIT);
+                String base_id = items.getString(AppParams.BASE_ID);
+                String base_name = items.getString(AppParams.BASE_NAME);
+                String color = items.getString(AppParams.COLOR);
+                String color_name = items.getString(AppParams.COLOR_NAME);
+                String size_id = items.getString(AppParams.SIZE_ID);
+                String size_name = items.getString(AppParams.SIZE_NAME);
+                String quantity = items.getString(AppParams.QUANTITY);
+                String price = items.getString(AppParams.PRICE);	
+                
+                JsonObject designs = items.getJsonObject("designs");
+                String design_front_url = designs.getString(AppParams.DESIGN_FRONT_URL);
+                String design_front_url_md5 = designs.getString(AppParams.DESIGN_FRONT_URL_MD5);
+        		String design_back_url = designs.getString(AppParams.DESIGN_BACK_URL);
+        		String design_back_url_md5 = designs.getString(AppParams.DESIGN_BACK_URL_MD5);
+        		String mockup_front_url = designs.getString(AppParams.MOCKUP_FRONT_URL);
+        		String mockup_back_url = designs.getString(AppParams.MOCKUP_BACK_URL);
+        		
+        		String variant_name = items.getString(AppParams.VARIANT_NAME);
+        		String unit_amount = items.getString(AppParams.UNIT_AMOUNT);
+        		Boolean shippingExpress = items.getBoolean(AppParams.SHIPPINGEXPRESS);
+        		
+        		String tax_amount = jsonRequest.getString(AppParams.TAX_AMOUNT);
+        		String ioss_number = jsonRequest.getString(AppParams.IOSS_NUMBER);
 
                 LOGGER.info("Order" + jsonRequest);
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());

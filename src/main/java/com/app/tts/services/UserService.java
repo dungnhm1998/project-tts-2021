@@ -1,4 +1,4 @@
-npackage com.app.tts.services;
+package com.app.tts.services;
 
 import com.app.tts.error.exception.OracleException;
 import com.app.tts.util.AppParams;
