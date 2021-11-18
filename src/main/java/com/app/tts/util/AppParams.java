@@ -26,6 +26,7 @@ public class AppParams {
 	public static final String ISEDIT = "isEdit";
 	public static final String BASE_NAME = "base_name";
 	public static final String COLOR = "color";
+	public static final String COLOR_ID = "color_id";
 	public static final String COLOR_NAME = "color_name";
 	public static final String SIZE_ID = "size_id";
 	public static final String SIZE_NAME = "size_name";
@@ -37,7 +38,9 @@ public class AppParams {
 	public static final String SHIPPINGEXPRESS = "shippingExpress";
 	public static final String TAX_AMOUNT = "tax_amount";
 	public static final String IOSS_NUMBER = "ioss_number";
-	
+	public static final String PRODUCT = "product";
+	public static final String SHIPPING = "shipping";
+	public static final String ITEMS = "items";
 	/**
 	 * column dtb
 	 */
@@ -45,11 +48,30 @@ public class AppParams {
 	public static final String S_SOURCE = "s_source";
 	public static final String S_NOTE = "s_note";
 	public static final String S_STORE_ID = "s_store_id";
-	public static final String S_REFERENCE_ID = "s_reference_id";
+	public static final String S_REFERENCE_ID = "s_reference_order";
 	public static final String S_SHIPPING_METHOD = "s_shipping_method";
-	public static final String S_ADDR_VERIFIED = "s_addr_verified";
+	public static final String N_ADDR_VERIFIED = "n_addr_verified";
 	public static final String S_ADDR_VERIFIED_NOTE = "s_addr_verified_note";
 	public static final String S_EXTRA_FEE = "s_extra_fee";
+	public static final String S_TAX_AMOUNT = "s_tax_amount";
+	public static final String S_IOSS_NUMBER = "s_ioss_number";
+	public static final String S_BASE_NAME = "s_base_name";
+	public static final String S_COLOR = "s_color_value";
+	public static final String S_COLOR_ID = "s_color_id";
+	public static final String S_COLOR_NAME = "s_color_name";
+	public static final String S_SIZE_ID = "s_size_id";
+	public static final String S_SIZE_NAME = "s_size_name";
+	public static final String S_QUANTITY = "s_quantity";
+	public static final String S_VARIANT_NAME = "s_variant_name";
+	public static final String S_UNIT_AMOUNT = "s_unti_amount";
+	public static final String S_VARIANT_FRONT_URL = "s_variant_front_url";
+	public static final String S_VARIANT_BACK_URL = "s_variant_back_url";
+	public static final String S_LINE1 = "s_add_line1";
+	public static final String S_LINE2 = "s_add_line2";
+	public static final String S_CITY = "s_add_city";
+	public static final String S_POSTAL_CODE = "s_postal_code";
+	public static final String S_COUNTRY = "s_country";
+	public static final String S_COUNTRY_NAME = "s_country_name";
 	
 	/**
 	 * Header Params
