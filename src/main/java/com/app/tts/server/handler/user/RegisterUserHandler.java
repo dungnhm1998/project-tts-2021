@@ -4,6 +4,7 @@ import com.app.tts.encode.Md5Code;
 
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
@@ -22,13 +23,13 @@ public class RegisterUserHandler implements Handler<RoutingContext> {
     public void handle(RoutingContext rc) {
         rc.vertx().executeBlocking(future -> {
             try {
-                JsonObject jsonRequest = rc.getBodyAsJson();
-                String email = jsonRequest.getString(AppParams.EMAIL);
-                String password = jsonRequest.getString(AppParams.PASSWORD);
-                String confirmPassword = jsonRequest.getString("confirmPassword");
-                String username = jsonRequest.getString(AppParams.USERNAME);
-                String address = jsonRequest.getString(AppParams.ADDRESS);
-                String phone = jsonRequest.getString(AppParams.PHONE);
+                Map jsonRequest = rc.getBodyAsJson().getMap();
+                String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
+                String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
+                String confirmPassword = ParamUtil.getString(jsonRequest, "confirmPassword");
+                String username = ParamUtil.getString(jsonRequest, AppParams.USERNAME);
+                String address = ParamUtil.getString(jsonRequest, AppParams.ADDRESS);
+                String phone = ParamUtil.getString(jsonRequest, AppParams.PHONE);
 
 
                 Map data = new HashMap();
