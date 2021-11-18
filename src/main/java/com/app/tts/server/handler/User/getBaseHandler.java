@@ -72,16 +72,16 @@ public class getBaseHandler implements Handler<RoutingContext> {
                     listBaseGroup1.add(baseAndGroup);
                     baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
                 }
-                String baseId = ParamUtil.getString(baseAndGroup, AppParams.BASE_ID);
-                //ghep theo color
-                List<Map> listColorBase = new ArrayList<>();
-                for(Map color: listBaseAndGroup){
-                    String baseColorId = ParamUtil.getString(color, AppParams.BASE_ID);
-                    if(baseId.equals(baseColorId)){
-                        listColorBase.add(color);
-                    }
-                }
-                baseAndGroup.put(AppParams.COLORS, listColorBase);
+//                String baseId = ParamUtil.getString(baseAndGroup, AppParams.BASE_ID);
+//                //ghep theo color
+//                List<Map> listColorBase = new ArrayList<>();
+//                for(Map color: listBaseAndGroup){
+//                    String baseColorId = ParamUtil.getString(color, AppParams.BASE_ID);
+//                    if(baseId.equals(baseColorId)){
+//                        listColorBase.add(color);
+//                    }
+//                }
+//                baseAndGroup.put(AppParams.COLORS, listColorBase);
 
 
             }
