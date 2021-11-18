@@ -44,6 +44,7 @@ public class getBaseHandler implements Handler<RoutingContext> {
     public static Map getListBaseFromDB() throws SQLException {
         Map listBaseDB = new HashMap();
         List<Map> listBaseAndGroup = GetBaseService.getBaseService();
+        List<Map> listBaseColor = GetBaseService.getBaseColor();
 
         Set<String> listBaseGroupId = new HashSet();
         for (Map baseAndGroup : listBaseAndGroup) {
@@ -72,16 +73,17 @@ public class getBaseHandler implements Handler<RoutingContext> {
                     listBaseGroup1.add(baseAndGroup);
                     baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
                 }
-//                String baseId = ParamUtil.getString(baseAndGroup, AppParams.BASE_ID);
-//                //ghep theo color
-//                List<Map> listColorBase = new ArrayList<>();
-//                for(Map color: listBaseAndGroup){
-//                    String baseColorId = ParamUtil.getString(color, AppParams.BASE_ID);
-//                    if(baseId.equals(baseColorId)){
-//                        listColorBase.add(color);
-//                    }
-//                }
-//                baseAndGroup.put(AppParams.COLORS, listColorBase);
+                String baseId = ParamUtil.getString(baseAndGroup, AppParams.BASE_ID);
+                //ghep theo color
+                List<Map> listColorBase = new ArrayList<>();
+                for(Map color: listBaseColor){
+                    String baseColorId = ParamUtil.getString(color, AppParams.BASE_ID);
+                    if(baseId.equals(baseColorId)){
+                        listColorBase.add(color);
+                    }
+
+                }
+                baseAndGroup.put(AppParams.COLORS, listColorBase);
 
 
             }
