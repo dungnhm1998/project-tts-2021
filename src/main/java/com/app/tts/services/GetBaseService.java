@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public class GetBaseService extends MasterService {
-    public static final String GET_LIST_BASE = "{call PKG_QUY.getAllBase(?,?,?)}";
+    public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?)}";
 
     public static List<Map> getBaseService() throws SQLException {
         List<Map> result = new ArrayList();
@@ -36,7 +36,6 @@ public class GetBaseService extends MasterService {
 
         resultMap.put(AppParams.GROUP_ID, ParamUtil.getString(queryData, AppParams.S_GROUP_ID));
         resultMap.put(AppParams.GROUP_NAME, ParamUtil.getString(queryData, AppParams.S_GROUP_NAME));
-        resultMap.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
         resultMap.put(AppParams.TYPE_ID, ParamUtil.getString(queryData, AppParams.S_TYPE_ID));
         resultMap.put(AppParams.BASE_ID, ParamUtil.getString(queryData, AppParams.S_BASE_ID));
         resultMap.put(AppParams.RESOLUTION_REQUIRE, ParamUtil.getString(queryData, AppParams.S_RESOLUTION_REQUIRE));

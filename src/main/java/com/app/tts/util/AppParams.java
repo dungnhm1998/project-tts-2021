@@ -40,6 +40,7 @@ public class AppParams {
 	 */
 	public static final String ID = "id";
 	public static final String BASE_ID = "base_id";
+	public static final String BASE_NAME = "base_name";
 	public static final String S_BASE_ID = "S_BASE_ID";
 	public static final String DATA = "DATA";
 	public static final String FRAUD_DATA_ID = "FRAUD_DATA_ID";
@@ -163,7 +164,7 @@ public class AppParams {
 	public static final String S_ID = "S_ID";
 	public static final String SIZE_ID = "S_SIZE_ID";
 	public static final String S_SIZE_NAME = "S_SIZE_NAME";
-	public static final String S_UNIT = "S_UNIT";
+	public static final String S_UNIT = "S_SIZE_UNIT";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
@@ -202,7 +203,7 @@ public class AppParams {
 	public static final String S_IMAGE_ID = "S_IMAGE_ID";
 	public static final String IMAGE_ID = "image_id";
 	public static final String S_IMAGE_URL = "S_IMAGE_URL";
-	public static final String S_COLORS = "S_COLOR_ID";
+	public static final String S_COLORS = "S_COLORS";
 	public static final String S_COLORS_COUNT = "S_COLORS_COUNT";
 	public static final String S_DEFAULT_COLOR_ID = "S_DEFAULT_COLOR_ID";
 	public static final String S_DEFAULT_PROFIT = "S_DEFAULT_PROFIT";
@@ -210,6 +211,7 @@ public class AppParams {
 	public static final String S_VALUE = "S_VALUE";
 	public static final String N_POSITION = "N_POSITION";
 	public static final String S_SIZES = "S_SIZES";
+	public static final String S_SIZE_ID = "size_id";
 	public static final String S_PRICE = "S_PRICE";
 	public static final String S_DROPSHIP_PRICE = "S_DROPSHIP_PRICE";
 	public static final String S_SECOND_SIDE_PRICE = "S_SECOND_SIDE_PRICE";

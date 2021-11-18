@@ -16,7 +16,7 @@ import java.util.Map;
 import static com.app.tts.services.ListBaseService.format;
 
 public class ListBaseGroupColorSizeService extends MasterService{
-    public static final String GET_LIST_DATA = "{call PKG_PHUONG.LIST_GROUP_BASE_COLOR_SIZE(?,?,?,?,?)}";
+    public static final String GET_LIST_DATA = "{call PKG_QUY.getallbase1(?,?,?,?,?)}";
 
     public static Map getListBaseGroupColorSize() throws SQLException{
         Map inputData = new LinkedHashMap<Integer, String>();

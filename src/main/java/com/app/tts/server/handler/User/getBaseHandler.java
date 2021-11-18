@@ -45,13 +45,23 @@ public class getBaseHandler implements Handler<RoutingContext> {
     public static Map getListBaseFromDB() throws SQLException {
         Map listBaseDB = new HashMap();
         List<Map> listBaseAndGroup = GetBaseService.getBaseService();
-        Set<String> listBaseGroupId = new HashSet();
 
+        Set<String> listBaseGroupId = new HashSet();
         for (Map baseAndGroup : listBaseAndGroup) {
             //get base id
             String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
             listBaseGroupId.add(baseGroupId);
         }
+
+//
+//        List<Map> listSizeAndGroup = GetBaseService.getBaseService();
+//
+//        for (Map baseSizeAndGroup : listSizeAndGroup) {
+//            //get base id
+//            String baseGroupId = ParamUtil.getString(baseSizeAndGroup, AppParams.GROUP_ID);
+//            listBaseGroupId.add(baseGroupId);
+//        }
+//
 
         //list base group
         for (String groupId : listBaseGroupId) {
@@ -62,8 +72,8 @@ public class getBaseHandler implements Handler<RoutingContext> {
                 if (groupId.equals(baseGroupId)) {
                     listBaseGroup1.add(baseAndGroup);
                     baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
-
                 }
+
             }
             listBaseDB.put(baseGroupName1, listBaseGroup1);
         }
