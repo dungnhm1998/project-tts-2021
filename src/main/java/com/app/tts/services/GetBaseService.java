@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class GetBaseService extends MasterService {
     public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?)}";
-
+    public static final String GET_LIST_COLOR = "{call PKG_QUY.getcolor1(?,?,?)}";
     public static List<Map> getBaseService() throws SQLException {
         List<Map> result = new ArrayList();
         List<Map> resultDataList = excuteQuery(GET_LIST_BASE, new Object[]{});
@@ -24,6 +24,18 @@ public class GetBaseService extends MasterService {
 
         return result;
     }
+    public static List<Map> getBaseColor() throws SQLException {
+        List<Map> result = new ArrayList();
+        List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{});
+        LOGGER.info("resultDataList"+ resultDataList);
+        for (Map b : resultDataList) {
+            b = format(b);
+            result.add(b);
+        }
+
+        return result;
+    }
+
 
     public static Map format(Map queryData) {
 
