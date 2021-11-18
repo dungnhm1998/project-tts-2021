@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 public class GetBaseService extends MasterService {
     public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?)}";
     public static final String GET_LIST_COLOR = "{call PKG_QUY.get_color1(?,?,?)}";
+    public static final String GET_LIST_SIZE = "{call PKG_QUY.get_size(?,?,?)}";
     public static List<Map> getBaseService() throws SQLException {
         List<Map> result = new ArrayList();
         List<Map> resultDataList = excuteQuery(GET_LIST_BASE, new Object[]{});
@@ -27,36 +28,70 @@ public class GetBaseService extends MasterService {
     public static List<Map> getBaseColor() throws SQLException {
         List<Map> result = new ArrayList();
         List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{});
-        LOGGER.info("resultDataList"+ resultDataList);
+        LOGGER.info("resultcolor"+ resultDataList);
         for (Map b : resultDataList) {
-            b = format(b);
+            b = format1(b);
+            result.add(b);
+        }
+
+        return result;
+    }
+    public static List<Map> getBaseSize() throws SQLException {
+        List<Map> result = new ArrayList();
+        List<Map> resultDataList = excuteQuery(GET_LIST_SIZE, new Object[]{});
+        LOGGER.info("resultcolor"+ resultDataList);
+        for (Map b : resultDataList) {
+            b = format2(b);
             result.add(b);
         }
 
         return result;
     }
 
-
-    public static Map format(Map queryData) {
-
+    public static Map format1(Map queryData) {
         Map resultMap = new LinkedHashMap<>();
         Map colors = new LinkedHashMap<>();
+        resultMap.put(AppParams.COLORS, colors);
+
+        //colors
+        colors.put("id", ParamUtil.getString(queryData, AppParams.S_COLORS));
+        colors.put("name", ParamUtil.getString(queryData, AppParams.S_NAME_COLOR));
+        colors.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
+        colors.put("position", ParamUtil.getString(queryData, AppParams.N_POSITION));
+        return resultMap;
+
+    }
+    public static Map format2(Map queryData) {
+        Map resultMap = new LinkedHashMap<>();
+        Map sizes = new LinkedHashMap<>();
+        resultMap.put(AppParams.SIZES, sizes);
+        //sizes
+        sizes.put("id", ParamUtil.getString(queryData, AppParams.SIZE_ID));
+        sizes.put("name", ParamUtil.getString(queryData, AppParams.S_SIZE_NAME));
+        sizes.put("unit", ParamUtil.getString(queryData, AppParams.S_UNIT));
+        return resultMap;
+
+    }
+
+
+
+    public static Map format(Map queryData) {
+        Map resultMap = new LinkedHashMap<>();
+
+
+
         Map printTable = new LinkedHashMap<>();
         Map image = new LinkedHashMap<>();
-        Map sizes = new LinkedHashMap<>();
+
 
 
         resultMap.put(AppParams.GROUP_ID, ParamUtil.getString(queryData, AppParams.S_GROUP_ID));
         resultMap.put(AppParams.GROUP_NAME, ParamUtil.getString(queryData, AppParams.S_GROUP_NAME));
         resultMap.put(AppParams.TYPE_ID, ParamUtil.getString(queryData, AppParams.S_TYPE_ID));
-        resultMap.put(AppParams.BASE_ID, ParamUtil.getString(queryData, AppParams.S_BASE_ID));
         resultMap.put(AppParams.RESOLUTION_REQUIRE, ParamUtil.getString(queryData, AppParams.S_RESOLUTION_REQUIRE));
+        resultMap.put(AppParams.BASE_ID, ParamUtil.getString(queryData, AppParams.S_BASE_ID));
 
-        //colors
-        colors.put("id", ParamUtil.getString(queryData, AppParams.S_ID));
-        colors.put("name", ParamUtil.getString(queryData, AppParams.S_NAME));
-        colors.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
-        colors.put("position", ParamUtil.getString(queryData, AppParams.N_POSITION));
+
         //printable
         printTable.put("front_top", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_TOP));
         printTable.put("front_left", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_LEFT));
@@ -75,16 +110,13 @@ public class GetBaseService extends MasterService {
         image.put("back_width", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_WIDTH));
         image.put("back_height", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_HEIGHT));
 
-        //sizes
-        sizes.put("id", ParamUtil.getString(queryData, AppParams.SIZE_ID));
-        sizes.put("name", ParamUtil.getString(queryData, AppParams.S_SIZE_NAME));
-        sizes.put("unit", ParamUtil.getString(queryData, AppParams.S_UNIT));
 
 
-        resultMap.put(AppParams.COLORS, colors);
+
+
         resultMap.put(AppParams.PRINTABLE, printTable);
         resultMap.put(AppParams.IMAGE, image);
-        resultMap.put(AppParams.SIZES, sizes);
+
 
         return resultMap;
     }

@@ -45,7 +45,7 @@ public class getBaseHandler implements Handler<RoutingContext> {
         Map listBaseDB = new HashMap();
         List<Map> listBaseAndGroup = GetBaseService.getBaseService();
         List<Map> listBaseColor = GetBaseService.getBaseColor();
-
+        List<Map> listBaseSize = GetBaseService.getBaseSize();
         Set<String> listBaseGroupId = new HashSet();
         for (Map baseAndGroup : listBaseAndGroup) {
             //get base id
@@ -68,24 +68,32 @@ public class getBaseHandler implements Handler<RoutingContext> {
             List<Map> listBaseGroup1 = new ArrayList();
             String baseGroupName1 = "";
             for (Map baseAndGroup : listBaseAndGroup) {
+
                 String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
                 if (groupId.equals(baseGroupId)) {
                     listBaseGroup1.add(baseAndGroup);
                     baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
                 }
-                String baseId = ParamUtil.getString(baseAndGroup, AppParams.BASE_ID);
+
+                String baseId = ParamUtil.getString(baseAndGroup, AppParams.S_BASE_ID);
                 //ghep theo color
                 List<Map> listColorBase = new ArrayList<>();
-                for(Map color: listBaseColor){
+                for (Map color : listBaseColor) {
                     String baseColorId = ParamUtil.getString(color, AppParams.BASE_ID);
-                    if(baseId.equals(baseColorId)){
+                    if (baseId.equals(baseColorId)) {
                         listColorBase.add(color);
                     }
-
                 }
                 baseAndGroup.put(AppParams.COLORS, listColorBase);
-
-
+                //ghep theo size
+                List<Map> listSizeBase = new ArrayList<>();
+                for(Map size: listBaseSize){
+                    String baseSizeId = ParamUtil.getString(size, AppParams.S_BASE_ID);
+                    if(baseId.equals(baseSizeId)){
+                        listSizeBase.add(size);
+                    }
+                }
+                baseAndGroup.put(AppParams.SIZES, listSizeBase);
             }
             listBaseDB.put(baseGroupName1, listBaseGroup1);
         }
@@ -94,5 +102,6 @@ public class getBaseHandler implements Handler<RoutingContext> {
 
         return listBaseDB;
     }
+
     private static final Logger LOGGER = Logger.getLogger(getBaseHandler.class.getName());
 }

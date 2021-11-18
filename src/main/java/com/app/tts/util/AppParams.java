@@ -159,12 +159,12 @@ public class AppParams {
 	/**
 	 * DB COLUMNS
 	 */
-	public static final String S_RESOLUTION_REQUIRE = "S_RESOLUTION_REQUIRE";
-	public static final String RESOLUTION_REQUIRE = "resolution_require";
+	public static final String S_RESOLUTION_REQUIRE = "RESOLUTION";
+	public static final String RESOLUTION_REQUIRE = "resolution";
 	public static final String S_ID = "S_ID";
-	public static final String SIZE_ID = "S_SIZE_ID";
-	public static final String S_SIZE_NAME = "S_SIZE_NAME";
-	public static final String S_UNIT = "S_SIZE_UNIT";
+	public static final String SIZE_ID = "S_SIZES";
+	public static final String S_SIZE_NAME = "S_NAME_SIZE";
+	public static final String S_UNIT = "S_UNIT";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
