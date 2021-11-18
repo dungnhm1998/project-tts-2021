@@ -25,7 +25,6 @@ public class getBaseHandler implements Handler<RoutingContext> {
                 if (listBaseRedis == null || listBaseRedis.isEmpty()) {
                     listBaseRedis = getListBaseFromDB();
                 }
-
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 routingContext.put(AppParams.RESPONSE_DATA, listBaseRedis);
@@ -61,7 +60,7 @@ public class getBaseHandler implements Handler<RoutingContext> {
 //            String baseGroupId = ParamUtil.getString(baseSizeAndGroup, AppParams.GROUP_ID);
 //            listBaseGroupId.add(baseGroupId);
 //        }
-//
+
 
         //list base group
         for (String groupId : listBaseGroupId) {
@@ -73,6 +72,17 @@ public class getBaseHandler implements Handler<RoutingContext> {
                     listBaseGroup1.add(baseAndGroup);
                     baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
                 }
+                String baseId = ParamUtil.getString(baseAndGroup, AppParams.BASE_ID);
+                //ghep theo color
+                List<Map> listColorBase = new ArrayList<>();
+                for(Map color: listBaseAndGroup){
+                    String baseColorId = ParamUtil.getString(color, AppParams.BASE_ID);
+                    if(baseId.equals(baseColorId)){
+                        listColorBase.add(color);
+                    }
+                }
+                baseAndGroup.put(AppParams.COLORS, listColorBase);
+
 
             }
             listBaseDB.put(baseGroupName1, listBaseGroup1);
