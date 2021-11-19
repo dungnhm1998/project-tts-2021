@@ -10,7 +10,7 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import java.util.*;
 import java.util.logging.Logger;
 
-public class CreateOrder implements Handler<RoutingContext> {
+public class CreateOrderHandler implements Handler<RoutingContext> {
 
     @Override
     public void handle(RoutingContext rc) {
@@ -118,8 +118,8 @@ public class CreateOrder implements Handler<RoutingContext> {
                 LOGGER.info("result" + result);
                 rc.put(AppParams.MESSAGE, "Dat hang thanh cong");
                 data.put("data", result);
-                rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);
 //                rc.put(AppParams.MESSAGE, "Dat hang thanh cong");
                 future.complete();
@@ -135,6 +135,6 @@ public class CreateOrder implements Handler<RoutingContext> {
         });
     }
 
-    private static final Logger LOGGER = Logger.getLogger(CreateOrder.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CreateOrderHandler.class.getName());
 
 }

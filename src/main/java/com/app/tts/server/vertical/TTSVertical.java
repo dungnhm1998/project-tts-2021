@@ -5,7 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.User.CreateOrder;
+import com.app.tts.server.handler.User.CreateOrderHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
@@ -135,7 +135,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-		router.route(HttpMethod.POST, "/order").handler(new CreateOrder());
+		router.route(HttpMethod.POST, "/order").handler(new CreateOrderHandler());
 		return router;
 	}
 }

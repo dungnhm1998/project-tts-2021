@@ -24,7 +24,7 @@ public class AppParams {
 	public static final String ADDR_VERIFIED_NOTE = "add_verified_note";
 	public static final String EXTRA_FEE = "extra_fee";
 	public static final String ISEDIT = "isEdit";
-	public static final String BASE_NAME = "base_name";
+	public static final String BASE_NAME = "s_name";
 	public static final String COLOR = "color";
 	public static final String COLOR_ID = "color_id";
 	public static final String COLOR_NAME = "color_name";
@@ -151,7 +151,7 @@ public class AppParams {
 	public static final String TAGS = "tags";
 	public static final String CATEGORIES = "categories";
 	public static final String DOMAIN = "domain";
-	public static final String BASE_GROUP_ID = "base_group_id";
+	public static final String BASE_GROUP_ID = "s_id";
 	public static final String DOMAINS = "domains";
 	public static final String DOMAIN_ID = "domain_id";
 	public static final String URIS = "uris";
