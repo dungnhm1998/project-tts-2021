@@ -23,10 +23,10 @@ public class OrderService extends MasterService {
                 state, postal_code, country, country_name});
         List<Map> result = new ArrayList<>();
         for (Map a : resultData) {
-            a = format(a);
+            a = format1(a);
             result.add(a);
         }
-        return result;
+        return resultData;
     }
 
     public static List<Map> insertDropshipOrder(String ID, String shipping_id, String source, String currency, String note, String store_id,
@@ -36,11 +36,11 @@ public class OrderService extends MasterService {
                 reference_id, state, shipping_method, addr_verified, addr_verified_note,
                 extra_fee, tax_amount, ioss_number});
         List<Map> result = new ArrayList<>();
-        for (Map a : resultData) {
-            a = format(a);
-            result.add(a);
+        for (Map b : resultData) {
+            b = format2(b);
+            result.add(b);
         }
-        return result;
+        return resultData;
     }
 
     public static List<Map> insertDropshipOrderProduct(String order_id,
@@ -78,49 +78,16 @@ public class OrderService extends MasterService {
                unit_amount
 				});
         List<Map> result = new ArrayList<>();
-        for (Map a : resultData) {
-            a = format(a);
-            result.add(a);
+        for (Map c : resultData) {
+            c = format3(c);
+            result.add(c);
         }
-        return result;
+        return resultData;
     }
 
-
-
-    public static Map format(Map queryData) {
-        Map resultMap = new LinkedHashMap<>();
-        Map product = new LinkedHashMap<>();
-        Map design = new LinkedHashMap<>();
-        Map shipping = new LinkedHashMap<>();
+    public static Map format1(Map queryData) {
+    	Map shipping = new LinkedHashMap<>();
         Map address = new LinkedHashMap<>();
-        resultMap.put(AppParams.SOURCE, ParamUtil.getString(queryData, AppParams.S_SOURCE));
-        resultMap.put(AppParams.CURRENCY, ParamUtil.getString(queryData, AppParams.S_CURRENCY));
-        resultMap.put(AppParams.NOTE, ParamUtil.getString(queryData, AppParams.S_NOTE));
-        resultMap.put(AppParams.STORE_ID, ParamUtil.getString(queryData, AppParams.S_STORE_ID));
-        resultMap.put(AppParams.REFERENCE_ID, ParamUtil.getString(queryData, AppParams.S_REFERENCE_ID));
-        resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE));
-        resultMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(queryData, AppParams.S_SHIPPING_METHOD));
-        resultMap.put(AppParams.EXTRA_FEE, ParamUtil.getString(queryData, AppParams.S_EXTRA_FEE));
-        resultMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(queryData, AppParams.S_TAX_AMOUNT));
-        resultMap.put(AppParams.IOSS_NUMBER, ParamUtil.getString(queryData, AppParams.S_IOSS_NUMBER));
-        //product
-        product.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
-        product.put(AppParams.BASE_ID, ParamUtil.getString(queryData, AppParams.S_BASE_ID));
-        product.put(AppParams.BASE_NAME, ParamUtil.getString(queryData, AppParams.S_BASE_NAME));
-        product.put(AppParams.COLOR, ParamUtil.getString(queryData, AppParams.S_COLOR));
-        product.put(AppParams.COLOR_ID, ParamUtil.getString(queryData, AppParams.S_COLOR_ID));
-        product.put(AppParams.COLOR_NAME, ParamUtil.getString(queryData, AppParams.S_COLOR_NAME));
-        product.put(AppParams.SIZE_ID, ParamUtil.getString(queryData, AppParams.S_SIZE_ID));
-        product.put(AppParams.SIZE_NAME, ParamUtil.getString(queryData, AppParams.S_SIZE_NAME));
-        product.put(AppParams.QUANTITY, ParamUtil.getString(queryData, AppParams.S_QUANTITY));
-        product.put(AppParams.PRICE, ParamUtil.getString(queryData, AppParams.S_PRICE));
-        product.put(AppParams.VARIANT_NAME, ParamUtil.getString(queryData, AppParams.S_VARIANT_NAME));
-        product.put(AppParams.UNIT_AMOUNT, ParamUtil.getString(queryData, AppParams.S_UNIT_AMOUNT));
-        //design
-        design.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(queryData, AppParams.S_DESIGN_FRONT_URL));
-        design.put(AppParams.DESIGN_FRONT_URL_MD5, ParamUtil.getString(queryData, AppParams.S_VARIANT_FRONT_URL));
-        design.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(queryData, AppParams.S_DESIGN_BACK_URL));
-        design.put(AppParams.DESIGN_BACK_URL_MD5, ParamUtil.getString(queryData, AppParams.S_VARIANT_BACK_URL));
         //shipping
         shipping.put(AppParams.EMAIL, ParamUtil.getString(queryData, AppParams.S_EMAIL));
         shipping.put(AppParams.NAME, ParamUtil.getString(queryData, AppParams.S_NAME));
@@ -135,11 +102,54 @@ public class OrderService extends MasterService {
         address.put(AppParams.COUNTRY_NAME, ParamUtil.getString(queryData, AppParams.S_COUNTRY_NAME));
         address.put(AppParams.ADDR_VERIFIED, ParamUtil.getString(queryData, AppParams.N_ADDR_VERIFIED));
         address.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(queryData, AppParams.S_ADDR_VERIFIED_NOTE));
-
-        resultMap.put(AppParams.PRODUCT, product);
-        product.put(AppParams.DESIGN, design);
+        
         shipping.put(AppParams.ADDRESS, address);
-        resultMap.put(AppParams.SHIPPING, shipping);
+        return shipping;
+    }
+    public static Map format3(Map queryData) {
+    	Map product = new LinkedHashMap<>();
+        Map design = new LinkedHashMap<>();
+        //product
+        product.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
+        product.put(AppParams.BASE_ID, ParamUtil.getString(queryData, AppParams.S_BASE_ID));
+        product.put(AppParams.BASE_NAME, ParamUtil.getString(queryData, AppParams.S_BASE_NAME));
+        product.put(AppParams.COLOR, ParamUtil.getString(queryData, AppParams.S_COLOR));
+        product.put(AppParams.COLOR_ID, ParamUtil.getString(queryData, AppParams.S_COLOR_ID));
+        product.put(AppParams.COLOR_NAME, ParamUtil.getString(queryData, AppParams.S_COLOR_NAME));
+        product.put(AppParams.SIZE_ID, ParamUtil.getString(queryData, AppParams.S_SIZE_ID));
+        product.put(AppParams.SIZE_NAME, ParamUtil.getString(queryData, AppParams.S_SIZE_NAME));
+        product.put(AppParams.QUANTITY, ParamUtil.getString(queryData, AppParams.S_QUANTITY));
+        product.put(AppParams.PRICE, ParamUtil.getString(queryData, AppParams.S_PRICE));
+        product.put(AppParams.DESIGN, design);
+        product.put(AppParams.VARIANT_NAME, ParamUtil.getString(queryData, AppParams.S_VARIANT_NAME));
+        product.put(AppParams.UNIT_AMOUNT, ParamUtil.getString(queryData, AppParams.S_UNIT_AMOUNT));
+        //design
+        design.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(queryData, AppParams.S_DESIGN_FRONT_URL));
+        design.put(AppParams.DESIGN_FRONT_URL_MD5, ParamUtil.getString(queryData, AppParams.S_VARIANT_FRONT_URL));
+        design.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(queryData, AppParams.S_DESIGN_BACK_URL));
+        design.put(AppParams.DESIGN_BACK_URL_MD5, ParamUtil.getString(queryData, AppParams.S_VARIANT_BACK_URL));
+        
+        return product;
+        
+    }
+    public static Map format2(Map queryData) {
+        Map resultMap = new LinkedHashMap<>();
+        
+        resultMap.put(AppParams.SOURCE, ParamUtil.getString(queryData, AppParams.S_SOURCE));
+        resultMap.put(AppParams.CURRENCY, ParamUtil.getString(queryData, AppParams.S_CURRENCY));
+        resultMap.put(AppParams.NOTE, ParamUtil.getString(queryData, AppParams.S_NOTE));
+        resultMap.put(AppParams.STORE_ID, ParamUtil.getString(queryData, AppParams.S_STORE_ID));
+        resultMap.put(AppParams.REFERENCE_ID, ParamUtil.getString(queryData, AppParams.S_REFERENCE_ID));
+        resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE));
+        resultMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(queryData, AppParams.S_SHIPPING_METHOD));
+
+        
+        resultMap.put(AppParams.EXTRA_FEE, ParamUtil.getString(queryData, AppParams.S_EXTRA_FEE));
+        
+        resultMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(queryData, AppParams.S_TAX_AMOUNT));
+        resultMap.put(AppParams.IOSS_NUMBER, ParamUtil.getString(queryData, AppParams.S_IOSS_NUMBER));
+      
+
         return resultMap;
     }
 }

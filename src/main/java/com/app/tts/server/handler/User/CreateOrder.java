@@ -73,20 +73,20 @@ public class CreateOrder implements Handler<RoutingContext> {
                     design_back_url_md5 = ParamUtil.getString(designs, AppParams.DESIGN_BACK_URL_MD5);
                 }
 
-
                 Map data = new HashMap();
                 LOGGER.info("Data" + jsonRequest);
                 String ship_ID = UUID.randomUUID().toString().substring(0, 24);
                 String dropship_ID = UUID.randomUUID().toString().substring(0, 24);
+                id = UUID.randomUUID().toString().substring(0, 24);
                 LOGGER.info("ship_ID" + ship_ID);
                 LOGGER.info("dropship_ID" + dropship_ID);
+                
                 Map result = new LinkedHashMap();
                 List<Map> ship = OrderService.insertShipping(ship_ID, email, name, phone, line1, line2, city,
                         state, postal_code, country, country_name);
 
                 List<Map> order = OrderService.insertDropshipOrder(dropship_ID, ship_ID, source, currency, note, store_id, reference_id,
                         state, shipping_method, addr_verified, addr_verified_note, extra_fee, tax_amount, ioss_number);
-
 
                 List<Map> orderProduct = OrderService.insertDropshipOrderProduct(
                         order_id,
@@ -106,20 +106,22 @@ public class CreateOrder implements Handler<RoutingContext> {
                         variant_name,
                         unit_amount);
 
-                result.put("tb_ship", ship);
-                LOGGER.info("tb_ship" + ship);
-
                 result.put("order", order);
                 LOGGER.info("order" + order);
+                
+                result.put("shipping", ship);
+                LOGGER.info("tb_ship" + ship);
 
-                result.put("order product", orderProduct);
+                result.put("items", orderProduct);
                 LOGGER.info("order product" + orderProduct);
 
                 LOGGER.info("result" + result);
+                rc.put(AppParams.MESSAGE, "Dat hang thanh cong");
                 data.put("data", result);
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);
+//                rc.put(AppParams.MESSAGE, "Dat hang thanh cong");
                 future.complete();
             } catch (Exception e) {
                 rc.fail(e);
