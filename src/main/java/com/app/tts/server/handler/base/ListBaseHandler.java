@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.app.tts.services.BaseService;
-import com.app.tts.services.ListBaseService;
 import com.app.tts.util.AppParams;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -14,7 +13,7 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-public class ListBaseHandlers implements Handler<RoutingContext> {
+public class ListBaseHandler implements Handler<RoutingContext> {
 
     @Override
     public void handle(RoutingContext rc) {
@@ -29,7 +28,7 @@ public class ListBaseHandlers implements Handler<RoutingContext> {
                 //Map mapBase = ListBaseService.getListBases(baseId);
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                rc.put(AppParams.RESPONSE_DATA, ListBaseService.getListBases(baseId));
+                rc.put(AppParams.RESPONSE_DATA, BaseService.getListBases(baseId));
                 future.complete();
             } catch (Exception e) {
                 rc.fail(e);
@@ -43,5 +42,5 @@ public class ListBaseHandlers implements Handler<RoutingContext> {
         });
     }
 
-    private static final Logger LOGGER = Logger.getLogger(ListBaseHandlers.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ListBaseHandler.class.getName());
 }
