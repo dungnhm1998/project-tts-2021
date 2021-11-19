@@ -25,7 +25,6 @@ public class GetListOrderProductHandler implements Handler<RoutingContext> {
                 JsonObject data = new JsonObject();
 
                 data.put(AppParams.RESPONSE_DATA, getListOrderProduct());
-
                 routingContext.response().end(Json.encodePrettily(data));
             } catch (Exception e) {
                 routingContext.fail(e);

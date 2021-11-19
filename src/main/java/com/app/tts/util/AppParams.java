@@ -465,4 +465,23 @@ public class AppParams {
 	public static final String PARTNER_PROPERTIES = "partner_properties";
 	public static final String PARTNER_OPTION = "partner_option";
 	public static final String CUSTOM_DATA = "custom_data";
+    public static final String REFERENCE_ID = "reference_id";
+	public static final String SHIPPING = "shipping";
+	public static final String EXTRA_FEE_2 = "extra_fee";
+	public static final String ITEMS = "items";
+	public static final String LINE1 = "line1";
+	public static final String LINE2 = "line2";
+	public static final String CITY = "city";
+	public static final String POSTAL_CODE = "postal_code";
+	public static final String COUNTRY = "country";
+	public static final String COUNTRY_NAME = "country_name";
+	public static final String COLOR = "color";
+	public static final String S_ADD_LINE1 = "S_ADD_LINE1";
+	public static final String S_ADD_LINE2 = "S_ADD_LINE2";
+	public static final String S_ADD_CITY = "S_ADD_CITY";
+	public static final String S_POSTAL_CODE = "S_POSTAL_CODE";
+	public static final String S_COUNTRY_CODE = "S_COUNTRY_CODE";
+	public static final String S_COUNTRY_NAME = "S_COUNTRY_NAME";
+	public static final String S_EMAIL_2 = "S_EMAIL";
+	public static final String S_STATE_2 = "S_STATE";
 }

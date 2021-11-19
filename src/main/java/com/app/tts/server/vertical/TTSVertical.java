@@ -8,6 +8,7 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
+import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
 import com.app.tts.server.handler.User.GetAllUserHandler;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
@@ -146,6 +147,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
 		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
 
+		router.route(HttpMethod.POST, "/insert_order_shipping_product").handler(new InsertOrderShippingProductHandler());
 		return router;
 	}
 }
