@@ -1,19 +1,18 @@
 package com.app.tts.services;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.app.tts.error.exception.OracleException;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.DBProcedureUtil;
 import com.app.tts.util.ParamUtil;
+
 import io.netty.handler.codec.http.HttpResponseStatus;
 import oracle.jdbc.OracleTypes;
-
-import javax.sql.DataSource;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ListBaseService extends MasterService{
 
@@ -82,7 +81,6 @@ public class ListBaseService extends MasterService{
         if (resultCode != HttpResponseStatus.OK.code()) {
             throw new OracleException(ParamUtil.getString(searchResultMap, AppParams.RESULT_MSG));
         }
-    	//Map searchResultMap = searchOne(GET_BASE, new Object[] {id});
 
         Map resultMap = new LinkedHashMap();
         List<Map> resultDataList = ParamUtil.getListData(searchResultMap, AppParams.RESULT_DATA);
