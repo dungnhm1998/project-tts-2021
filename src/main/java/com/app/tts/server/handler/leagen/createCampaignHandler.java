@@ -26,10 +26,16 @@ public class createCampaignHandler implements Handler<RoutingContext> {
                 String name = ParamUtil.getString(jsonRequest, AppParams.S_ID);
                 String email = ParamUtil.getString(jsonRequest, AppParams.S_ID);
 
-                Map tracking_tags = new HashMap();
+                Map tracking_tags = ParamUtil.getMapData(jsonRequest, AppParams.TRACKING_TAGS);
+                String fb_pixel = ParamUtil.getString(tracking_tags, AppParams.S_ID);
+                String gg_adword_id = ParamUtil.getString(tracking_tags, AppParams.S_ID);
+                String gg_analytics_id = ParamUtil.getString(tracking_tags, AppParams.S_ID);
+                String gg_site_verification = ParamUtil.getString(tracking_tags, AppParams.S_ID);
+                String gg_tag_manager_id = ParamUtil.getString(tracking_tags, AppParams.S_ID);
+                String gg_conversion_tracking_id = ParamUtil.getString(tracking_tags, AppParams.S_ID);
+                String tiktok_pixel = ParamUtil.getString(tracking_tags, AppParams.S_ID);
+
                 
-
-
                 Map data = new HashMap();
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());

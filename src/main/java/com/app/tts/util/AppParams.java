@@ -393,4 +393,5 @@ public class AppParams {
 	public static final String S_STORE_ID = "S_STORE_ID";
 	public static final String STORE_ID = "store_id";
 	public static final String N_GIFT = "N_GIFT";
+    public static final String TRACKING_TAGS = "tracking_tags";
 }
