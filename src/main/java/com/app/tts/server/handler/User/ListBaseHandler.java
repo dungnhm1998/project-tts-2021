@@ -1,9 +1,13 @@
 package com.app.tts.server.handler.User;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
 
 import com.app.tts.data.type.RedisKeyEnum;
 import com.app.tts.services.ListService;
@@ -45,8 +49,52 @@ public class ListBaseHandler implements Handler<RoutingContext>, SessionStore {
 		}
 	public static Map getListBaseFromDB() throws SQLException {
         Map listBaseDB = new HashMap();	
-        List<Map> listBaseAndGroup = ListService.getBaseSize();
+        List<Map> listBaseAndGroup = ListService.getBaseGroup();
         List<Map> listBaseColor = ListService.getBaseColor();
-        List<Map> listBaseSize = ListService.getBaseGroup();
-	}
+        List<Map> listBaseSize = ListService.getBaseSize();
+        Set<String> listBaseGroupId = new HashSet();
+        for (Map baseAndGroup : listBaseAndGroup) {
+            //get base id
+            String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
+            listBaseGroupId.add(baseGroupId);
+        }
+      //list base group
+        for (String groupId : listBaseGroupId) {
+            List<Map> listBaseGroup1 = new ArrayList();
+            String baseGroupName1 = "";
+            for (Map baseAndGroup : listBaseAndGroup) {
+
+                String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
+                if (groupId.equals(baseGroupId)) {
+                    listBaseGroup1.add(baseAndGroup);
+                    baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
+                }
+
+                String baseId = ParamUtil.getString(baseAndGroup, AppParams.S_BASE_ID);
+                //ghep theo color
+                List<Map> listColorBase = new ArrayList<>();
+                for (Map color : listBaseColor) {
+                    String baseColorId = ParamUtil.getString(color, AppParams.BASE_ID);
+                    if (baseId.equals(baseColorId)) {
+                        listColorBase.add(color);
+                    }
+                }
+                baseAndGroup.put(AppParams.COLORS, listColorBase);
+                //ghep theo size
+                List<Map> listSizeBase = new ArrayList<>();
+                for(Map size: listBaseSize){
+                    String baseSizeId = ParamUtil.getString(size, AppParams.S_BASE_ID);
+                    if(baseId.equals(baseSizeId)){
+                        listSizeBase.add(size);
+                    }
+                }
+                baseAndGroup.put(AppParams.SIZES, listSizeBase);
+            }
+            listBaseDB.put(baseGroupName1, listBaseGroup1);
+        }
+
+        return listBaseDB;
+    }
+
+    private static final Logger LOGGER = Logger.getLogger(ListBaseHandler.class.getName());
 }

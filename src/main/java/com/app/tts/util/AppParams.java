@@ -417,4 +417,8 @@ public class AppParams {
 	public static final String SUB_STATE = "sub_state";
 	public static final String MODIFIED_AT = "modified_at";
 	public static final String OLD_TAGS = "old_tags";
+	public static final String S_NAME_COLOR = "s_name";
+	public static final String S_UNIT = "s_unit";
+	public static final String S_RESOLUTION_REQUIRE = "s_resolution_require";
+	public static final Object RESOLUTION_REQUIRE = "resolution_require";
 }
