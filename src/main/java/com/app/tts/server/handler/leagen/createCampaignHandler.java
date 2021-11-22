@@ -21,11 +21,13 @@ public class createCampaignHandler implements Handler<RoutingContext> {
         rc.vertx().executeBlocking(future -> {
             try {
                 Map jsonRequest = rc.getBodyAsJson().getMap();
+                String id = ParamUtil.getString(jsonRequest, AppParams.S_ID);
+                String site_name = ParamUtil.getString(jsonRequest, AppParams.S_ID);
+                String name = ParamUtil.getString(jsonRequest, AppParams.S_ID);
                 String email = ParamUtil.getString(jsonRequest, AppParams.S_ID);
-//                String username = jsonRequest.getString(AppParams.USERNAME);
-//                String address = jsonRequest.getString(AppParams.ADDRESS);
-//                String phone = jsonRequest.getString(AppParams.PHONE);
-//                String state = jsonRequest.getString(AppParams.STATE);
+
+                Map tracking_tags = new HashMap();
+                
 
 
                 Map data = new HashMap();
