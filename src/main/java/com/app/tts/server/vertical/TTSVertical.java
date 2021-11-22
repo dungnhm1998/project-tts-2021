@@ -8,13 +8,14 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.User.*;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
-import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.leagen.GetCampaignHandler;
+import com.app.tts.server.handler.leagen.Get_OrderHandler;
+import com.app.tts.server.handler.leagen.getBaseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
-import com.app.tts.services.GetOrderService;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
@@ -115,9 +116,9 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		httpServer.listen(result -> {
 			if (result.failed()) {
-				logger.error("[INIT] START TTS API ERROR " + result.cause());
+				logger.error("[INIT] START TTS API ERROR " + result.cause() + "\uD83D\uDE02");
 			} else {
-				logger.info("[INIT] TTS SERVER STARTED AT " + StringPool.SPACE + serverHost + StringPool.COLON + serverPort);
+				logger.info("[INIT] TTS SERVER STARTED AT " + " \uD83D\uDE02" + StringPool.SPACE + serverHost + StringPool.COLON + serverPort + " \uD83D\uDE02 ");
 			}
 		});
 	}
