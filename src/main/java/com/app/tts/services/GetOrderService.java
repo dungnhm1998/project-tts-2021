@@ -60,7 +60,7 @@ public class GetOrderService extends MasterService {
         address.put("country", AppParams.S_COUNTRY_CODE);
         address.put("country_name", AppParams.S_COUNTRY_NAME);
 
-        resultMap.put(AppParams.SHIPPING_FEE, shipping);
+        resultMap.put(AppParams.SHIPPING_ID, shipping);
         resultMap.put(AppParams.ADDRESS, address);
 
         return resultMap;
