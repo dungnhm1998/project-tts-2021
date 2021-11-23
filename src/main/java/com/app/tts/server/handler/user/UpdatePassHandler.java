@@ -5,11 +5,8 @@ import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
-import org.apache.commons.validator.routines.EmailValidator;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,43 +18,40 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
     public void handle(RoutingContext rc) {
         rc.vertx().executeBlocking(future -> {
             try {
-                JsonObject jsonRequest = rc.getBodyAsJson();
-                String email = jsonRequest.getString(AppParams.EMAIL);
-                String passwordold = jsonRequest.getString("passwordold");
-                String password = jsonRequest.getString(AppParams.PASSWORD);
-                String confirmPassword = jsonRequest.getString("confirmPassword");
+                Map jsonRequest = rc.getBodyAsJson().getMap();
+                String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
+                String passwordold = ParamUtil.getString(jsonRequest, "passwordold");
+                String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
+                String confirmPassword = ParamUtil.getString(jsonRequest, "confirmPassword");
 
 
                 Map data = new HashMap();
 
-                rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
-//                data.put("email", email);
                 List<Map> user = UserService.getPassByEmail(email);
-                Map list = user.get(0);
 
+                Map list = user.get(0);
                 String pass = ParamUtil.getString(list, AppParams.S_PASSWORD);
+
                 boolean duplicate = false;
                 if (!user.isEmpty()) {
                     duplicate = true;
                 }
                 if (!pass.equals(passwordold)) {
-                    duplicate = true;
                     data.put("message", "đăng ký thất bại! , mật khẩu cũ không đúng");
                 } else if (!password.equals(confirmPassword)) {
                     data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
                 } else if (18 <= password.length() && password.length() <= 6) {
                     data.put("message", "đăng ký thất bại! , mật khẩu từ 6 đến 18 kí tự ");
-                } else if (!duplicate) {
-                    List<Map> userJson = UserService.updatePass(email, password);
-                    data.put("đổi mật khẩu thành công: ", userJson);
+                } else  {
+                    UserService.updatePass(email, password);
+                    data.put("message", "change password successfully");
                     rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
                     rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
-                } else {
-                    data.put("message", " thất bại");
+                    rc.put(AppParams.RESPONSE_DATA, data);
+                    future.complete();
                 }
-                rc.put(AppParams.RESPONSE_DATA, data);
-                future.complete();
+
+
             } catch (Exception e) {
                 rc.fail(e);
             }
@@ -68,12 +62,6 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 rc.fail(asyncResult.cause());
             }
         });
-    }
-
-    public static boolean isValid(String email) {
-        boolean valid = false;
-        valid = EmailValidator.getInstance().isValid(email);
-        return true;
     }
 
     private static final Logger LOGGER = Logger.getLogger(UpdatePassHandler.class.getName());

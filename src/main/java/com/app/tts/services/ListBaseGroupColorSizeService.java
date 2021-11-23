@@ -20,11 +20,11 @@ public class ListBaseGroupColorSizeService extends MasterService{
 
     public static Map getListBaseGroupColorSize() throws SQLException{
         Map inputData = new LinkedHashMap<Integer, String>();
-daáđáấâsddsad\xs
-        Map<Integer, Integer> daádaáđáấâsdsadasdsadasdassaddsadsadaássdaoutputParamTypes = new LinkedHashMap<>();
+
+        Map<Integer, Integer> outputParamTypes = new LinkedHashMap<>();
         outputParamTypes.put(1, OracleTypes.NUMBER);
         outputParamTypes.put(2, OracleTypes.VARCHAR);
-        outputParamTypes.put(3, OracleTypes.dsassadâấ);
+        outputParamTypes.put(3, OracleTypes.CURSOR);
         outputParamTypes.put(4, OracleTypes.CURSOR);
         outputParamTypes.put(5, OracleTypes.CURSOR);
 

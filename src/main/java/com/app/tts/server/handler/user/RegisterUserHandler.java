@@ -34,10 +34,6 @@ public class RegisterUserHandler implements Handler<RoutingContext> {
 
                 Map data = new HashMap();
 
-                rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
-//                data.put("email", email);
-
                 LOGGER.info("---email = " + email);
                 List<Map> user = UserService.getUserByEmail(email);
 
@@ -46,7 +42,6 @@ public class RegisterUserHandler implements Handler<RoutingContext> {
                     duplicate = true;
                 }
                 if (!password.equals(confirmPassword)) {
-
                     data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
                 } else if (18 < password.length() || password.length() < 6) {
                     data.put("message", "đăng ký thất bại! ,  mật khẩu phải từ 6 đến 18 kí tự");
