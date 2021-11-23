@@ -6,6 +6,7 @@ import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
+import org.apache.commons.validator.routines.EmailValidator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,14 +27,14 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
 
 
                 Map data = new HashMap();
-
+                List<Map> emailuser = UserService.getUserByEmail(email);
                 List<Map> user = UserService.getPassByEmail(email);
 
                 Map list = user.get(0);
                 String pass = ParamUtil.getString(list, AppParams.S_PASSWORD);
 
                 boolean duplicate = false;
-                if (!user.isEmpty()) {
+                if (!user.isEmpty() && !emailuser.isEmpty()) {
                     duplicate = true;
                 }
                 if (!pass.equals(passwordold)) {
@@ -42,14 +43,20 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                     data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
                 } else if (18 <= password.length() && password.length() <= 6) {
                     data.put("message", "đăng ký thất bại! , mật khẩu từ 6 đến 18 kí tự ");
-                } else  {
+                } else if (!isValid(email)) {
+                    data.put("message", "sửa thất bại! , email không đúng định dạng");
+                } else if (!duplicate) {
+                    data.put("message", "sửa thất bại! , không tìm được email này" + email);
+                } else if (duplicate && isValid(email)) {
                     UserService.updatePass(email, password);
                     data.put("message", "change password successfully");
                     rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
                     rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
-                    rc.put(AppParams.RESPONSE_DATA, data);
-                    future.complete();
+                } else {
+                    data.put("message", "sửa thất bại");
                 }
+                rc.put(AppParams.RESPONSE_DATA, data);
+                future.complete();
 
 
             } catch (Exception e) {
@@ -62,6 +69,12 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 rc.fail(asyncResult.cause());
             }
         });
+    }
+
+    public static boolean isValid(String email) {
+        boolean valid = false;
+        valid = EmailValidator.getInstance().isValid(email);
+        return true;
     }
 
     private static final Logger LOGGER = Logger.getLogger(UpdatePassHandler.class.getName());

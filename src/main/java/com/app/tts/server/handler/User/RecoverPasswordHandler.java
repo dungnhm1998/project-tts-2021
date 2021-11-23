@@ -1,15 +1,12 @@
 package com.app.tts.server.handler.User;
 
-import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -21,8 +18,6 @@ public class RecoverPasswordHandler implements Handler<RoutingContext> {
             try {
                 Map jsonrequest = rc.getBodyAsJson().getMap();
                 String email = ParamUtil.getString(jsonrequest, AppParams.EMAIL);
-
-
 
                 Map data = new HashMap();
 

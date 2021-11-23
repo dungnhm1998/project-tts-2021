@@ -18,7 +18,7 @@ public class UserService  extends MasterService{
     public static final String GET_USER_BY_EMAIL = "{call PKG_QUY.get_user_by_email(?,?,?,?)}";
     public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?,?)}";
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
-
+    public static final String RECOVER_PASSWORD = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
     public static List<Map> getAllUser(String state) throws SQLException {
         List<Map> result = new ArrayList();
         List<Map> resultDataList = excuteQuery(GET_ALL_USER, new Object[]{state});
@@ -123,6 +123,14 @@ public class UserService  extends MasterService{
         LOGGER.info("=> GET PASSWORD BY EMAIL  result: " + resultDataList);
 
         return resultDataList;
+    }
+
+
+    public static List<Map> recoverPassword()throws SQLException{
+
+        List<Map> recoverPassword = excuteQuery(RECOVER_PASSWORD, new Object[]{});
+        LOGGER.info("=> RECOVER PASSWORD result: " + recoverPassword);
+        return recoverPassword;
     }
 
     private static Map format(Map queryData) throws SQLException {
