@@ -1,6 +1,7 @@
 package com.app.tts.server.handler.User;
 
 import com.app.tts.services.UserService;
+import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import com.google.gson.Gson;
@@ -11,13 +12,14 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.Session;
 import redis.clients.jedis.params.SetParams;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import static com.app.tts.session.redis.SessionStore.jedis;
 
-public class LoginUserHandler implements Handler<RoutingContext> {
+public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
 
     @Override
     public void handle(RoutingContext routingContext) {
@@ -30,10 +32,11 @@ public class LoginUserHandler implements Handler<RoutingContext> {
                 String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
                 // String password = Md5Code.md5(jsonRequest.getString("password"));
                 Gson gson = new Gson();
-                List<Map> user = UserService.getUserByEmail(email);
-
+                Map user =  UserService.getUserByEmail(email);
+                String pass = ParamUtil.getString(user, AppParams.S_PASSWORD);
+                Map data = new HashMap();
                 if (!user.isEmpty()) {
-                    if (user.get("password").equals(password)) {
+                    if (pass.equals(password)) {
                         if (session != null) {
                             LOGGER.info("Connection to server sucessfully");
                             // Check server redis có chạy không
@@ -48,7 +51,10 @@ public class LoginUserHandler implements Handler<RoutingContext> {
                             // Lưu sessionId vào cookie
                             Cookie cookie = Cookie.cookie("sessionId", session.id());
                             routingContext.addCookie(cookie);
-                            routingContext.put(AppParams.USER_ID, user.get(Integer.parseInt(AppParams.ID)).toString());
+                            data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
+                            data.put("avatar", "....");
+                            data.put("message", "login successfully");
+                            data.put("email", email);
                         } else {
                             LOGGER.info("session is null");
                         }
@@ -58,7 +64,7 @@ public class LoginUserHandler implements Handler<RoutingContext> {
 //						clipServices.saveOrUpdate(userResult, Users.class, 0);
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                        routingContext.put(AppParams.RESPONSE_DATA, user);
+                        routingContext.put(AppParams.RESPONSE_DATA, data);
                     }
                 }else {
                     routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());

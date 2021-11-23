@@ -82,10 +82,11 @@ public class UserService  extends MasterService{
     // get user by email  in tts_user
 
 
-    public static List<Map> getUserByEmail(String email) throws SQLException {
+
+    public static Map getUserByEmail(String email) throws SQLException {
 
         Map resultMap = new HashMap<>();
-        List<Map> resultDataList = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
+        Map resultDataList = searchOne(GET_USER_BY_EMAIL, new Object[]{email});
 
         LOGGER.info("=> GET EMAIL  result: " + resultDataList);
 

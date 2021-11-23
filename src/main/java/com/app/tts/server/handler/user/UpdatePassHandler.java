@@ -27,7 +27,7 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
 
 
                 Map data = new HashMap();
-                List<Map> emailuser = UserService.getUserByEmail(email);
+                Map emailuser = UserService.getUserByEmail(email);
                 List<Map> user = UserService.getPassByEmail(email);
 
                 Map list = user.get(0);

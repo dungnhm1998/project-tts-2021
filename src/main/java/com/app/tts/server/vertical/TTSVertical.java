@@ -5,9 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.User.LoginUserHandler;
-import com.app.tts.server.handler.User.UpdatePassHandler;
-import com.app.tts.server.handler.User.UpdateUserHandler;
+import com.app.tts.server.handler.User.*;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
@@ -17,9 +15,7 @@ import com.app.tts.server.handler.common.ResponseHandler;
 
 
 import com.app.tts.server.handler.user.DelUserByIdHandler;
-import com.app.tts.server.handler.user.GetAllUserHandler;
 import com.app.tts.server.handler.user.GetUserByIdHandler;
-import com.app.tts.server.handler.User.RegisterUserHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -142,7 +138,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		//api
 		router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
-
+		router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
 
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
