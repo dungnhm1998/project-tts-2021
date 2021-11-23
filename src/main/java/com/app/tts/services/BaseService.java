@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
@@ -26,7 +27,8 @@ public class BaseService extends MasterService{
 	
 	public static List<Map> recoverPassword (String email, String password) throws SQLException{
 		List<Map> result = excuteQuery(RECOVER_PASSWORD, new Object[] {email, password});
-		return result;
+		System.out.println("result" + result);
+		return result;	
 	}
 }
 

@@ -23,27 +23,30 @@ public class RecoveryPassHandler implements Handler<RoutingContext>, SessionStor
 			try {
 				JsonObject jsonRequest = routingContext.getBodyAsJson();
 				String email = jsonRequest.getString("email");
-				String password = UUID.randomUUID().toString().substring(0, 20);
-				
-				List<Map> user = BaseService.recoverPassword(email, Md5Code.md5(password));
-				
+				String password = UUID.randomUUID().toString().substring(0, 6);
+				String encodePassword = Md5Code.md5(password);
+				System.out.println(password);
 				Map data = new HashMap();
+				List<Map> user = BaseService.recoverPassword(email, encodePassword);
+				
 				data.put("message", "recover passoword successfully");
 				data.put("recover_password", password);
+				
 				
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 				routingContext.put(AppParams.RESPONSE_DATA, data);
+				future.complete();
 			} catch (Exception e) {
 				routingContext.fail(e);
 			}
-	}, asyncResult -> {
-		if (asyncResult.succeeded()) {
-			routingContext.next();
-		} else {
-			routingContext.fail(asyncResult.cause());
-		}
-		});
+		}, asyncResult -> {
+			if (asyncResult.succeeded()) {
+				routingContext.next();
+			} else {
+				routingContext.fail(asyncResult.cause());
+			}
+			});
 	}
 	
 }
