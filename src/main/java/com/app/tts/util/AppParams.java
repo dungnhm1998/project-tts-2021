@@ -484,4 +484,6 @@ public class AppParams {
 	public static final String S_COUNTRY_NAME = "S_COUNTRY_NAME";
 	public static final String S_EMAIL_2 = "S_EMAIL";
 	public static final String S_STATE_2 = "S_STATE";
+    public static final String CONFIRM_PASSWORD = "confirm_password";
+    public static final String NEW_PASSWORD = "new_password";
 }

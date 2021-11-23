@@ -6,10 +6,15 @@
 package com.app.tts.server.vertical;
 
 
+import com.app.tts.server.handler.Campaign.CreateCampaignHandler;
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
 import com.app.tts.server.handler.User.GetAllUserHandler;
+import com.app.tts.server.handler.User2.ChangePasswordHandler;
+import com.app.tts.server.handler.User2.ForgotPasswordHandler;
+import com.app.tts.server.handler.User2.LoginUserHandler;
+import com.app.tts.server.handler.User2.RegisterUserHandler;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.base.ListBaseHandler2;
@@ -133,7 +138,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		
 		// xet uri de xem handler nao se bat login, handler nao khong bat login
 		router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
-		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
+//		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
@@ -148,6 +153,13 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
 
 		router.route(HttpMethod.POST, "/insert_order_shipping_product").handler(new InsertOrderShippingProductHandler());
+
+		router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
+		router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
+		router.route(HttpMethod.POST, "/recover").handler(new ForgotPasswordHandler());
+		router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
+
+		router.route(HttpMethod.POST, "/create-camp").handler(new CreateCampaignHandler());
 		return router;
 	}
 }
