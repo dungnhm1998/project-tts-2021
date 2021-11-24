@@ -22,20 +22,7 @@ public class UserService  extends MasterService{
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
     public static final String DELETE_USER_BY_EMAIL = "{call PKG_PHUONG.DELETE_USER(?,?,?,?)}";
 
-//    public static  List<Map> insertUser(String email, String password, String username, String address,
-//                                 String phone, String state) throws SQLException {
-//
-//        Map resultMap = new HashMap<>();
-//        List<Map> result = new ArrayList();
-//        List<Map> resultDataList = excuteQuery(INSERT_USER, new Object[]{email, password, username, address, phone, state});
-//        LOGGER.info("=> INSERT  result: "+ resultDataList);
-//        for (Map b : resultDataList) {
-//            b = format(b);
-//            result.add(b);
-//        }
-//
-//        return result;
-//    }
+
 
     public static List<Map> deleteUser(String email) throws SQLException{
         List<Map> result = excuteQuery(DELETE_USER_BY_EMAIL, new Object[]{email});
