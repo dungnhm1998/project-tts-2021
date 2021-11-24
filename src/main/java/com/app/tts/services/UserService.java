@@ -96,7 +96,15 @@ public class UserService  extends MasterService{
 
         return resultDataList;
     }
+    public static List<Map> getUserByEmail1(String email) throws SQLException {
 
+        Map resultMap = new HashMap<>();
+        List<Map> resultDataList = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
+
+        LOGGER.info("=> GET EMAIL  result: " + resultDataList);
+
+        return resultDataList;
+    }
     //update user by email
     public static List<Map> updateUser(String email, String username, String address,
                                        String phone, String state) throws SQLException, OracleException {

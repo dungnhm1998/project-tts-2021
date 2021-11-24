@@ -10,6 +10,7 @@ import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import org.apache.commons.validator.routines.EmailValidator;
+import redis.clients.jedis.params.Params;
 
 
 import java.util.HashMap;
@@ -33,8 +34,9 @@ public class RegisterUserHandler implements Handler<RoutingContext> {
 
                 Map data = new HashMap();
 
-                LOGGER.info("---email = " + email);
-                Map user = UserService.getUserByEmail(email);
+
+                List<Map> user = UserService.getUserByEmail1(email);
+
 
                 boolean duplicate = false;
                 if (!user.isEmpty()) {
@@ -57,7 +59,10 @@ public class RegisterUserHandler implements Handler<RoutingContext> {
                 } else if (!duplicate && isValid(email)) {
                     // Đăng ký thành công
                     List<Map> userJson = UserService.insertUser(email, Md5Code.md5(password), username, address, phone, "active");
-                    data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
+//                    data.put("userjson",userJson);
+                    Map list = userJson.get(0);
+                    String id = ParamUtil.getString(list, AppParams.ID);
+                    data.put("id", id);
                     data.put("avatar", "");
                     data.put("message", "register successed");
                     data.put("email", email);
