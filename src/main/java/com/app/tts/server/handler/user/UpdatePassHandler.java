@@ -1,5 +1,6 @@
 package com.app.tts.server.handler.User;
 
+import com.app.tts.encode.Md5Code;
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
@@ -51,7 +52,7 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 } else if (!duplicate) {
                     data.put("message", "Email hasn't registered yet" + email);
                 } else if (duplicate && isValid(email)) {
-                    UserService.updatePass(email, new_password);
+                    UserService.updatePass(email, Md5Code.md5(new_password));
                     data.put("message", "change password successfully");
                     rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
                     rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
