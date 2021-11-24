@@ -1,5 +1,6 @@
 package com.app.tts.server.handler.User;
 
+import com.app.tts.encode.Md5Code;
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
@@ -23,7 +24,7 @@ public class RecoverPasswordHandler implements Handler<RoutingContext> {
                 String email = ParamUtil.getString(jsonrequest, AppParams.EMAIL);
                 String password = UUID.randomUUID().toString().substring(0,6);
                 Map data = new HashMap();
-                UserService.updatePass(email, password);
+                UserService.updatePass(email, Md5Code.md5(password));
                 data.put("message: ", "recover password successfully");
                 data.put("recover_password: ", password);
                 LOGGER.info("data: "+ data);
