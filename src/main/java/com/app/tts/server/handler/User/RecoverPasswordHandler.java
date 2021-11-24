@@ -26,7 +26,7 @@ public class RecoverPasswordHandler implements Handler<RoutingContext> {
                 UserService.updatePass(email, password);
                 data.put("message: ", "recover password successfully");
                 data.put("recover_password: ", password);
-
+                LOGGER.info("data: "+ data);
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);

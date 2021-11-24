@@ -31,11 +31,11 @@ public class DeleteUserHandler implements Handler<RoutingContext> {
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 
-                List<Map> searchEmail = UserService.getUserByEmail(email);
+                Map searchEmail = UserService.getUserByEmail(email);
 
                 if(!searchEmail.isEmpty()){
-                    Map searchMap = searchEmail.get(0);
-                    String rsPassword = ParamUtil.getString(searchMap, "S_PASSWORD");
+
+                    String rsPassword = ParamUtil.getString(searchEmail, "S_PASSWORD");
                     if(rsPassword.equals(password)){
                         Map resultDel = delete(email);
                         message = "Delete success";
@@ -61,7 +61,7 @@ public class DeleteUserHandler implements Handler<RoutingContext> {
     }
 
     public static Map delete(String email) throws SQLException {
-        List<Map> result = UserService.deleteUser(email);
+        List<Map> result = UserService.delUserById(email);
         Map resultMap = result.get(0);
         return resultMap;
     }
