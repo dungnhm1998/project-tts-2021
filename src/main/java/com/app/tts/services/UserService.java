@@ -36,6 +36,11 @@ public class UserService  extends MasterService{
         Map resultMap = new HashMap<>();
         List<Map> resultDataList = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
         LOGGER.info("=> GET EMAIL  result: " + resultDataList);
+<<<<<<< Updated upstream
+=======
+        
+
+>>>>>>> Stashed changes
         return resultDataList;
     }
     
