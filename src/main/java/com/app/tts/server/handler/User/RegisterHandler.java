@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import com.app.tts.encode.Md5Code;
-import com.app.tts.services.BaseService;
+import com.app.tts.services.SubService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
 
@@ -38,7 +38,7 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 				data.put("email", email);
 				
 				LOGGER.info("email: " + email);
-				List<Map> user = BaseService.getUserByEmail(email);
+				List<Map> user = SubService.getUserByEmail(email);
 				boolean duplicate = false;
 				if (!user.isEmpty()) {
 					duplicate = true;
@@ -60,7 +60,7 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 				} else if (!duplicate && isValid(email)) {
 					// Đăng ký thành công
 					String encodePassword = Md5Code.md5(password); 
-					BaseService.insertUser(id, email, encodePassword, phone);
+					SubService.insertUser(id, email, encodePassword, phone);
 					data.put("message", "register successed");
 					data.put("id", id);
 					routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
@@ -88,6 +88,6 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 		return true;
 	}
 	
-	private static final Logger LOGGER = Logger.getLogger(BaseService.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(SubService.class.getName());
 }
 

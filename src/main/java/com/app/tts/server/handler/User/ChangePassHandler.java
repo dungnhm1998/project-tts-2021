@@ -7,7 +7,7 @@ import java.util.Map;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import com.app.tts.encode.Md5Code;
-import com.app.tts.services.BaseService;
+import com.app.tts.services.SubService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
@@ -31,7 +31,7 @@ public class ChangePassHandler implements Handler<RoutingContext>, SessionStore 
 					String confirm_password = jsonRequest.getString("confirm_password");
 					
 					Map data = new HashMap();
-					List<Map> user = BaseService.getUserByEmail(email); 
+					List<Map> user = SubService.getUserByEmail(email); 
 					
 					Map a = user.get(0);
 					String encodePassword = ParamUtil.getString(a, AppParams.S_PASSWORD);
@@ -55,7 +55,7 @@ public class ChangePassHandler implements Handler<RoutingContext>, SessionStore 
 	                } else if (!duplicate) {
 	                    data.put("message", "Email hasn't registered yet" + email);
 	                } else if (duplicate && isValid(email)) {
-	                    BaseService.changePassword(email, Md5Code.md5(new_password));
+	                    SubService.changePassword(email, Md5Code.md5(new_password));
 	                    data.put("message", "change password successfully");
 	                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 	                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());

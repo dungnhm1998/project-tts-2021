@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import com.app.tts.encode.Md5Code;
-import com.app.tts.services.BaseService;
+import com.app.tts.services.SubService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
@@ -37,7 +37,7 @@ public class LoginHandler implements Handler<RoutingContext>, SessionStore {
 				String encodePassword = Md5Code.md5(password);
 				Gson gson = new Gson();
 				Map data = new HashMap<>();
-				List<Map> user = BaseService.getUserByEmail(email);
+				List<Map> user = SubService.getUserByEmail(email);
 			
 					if (!user.isEmpty()) {
 						for(Map map : user) {

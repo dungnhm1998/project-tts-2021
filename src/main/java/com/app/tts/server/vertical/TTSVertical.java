@@ -8,6 +8,7 @@ package com.app.tts.server.vertical;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.User.ChangePassHandler;
+import com.app.tts.server.handler.User.CreateCamHandler;
 import com.app.tts.server.handler.User.LoginHandler;
 import com.app.tts.server.handler.User.RecoveryPassHandler;
 import com.app.tts.server.handler.User.RegisterHandler;
@@ -139,6 +140,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.POST, "/login").handler(new LoginHandler());
 		router.route(HttpMethod.POST, "/recover").handler(new RecoveryPassHandler());
 		router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePassHandler());
+		router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
 		return router;
 	}
 }

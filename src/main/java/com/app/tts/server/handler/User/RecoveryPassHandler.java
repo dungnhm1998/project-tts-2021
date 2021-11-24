@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.app.tts.encode.Md5Code;
-import com.app.tts.services.BaseService;
+import com.app.tts.services.SubService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
 
@@ -27,7 +27,7 @@ public class RecoveryPassHandler implements Handler<RoutingContext>, SessionStor
 				String encodePassword = Md5Code.md5(password);
 				System.out.println(password);
 				Map data = new HashMap();
-				List<Map> user = BaseService.recoverPassword(email, encodePassword);
+				List<Map> user = SubService.recoverPassword(email, encodePassword);
 				
 				data.put("message", "recover passoword successfully");
 				data.put("recover_password", password);
