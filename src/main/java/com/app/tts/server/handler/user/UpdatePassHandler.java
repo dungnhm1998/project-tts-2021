@@ -37,7 +37,7 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 if (!user.isEmpty() && !emailuser.isEmpty()) {
                     duplicate = true;
                 }
-                if (!pass.equals(password)) {
+                if (!pass.equals(Md5Code.md5(password))) {
                     data.put("message", "Login failed! , password is incorrect");
                 } else if (!new_password.equals(confirm_password)) {
                     data.put("message", "New password and confirm password are not matched");
@@ -54,8 +54,8 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 } else if (duplicate && isValid(email)) {
                     UserService.updatePass(email, Md5Code.md5(new_password));
                     data.put("message", "change password successfully");
-                    rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                    rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                    rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                    rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 } else {
                     data.put("message", "failed to change password");
                 }
