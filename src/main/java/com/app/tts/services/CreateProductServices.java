@@ -47,21 +47,27 @@ public class CreateProductServices extends MasterService {
 
     private static Map format(Map queryData) throws SQLException {
         Map resultMap = new LinkedHashMap<>();
-        Map products =  new LinkedHashMap();
+        Map product =  new HashMap();
         resultMap.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(queryData, AppParams.S_CAMPAIGN_ID));
         resultMap.put(AppParams.USER_ID, ParamUtil.getString(queryData, AppParams.S_USER_ID));
-        products.put("default", ParamUtil.getString(queryData, AppParams.N_DEFAULT));
-        products.put("base_id", ParamUtil.getString(queryData, AppParams.BASE_ID));
-        products.put("colors", ParamUtil.getString(queryData, AppParams.S_COLORS));
-        products.put("name_color", ParamUtil.getString(queryData, AppParams.NAME_COLOR));
-        products.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
-        products.put("size_id", ParamUtil.getString(queryData, AppParams.S_SIZES));
-        products.put("size_name", ParamUtil.getString(queryData, AppParams.SIZE_NAME));
-        products.put("price", ParamUtil.getString(queryData, AppParams.PRICE));
-        products.put("design", ParamUtil.getString(queryData, AppParams.S_DESIGN_JSON));
-        products.put("mockup", ParamUtil.getString(queryData, AppParams.S_MOCKUP_IMG_URL));
+//        for(Map product : products){
+            product.put("default", ParamUtil.getString(queryData, AppParams.N_DEFAULT1));
+            product.put("base_id", ParamUtil.getString(queryData, AppParams.S_BASE_ID));
+//            for (Map colors :  products){
+        product.put("colors", ParamUtil.getString(queryData, AppParams.S_COLORS));
+        product.put("name_color", ParamUtil.getString(queryData, AppParams.NAME_COLOR));
+        product.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
+//            }
+//            for (Map sizes :  products){
+        product.put("size_id", ParamUtil.getString(queryData, AppParams.S_SIZES));
+        product.put("size_name", ParamUtil.getString(queryData, AppParams.SIZE_NAME));
+        product.put("price", ParamUtil.getString(queryData, AppParams.PRICE));
+//            }
+            product.put("design", ParamUtil.getString(queryData, AppParams.S_DESIGN_JSON));
+            product.put("mockup", ParamUtil.getString(queryData, AppParams.S_MOCKUP_IMG_URL));
+//        }
 
-        resultMap.put("products", products);
+        resultMap.put("products", product);
         return resultMap;
     }
 
