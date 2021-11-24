@@ -23,7 +23,7 @@ public class RecoveryPassHandler implements Handler<RoutingContext>, SessionStor
 			try {
 				JsonObject jsonRequest = routingContext.getBodyAsJson();
 				String email = jsonRequest.getString("email");
-				String password = UUID.randomUUID().toString().substring(0, 6);
+				String password = UUID.randomUUID().toString().replace("-", "").substring(0, 6);
 				String encodePassword = Md5Code.md5(password);
 				System.out.println(password);
 				Map data = new HashMap();
