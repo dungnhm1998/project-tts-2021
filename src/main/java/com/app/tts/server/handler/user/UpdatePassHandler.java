@@ -21,10 +21,9 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
             try {
                 Map jsonRequest = rc.getBodyAsJson().getMap();
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
-                String passwordold = ParamUtil.getString(jsonRequest, "passwordold");
-                String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
-                String confirmPassword = ParamUtil.getString(jsonRequest, "confirmPassword");
-
+                String password = ParamUtil.getString(jsonRequest, "password");
+                String new_password = ParamUtil.getString(jsonRequest, "new_password");
+                String confirm_password = ParamUtil.getString(jsonRequest, "confirm_password");
 
                 Map data = new HashMap();
                 Map emailuser = UserService.getUserByEmail(email);
@@ -37,23 +36,27 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
                 if (!user.isEmpty() && !emailuser.isEmpty()) {
                     duplicate = true;
                 }
-                if (!pass.equals(passwordold)) {
-                    data.put("message", "đăng ký thất bại! , mật khẩu cũ không đúng");
-                } else if (!password.equals(confirmPassword)) {
-                    data.put("message", "đăng ký thất bại! , 2 mật khẩu không trùng nhau");
-                } else if (18 <= password.length() && password.length() <= 6) {
-                    data.put("message", "đăng ký thất bại! , mật khẩu từ 6 đến 18 kí tự ");
+                if (!pass.equals(password)) {
+                    data.put("message", "Login failed! , password is incorrect");
+                } else if (!new_password.equals(confirm_password)) {
+                    data.put("message", "New password and confirm password are not matched");
+                } else if (18 < new_password.length() || new_password.length() < 6) {
+                    data.put("message", "password must be between 6 and 18 characters ");
+                } else if (!new_password.matches(".*[A-Z].*+")) {
+    				data.put("message", "password must contain at least one uppercase character");
+    			} else if (!new_password.matches(".*[0-9].*+")) {	
+    				data.put("message", "password must contain at least one numeric character");
                 } else if (!isValid(email)) {
-                    data.put("message", "sửa thất bại! , email không đúng định dạng");
+                    data.put("message", "Email is not valid");
                 } else if (!duplicate) {
-                    data.put("message", "sửa thất bại! , không tìm được email này" + email);
+                    data.put("message", "Email hasn't registered yet" + email);
                 } else if (duplicate && isValid(email)) {
-                    UserService.updatePass(email, password);
+                    UserService.updatePass(email, new_password);
                     data.put("message", "change password successfully");
                     rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
                     rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
                 } else {
-                    data.put("message", "sửa thất bại");
+                    data.put("message", "failed to change password");
                 }
                 rc.put(AppParams.RESPONSE_DATA, data);
                 future.complete();
