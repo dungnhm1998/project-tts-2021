@@ -14,11 +14,8 @@ import io.vertx.rxjava.ext.web.Session;
 import redis.clients.jedis.params.SetParams;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import static com.app.tts.session.redis.SessionStore.jedis;
 
 public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
 
