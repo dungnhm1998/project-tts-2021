@@ -1,5 +1,6 @@
 package com.app.tts.server.handler.User;
 
+import com.app.tts.encode.Md5Code;
 import com.app.tts.services.UserService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
@@ -30,13 +31,13 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
 
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
                 String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
-                // String password = Md5Code.md5(jsonRequest.getString("password"));
+                String EncodePassword = Md5Code.md5(password);
                 Gson gson = new Gson();
                 Map user =  UserService.getUserByEmail(email);
                 String pass = ParamUtil.getString(user, AppParams.S_PASSWORD);
                 Map data = new HashMap();
                 if (!user.isEmpty()) {
-                    if (pass.equals(password)) {
+                    if (pass.equals(EncodePassword)) {
                         if (session != null) {
                             LOGGER.info("Connection to server sucessfully");
                             // Check server redis có chạy không
@@ -51,27 +52,29 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                             // Lưu sessionId vào cookie
                             Cookie cookie = Cookie.cookie("sessionId", session.id());
                             routingContext.addCookie(cookie);
-                            data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
-                            data.put("avatar", "....");
-                            data.put("message", "login successfully");
-                            data.put("email", email);
+                            
                         } else {
                             LOGGER.info("session is null");
                         }
-
-                        // update last log in
-//						userResult.setLastLogin(date);
-//						clipServices.saveOrUpdate(userResult, Users.class, 0);
+                        data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
+                        data.put("avatar", "....");
+                        data.put("message", "login successfully");
+                        data.put("email", email);
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                        routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                        routingContext.put(AppParams.RESPONSE_DATA, data);
-                    }
+						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+						routingContext.put(AppParams.RESPONSE_DATA, data);
+	                }else {
+	                	data.put("message", "password is incorrect");
+						routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
+						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
+						routingContext.put(AppParams.RESPONSE_DATA, data);
+	                }
                 }else {
-                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
-                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
-                    routingContext.put(AppParams.RESPONSE_DATA, "{}");
-                }
-
+                	data.put("message", "email is invalid");
+					routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
+					routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
+					routingContext.put(AppParams.RESPONSE_DATA, data);
+                }    	
                 future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
