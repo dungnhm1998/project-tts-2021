@@ -49,11 +49,26 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                 Map data = new HashMap();
 
                 List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, base_id, color_id, size_id, designs, mockup);
-                data.put("jsonProduct", jsonProduct);
+
+                for (Map map : jsonProduct) {
+                    map.put("campaign_id", ParamUtil.getString(map, "s_campaign_id"));
+                    map.put("user_id", ParamUtil.getString(map, "s_user_id"));
+                    for (Map products : jsonProduct){
+                        products.put("product_id", ParamUtil.getString(map, "s_id"));
+                        for (Map colors : jsonProduct){
+                            colors.put("color_id", ParamUtil.getString(map, "s_colors"));
+                        }
+                        for (Map sizes : jsonProduct){
+                            sizes.put("color_id", ParamUtil.getString(map, "s_sizes"));
+                        }
+                    }
+                }
+
+                data.put("json",jsonProduct);
 
 
-                rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
+                rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);
                 future.complete();
             } catch (Exception e) {
