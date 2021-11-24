@@ -34,7 +34,7 @@ public class UpdateUserHandler implements Handler<RoutingContext> {
 //                data.put("email", email);
 
                 LOGGER.info("---email = " + email);
-                List<Map> user = UserService.getUserByEmail(email);
+                Map user = UserService.getUserByEmail(email);
 
                 boolean duplicate = false;
                 if (!user.isEmpty()) {

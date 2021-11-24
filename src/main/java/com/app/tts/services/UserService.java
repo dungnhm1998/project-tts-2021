@@ -21,24 +21,72 @@ public class UserService  extends MasterService{
     public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?)}";
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
     public static final String DELETE_USER_BY_EMAIL = "{call PKG_PHUONG.DELETE_USER(?,?,?,?)}";
+//    public static final String GET_USER_BY_EMAIL = "{call PKG_QUY.get_user_by_email(?,?,?,?)}";
+//    public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?,?)}";
+//    public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
+    public static final String RECOVER_PASSWORD = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
 
-//    public static  List<Map> insertUser(String email, String password, String username, String address,
-//                                 String phone, String state) throws SQLException {
-//
-//        Map resultMap = new HashMap<>();
+
+//    public static List<Map> deleteUser(String email) throws SQLException{
+//        List<Map> result = excuteQuery(DELETE_USER_BY_EMAIL, new Object[]{email});
+
+//    public static List<Map> getAllUser(String state) throws SQLException {
 //        List<Map> result = new ArrayList();
-//        List<Map> resultDataList = excuteQuery(INSERT_USER, new Object[]{email, password, username, address, phone, state});
-//        LOGGER.info("=> INSERT  result: "+ resultDataList);
+//        List<Map> resultDataList = excuteQuery(GET_ALL_USER, new Object[]{state});
+//
+//        LOGGER.info("=> All USER result: " + resultDataList);
+//
 //        for (Map b : resultDataList) {
 //            b = format(b);
 //            result.add(b);
 //        }
 //
 //        return result;
+//
 //    }
 
-    public static List<Map> deleteUser(String email) throws SQLException{
-        List<Map> result = excuteQuery(DELETE_USER_BY_EMAIL, new Object[]{email});
+//    public static List<Map> getUserById(String id, String state) throws SQLException {
+//        List<Map> result = new ArrayList();
+//        List<Map> resultDataList = excuteQuery(GET_USER_BY_ID, new Object[]{id, state});
+//
+//        LOGGER.info("=> GET USER by id result: " + resultDataList);
+//        for (Map b : resultDataList) {
+//            b = format(b);
+//            result.add(b);
+//        }
+//
+//        return result;
+
+    }
+    public static List<Map> delUserById(String id) throws SQLException {
+        List<Map> result = new ArrayList();
+        List<Map> resultDataList = excuteQuery(DEL_USER_BY_ID, new Object[]{id});
+
+        LOGGER.info("=> DELETE USER by id result: " + resultDataList);
+        for (Map b : resultDataList) {
+            b = format(b);
+            result.add(b);
+        }
+
+        return result;
+
+
+
+    }
+    // insert user in tts_user
+
+    public static  List<Map> insertUser(String email, String password, String username, String address,
+                                 String phone, String state) throws SQLException {
+
+        Map resultMap = new HashMap<>();
+        List<Map> result = new ArrayList();
+        List<Map> resultDataList = excuteQuery(INSERT_USER, new Object[]{email, password, username, address, phone, state});
+        LOGGER.info("=> INSERT  result: "+ resultDataList);
+        for (Map b : resultDataList) {
+            b = format(b);
+            result.add(b);
+        }
+
         return result;
     }
 
@@ -48,12 +96,15 @@ public class UserService  extends MasterService{
     public static List<Map> getUserByEmail(String email) throws SQLException {
         Map resultMap = new HashMap<>();
         List<Map> resultDataList = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
-        LOGGER.info("=> GET EMAIL  result: " + resultDataList);
-<<<<<<< Updated upstream
-=======
-        
 
->>>>>>> Stashed changes
+    public static Map getUserByEmail(String email) throws SQLException {
+
+        Map resultMap = new HashMap<>();
+        Map resultDataList = searchOne(GET_USER_BY_EMAIL, new Object[]{email});
+
+        LOGGER.info("=> GET EMAIL  result: " + resultDataList);
+
+
         return resultDataList;
     }
     
@@ -84,6 +135,14 @@ public class UserService  extends MasterService{
     public static List<Map> delUserById(String id) throws SQLException {
 		return excuteQuery(DEL_USER_BY_ID, new Object[] { id });
 	}
+
+
+    public static List<Map> recoverPassword()throws SQLException{
+
+        List<Map> recoverPassword = excuteQuery(RECOVER_PASSWORD, new Object[]{});
+        LOGGER.info("=> RECOVER PASSWORD result: " + recoverPassword);
+        return recoverPassword;
+    }
 
     private static Map format(Map queryData) throws SQLException {
         Map resultMap = new LinkedHashMap<>();

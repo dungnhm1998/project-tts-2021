@@ -1,61 +1,88 @@
 package com.app.tts.server.handler.User;
 
-import com.app.tts.services.UserServices;
+import com.app.tts.services.UserService;
+import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
+import com.google.gson.Gson;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
+import io.vertx.rxjava.ext.web.Cookie;
 import io.vertx.rxjava.ext.web.RoutingContext;
+import io.vertx.rxjava.ext.web.Session;
+import redis.clients.jedis.params.SetParams;
 
-import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class LoginUserHandler implements Handler<RoutingContext> {
+import static com.app.tts.session.redis.SessionStore.jedis;
+
+public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
+
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
-            try{
-                JsonObject  jsonObject = routingContext.getBodyAsJson();
-                String email = jsonObject.getString(AppParams.S_EMAIL);
-                String password = jsonObject.getString(AppParams.S_PASSWORD);
-                LOGGER.info("email json = " + email + " ; password json = " + password);
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                String message = login(email, password);
-                LOGGER.info("message = ---------" + message);
-                routingContext.response().end(message);
+            try {
+                Map jsonRequest = routingContext.getBodyAsJson().getMap();
+                Session session = routingContext.session();
+
+                String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
+                String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
+                // String password = Md5Code.md5(jsonRequest.getString("password"));
+                Gson gson = new Gson();
+                Map user =  UserService.getUserByEmail(email);
+                String pass = ParamUtil.getString(user, AppParams.S_PASSWORD);
+                Map data = new HashMap();
+                if (!user.isEmpty()) {
+                    if (pass.equals(password)) {
+                        if (session != null) {
+                            LOGGER.info("Connection to server sucessfully");
+                            // Check server redis có chạy không
+                            LOGGER.info("Server is running: " + jedis.ping());
+                            // Set timout cho session
+                            SetParams ttl = new SetParams();
+                            ttl.ex(30 * 60);
+
+                            // Lưu data của user vào session
+                            jedis.set(session.id(), gson.toJson(user), ttl);
+//							LOGGER.info("user-id = "+ user.get(AppParams.ID).toString());
+                            // Lưu sessionId vào cookie
+                            Cookie cookie = Cookie.cookie("sessionId", session.id());
+                            routingContext.addCookie(cookie);
+                            data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
+                            data.put("avatar", "....");
+                            data.put("message", "login successfully");
+                            data.put("email", email);
+                        } else {
+                            LOGGER.info("session is null");
+                        }
+
+                        // update last log in
+//						userResult.setLastLogin(date);
+//						clipServices.saveOrUpdate(userResult, Users.class, 0);
+                        routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                        routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                        routingContext.put(AppParams.RESPONSE_DATA, data);
+                    }
+                }else {
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
+                    routingContext.put(AppParams.RESPONSE_DATA, "{}");
+                }
+
                 future.complete();
-            }catch (Exception e){
+            } catch (Exception e) {
                 routingContext.fail(e);
             }
         }, asyncResult -> {
-            if(asyncResult.succeeded()){
+            if (asyncResult.succeeded()) {
                 routingContext.next();
-            }else{
+            } else {
                 routingContext.fail(asyncResult.cause());
             }
         });
-    }
-
-    public static String login(String email, String password) throws SQLException {
-        List<Map> result = UserServices.loginUser(email);
-        String message;
-        if(!result.isEmpty()){
-            Map resultMap = result.get(0);
-            String rsPassword = ParamUtil.getString(resultMap, AppParams.S_PASSWORD);
-            LOGGER.info("password = ---------------" + rsPassword);
-            if(password.equals(rsPassword)){
-                message = "Login success";
-            }else{
-                message = "wrong password";
-            }
-        }else {
-            message = "Email does not exist";
-        }
-        return message;
     }
 
     private static final Logger LOGGER = Logger.getLogger(LoginUserHandler.class.getName());

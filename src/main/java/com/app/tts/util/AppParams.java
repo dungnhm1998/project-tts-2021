@@ -97,6 +97,7 @@ public class AppParams {
 	public static final String TIMEZONE = "timezone";
 	public static final String SORT = "sort";
 	public static final String SIZES = "sizes";
+	public static final String SIZE = "size_id";
 	public static final String COLORS = "colors";
 	public static final String VALUE = "value";
 	public static final String POSITION = "position";
@@ -231,6 +232,7 @@ public class AppParams {
 
 
 	public static final String S_ID = "TTS_ID";
+	public static final String S_ID1 = "S_ID";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
@@ -350,6 +352,7 @@ public class AppParams {
 	public static final String S_MEMBER = "S_MEMBER";
 	public static final String MEMBER = "member";
 	public static final String PRICES = "prices";
+
 	public static final String S_CAMPAIGN_ID = "S_CAMPAIGN_ID";
 	public static final String CAMPAIGN_ID = "campaign_id";
 	public static final String BASE_ID = "base_id";
@@ -374,6 +377,7 @@ public class AppParams {
 	public static final String CREATED_AT = "created_at";
 	public static final String DEFAULT = "default";
 	public static final String N_DEFAULT = "N_DEFAULT";
+	public static final String N_DEFAULT1 = "DEFAULT1";
 	public static final String DEFAULT_COLOR_ID = "default_color_id";
 	public static final String S_DOMAIN = "S_DOMAIN";
 	public static final String IMG_URL = "img_url";
@@ -465,4 +469,9 @@ public class AppParams {
 	public static final String PARTNER_PROPERTIES = "partner_properties";
 	public static final String PARTNER_OPTION = "partner_option";
 	public static final String CUSTOM_DATA = "custom_data";
+    public static final String PRODUCTS = "products";
+	public static final String MOCKUPS = "mockups";
+	public static final String NAME_COLOR = "NAME_COLOR";
+//	public static final String SIZE_NAME = "SIZE_NAME";
+	public static final String S_NAME_COLOR = "S_NAME_COLOR";
 }
