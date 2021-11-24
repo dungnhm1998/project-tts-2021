@@ -30,7 +30,6 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 			String phone = json.getString(AppParams.PHONE);
 			
 			String id = UUID.randomUUID().toString().substring(5, 20);
-			
 			Map data = new HashMap<>();
 
 			routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
