@@ -49,28 +49,22 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                             // Lưu sessionId vào cookie
                             Cookie cookie = Cookie.cookie("sessionId", session.id());
                             routingContext.addCookie(cookie);
-                            
+                            data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
+                            data.put("avatar", "....");
+                            data.put("message", "login successfully");
+                            data.put("email", email);
+                            routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                            routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                            routingContext.put(AppParams.RESPONSE_DATA, data);
                         } else {
                             LOGGER.info("session is null");
                         }
-                        data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
-                        data.put("avatar", "....");
-                        data.put("message", "login successfully");
-                        data.put("email", email);
-                        routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-						routingContext.put(AppParams.RESPONSE_DATA, data);
+
 	                }else {
-	                	data.put("message", "password is incorrect");
-						routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
-						routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
-						routingContext.put(AppParams.RESPONSE_DATA, data);
+                        LOGGER.info("message"+ "password is incorrect");
 	                }
                 }else {
-                	data.put("message", "email is invalid");
-					routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
-					routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
-					routingContext.put(AppParams.RESPONSE_DATA, data);
+                    LOGGER.info("message"+ "email is invalid");
                 }    	
                 future.complete();
             } catch (Exception e) {
