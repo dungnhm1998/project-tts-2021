@@ -23,7 +23,7 @@ public class RecoverPasswordHandler implements Handler<RoutingContext> {
                 String email = ParamUtil.getString(jsonrequest, AppParams.EMAIL);
                 String password = UUID.randomUUID().toString().substring(0,6);
                 Map data = new HashMap();
-                    UserService.updatePass(email, password);
+                UserService.updatePass(email, password);
                 data.put("message: ", "recover password successfully");
                 data.put("recover_password: ", password);
 
