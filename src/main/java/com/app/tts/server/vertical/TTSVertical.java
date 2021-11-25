@@ -5,6 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
+//<<<<<<< HEAD
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.User.DeleteUserHandler;
@@ -14,6 +15,20 @@ import com.app.tts.server.handler.User.LoginUserHandler;
 import com.app.tts.server.handler.User.RecoverPasswordHandler;
 import com.app.tts.server.handler.User.RegisterUserHandler;
 import com.app.tts.server.handler.User.UpdatePassHandler;
+//=======
+
+import com.app.tts.server.handler.Campaign.AddProductHandler;
+import com.app.tts.server.handler.Campaign.CreateCampaignHandler;
+import com.app.tts.server.handler.Order.GetListOrderProductHandler;
+import com.app.tts.server.handler.Order.GetOrderByIdHandler;
+import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
+import com.app.tts.server.handler.User.GetAllUserHandler;
+import com.app.tts.server.handler.User2.ChangePasswordHandler;
+import com.app.tts.server.handler.User2.ForgotPasswordHandler;
+import com.app.tts.server.handler.User2.LoginUserHandler2;
+import com.app.tts.server.handler.User2.RegisterUserHandler2;
+import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
+//>>>>>>> get_order
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.campaign.CreateProductHandler;
@@ -135,7 +150,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		
 		// xet uri de xem handler nao se bat login, handler nao khong bat login
 		router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
-		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
+//		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
 		router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
@@ -155,6 +170,15 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
 		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
 
+		router.route(HttpMethod.POST, "/insert_order_shipping_product").handler(new InsertOrderShippingProductHandler());
+
+		router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());
+		router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());
+		router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());
+		router.route(HttpMethod.PUT, "/change-pass2").handler(new ChangePasswordHandler());
+
+		router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
+		router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
 		return router;
 	}
 }
