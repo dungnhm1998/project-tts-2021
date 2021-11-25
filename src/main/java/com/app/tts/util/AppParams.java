@@ -471,6 +471,7 @@ public class AppParams {
 	public static final String CUSTOM_DATA = "custom_data";
 //<<<<<<< HEAD
     public static final String PRODUCTS = "products";
+	public static final String PRODUCTSID = "PRODUCT_ID";
 	public static final String MOCKUPS = "mockups";
 	public static final String NAME_COLOR = "NAME_COLOR";
 //	public static final String SIZE_NAME = "SIZE_NAME";
@@ -499,4 +500,6 @@ public class AppParams {
     public static final String NEW_PASSWORD = "new_password";
     public static final String RESULT_DATA_4 = "result_data_4";
 //>>>>>>> get_order
+
+	public static final String S_STATE1 = "S_STATE";
 }

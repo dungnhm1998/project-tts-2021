@@ -7,45 +7,22 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-//import com.app.tts.server.handler.User.DeleteUserHandler;
-import com.app.tts.server.handler.User.LoginUserHandler;
-//import com.app.tts.server.handler.User.GetAllUserHandler;
-import com.app.tts.server.handler.User.RecoverPasswordHandler;
-import com.app.tts.server.handler.User.RegisterUserHandler;
-import com.app.tts.server.handler.User.UpdatePassHandler;
-
 import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
+import com.app.tts.server.handler.Ucant.*;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
 import com.app.tts.server.handler.User2.ForgotPasswordHandler;
 import com.app.tts.server.handler.User2.LoginUserHandler2;
 import com.app.tts.server.handler.User2.RegisterUserHandler2;
-
 //import com.app.tts.server.handler.base.ListBaseHandler;
-//import com.app.tts.server.handler.base.ListBaseHandler2;
-
 import com.app.tts.server.handler.campaign.AddProductHandler;
 import com.app.tts.server.handler.campaign.CreateCampaignHandler;
-
-//import com.app.tts.server.handler.Campaign.CreateProductHandler;
-
-//import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
-
-//import com.app.tts.server.handler.base.ListBaseHandler;
-//import com.app.tts.server.handler.base.ListBaseHandler2;
-//import com.app.tts.server.handler.campaign.CreateProductHandler;
-
-import com.app.tts.server.handler.option.OptionHandler;
-import com.app.tts.server.handler.option.OrderNotifyHandler;
-import com.app.tts.server.handler.Ucant.ChangePassHandler;
-import com.app.tts.server.handler.Ucant.CreateCamHandler;
-import com.app.tts.server.handler.Ucant.LoginHandler;
-import com.app.tts.server.handler.Ucant.RecoveryPassHandler;
-import com.app.tts.server.handler.Ucant.RegisterHandler;
-
+import com.app.tts.server.handler.campaign.CreateProductHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.user.*;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
@@ -196,4 +173,5 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/create-camp1").handler(new CreateCamHandler());
         return router;
     }
+
 }

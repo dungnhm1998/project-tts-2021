@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.User;
+package com.app.tts.server.handler.user;
 
 import com.app.tts.encode.Md5Code;
 
@@ -7,7 +7,6 @@ import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import org.apache.commons.validator.routines.EmailValidator;
 import redis.clients.jedis.params.Params;
