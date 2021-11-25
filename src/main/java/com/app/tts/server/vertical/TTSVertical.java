@@ -5,7 +5,6 @@
  */
 package com.app.tts.server.vertical;
 
-//<<<<<<< HEAD
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 //import com.app.tts.server.handler.User.DeleteUserHandler;
@@ -14,7 +13,6 @@ import com.app.tts.server.handler.User.LoginUserHandler;
 import com.app.tts.server.handler.User.RecoverPasswordHandler;
 import com.app.tts.server.handler.User.RegisterUserHandler;
 import com.app.tts.server.handler.User.UpdatePassHandler;
-//=======
 
 import com.app.tts.server.handler.Campaign.AddProductHandler;
 import com.app.tts.server.handler.Campaign.CreateCampaignHandler;
@@ -23,14 +21,13 @@ import com.app.tts.server.handler.User2.ChangePasswordHandler;
 import com.app.tts.server.handler.User2.ForgotPasswordHandler;
 import com.app.tts.server.handler.User2.LoginUserHandler2;
 import com.app.tts.server.handler.User2.RegisterUserHandler2;
-//<<<<<<< HEAD
-//>>>>>>> get_order
+
 //import com.app.tts.server.handler.base.ListBaseHandler;
 //import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.campaign.CreateProductHandler;
-//=======
+
 //import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
-////>>>>>>> get_order
+
 //import com.app.tts.server.handler.base.ListBaseHandler;
 //import com.app.tts.server.handler.base.ListBaseHandler2;
 //import com.app.tts.server.handler.campaign.CreateProductHandler;
@@ -43,7 +40,6 @@ import com.app.tts.server.handler.Ucant.LoginHandler;
 import com.app.tts.server.handler.Ucant.RecoveryPassHandler;
 import com.app.tts.server.handler.Ucant.RegisterHandler;
 
-//>>>>>>> b74a7d997393c189d7608992467b9fa008b5da17
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
