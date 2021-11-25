@@ -16,7 +16,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class LoginUserHandler implements Handler<RoutingContext>, SessionStore{
+public class LoginUserHandler2 implements Handler<RoutingContext>, SessionStore{
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
@@ -27,7 +27,7 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore{
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
                 String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
 
-                String passwordMd5 = RegisterUserHandler.getMd5(password);
+                String passwordMd5 = RegisterUserHandler2.getMd5(password);
 
                 Gson gson = new Gson();
                 Map user = UserService2.getUserByEmail(email);
@@ -74,5 +74,5 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore{
         });
     }
 
-    private static final Logger LOGGER = Logger.getLogger(LoginUserHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LoginUserHandler2.class.getName());
 }

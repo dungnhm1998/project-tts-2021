@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-public class RegisterUserHandler implements Handler<RoutingContext> {
+public class RegisterUserHandler2 implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
