@@ -24,7 +24,7 @@ import com.app.tts.server.handler.User2.RegisterUserHandler2;
 
 //import com.app.tts.server.handler.base.ListBaseHandler;
 //import com.app.tts.server.handler.base.ListBaseHandler2;
-import com.app.tts.server.handler.campaign.CreateProductHandler;
+import com.app.tts.server.handler.Campaign.CreateProductHandler;
 
 //import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 
