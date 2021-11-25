@@ -8,21 +8,21 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class UserService2 extends MasterService{
+public class UserService2 extends MasterService {
     private static final String REGISTER_USER = "{call PKG_USER_PHUONG.REGISTER_USER(?,?,?, ?,?,?)}";
     private static final String GET_USER_BY_EMAIL = "{call PKG_USER_PHUONG.GET_USER_BY_EMAIL(?, ?,?,?)}";
     private static final String UPDATE_PASSWORD = "{call PKG_USER_PHUONG.UPDATE_PASSWORD(?,?, ?,?,?)}";
 
-    public static Map updatePassword(String email, String password) throws SQLException{
+    public static Map updatePassword(String email, String password) throws SQLException {
         List<Map> result = excuteQuery(UPDATE_PASSWORD, new Object[]{email, password});
         Map resultMap = result.get(0);
         return resultMap;
     }
 
-    public static Map getUserByEmail(String email) throws SQLException{
+    public static Map getUserByEmail(String email) throws SQLException {
         List<Map> result = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
         Map resultMap = new LinkedHashMap();
-        if(!result.isEmpty()){
+        if (!result.isEmpty()) {
             resultMap = result.get(0);
         }
         return resultMap;
@@ -35,7 +35,7 @@ public class UserService2 extends MasterService{
         return resultMap;
     }
 
-    public static Map format(Map inputMap){
+    public static Map format(Map inputMap) {
         Map result = new LinkedHashMap();
         result.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID));
         result.put(AppParams.EMAIL, ParamUtil.getString(inputMap, AppParams.S_EMAIL));

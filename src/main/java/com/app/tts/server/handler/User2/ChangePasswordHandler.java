@@ -2,6 +2,7 @@ package com.app.tts.server.handler.User2;
 
 import com.app.tts.services.UserService2;
 import com.app.tts.util.AppParams;
+import com.app.tts.util.FormatUtil;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
@@ -19,18 +20,18 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
                 String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
-                String new_password = ParamUtil.getString(jsonRequest, AppParams.NEW_PASSWORD);
-                String confirm_password = ParamUtil.getString(jsonRequest, AppParams.CONFIRM_PASSWORD);
+                String newPassword = ParamUtil.getString(jsonRequest, AppParams.NEW_PASSWORD);
+                String confirmPassword = ParamUtil.getString(jsonRequest, AppParams.CONFIRM_PASSWORD);
 
                 String message = null;
                 Map data = new LinkedHashMap();
 
-                String passwordMd5 = RegisterUserHandler2.getMd5(password);
+                String passwordMd5 = FormatUtil.getMd5(password);
                 String passwordDB = ParamUtil.getString(UserService2.getUserByEmail(email), AppParams.S_PASSWORD);
-                if(!passwordDB.isEmpty()) {
+                if (!passwordDB.isEmpty()) {
                     if (passwordMd5.equals(passwordDB)) {
-                        if (new_password.equals(confirm_password)) {
-                            changePassword(email, new_password);
+                        if (newPassword.equals(confirmPassword)) {
+                            changePassword(email, newPassword);
                             message = "change password successfully";
                         } else {
                             message = "confirm password is not correct";
@@ -38,7 +39,7 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                     } else {
                         message = "old Password is not correct";
                     }
-                }else{
+                } else {
                     message = "email is not correct";
                 }
                 data.put(AppParams.MESSAGE, message);
@@ -48,20 +49,20 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                 routingContext.put(AppParams.RESPONSE_DATA, data);
 
                 future.complete();
-            }catch (Exception e){
+            } catch (Exception e) {
                 routingContext.fail(e);
             }
         }, asyncResult -> {
-            if(asyncResult.succeeded()){
+            if (asyncResult.succeeded()) {
                 routingContext.next();
-            }else{
+            } else {
                 routingContext.fail(asyncResult.cause());
             }
         });
     }
 
-    public static Map changePassword(String email, String password) throws SQLException{
-        String passwordMd5 = RegisterUserHandler2.getMd5(password);
+    public static Map changePassword(String email, String password) throws SQLException {
+        String passwordMd5 = FormatUtil.getMd5(password);
         Map result = UserService2.updatePassword(email, passwordMd5);
         return result;
     }

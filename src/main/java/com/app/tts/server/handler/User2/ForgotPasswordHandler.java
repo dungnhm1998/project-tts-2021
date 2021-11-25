@@ -2,6 +2,7 @@ package com.app.tts.server.handler.User2;
 
 import com.app.tts.services.UserService2;
 import com.app.tts.util.AppParams;
+import com.app.tts.util.FormatUtil;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
@@ -23,14 +24,14 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
                 String message = null;
                 Map data = new LinkedHashMap();
                 Boolean checkEmail = RegisterUserHandler2.checkEmail(email);
-                if(checkEmail){
+                if (checkEmail) {
                     Map result = forgotPassword(email);
                     data.put(AppParams.MESSAGE, "recover password successfully");
                     data.put("recover_password", ParamUtil.getString(result, AppParams.S_PASSWORD));
-                }else{
+                } else {
                     message = "Incorrect email";
                 }
-                if(data.get(AppParams.MESSAGE) == null){
+                if (data.get(AppParams.MESSAGE) == null) {
                     data.put(AppParams.MESSAGE, message);
                 }
 
@@ -39,22 +40,22 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
                 routingContext.put(AppParams.RESPONSE_DATA, data);
 
                 future.complete();
-            }catch (Exception e){
+            } catch (Exception e) {
                 routingContext.fail(e);
             }
         }, asyncResult -> {
-            if(asyncResult.succeeded()){
+            if (asyncResult.succeeded()) {
                 routingContext.next();
-            }else{
+            } else {
                 routingContext.fail(asyncResult.cause());
             }
         });
     }
 
-    public static Map forgotPassword(String email) throws SQLException{
+    public static Map forgotPassword(String email) throws SQLException {
         // tao chuoi ngau nhien co 6 ky tu bao gom chu va so
         String recoverPassword = RandomStringUtils.randomAlphanumeric(6);
-        String passwordMd5 = RegisterUserHandler2.getMd5(recoverPassword);
+        String passwordMd5 = FormatUtil.getMd5(recoverPassword);
         Map result = UserService2.updatePassword(email, passwordMd5);
         result.put(AppParams.S_PASSWORD, recoverPassword);
         return result;

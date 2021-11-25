@@ -20,12 +20,14 @@ public class GetListOrderProductHandler implements Handler<RoutingContext> {
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
             try {
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                JsonObject data = new JsonObject();
+                Map data = new LinkedHashMap();
 
                 data.put(AppParams.RESPONSE_DATA, getListOrderProduct());
-                routingContext.response().end(Json.encodePrettily(data));
+
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                routingContext.put(AppParams.RESPONSE_DATA, data);
+                future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
             }

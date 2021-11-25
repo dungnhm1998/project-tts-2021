@@ -29,20 +29,20 @@ public class CreateCampaignHandler implements Handler<RoutingContext> {
                 routingContext.put(AppParams.RESPONSE_DATA, data);
 
                 future.complete();
-            }catch (Exception e){
+            } catch (Exception e) {
                 routingContext.fail(e);
             }
         }, asyncResult -> {
-            if(asyncResult.succeeded()){
+            if (asyncResult.succeeded()) {
                 routingContext.next();
-            }else{
+            } else {
                 routingContext.fail(asyncResult.cause());
             }
         });
     }
 
-    public static Map createCampaign(String userId) throws SQLException{
-        Map  result = CampaignService.createCampaign(userId);
+    public static Map createCampaign(String userId) throws SQLException {
+        Map result = CampaignService.createCampaign(userId);
         return result;
     }
 }

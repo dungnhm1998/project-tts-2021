@@ -6,21 +6,21 @@ import com.app.tts.util.ParamUtil;
 import java.sql.SQLException;
 import java.util.*;
 
-public class CampaignService extends MasterService{
+public class CampaignService extends MasterService {
     private static final String UPDATE_CAMPAIGN = "{call PKG_BQP.UPDATE_CAMPAIGN(?,?,?,?,?, ?,?,?)}";
     private static final String CREATE_CAMPAIGN = "{call PKG_DROPSHIP_ORDER_PHUONG.CREATE_CAMPAIGN(?, ?,?,?)}";
     private static final String ADD_PRODUCT = "{call PKG_DROPSHIP_ORDER_PHUONG.ADD_PRODUCT(?, ?,?, ?,?, ?,?, ?, ?,?, ?,?,?,?)}";
 
-    public static Map addProduct(String campaign_id,
-                                 int default_n, String base_id,
-                                       String color_id, String default_color,
-                                       String size_id, String price,
-                                       String mockups) throws SQLException{
-        Map result = excuteQuery4OutPut(ADD_PRODUCT, new Object[]{campaign_id,
-                                                            default_n, base_id,
-                                                            color_id, default_color,
-                                                            size_id, price,
-                                                            mockups});
+    public static Map addProduct(String campaignId,
+                                 int defaultN, String baseId,
+                                 String colorId, String defaultColor,
+                                 String sizeId, String price,
+                                 String mockups) throws SQLException {
+        Map result = excuteQuery4OutPut(ADD_PRODUCT, new Object[]{campaignId,
+                defaultN, baseId,
+                colorId, defaultColor,
+                sizeId, price,
+                mockups});
 
         List<Map> listProduct = ParamUtil.getListData(result, AppParams.RESULT_DATA);
         List<Map> listCampaign = ParamUtil.getListData(result, AppParams.RESULT_DATA_2);
@@ -31,7 +31,7 @@ public class CampaignService extends MasterService{
         return resultMap;
     }
 
-    public static Map format(List<Map> productInput, List<Map> listCampaign, List<Map> colorInput, List<Map> sizeInput){
+    public static Map format(List<Map> productInput, List<Map> listCampaign, List<Map> colorInput, List<Map> sizeInput) {
         Map campaignMap = new LinkedHashMap();
 
         Map campaign = listCampaign.get(0);
@@ -76,7 +76,7 @@ public class CampaignService extends MasterService{
 
         List<Map> listProduct = new ArrayList<>();
 
-        for(Map productMap : productInput){
+        for (Map productMap : productInput) {
             Map resultProduct = new LinkedHashMap();
 
             resultProduct.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID_2));
@@ -105,13 +105,13 @@ public class CampaignService extends MasterService{
             String color = ParamUtil.getString(productMap, AppParams.S_COLORS);
             // list id color
             List<String> listIdColor = Arrays.asList(color.split(","));
-            if(!color.isEmpty()){
-                for(String idColor : listIdColor){
+            if (!color.isEmpty()) {
+                for (String idColor : listIdColor) {
                     Map colorMap = new LinkedHashMap();
 
-                    for(Map colorMapList : colorInput) {
+                    for (Map colorMapList : colorInput) {
                         String idColorInList = ParamUtil.getString(colorMapList, AppParams.S_ID_2);
-                        if(idColorInList.equals(idColor)) {
+                        if (idColorInList.equals(idColor)) {
                             colorMap.put(AppParams.ID, ParamUtil.getString(colorMapList, AppParams.S_ID_2));
                             colorMap.put(AppParams.NAME, ParamUtil.getString(colorMapList, AppParams.S_NAME));
                             colorMap.put(AppParams.VALUE, ParamUtil.getString(colorMapList, AppParams.S_VALUE));
@@ -120,7 +120,7 @@ public class CampaignService extends MasterService{
                         }
                     }
                     // them color da format vao listColor
-                    if(!colorMap.isEmpty()) {
+                    if (!colorMap.isEmpty()) {
                         listColor.add(colorMap);
                     }
                 }
@@ -138,14 +138,14 @@ public class CampaignService extends MasterService{
             List<String> listIdSize = Arrays.asList(size.split(","));
             List<String> listPrice = Arrays.asList(price.split(","));
             int count = -1;
-            if(!size.isEmpty()){
-                for(String idSize : listIdSize){
+            if (!size.isEmpty()) {
+                for (String idSize : listIdSize) {
                     count++;
                     Map sizeMap = new LinkedHashMap();
 
-                    for(Map sizeMapList : sizeInput) {
+                    for (Map sizeMapList : sizeInput) {
                         String idSizeInList = ParamUtil.getString(sizeMapList, AppParams.S_ID_2);
-                        if(idSizeInList.equals(idSize)) {
+                        if (idSizeInList.equals(idSize)) {
                             sizeMap.put(AppParams.ID, ParamUtil.getString(sizeMapList, AppParams.S_ID_2));
                             sizeMap.put(AppParams.NAME, ParamUtil.getString(sizeMapList, AppParams.S_NAME));
                             sizeMap.put(AppParams.PRICE, listPrice.get(count));
@@ -154,7 +154,7 @@ public class CampaignService extends MasterService{
                         }
                     }
                     // them size da format vao listSize
-                    if(!sizeMap.isEmpty()) {
+                    if (!sizeMap.isEmpty()) {
                         listSize.add(sizeMap);
                     }
                 }
@@ -165,7 +165,7 @@ public class CampaignService extends MasterService{
             listProduct.add(resultProduct);
         }
 
-        if(!listProduct.isEmpty()) {
+        if (!listProduct.isEmpty()) {
             campaignMap.put("PRODUCTS", listProduct);
         }
 
@@ -173,16 +173,16 @@ public class CampaignService extends MasterService{
         return campaignMap;
     }
 
-    public static Map createCampaign(String userId) throws SQLException{
+    public static Map createCampaign(String userId) throws SQLException {
         List<Map> result = excuteQuery(CREATE_CAMPAIGN, new Object[]{userId});
         Map resultMap = result.get(0);
         return resultMap;
     }
 
-    public static List<Map> updateCampaign(String id_campaign, String title, String desc_in,
-                                           String design_front_url, String design_back_url) throws SQLException {
-        List<Map> resultMap = excuteQuery(UPDATE_CAMPAIGN, new Object[]{id_campaign, title, desc_in,
-                design_front_url,  design_back_url});
+    public static List<Map> updateCampaign(String idCampaign, String title, String descIn,
+                                           String designFrontUrl, String designBackUrl) throws SQLException {
+        List<Map> resultMap = excuteQuery(UPDATE_CAMPAIGN, new Object[]{idCampaign, title, descIn,
+                designFrontUrl, designBackUrl});
 
         return resultMap;
     }

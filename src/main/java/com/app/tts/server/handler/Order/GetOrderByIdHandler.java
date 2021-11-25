@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class GetOrderByIdHandler implements Handler<RoutingContext> {
@@ -17,10 +18,7 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
         routingContext.vertx().executeBlocking(future -> {
             try {
                 String id = routingContext.request().getParam("id");
-                JsonObject data = new JsonObject();
-
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                Map data = new LinkedHashMap();
 
                 Map resultOrder = getOrder(id);
                 String message;
@@ -30,8 +28,11 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
                 } else {
                     data.put(AppParams.RESPONSE_DATA, resultOrder);
                 }
-                routingContext.response().end(Json.encodePrettily(data));
 
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                routingContext.put(AppParams.RESPONSE_DATA, data);
+                future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
             }

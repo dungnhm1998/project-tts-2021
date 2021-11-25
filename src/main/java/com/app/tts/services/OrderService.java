@@ -19,40 +19,41 @@ public class OrderService extends MasterService {
             "(?,?,?,?,?,?,?,?,?, ?,?,?,?, ?,?, ?,?,?)}";
 
     public static List<Map> indertProduct(
-            String id, String base_id, String color, String color_id, String color_name, String size_id, String size_name, String quantity, String price,
-            String design_front_url, String design_front_url_md5, String design_back_url, String design_back_url_md5,
-            String variant_name, String unit_amount
-    ) throws SQLException{
+            String id, String baseId, String color, String colorId, String colorName, String sizeId, String sizeName, String quantity, String price,
+            String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
+            String variantName, String unitAmount
+    ) throws SQLException {
         List<Map> resultMap = excuteQuery(INSERT_DROPSHIP_ORDER_PRODUCT, new Object[]{
-                id, base_id, color, color_id, color_name, size_id, size_name, quantity, price,
-                design_front_url, design_front_url_md5, design_back_url, design_back_url_md5,
-                variant_name, unit_amount
+                id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price,
+                designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
+                variantName, unitAmount
         });
         return resultMap;
     }
 
-    public static List<Map> indertShipping(String shipping_id,
-        String email, String name_shipping, String phone,
-        String line1, String line2, String city, String state, String postal_code, String country, String country_name) throws SQLException{
-        List<Map> resultMap = excuteQuery(INSERT_SHIPPING, new Object[]{shipping_id,
-                email, name_shipping, phone,
-                line1, line2, city, state, postal_code, country, country_name});
+    public static List<Map> indertShipping(String shippingId,
+                                           String email, String nameShipping, String phone,
+                                           String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
+        List<Map> resultMap = excuteQuery(INSERT_SHIPPING, new Object[]{shippingId,
+                email, nameShipping, phone,
+                line1, line2, city, state, postalCode, country, countryName});
         return resultMap;
     }
 
 
-    public static List<Map> insertOrder(String order_id, String source, String currency, String note,
-                                        String store_id, String reference_id, String state, String shipping_method,
-                                        String shipping, String extra_fee, String tax_amount, String ioss_number,
-                                        int addr_verified, String addr_verified_note) throws SQLException{
+    public static List<Map> insertOrder(String orderId, String source, String currency, String note,
+                                        String storeId, String referenceId, String state, String shippingMethod,
+                                        String shipping, String extraFee, String taxAmount, String iossNumber,
+                                        int addrVerified, String addrVerifiedNote) throws SQLException {
         List<Map> resultMap = excuteQuery(INSERT_DROPSHIP_ORDER, new Object[]{
-                order_id, source, currency, note,
-                store_id, reference_id, state, shipping_method,
-                shipping, extra_fee, tax_amount, ioss_number,
-                addr_verified, addr_verified_note});
+                orderId, source, currency, note,
+                storeId, referenceId, state, shippingMethod,
+                shipping, extraFee, taxAmount, iossNumber,
+                addrVerified, addrVerifiedNote});
         return resultMap;
     }
-    public static Map formatInsertOrder(Map orderInput, Map shippingInput, List<Map> productList){
+
+    public static Map formatInsertOrder(Map orderInput, Map shippingInput, List<Map> productList) {
         Map orderMap = new LinkedHashMap();
         orderMap.put(AppParams.SOURCE, ParamUtil.getString(orderInput, AppParams.S_SOURCE));
         orderMap.put(AppParams.CURRENCY, ParamUtil.getString(orderInput, AppParams.S_CURRENCY));
@@ -76,13 +77,13 @@ public class OrderService extends MasterService {
         addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
         addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
         addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
-        Boolean addr_verified;
-        if(ParamUtil.getInt(orderInput, AppParams.N_ADDR_VERIFIED) == 1){
-            addr_verified = true;
-        }else{
-            addr_verified = false;
+        Boolean addrVerified;
+        if (ParamUtil.getInt(orderInput, AppParams.N_ADDR_VERIFIED) == 1) {
+            addrVerified = true;
+        } else {
+            addrVerified = false;
         }
-        addressMap.put(AppParams.ADDR_VERIFIED, addr_verified);
+        addressMap.put(AppParams.ADDR_VERIFIED, addrVerified);
         addressMap.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(orderInput, AppParams.S_ADDR_VERIFIED_NOTE));
         shippingMap.put(AppParams.ADDRESS, addressMap);
 
@@ -91,7 +92,7 @@ public class OrderService extends MasterService {
         orderMap.put(AppParams.EXTRA_FEE_2, ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
 
         List<Map> itemsList = new LinkedList<>();
-        for (Map productInput : productList){
+        for (Map productInput : productList) {
             Map productMap = new LinkedHashMap();
             productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID));
             productMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
@@ -128,7 +129,7 @@ public class OrderService extends MasterService {
     public static List<Map> getOrderProduct() throws SQLException {
         List<Map> resultMap = excuteQuery(GET_ORDER_PRODUCT, new Object[]{});
         List<Map> result = new ArrayList<>();
-        for(Map map : resultMap){
+        for (Map map : resultMap) {
             map = formatOrder(map);
             result.add(map);
         }
@@ -138,7 +139,7 @@ public class OrderService extends MasterService {
     public static List<Map> getOrder() throws SQLException {
         List<Map> resultMap = excuteQuery(GET_ORDER, new Object[]{});
         List<Map> result = new ArrayList<>();
-        for(Map map : resultMap){
+        for (Map map : resultMap) {
             map = formatOrder(map);
             result.add(map);
         }
@@ -152,7 +153,7 @@ public class OrderService extends MasterService {
     }
 
 
-    public static Map formatOrder(Map inputMap){
+    public static Map formatOrder(Map inputMap) {
         Map resultMap = new LinkedHashMap();
         Map orderProduct = new LinkedHashMap();
 
