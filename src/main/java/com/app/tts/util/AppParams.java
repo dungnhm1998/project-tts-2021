@@ -349,4 +349,6 @@ public class AppParams {
 	public static final String SUB_STATE = "sub_state";
 	public static final String MODIFIED_AT = "modified_at";
 	public static final String OLD_TAGS = "old_tags";
+	public static final String SIZE_ID = "size_id";
+	public static final String SIZE_NAME = "size_name";
 }

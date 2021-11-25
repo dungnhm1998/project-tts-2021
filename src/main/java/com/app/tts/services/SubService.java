@@ -20,7 +20,7 @@ public class SubService extends MasterService{
 	public static final String RECOVER_PASSWORD = "{call PKG_REGISTER.update_password(?,?,?,?,?)}";
 	public static final String CHANGE_PASSWORD = "{call PKG_REGISTER.update_password(?,?,?,?,?)}";
 	public static final String CREATE_CAM = "{call PKG_BQP.create_campaign(?,?,?,?)}";
-	public static final String ADD_PRODUCT = "{call PKG_BQP.get_camp(?,?,?,?,?)}";
+	public static final String ADD_PRODUCT = "{call PKG_BQP.add_product(?,?,?,?,?)}";
 	
 	public static List<Map> insertUser (String id, String email, String password, String phone) throws SQLException{
 		List<Map> result = excuteQuery(INSERT_USER, new Object[] {id, email, password, phone});
@@ -47,7 +47,7 @@ public class SubService extends MasterService{
 		return result;
 	}
 	
-	public static List<Map> getCam (String id, String user_id) throws SQLException{
+	public static List<Map> addProduct (String id, String user_id) throws SQLException{
 		List<Map> result = excuteQuery(ADD_PRODUCT, new Object[] {id, user_id});
 		List<Map> resultDataList =  new ArrayList<>();
 		for (Map b : resultDataList) {
