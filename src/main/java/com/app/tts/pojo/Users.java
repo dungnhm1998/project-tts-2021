@@ -16,7 +16,6 @@ import lombok.Setter;
 public class Users {
 
 	private String id;
-
 	private String email;
 	private String password;
 	private String avatar;
