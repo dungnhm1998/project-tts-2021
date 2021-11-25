@@ -7,9 +7,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class CreateProductHandler implements Handler<RoutingContext> {
@@ -47,25 +45,36 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                 }
 
                 Map data = new HashMap();
-
+                Map result = new LinkedHashMap();
                 List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, base_id, color_id, size_id, designs, mockup);
-
+                List<Map> getProduct = CreateProductServices.getPoduct(campaign_id);
+                List<Map> getcolor = CreateProductServices.get_color(campaign_id);
+                List<Map> getsize = CreateProductServices.get_size(campaign_id);
+                List<Map> sizes = CreateProductServices.get_size(base_id);
+                List<Map> camAndPro = new ArrayList();
+                String title = "";
                 for (Map map : jsonProduct) {
-                    map.put("campaign_id", ParamUtil.getString(map, "s_campaign_id"));
-                    map.put("user_id", ParamUtil.getString(map, "s_user_id"));
-                    for (Map products : jsonProduct){
-                        products.put("product_id", ParamUtil.getString(map, "s_id"));
-                        for (Map colors : jsonProduct){
-                            colors.put("color_id", ParamUtil.getString(map, "s_colors"));
+                    String campaignId = ParamUtil.getString(map, AppParams.CAMPAIGN_ID);
+                    camAndPro.add(map);
+                    title = ParamUtil.getString(map, AppParams.TITLE);
+                    data.put(title, jsonProduct);
+
+                    List<Map> colorandsizes = new ArrayList<>();
+                    for (Map colorAndSize : getProduct) {
+                        String products = ParamUtil.getString(map, "products");
+                        for (Map colors : getcolor) {
+                            String colorId = ParamUtil.getString(colors, "colors");
+                            colorandsizes.add(colors);
                         }
-                        for (Map sizes : jsonProduct){
-                            sizes.put("color_id", ParamUtil.getString(map, "s_sizes"));
+                        for (Map size : getsize) {
+                            String sizeId = ParamUtil.getString(size, "");
+                            colorandsizes.add(size);
                         }
+                        colorandsizes.add(colorAndSize);
                     }
+                    map.put(AppParams.PRODUCTS, colorandsizes);
+
                 }
-
-                data.put("json",jsonProduct);
-
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
