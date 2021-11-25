@@ -164,6 +164,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
         router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
         router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
+        router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
 
 
         router.route(HttpMethod.POST, "/register1").handler(new RegisterHandler());
