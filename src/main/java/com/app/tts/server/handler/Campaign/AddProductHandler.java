@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.Campaign;
+package com.app.tts.server.handler.campaign;
 
 import com.app.tts.services.CampaignService;
 import com.app.tts.util.AppParams;
