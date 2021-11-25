@@ -1,31 +1,34 @@
-package com.app.tts.server.handler.campaign;
+package com.app.tts.server.handler.user;
 
-import com.app.tts.services.CreateCampaignService;
+import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
-import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
+import io.vertx.rxjava.core.http.HttpServerRequest;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-public class CreateCampaignHandler implements Handler<RoutingContext> {
-
+public class GetUserByIdHandler implements Handler<RoutingContext> {
 
     @Override
     public void handle(RoutingContext rc) {
         rc.vertx().executeBlocking(future -> {
             try {
-                Map jsonrequest = rc.getBodyAsJson().getMap();
-                String user_id = ParamUtil.getString(jsonrequest, "id");
+                HttpServerRequest httpServerRequest = rc.request();
+                String cusId = httpServerRequest.getParam("userId");
 
 
+                LOGGER.info("---cusId  = "+ cusId);
                 Map data = new HashMap();
-                Map json = CreateCampaignService.createCampaign(user_id);
-                data.put("id", ParamUtil.getString(json, "S_ID"));
-                data.put("message","created campaign");
+
+                List<Map> Cus =  UserService.getUserById(cusId, "active");
+
+                data.put("Ges_Cus_By_Id", Cus);
+
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);
@@ -42,5 +45,5 @@ public class CreateCampaignHandler implements Handler<RoutingContext> {
         });
     }
 
-    private static final Logger LOGGER = Logger.getLogger(CreateCampaignHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(GetUserByIdHandler.class.getName());
 }
