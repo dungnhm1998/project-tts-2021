@@ -6,6 +6,7 @@
 package com.app.tts.server.vertical;
 
 
+import com.app.tts.server.handler.Campaign.AddProductHandler;
 import com.app.tts.server.handler.Campaign.CreateCampaignHandler;
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
@@ -154,12 +155,13 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		router.route(HttpMethod.POST, "/insert_order_shipping_product").handler(new InsertOrderShippingProductHandler());
 
-		router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
-		router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
-		router.route(HttpMethod.POST, "/recover").handler(new ForgotPasswordHandler());
-		router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
+		router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler());
+		router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler());
+		router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());
+		router.route(HttpMethod.PUT, "/change-pass2").handler(new ChangePasswordHandler());
 
-		router.route(HttpMethod.POST, "/create-camp").handler(new CreateCampaignHandler());
+		router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
+		router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
 		return router;
 	}
 }

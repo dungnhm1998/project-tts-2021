@@ -486,4 +486,5 @@ public class AppParams {
 	public static final String S_STATE_2 = "S_STATE";
     public static final String CONFIRM_PASSWORD = "confirm_password";
     public static final String NEW_PASSWORD = "new_password";
+    public static final String RESULT_DATA_4 = "result_data_4";
 }
