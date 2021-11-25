@@ -96,6 +96,7 @@ public class CreateProductServices extends MasterService {
         colorMap.put(AppParams.NAME, ParamUtil.getString(colorMapList, AppParams.NAME_COLOR));
         colorMap.put(AppParams.VALUE, ParamUtil.getString(colorMapList, AppParams.S_VALUE));
         colorMap.put(AppParams.POSITION, ParamUtil.getString(colorMapList, AppParams.N_POSITION));
+        colorMap.put("product_id", ParamUtil.getString(colorMapList, "PRODUCT_ID"));
         return colorMap;
 
     }
@@ -105,8 +106,11 @@ public class CreateProductServices extends MasterService {
 
         resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
         resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, AppParams.SIZE_NAME));
-        resultMap.put(AppParams.PRICE, ParamUtil.getString(queryData, AppParams.PRICE));
+        resultMap.put(AppParams.PRICE, ParamUtil.getString(queryData, AppParams.S_PRICE));
         resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE1));
+        resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
+        resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
+        resultMap.put("product_id", ParamUtil.getString(queryData, "PRODUCT_ID"));
 
 
         return resultMap;

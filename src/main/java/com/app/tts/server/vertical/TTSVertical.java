@@ -5,7 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.User.*;
+import com.app.tts.server.handler.user.*;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.campaign.CreateCampaignHandler;
 import com.app.tts.server.handler.campaign.CreateProductHandler;

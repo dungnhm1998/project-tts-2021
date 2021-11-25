@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.User;
+package com.app.tts.server.handler.user;
 
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
@@ -8,7 +8,6 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;

@@ -1,16 +1,14 @@
-package com.app.tts.server.handler.User;
+package com.app.tts.server.handler.user;
 
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.Future;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 

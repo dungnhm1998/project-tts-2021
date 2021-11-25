@@ -354,6 +354,7 @@ public class AppParams {
 	public static final String MODIFIED_AT = "modified_at";
 	public static final String OLD_TAGS = "old_tags";
     public static final String PRODUCTS = "products";
+	public static final String PRODUCTSID = "PRODUCT_ID";
 	public static final String MOCKUPS = "mockups";
 	public static final String NAME_COLOR = "NAME_COLOR";
 	public static final String SIZE_NAME = "SIZE_NAME";
