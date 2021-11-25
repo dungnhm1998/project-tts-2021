@@ -148,7 +148,11 @@ public class CampaignService extends MasterService {
                         if (idSizeInList.equals(idSize)) {
                             sizeMap.put(AppParams.ID, ParamUtil.getString(sizeMapList, AppParams.S_ID_2));
                             sizeMap.put(AppParams.NAME, ParamUtil.getString(sizeMapList, AppParams.S_NAME));
-                            sizeMap.put(AppParams.PRICE, listPrice.get(count));
+                            String priceInSize = null;
+                            if(count < listPrice.size()){
+                                priceInSize = listPrice.get(count);
+                            }
+                            sizeMap.put(AppParams.PRICE, priceInSize);
                             sizeMap.put(AppParams.STATE, ParamUtil.getString(sizeMapList, AppParams.S_STATE_2));
                             break;
                         }
