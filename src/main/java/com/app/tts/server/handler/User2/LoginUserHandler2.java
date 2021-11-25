@@ -32,6 +32,8 @@ public class LoginUserHandler2 implements Handler<RoutingContext>, SessionStore{
                 Gson gson = new Gson();
                 Map user = UserService2.getUserByEmail(email);
 
+                Map data = new LinkedHashMap();
+
                 if(!user.isEmpty()){
                     if(ParamUtil.getString(user, AppParams.S_PASSWORD).equals(passwordMd5)){
                         if(session != null){
@@ -45,8 +47,6 @@ public class LoginUserHandler2 implements Handler<RoutingContext>, SessionStore{
                         }else {
                             LOGGER.info("session is null");
                         }
-
-                        Map data = new LinkedHashMap();
                         data.put(AppParams.ID, ParamUtil.getString(user, AppParams.S_ID));
                         data.put("avatar", "");
                         data.put(AppParams.MESSAGE, "login successfully");
@@ -54,13 +54,22 @@ public class LoginUserHandler2 implements Handler<RoutingContext>, SessionStore{
 
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                        routingContext.put(AppParams.RESPONSE_DATA, data);
+//                        routingContext.put(AppParams.RESPONSE_DATA, data);
+                    }
+                    else {
+                        routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                        routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                        data.put(AppParams.MESSAGE, "Incorrect email or password");
+//                        routingContext.put(AppParams.RESPONSE_DATA, "email or password not correct"); // truyen kieu nay bi loi
+                        // RESPONSE_DATA chua du lieu dang map
                     }
                 }else {
                     routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
                     routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
-                    routingContext.put(AppParams.RESPONSE_DATA, "{}");
+                    data.put(AppParams.MESSAGE, "email does not register");
+//                    routingContext.put(AppParams.RESPONSE_DATA, "email do not register");
                 }
+                routingContext.put(AppParams.RESPONSE_DATA, data);
                 future.complete();
             }catch (Exception e){
                 routingContext.fail(e);

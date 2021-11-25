@@ -33,19 +33,23 @@ public class RegisterUserHandler2 implements Handler<RoutingContext> {
                 JsonObject jsonObject = new JsonObject();
 
                 if(confirm_password.equals(password)){
+                    if(validateEmail(email)){
                     if(!checkEmail(email)){
-                        if(validateEmail(email)){
+//                        if(validateEmail(email)){
                             String passwordMD5 = getMd5(password);
                             Map result = registerUser(email, passwordMD5, phone);
                             jsonObject.put(AppParams.ID, ParamUtil.getString(result, AppParams.ID));
                             jsonObject.put("avatar", "");
                             jsonObject.put(AppParams.MESSAGE, "register successed");
                             jsonObject.put(AppParams.EMAIL, ParamUtil.getString(result, AppParams.EMAIL));
-                        }else{
-                            message = "email do not validate";
-                        }
+//                        }else{
+//                            message = "email do not validate";
+//                        }
                     }else{
                         message = "email existed";
+                    }
+                    }else{
+                        message = "email do not validate";
                     }
                 }else{
                     message = "confirm_password not equals password";

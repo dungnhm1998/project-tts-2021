@@ -21,7 +21,10 @@ public class UserService2 extends MasterService{
 
     public static Map getUserByEmail(String email) throws SQLException{
         List<Map> result = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
-        Map resultMap = result.get(0);
+        Map resultMap = new LinkedHashMap();
+        if(!result.isEmpty()){
+            resultMap = result.get(0);
+        }
         return resultMap;
     }
 

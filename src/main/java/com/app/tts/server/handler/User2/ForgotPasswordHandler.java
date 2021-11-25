@@ -28,7 +28,7 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
                     data.put(AppParams.MESSAGE, "recover password successfully");
                     data.put("recover_password", ParamUtil.getString(result, AppParams.S_PASSWORD));
                 }else{
-                    message = "email does not exist";
+                    message = "Incorrect email";
                 }
                 if(data.get(AppParams.MESSAGE) == null){
                     data.put(AppParams.MESSAGE, message);

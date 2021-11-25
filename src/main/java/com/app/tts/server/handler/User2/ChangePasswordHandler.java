@@ -27,15 +27,19 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
 
                 String passwordMd5 = RegisterUserHandler2.getMd5(password);
                 String passwordDB = ParamUtil.getString(UserService2.getUserByEmail(email), AppParams.S_PASSWORD);
-                if(passwordMd5.equals(passwordDB)){
-                    if(new_password.equals(confirm_password)){
-                        changePassword(email, new_password);
-                        message = "change password successfully";
-                    }else{
-                        message = "confirm password is not correct";
+                if(!passwordDB.isEmpty()) {
+                    if (passwordMd5.equals(passwordDB)) {
+                        if (new_password.equals(confirm_password)) {
+                            changePassword(email, new_password);
+                            message = "change password successfully";
+                        } else {
+                            message = "confirm password is not correct";
+                        }
+                    } else {
+                        message = "old Password is not correct";
                     }
                 }else{
-                    message = "old Password is not correct";
+                    message = "email is not correct";
                 }
                 data.put(AppParams.MESSAGE, message);
 
