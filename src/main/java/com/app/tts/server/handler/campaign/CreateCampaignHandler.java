@@ -42,5 +42,5 @@ public class CreateCampaignHandler implements Handler<RoutingContext> {
         });
     }
 
-    private static final Logger LOGGER = Logger.getLogger(CreateProductHandler.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CreateCampaignHandler.class.getName());
 }
