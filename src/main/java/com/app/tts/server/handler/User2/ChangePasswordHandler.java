@@ -25,7 +25,7 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                 String message = null;
                 Map data = new LinkedHashMap();
 
-                String passwordMd5 = RegisterUserHandler.getMd5(password);
+                String passwordMd5 = RegisterUserHandler2.getMd5(password);
                 String passwordDB = ParamUtil.getString(UserService2.getUserByEmail(email), AppParams.S_PASSWORD);
                 if(passwordMd5.equals(passwordDB)){
                     if(new_password.equals(confirm_password)){
@@ -57,7 +57,7 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
     }
 
     public static Map changePassword(String email, String password) throws SQLException{
-        String passwordMd5 = RegisterUserHandler.getMd5(password);
+        String passwordMd5 = RegisterUserHandler2.getMd5(password);
         Map result = UserService2.updatePassword(email, passwordMd5);
         return result;
     }

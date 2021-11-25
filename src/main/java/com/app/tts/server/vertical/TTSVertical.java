@@ -8,10 +8,9 @@ package com.app.tts.server.vertical;
 //<<<<<<< HEAD
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-import com.app.tts.server.handler.User.DeleteUserHandler;
+//import com.app.tts.server.handler.User.DeleteUserHandler;
 import com.app.tts.server.handler.User.LoginUserHandler;
 //import com.app.tts.server.handler.User.GetAllUserHandler;
-import com.app.tts.server.handler.User.LoginUserHandler;
 import com.app.tts.server.handler.User.RecoverPasswordHandler;
 import com.app.tts.server.handler.User.RegisterUserHandler;
 import com.app.tts.server.handler.User.UpdatePassHandler;
@@ -19,23 +18,35 @@ import com.app.tts.server.handler.User.UpdatePassHandler;
 
 import com.app.tts.server.handler.Campaign.AddProductHandler;
 import com.app.tts.server.handler.Campaign.CreateCampaignHandler;
-import com.app.tts.server.handler.Order.GetListOrderProductHandler;
-import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
-import com.app.tts.server.handler.User.GetAllUserHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
 import com.app.tts.server.handler.User2.ForgotPasswordHandler;
 import com.app.tts.server.handler.User2.LoginUserHandler2;
 import com.app.tts.server.handler.User2.RegisterUserHandler2;
-import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
+//<<<<<<< HEAD
 //>>>>>>> get_order
-import com.app.tts.server.handler.base.ListBaseHandler;
-import com.app.tts.server.handler.base.ListBaseHandler2;
+//import com.app.tts.server.handler.base.ListBaseHandler;
+//import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.campaign.CreateProductHandler;
+//=======
+//import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
+////>>>>>>> get_order
+//import com.app.tts.server.handler.base.ListBaseHandler;
+//import com.app.tts.server.handler.base.ListBaseHandler2;
+//import com.app.tts.server.handler.campaign.CreateProductHandler;
+
+import com.app.tts.server.handler.option.OptionHandler;
+import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.Ucant.ChangePassHandler;
+import com.app.tts.server.handler.Ucant.CreateCamHandler;
+import com.app.tts.server.handler.Ucant.LoginHandler;
+import com.app.tts.server.handler.Ucant.RecoveryPassHandler;
+import com.app.tts.server.handler.Ucant.RegisterHandler;
+
+//>>>>>>> b74a7d997393c189d7608992467b9fa008b5da17
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
-import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
@@ -158,14 +169,14 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
 		router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 		
-		router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
-		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-
-		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
+//		router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
+//		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+//
+//		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
 //		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
 
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
 
 		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
 		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
@@ -179,6 +190,12 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
 		router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
+
+		router.route(HttpMethod.POST, "/register1").handler(new RegisterHandler());
+		router.route(HttpMethod.POST, "/login1").handler(new LoginHandler());
+		router.route(HttpMethod.POST, "/recover1").handler(new RecoveryPassHandler());
+		router.route(HttpMethod.PUT, "/change-pass1").handler(new ChangePassHandler());
+		router.route(HttpMethod.POST, "/create-camp1").handler(new CreateCamHandler());
 		return router;
 	}
 }

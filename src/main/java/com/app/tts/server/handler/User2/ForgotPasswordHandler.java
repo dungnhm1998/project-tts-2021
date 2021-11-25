@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ForgotPasswordHandler implements Handler<RoutingContext> {
+
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
@@ -21,7 +22,7 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
                 String message = null;
                 Map data = new LinkedHashMap();
-                Boolean checkEmail = RegisterUserHandler.checkEmail(email);
+                Boolean checkEmail = RegisterUserHandler2.checkEmail(email);
                 if(checkEmail){
                     Map result = forgotPassword(email);
                     data.put(AppParams.MESSAGE, "recover password successfully");
@@ -53,7 +54,7 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
     public static Map forgotPassword(String email) throws SQLException{
         // tao chuoi ngau nhien co 6 ky tu bao gom chu va so
         String recoverPassword = RandomStringUtils.randomAlphanumeric(6);
-        String passwordMd5 = RegisterUserHandler.getMd5(recoverPassword);
+        String passwordMd5 = RegisterUserHandler2.getMd5(recoverPassword);
         Map result = UserService2.updatePassword(email, passwordMd5);
         result.put(AppParams.S_PASSWORD, recoverPassword);
         return result;
