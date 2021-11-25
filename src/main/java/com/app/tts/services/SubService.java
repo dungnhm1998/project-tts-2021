@@ -54,7 +54,7 @@ public class SubService extends MasterService{
 			b = format(b);
 			result.add(b);
 		} 
-		return result;
+		return resultDataList;
 	}
 	
 	public static Map format(Map queryData) throws SQLException{
@@ -62,7 +62,7 @@ public class SubService extends MasterService{
 		Map campaign = new LinkedHashMap<>();
 		Map products = new LinkedHashMap<>();
 		//campaign
-		campaign.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
+		campaign.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_CAMPAIGN_ID));
 		campaign.put(AppParams.USER_ID, ParamUtil.getString(queryData, AppParams.S_USER_ID));
 		campaign.put(AppParams.TITLE, ParamUtil.getString(queryData, AppParams.S_TITLE));
 		campaign.put(AppParams.DESC, ParamUtil.getString(queryData, AppParams.S_DESC));
@@ -100,6 +100,7 @@ public class SubService extends MasterService{
 		campaign.put(AppParams.MODIFIED_AT, ParamUtil.getString(queryData, AppParams.MODIFIED_AT));
 		campaign.put(AppParams.OLD_TAGS, ParamUtil.getString(queryData, AppParams.OLD_TAGS));
 		
+		resultData.put("", campaign);
 		return resultData;
 	}
 }

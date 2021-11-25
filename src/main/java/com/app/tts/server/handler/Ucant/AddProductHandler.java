@@ -20,6 +20,7 @@ public class AddProductHandler implements Handler<RoutingContext>{
         rc.vertx().executeBlocking(future -> {
             try {
             	Map json = rc.getBodyAsJson().getMap();
+            	
             	String campaign_id = ParamUtil.getString(json, AppParams.CAMPAIGN_ID);
             	String user_id = ParamUtil.getString(json, AppParams.USER_ID);
             	String base_id = "", id = "", name = "", value = "", size_id = "", size_name = "", price = "",
@@ -42,17 +43,19 @@ public class AddProductHandler implements Handler<RoutingContext>{
             				price = ParamUtil.getString(map2, AppParams.PRICE);
             			}
     				List<Map> mockups = ParamUtil.getListData(map, "mockups");
-    			
+            	}
             	Map data = new HashMap();
-            	LOGGER.info("Data: " + json);
+            	LOGGER.info("body: " + json);
             	List<Map> camp = SubService.addProduct(campaign_id, user_id);
             	LOGGER.info("camp: " + camp);
             	data.put("", camp);
+            	LOGGER.info("data: " + data);
+            	System.out.println("data" + data);
             	rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);
                 future.complete();
-            	}
+                
             } catch (Exception e) {
 		        rc.fail(e);
 		    }
