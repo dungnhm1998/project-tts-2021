@@ -8,34 +8,36 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AddProductHandler implements Handler<RoutingContext> {
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
-            try{
+            try {
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
                 String campaign_id = ParamUtil.getString(jsonRequest, AppParams.CAMPAIGN_ID);//
                 List<Map> listProduct = ParamUtil.getListData(jsonRequest, "products");
 
                 Map data = new LinkedHashMap();
 
-                for(Map productMap : listProduct){
+                for (Map productMap : listProduct) {
                     int in_defautl = ParamUtil.getBoolean(productMap, AppParams.DEFAULT) ? 1 : 0;//
                     String base_id = ParamUtil.getString(productMap, AppParams.BASE_ID);//
 
                     List<Map> colorList = ParamUtil.getListData(productMap, AppParams.COLORS);
                     String color_id = null;//
                     String default_color = null;//       chua biet de gia tri nhu the nao
-                    for(Map colorMap : colorList){
+                    for (Map colorMap : colorList) {
                         String colorIdSub = ParamUtil.getString(colorMap, AppParams.ID);
-                        if(color_id != null){
+                        if (color_id != null) {
                             color_id = color_id + ",";
                         }
-                        if(color_id != null) {
+                        if (color_id != null) {
                             color_id = color_id + colorIdSub;
-                        }else{
+                        } else {
                             color_id = colorIdSub;
                         }
                     }
@@ -44,25 +46,25 @@ public class AddProductHandler implements Handler<RoutingContext> {
                     String size_id = null; //
                     String price = null; //
 
-                    for(Map priceMap : priceList){
+                    for (Map priceMap : priceList) {
                         String sizeIdSub = ParamUtil.getString(priceMap, AppParams.SIZE_ID);
                         String priceSub = ParamUtil.getString(priceMap, AppParams.PRICE);
-                        if(size_id != null){
+                        if (size_id != null) {
                             size_id = size_id + ",";
                         }
-                        if(price != null){
+                        if (price != null) {
                             price = price + ",";
                         }
 
-                        if(size_id != null) {
+                        if (size_id != null) {
                             size_id = size_id + sizeIdSub;
-                        }else{
+                        } else {
                             size_id = sizeIdSub;
                         }
 
-                        if(price != null) {
+                        if (price != null) {
                             price = price + priceSub;
-                        }else{
+                        } else {
                             price = priceSub;
                         }
                     }
@@ -82,23 +84,23 @@ public class AddProductHandler implements Handler<RoutingContext> {
                 routingContext.put(AppParams.RESPONSE_DATA, data);
 
                 future.complete();
-            }catch (Exception e){
+            } catch (Exception e) {
                 routingContext.fail(e);
             }
         }, asyncResult -> {
-            if(asyncResult.succeeded()){
+            if (asyncResult.succeeded()) {
                 routingContext.next();
-            }else{
+            } else {
                 routingContext.fail(asyncResult.cause());
             }
         });
     }
 
     public static Map addProduct(String campaign_id,
-                                       int default_n, String base_id,
-                                       String color_id, String default_color,
-                                       String size_id, String price,
-                                       String mockups) throws SQLException {
+                                 int default_n, String base_id,
+                                 String color_id, String default_color,
+                                 String size_id, String price,
+                                 String mockups) throws SQLException {
         Map result = CampaignService.addProduct(campaign_id,
                 default_n, base_id,
                 color_id, default_color,
