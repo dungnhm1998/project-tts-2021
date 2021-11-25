@@ -359,4 +359,5 @@ public class AppParams {
 	public static final String SIZE_NAME = "SIZE_NAME";
 	public static final String S_NAME_COLOR = "S_NAME_COLOR";
     public static final String RESULT_DATA_4 = "result_data_4";
+	public static final String S_STATE1 = "S_STATE";
 }

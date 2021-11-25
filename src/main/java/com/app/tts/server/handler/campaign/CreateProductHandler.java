@@ -46,9 +46,54 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
                 Map data = new HashMap();
                 Map result = new LinkedHashMap();
-                Map jsonProduct = CreateProductServices.createProduct(campaign_id, base_id, color_id, size_id, designs, mockup);
+                List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, base_id, color_id, size_id, designs, mockup);
+                List<Map> getProduct = CreateProductServices.getPoduct(campaign_id);
+                List<Map> getcolor = CreateProductServices.get_color(campaign_id);
+                List<Map> getsize = CreateProductServices.get_size(campaign_id);
+//                List<Map> sizes = CreateProductServices.get_size(base_id);
+                List<Map> camAndPro = new ArrayList();
+                String title = "";
+                for (Map map : jsonProduct) {
+                    String campaignId = ParamUtil.getString(map, AppParams.CAMPAIGN_ID);
+                    camAndPro.add(map);
+                    title = ParamUtil.getString(map, AppParams.TITLE);
+                    data.put(title, jsonProduct);
 
-                data.put("jsonProduct",jsonProduct);
+                    List<Map> colorandsizes = new ArrayList<>();
+                    for (Map colorAndSize : getProduct) {
+
+                        Map resultProduct = new LinkedHashMap();
+                        resultProduct.put(AppParams.ID, ParamUtil.getString(colorAndSize, AppParams.PRODUCTS));
+
+                        List<Map> listColor = new ArrayList<>();
+                        for (Map colors : getcolor) {
+                            String ColorId = ParamUtil.getString(colors, "campaign_id");
+//                            resultColor.put(AppParams.ID, ParamUtil.getString(colors, AppParams.COLORS));
+                            if (campaignId.equals(ColorId)) {
+                                listColor.add(colors);
+                            }
+
+                        }
+                        colorAndSize.put(AppParams.COLORS, listColor);
+
+                        List<Map> listSizes = new ArrayList<>();
+                        for (Map price : getsize) {
+                            String sizeId = ParamUtil.getString(price, "campaign_id");
+                            if (campaignId.equals(sizeId)) {
+                                listSizes.add(price);
+                            }
+
+                        }
+
+                        colorAndSize.put(AppParams.SIZES, listSizes);
+
+
+                        colorandsizes.add(colorAndSize);
+                    }
+                    map.put(AppParams.PRODUCTS, colorandsizes);
+
+                }
+
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);

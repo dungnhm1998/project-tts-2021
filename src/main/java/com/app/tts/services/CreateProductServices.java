@@ -4,158 +4,155 @@ import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class CreateProductServices extends MasterService {
     public static final String CREATE_PRODUCT = "{call PKG_QUY.create_product(?,?,?,?,?,?,?,?,?)}";
-    public static final String GET_PRODUCT = "{call PKG_QUY.get_color2(?,?,?,?)}";
+    public static final String GET_PRODUCT = "{call PKG_QUY.get_product(?,?,?,?)}";
     public static final String GET_COLORS = "{call PKG_QUY.get_color3(?,?,?,?)}";
     public static final String GET_SIZES = "{call PKG_QUY.get_color4(?,?,?,?)}";
 
-    public static Map createProduct(String p_campaign_id, String p_base_id, String p_colors, String p_sizes, String p_design_json, String p_mockup_img_url) throws SQLException {
-//        List<Map> resultMap = new ArrayList<>();
-        Map createProduct = searchOne(CREATE_PRODUCT, new Object[]{p_campaign_id, p_base_id, p_colors, p_sizes, p_design_json, p_mockup_img_url});
-        List<Map> getProduct = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA);
-        List<Map> getCampaign = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA_2);
-        List<Map> getColor = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA_3);
-        List<Map> getSize = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA_4);
+    public static List<Map> createProduct(String p_campaign_id, String p_base_id, String p_colors, String p_sizes, String p_design_json, String p_mockup_img_url) throws SQLException {
+        List<Map> resultMap = new ArrayList<>();
+        List<Map> createProduct = excuteQuery(CREATE_PRODUCT, new Object[]{p_campaign_id, p_base_id, p_colors, p_sizes, p_design_json, p_mockup_img_url});
+//        List<Map> getProduct = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA);
+
         LOGGER.info("Create Product" + createProduct);
-        Map resultMap = format(getProduct, getCampaign, getColor, getSize);
-        return resultMap;
-//        for (Map b : createProduct) {
-//            b = format(b);
-//            resultMap.add(b);
-//        }
-//
+//        Map resultMap = format(getProduct);
 //        return resultMap;
+        for (Map b : createProduct) {
+            b = format(b);
+            resultMap.add(b);
+        }
+//
+        return resultMap;
     }
 
-//    public static List<Map> getPoduct(String p_id) throws SQLException {
-//        List<Map> resultMap = new ArrayList<>();
-//        List<Map> get_color = excuteQuery(GET_PRODUCT, new Object[]{p_id});
-//        for (Map b : get_color) {
-//            b = format1(b);
-//            resultMap.add(b);
-//        }
-//
-//        return resultMap;
-//    }
-
-//    public static List<Map> get_size(String p_id) throws SQLException {
-//        List<Map> resultMap = new ArrayList<>();
-//        List<Map> get_color3 = excuteQuery(GET_COLORS, new Object[]{p_id});
-//        for (Map b : get_color3) {
-//            b = format(b);
-//            resultMap.add(b);
-//        }
-//
-//        return resultMap;
-//    }
-//    public static List<Map> get_color(String p_id) throws SQLException {
-//        List<Map> resultMap = new ArrayList<>();
-//        List<Map> get_color4 = excuteQuery(GET_SIZES, new Object[]{p_id});
-//        for (Map b : get_color4) {
-//            b = format2(b);
-//            resultMap.add(b);
-//        }
-//
-//        return resultMap;
-//    }
-//
-//
-//    private static Map format1(Map queryData) throws SQLException {
-//        Map resultMap = new LinkedHashMap<>();
-//        Map colors = new LinkedHashMap<>();
-//        Map sizes = new LinkedHashMap<>();
-////        resultMap.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(queryData, AppParams.S_CAMPAIGN_ID));
-////        resultMap.put(AppParams.USER_ID, ParamUtil.getString(queryData, AppParams.S_USER_ID));
-//        resultMap.put("id", ParamUtil.getString(queryData, AppParams.S_ID1));
-//        resultMap.put("default", ParamUtil.getString(queryData, AppParams.N_DEFAULT));
-//        resultMap.put("base_id", ParamUtil.getString(queryData, AppParams.S_BASE_ID));
-//
-//
-////        colors.put("colors", ParamUtil.getString(queryData, AppParams.S_COLORS));
-////        colors.put("name_color", ParamUtil.getString(queryData, AppParams.NAME_COLOR));
-////        colors.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
-////
-////        sizes.put("size_id", ParamUtil.getString(queryData, AppParams.S_SIZES));
-////        sizes.put("size_name", ParamUtil.getString(queryData, AppParams.SIZE_NAME));
-////        sizes.put("price", ParamUtil.getString(queryData, AppParams.PRICE));
-////
-////
-//        resultMap.put("design", ParamUtil.getString(queryData, AppParams.S_DESIGN_JSON));
-//        resultMap.put("mockup", ParamUtil.getString(queryData, AppParams.S_MOCKUP_IMG_URL));
-////
-////        resultMap.put("colors",colors);
-////        resultMap.put("sizes",sizes);
-//        return resultMap;
-//    }
-
-    private static Map format2(Map queryData) throws SQLException {
-        Map resultMap = new LinkedHashMap<>();
-        Map colors = new LinkedHashMap<>();
-
-        resultMap.put("colors", ParamUtil.getString(queryData, AppParams.S_COLORS));
-        resultMap.put("name_color", ParamUtil.getString(queryData, AppParams.NAME_COLOR));
-        resultMap.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
-
-
-        resultMap.put("colors",colors);
+    public static List<Map> getPoduct(String p_id) throws SQLException {
+        List<Map> resultMap = new ArrayList<>();
+        List<Map> get_color = excuteQuery(GET_PRODUCT, new Object[]{p_id});
+        for (Map b : get_color) {
+            b = format1(b);
+            resultMap.add(b);
+        }
 
         return resultMap;
+    }
+
+    public static List<Map> get_color(String p_id) throws SQLException {
+        List<Map> resultMap = new ArrayList<>();
+        List<Map> get_color3 = excuteQuery(GET_COLORS, new Object[]{p_id});
+        for (Map b : get_color3) {
+            b = format2(b);
+            resultMap.add(b);
+        }
+
+        return resultMap;
+    }
+
+    public static List<Map> get_size(String p_id) throws SQLException {
+        List<Map> resultMap = new ArrayList<>();
+        List<Map> get_color4 = excuteQuery(GET_SIZES, new Object[]{p_id});
+        for (Map b : get_color4) {
+            b = format3(b);
+            resultMap.add(b);
+        }
+
+        return resultMap;
+    }
+
+
+    private static Map format1(Map productMap) throws SQLException {
+        Map resultProduct = new LinkedHashMap();
+        resultProduct.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID1));
+        resultProduct.put(AppParams.BASE_ID, ParamUtil.getString(productMap, AppParams.S_BASE_ID));
+        resultProduct.put(AppParams.NAME, ParamUtil.getString(productMap, AppParams.S_NAME));
+        resultProduct.put(AppParams.DESC, ParamUtil.getString(productMap, AppParams.S_DESC));
+        resultProduct.put(AppParams.BASE_COST, ParamUtil.getString(productMap, AppParams.S_BASE_COST));
+        resultProduct.put(AppParams.SALE_PRICE, ParamUtil.getString(productMap, AppParams.S_SALE_PRICE));
+        resultProduct.put(AppParams.CURRENCY, ParamUtil.getString(productMap, AppParams.S_CURRENCY));
+        resultProduct.put(AppParams.BACK_VIEW, ParamUtil.getString(productMap, AppParams.N_BACK_VIEW));
+        resultProduct.put(AppParams.MOCKUP_IMG_URL, ParamUtil.getString(productMap, AppParams.S_MOCKUP_IMG_URL));
+        resultProduct.put(AppParams.POSITION, ParamUtil.getString(productMap, AppParams.N_POSITION));
+        resultProduct.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE1));
+        resultProduct.put(AppParams.CREATE_AT, ParamUtil.getString(productMap, AppParams.D_CREATE));
+        resultProduct.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(productMap, AppParams.S_CAMPAIGN_ID));
+
+        resultProduct.put(AppParams.DEFAULT, ParamUtil.getInt(productMap, AppParams.N_DEFAULT));
+        resultProduct.put(AppParams.DEFAULT_COLOR_ID, ParamUtil.getString(productMap, AppParams.S_DEFAULT_COLOR_ID));
+        resultProduct.put(AppParams.DOMAIN, ParamUtil.getString(productMap, AppParams.S_DOMAIN));
+        resultProduct.put(AppParams.IMG_URL, ParamUtil.getString(productMap, AppParams.S_IMG_URL));
+        resultProduct.put(AppParams.DESIGN, ParamUtil.getString(productMap, AppParams.S_DESIGN_JSON));
+
+        return resultProduct;
+    }
+
+    private static Map format2(Map colorMapList) throws SQLException {
+        // danh sach id color co trong product
+        // list id color
+        Map colorMap = new LinkedHashMap();
+        colorMap.put(AppParams.ID, ParamUtil.getString(colorMapList, AppParams.S_COLORS));
+        colorMap.put(AppParams.NAME, ParamUtil.getString(colorMapList, AppParams.NAME_COLOR));
+        colorMap.put(AppParams.VALUE, ParamUtil.getString(colorMapList, AppParams.S_VALUE));
+        colorMap.put(AppParams.POSITION, ParamUtil.getString(colorMapList, AppParams.N_POSITION));
+        return colorMap;
+
     }
 
     private static Map format3(Map queryData) throws SQLException {
         Map resultMap = new LinkedHashMap<>();
 
-
-        resultMap.put("size_id", ParamUtil.getString(queryData, AppParams.S_SIZES));
-        resultMap.put("size_name", ParamUtil.getString(queryData, AppParams.SIZE_NAME));
-        resultMap.put("price", ParamUtil.getString(queryData, AppParams.PRICE));
-
+        resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
+        resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, AppParams.SIZE_NAME));
+        resultMap.put(AppParams.PRICE, ParamUtil.getString(queryData, AppParams.PRICE));
 
 
         return resultMap;
     }
 
-    private static Map format(List<Map> productInput, List<Map> listCampaign, List<Map> colorInput, List<Map> sizeInput) throws SQLException {
+    private static Map format(Map campaign) throws SQLException {
         Map campaignMap = new LinkedHashMap();
-        Map campaign = listCampaign.get(0);
-
-        Map resultMap = new LinkedHashMap<>();
-        Map products = new LinkedHashMap<>();
-        Map colors = new LinkedHashMap<>();
-        Map sizes = new LinkedHashMap<>();
-        Map results = new LinkedHashMap<>();
-        resultMap.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(queryData, AppParams.S_ID1));
-        resultMap.put(AppParams.TITLE, ParamUtil.getString(queryData, AppParams.S_TITLE));
-        resultMap.put(AppParams.USER_ID, ParamUtil.getString(queryData, AppParams.S_USER_ID));
-
-        products.put("default", ParamUtil.getString(queryData, AppParams.N_DEFAULT1));
-        products.put("base_id", ParamUtil.getString(queryData, AppParams.S_BASE_ID));
-
-        colors.put("colors", ParamUtil.getString(queryData, AppParams.S_COLORS));
-        colors.put("name_color", ParamUtil.getString(queryData, AppParams.NAME_COLOR));
-        colors.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
 
 
-        sizes.put("size_id", ParamUtil.getString(queryData, AppParams.S_SIZES));
-        sizes.put("size_name", ParamUtil.getString(queryData, AppParams.SIZE_NAME));
-        sizes.put("price", ParamUtil.getString(queryData, AppParams.PRICE));
-
-        products.put("design", ParamUtil.getString(queryData, AppParams.S_DESIGN_JSON));
-        products.put("mockup", ParamUtil.getString(queryData, AppParams.S_MOCKUP_IMG_URL));
-
-
-        results.put("products", products);
-        results.put("colors", colors);
-        results.put("sizes", sizes);
-        resultMap.put("product" , results);
-        return resultMap;
+        campaignMap.put(AppParams.ID, ParamUtil.getString(campaign, AppParams.S_ID1));
+        campaignMap.put(AppParams.USER_ID, ParamUtil.getString(campaign, AppParams.S_USER_ID));
+        campaignMap.put(AppParams.TITLE, ParamUtil.getString(campaign, AppParams.S_TITLE));
+        campaignMap.put(AppParams.DESC, ParamUtil.getString(campaign, AppParams.S_DESC));
+        campaignMap.put(AppParams.CATEGORY_IDS, ParamUtil.getString(campaign, AppParams.S_CATEGORY_IDS));
+        campaignMap.put(AppParams.TAGS, ParamUtil.getString(campaign, AppParams.S_TAGS));
+        campaignMap.put(AppParams.START, ParamUtil.getString(campaign, AppParams.D_START));
+        campaignMap.put(AppParams.END, ParamUtil.getString(campaign, AppParams.D_END));
+        campaignMap.put(AppParams.RELAUNCH, ParamUtil.getString(campaign, AppParams.N_AUTO_RELAUNCH));
+        campaignMap.put(AppParams.PRIVATE, ParamUtil.getString(campaign, AppParams.N_PRIVATE));
+        campaignMap.put(AppParams.FB_PIXEL, ParamUtil.getString(campaign, AppParams.S_FB_PIXEL));
+        campaignMap.put(AppParams.GG_PIXEL, ParamUtil.getString(campaign, AppParams.S_GG_PIXEL));
+        campaignMap.put(AppParams.CREATE, ParamUtil.getString(campaign, AppParams.D_CREATE));
+        campaignMap.put(AppParams.UPDATE, ParamUtil.getString(campaign, AppParams.D_UPDATE));
+        campaignMap.put(AppParams.STATE, ParamUtil.getString(campaign, AppParams.S_STATE1));
+        campaignMap.put(AppParams.LENGTH, ParamUtil.getString(campaign, AppParams.N_LENGTH));
+        campaignMap.put(AppParams.SALE_PRICE, ParamUtil.getString(campaign, AppParams.S_SALE_PRICE));
+        campaignMap.put(AppParams.FAVORITE, ParamUtil.getString(campaign, AppParams.N_FAVORITE));
+        campaignMap.put(AppParams.ARCHIVED, ParamUtil.getString(campaign, AppParams.N_ARCHIVED));
+        campaignMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(campaign, AppParams.S_DESIGN_FRONT_URL));
+        campaignMap.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(campaign, AppParams.S_DESIGN_BACK_URL));
+        campaignMap.put(AppParams.DOMAIN_ID, ParamUtil.getString(campaign, AppParams.S_DOMAIN_ID));
+        campaignMap.put(AppParams.DOMAIN, ParamUtil.getString(campaign, AppParams.S_DOMAIN));
+        campaignMap.put(AppParams.ART_IDS, ParamUtil.getString(campaign, AppParams.S_ART_IDS));
+        campaignMap.put(AppParams.BASE_GROUP_ID, ParamUtil.getString(campaign, AppParams.S_BASE_GROUP_ID));
+        campaignMap.put(AppParams.BACK_VIEW, ParamUtil.getString(campaign, AppParams.N_BACK_VIEW));
+        campaignMap.put(AppParams.AS_TM, ParamUtil.getString(campaign, AppParams.N_AS_TM));
+        campaignMap.put(AppParams.AD_TAGS, ParamUtil.getString(campaign, AppParams.S_AD_TAGS));
+        campaignMap.put(AppParams.SEO_TITLE, ParamUtil.getString(campaign, AppParams.S_SEO_TITLE));
+        campaignMap.put(AppParams.SEO_DESC, ParamUtil.getString(campaign, AppParams.S_SEO_DESC));
+        campaignMap.put(AppParams.SEO_IMAGE_COVER, ParamUtil.getString(campaign, AppParams.S_SEO_IMAGE_COVER));
+        campaignMap.put(AppParams.DESIGN_CHECK, ParamUtil.getString(campaign, AppParams.N_DESIGN_CHECK));
+        campaignMap.put(AppParams.DESIGN_VERSION, ParamUtil.getString(campaign, AppParams.S_DESIGN_VERSION));
+        campaignMap.put(AppParams.LEFT_CHEST, ParamUtil.getString(campaign, AppParams.N_LEFT_CHEST));
+        campaignMap.put(AppParams.SUB_STATE, ParamUtil.getString(campaign, AppParams.S_SUB_STATE));
+        campaignMap.put(AppParams.MODIFIED_AT, ParamUtil.getString(campaign, "MODIFIED_AT"));
+        campaignMap.put(AppParams.OLD_TAGS, ParamUtil.getString(campaign, "OLD_TAGS"));
+        return campaignMap;
     }
 
 
