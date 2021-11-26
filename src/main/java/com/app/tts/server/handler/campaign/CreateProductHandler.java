@@ -73,12 +73,18 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                 }
 
                 Map data = new HashMap();
-                Map result = new LinkedHashMap();
+//                Map result = new LinkedHashMap();
+
+
+
+
                 List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, priceid ,designs, mockup);
                 List<Map> getProduct = CreateProductServices.getPoduct(campaign_id);
-
                 List<Map> getcolor = CreateProductServices.get_color(campaign_id);
                 List<Map> getsize = CreateProductServices.get_size(campaign_id);
+
+
+
 
 
 //                List<Map> sizes = CreateProductServices.get_size(base_id);
@@ -98,7 +104,6 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
 
                         String color = ParamUtil.getString(colorAndSize, "colors");
-                        String price = ParamUtil.getString(colorAndSize, "sale_price");
 
                         List<String> listIdColor = Arrays.asList(color.split(","));
                         int count = -1;
@@ -121,6 +126,8 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                         //
 
                         String size = ParamUtil.getString(colorAndSize, "price");
+                        String price = ParamUtil.getString(colorAndSize, "sale_price");
+
 
                         List<String> listIdSize = Arrays.asList(size.split(","));
                         List<String> listIdPrice = Arrays.asList(price.split(","));
@@ -132,9 +139,11 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                             for (Map prices : getsize) {
                                 String SizeId = ParamUtil.getString(prices, "sizes");
                                 if (SizeId.equals(idSize)) {
+                                    Map resultMap =new LinkedHashMap();
                                     if(count < listIdPrice.size()){
                                         priceInSize = listIdPrice.get(count);
                                     }
+                                    prices.put("price", priceInSize);
                                     listSizes.add(prices);
                                     break;
                                 }
@@ -149,6 +158,8 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                     map.put(AppParams.PRODUCTS, colorandsizes);
 
                 }
+
+
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());

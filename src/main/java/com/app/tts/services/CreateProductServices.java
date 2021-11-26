@@ -111,8 +111,10 @@ public class CreateProductServices extends MasterService {
 
         resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
         resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, "SIZE_NAME"));
+
+
         String priceInSize = null;
-        resultMap.put(AppParams.PRICE, priceInSize);
+
         resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE1));
         resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
         resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
