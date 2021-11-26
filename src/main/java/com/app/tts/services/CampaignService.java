@@ -165,10 +165,6 @@ public class CampaignService extends MasterService {
                             sizeMap.put(AppParams.STATE, ParamUtil.getString(sizeMapList, AppParams.S_STATE_2));
 
                             //price s
-//                            for(Map priceMap : priceInput){
-//                                String baseIdSub = ParamUtil.getString(priceMap, AppParams.S_BASE_ID);
-//                                String sizeIdInPrice = ParamUtil.getString(priceMap, AppParams.S_SIZE_ID);
-//                                if(baseIdSub.equals(baseId) && sizeIdInPrice.equals(sizeId)) {
                             // BASE_ID o tren cho duyet product, size_id ngay ben tren -> xac dinh duy nhat 1 Map chua gia dropship
 
                             String dropshipPrice = "0";
@@ -176,9 +172,7 @@ public class CampaignService extends MasterService {
                             if(listIdBasePrice.contains(baseId)){
                                     dropshipPrice = ParamUtil.getString(sizeMapList, AppParams.S_DROPSHIP_PRICE);
                                     secondSidePrice = ParamUtil.getString(sizeMapList, AppParams.S_SECOND_SIDE_PRICE);
-//                                    break;
                                 }
-//                            }
                             sizeMap.put(AppParams.DROPSHIP_PRICE, dropshipPrice);
                             sizeMap.put(AppParams.SECOND_SIDE_PRICE, secondSidePrice);
 
