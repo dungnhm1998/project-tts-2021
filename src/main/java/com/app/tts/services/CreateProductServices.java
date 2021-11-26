@@ -85,6 +85,7 @@ public class CreateProductServices extends MasterService {
         resultProduct.put(AppParams.IMG_URL, ParamUtil.getString(productMap, AppParams.S_IMG_URL));
         resultProduct.put(AppParams.DESIGN, ParamUtil.getString(productMap, AppParams.S_DESIGN_JSON));
         resultProduct.put(AppParams.SIZES, ParamUtil.getString(productMap, "S_SIZES"));
+        resultProduct.put(AppParams.COLORS, ParamUtil.getString(productMap, "S_COLORS"));
         return resultProduct;
     }
 

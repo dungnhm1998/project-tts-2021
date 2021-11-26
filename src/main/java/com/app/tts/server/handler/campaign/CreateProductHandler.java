@@ -74,13 +74,20 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                         Map resultProduct = new LinkedHashMap();
                         resultProduct.put(AppParams.ID, ParamUtil.getString(colorAndSize, AppParams.PRODUCTS));
 
+
+                        String color = ParamUtil.getString(colorAndSize, "colors");
+                        List<String> listIdColor = Arrays.asList(color.split(","));
+                        int count = -1;
                         List<Map> listColor = new ArrayList<>();
-                        for (Map colors : getcolor) {
-                            String ColorId = ParamUtil.getString(colors, "campaign_id");
+                        for (String idColor : listIdColor) {
+                            count++;
+                            for (Map colors : getcolor) {
+                                String ColorId = ParamUtil.getString(colors, "id");
 //                            resultColor.put(AppParams.ID, ParamUtil.getString(colors, AppParams.COLORS));
-                            if (campaignId.equals(ColorId)) {
-                                listColor.add(colors);
-                                break;
+                                if (ColorId.equals(idColor)) {
+                                    listColor.add(colors);
+                                    break;
+                                }
                             }
 
                         }
@@ -90,13 +97,13 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                         String size = ParamUtil.getString(colorAndSize, "sizes");
                         List<String> listIdSize = Arrays.asList(size.split(","));
                         List<Map> listSizes = new ArrayList<>();
-                        int count = -1;
+
                         for (String idSize : listIdSize) {
                             count++;
-                            for (Map price : getsize) {
-                                String SizeId = ParamUtil.getString(price, "sizes");
+                            for (Map prices : getsize) {
+                                String SizeId = ParamUtil.getString(prices, "sizes");
                                 if (SizeId.equals(idSize)) {
-                                    listSizes.add(price);
+                                    listSizes.add(prices);
                                     break;
                                 }
                             }
