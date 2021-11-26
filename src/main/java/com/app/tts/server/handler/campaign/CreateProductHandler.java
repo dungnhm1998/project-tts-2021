@@ -49,18 +49,14 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                 List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, designs, mockup);
 
                 List<Map> getProduct = CreateProductServices.getPoduct(campaign_id);
-
-                Map ListId = getProduct.get(0);
-//                List<Map> listid = ParamUtil.getListData(ListId, "product_id");
-                String productId = ParamUtil.getString(ListId, "id");
-
-
+//
+//                Map ListId = getProduct.get(0);
+////                List<Map> listid = ParamUtil.getListData(ListId, "product_id");
+//                String productId = ParamUtil.getString(ListId, "id");
 
 
-
-                List<Map> getcolor = CreateProductServices.get_color(productId);
-                List<Map> getsize = CreateProductServices.get_size(productId);
-
+                List<Map> getcolor = CreateProductServices.get_color(campaign_id);
+                List<Map> getsize = CreateProductServices.get_size(campaign_id);
 
 
 //                List<Map> sizes = CreateProductServices.get_size(base_id);
@@ -80,20 +76,29 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
                         List<Map> listColor = new ArrayList<>();
                         for (Map colors : getcolor) {
-                            String ColorId = ParamUtil.getString(colors, "product_id");
+                            String ColorId = ParamUtil.getString(colors, "campaign_id");
 //                            resultColor.put(AppParams.ID, ParamUtil.getString(colors, AppParams.COLORS));
-                            if (productId.equals(ColorId)) {
+                            if (campaignId.equals(ColorId)) {
                                 listColor.add(colors);
+                                break;
                             }
 
                         }
                         colorAndSize.put(AppParams.COLORS, listColor);
+                        //
 
+                        String size = ParamUtil.getString(colorAndSize, "sizes");
+                        List<String> listIdSize = Arrays.asList(size.split(","));
                         List<Map> listSizes = new ArrayList<>();
-                        for (Map price : getsize) {
-                            String SizeId = ParamUtil.getString(price, "product_id");
-                            if (productId.equals(SizeId)) {
-                                listSizes.add(price);
+                        int count = -1;
+                        for (String idSize : listIdSize) {
+                            count++;
+                            for (Map price : getsize) {
+                                String SizeId = ParamUtil.getString(price, "sizes");
+                                if (SizeId.equals(idSize)) {
+                                    listSizes.add(price);
+                                    break;
+                                }
                             }
                         }
 
