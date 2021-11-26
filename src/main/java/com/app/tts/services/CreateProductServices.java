@@ -1,12 +1,13 @@
 package com.app.tts.services;
 
-import com.app.tts.server.handler.campaign.CreateCampaignHandler;
-import com.app.tts.server.handler.campaign.CreateProductHandler;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class CreateProductServices extends MasterService {
@@ -111,7 +112,7 @@ public class CreateProductServices extends MasterService {
         resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
         resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, "SIZE_NAME"));
         String priceInSize = null;
-        resultMap.put(AppParams.PRICE,priceInSize );
+        resultMap.put(AppParams.PRICE, priceInSize);
         resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE1));
         resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
         resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));

@@ -132,12 +132,10 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                             for (Map prices : getsize) {
                                 String SizeId = ParamUtil.getString(prices, "sizes");
                                 if (SizeId.equals(idSize)) {
-
                                     if(count < listIdPrice.size()){
                                         priceInSize = listIdPrice.get(count);
                                     }
                                     listSizes.add(prices);
-
                                     break;
                                 }
                             }
