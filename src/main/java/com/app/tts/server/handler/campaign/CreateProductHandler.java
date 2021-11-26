@@ -18,7 +18,7 @@ public class CreateProductHandler implements Handler<RoutingContext> {
             try {
                 Map jsonrequest = rc.getBodyAsJson().getMap();
                 String campaign_id = ParamUtil.getString(jsonrequest, AppParams.CAMPAIGN_ID);
-                String baseId = "", colorId = "", sizeId = "", designs = "", mockup = "";
+                String baseId = "", colorId = "", sizeId = "", designs = "", mockup = "", priceid = "";
                 List<Map> items = ParamUtil.getListData(jsonrequest, AppParams.PRODUCTS);
 
                 for (Map products : items) {
@@ -27,12 +27,40 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
                     List<Map> colors = ParamUtil.getListData(products, AppParams.COLORS);
                     for (Map color : colors) {
-                        colorId = ParamUtil.getString(color, AppParams.ID);
+                     String  ColorId = ParamUtil.getString(color, AppParams.ID);
+
+                        if (!colorId.isEmpty()) {
+                            colorId = colorId + ",";
+                        }
+                        if (!colorId.isEmpty()) {
+                            colorId = colorId + ColorId;
+                        } else {
+                            colorId = ColorId;
+                        }
                     }
 
                     List<Map> prices = ParamUtil.getListData(products, AppParams.PRICES);
                     for (Map price : prices) {
-                        sizeId = ParamUtil.getString(price, AppParams.SIZE);
+                   String SizeId = ParamUtil.getString(price, AppParams.SIZE);
+                   String PriceId = ParamUtil.getString(price, AppParams.PRICE);
+                        if (!sizeId.isEmpty()) {
+                            sizeId = sizeId + ",";
+                        }
+                        if (!sizeId.isEmpty()) {
+                            sizeId = sizeId + SizeId;
+                        } else {
+                            sizeId = SizeId;
+                        }
+
+                        if (!priceid.isEmpty()) {
+                            priceid = priceid + ",";
+                        }
+                        if (!sizeId.isEmpty()) {
+                            priceid = priceid + PriceId;
+                        } else {
+                            priceid = PriceId;
+                        }
+
                     }
 
                     designs = ParamUtil.getString(products, AppParams.DESIGN);
@@ -46,14 +74,8 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
                 Map data = new HashMap();
                 Map result = new LinkedHashMap();
-                List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, designs, mockup);
-
+                List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, priceid ,designs, mockup);
                 List<Map> getProduct = CreateProductServices.getPoduct(campaign_id);
-//
-//                Map ListId = getProduct.get(0);
-////                List<Map> listid = ParamUtil.getListData(ListId, "product_id");
-//                String productId = ParamUtil.getString(ListId, "id");
-
 
                 List<Map> getcolor = CreateProductServices.get_color(campaign_id);
                 List<Map> getsize = CreateProductServices.get_size(campaign_id);
@@ -76,8 +98,11 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
 
                         String color = ParamUtil.getString(colorAndSize, "colors");
+                        String price = ParamUtil.getString(colorAndSize, "sale_price");
+
                         List<String> listIdColor = Arrays.asList(color.split(","));
                         int count = -1;
+                        String priceInSize = null;
                         List<Map> listColor = new ArrayList<>();
                         for (String idColor : listIdColor) {
                             count++;
@@ -85,6 +110,7 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                                 String ColorId = ParamUtil.getString(colors, "id");
 //                            resultColor.put(AppParams.ID, ParamUtil.getString(colors, AppParams.COLORS));
                                 if (ColorId.equals(idColor)) {
+
                                     listColor.add(colors);
                                     break;
                                 }
@@ -94,8 +120,11 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                         colorAndSize.put(AppParams.COLORS, listColor);
                         //
 
-                        String size = ParamUtil.getString(colorAndSize, "sizes");
+                        String size = ParamUtil.getString(colorAndSize, "price");
+
                         List<String> listIdSize = Arrays.asList(size.split(","));
+                        List<String> listIdPrice = Arrays.asList(price.split(","));
+
                         List<Map> listSizes = new ArrayList<>();
 
                         for (String idSize : listIdSize) {
@@ -103,13 +132,18 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                             for (Map prices : getsize) {
                                 String SizeId = ParamUtil.getString(prices, "sizes");
                                 if (SizeId.equals(idSize)) {
+
+                                    if(count < listIdPrice.size()){
+                                        priceInSize = listIdPrice.get(count);
+                                    }
                                     listSizes.add(prices);
+
                                     break;
                                 }
                             }
                         }
 
-                        colorAndSize.put(AppParams.SIZES, listSizes);
+                        colorAndSize.put(AppParams.PRICE, listSizes);
 
 
                         colorandsizes.add(colorAndSize);
