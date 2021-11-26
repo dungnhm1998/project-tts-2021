@@ -27,7 +27,7 @@ public class CampaignService extends MasterService {
         List<Map> listColor = ParamUtil.getListData(result, AppParams.RESULT_DATA_3);
         List<Map> listSize = ParamUtil.getListData(result, AppParams.RESULT_DATA_4);
 
-        Map resultMap = format(listProduct, listCampaign, listColor, listSize);
+        Map resultMap = format(listProduct, listCampaign, listColor, listSize);//s
         return resultMap;
     }
 
@@ -80,7 +80,8 @@ public class CampaignService extends MasterService {
             Map resultProduct = new LinkedHashMap();
 
             resultProduct.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID_2));
-            resultProduct.put(AppParams.BASE_ID, ParamUtil.getString(productMap, AppParams.S_BASE_ID));
+            String baseId = ParamUtil.getString(productMap, AppParams.S_BASE_ID);//s
+            resultProduct.put(AppParams.BASE_ID, baseId);
             resultProduct.put(AppParams.NAME, ParamUtil.getString(productMap, AppParams.S_NAME));
             resultProduct.put(AppParams.DESC, ParamUtil.getString(productMap, AppParams.S_DESC));
             resultProduct.put(AppParams.BASE_COST, ParamUtil.getString(productMap, AppParams.S_BASE_COST));
@@ -138,6 +139,13 @@ public class CampaignService extends MasterService {
             List<String> listIdSize = Arrays.asList(size.split(","));
             List<String> listPrice = Arrays.asList(price.split(","));
             int count = -1;
+
+            List<String> listIdBasePrice = new ArrayList<>();
+            for(Map sizePriceMap : sizeInput){
+                String baseIdSub = ParamUtil.getString(sizePriceMap, AppParams.S_BASE_ID);
+                listIdBasePrice.add(baseIdSub);
+            }
+
             if (!size.isEmpty()) {
                 for (String idSize : listIdSize) {
                     count++;
@@ -146,6 +154,7 @@ public class CampaignService extends MasterService {
                     for (Map sizeMapList : sizeInput) {
                         String idSizeInList = ParamUtil.getString(sizeMapList, AppParams.S_ID_2);
                         if (idSizeInList.equals(idSize)) {
+//                            String sizeSId = ParamUtil.getString(sizeMapList, AppParams.S_ID_2);//s
                             sizeMap.put(AppParams.ID, ParamUtil.getString(sizeMapList, AppParams.S_ID_2));
                             sizeMap.put(AppParams.NAME, ParamUtil.getString(sizeMapList, AppParams.S_NAME));
                             String priceInSize = null;
@@ -154,6 +163,25 @@ public class CampaignService extends MasterService {
                             }
                             sizeMap.put(AppParams.PRICE, priceInSize);
                             sizeMap.put(AppParams.STATE, ParamUtil.getString(sizeMapList, AppParams.S_STATE_2));
+
+                            //price s
+//                            for(Map priceMap : priceInput){
+//                                String baseIdSub = ParamUtil.getString(priceMap, AppParams.S_BASE_ID);
+//                                String sizeIdInPrice = ParamUtil.getString(priceMap, AppParams.S_SIZE_ID);
+//                                if(baseIdSub.equals(baseId) && sizeIdInPrice.equals(sizeId)) {
+                            // BASE_ID o tren cho duyet product, size_id ngay ben tren -> xac dinh duy nhat 1 Map chua gia dropship
+
+                            String dropshipPrice = "0";
+                            String secondSidePrice = "0";
+                            if(listIdBasePrice.contains(baseId)){
+                                    dropshipPrice = ParamUtil.getString(sizeMapList, AppParams.S_DROPSHIP_PRICE);
+                                    secondSidePrice = ParamUtil.getString(sizeMapList, AppParams.S_SECOND_SIDE_PRICE);
+//                                    break;
+                                }
+//                            }
+                            sizeMap.put(AppParams.DROPSHIP_PRICE, dropshipPrice);
+                            sizeMap.put(AppParams.SECOND_SIDE_PRICE, secondSidePrice);
+
                             break;
                         }
                     }
