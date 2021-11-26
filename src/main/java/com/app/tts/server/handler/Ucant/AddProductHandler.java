@@ -24,7 +24,7 @@ public class AddProductHandler implements Handler<RoutingContext>{
             	String campaign_id = ParamUtil.getString(json, AppParams.CAMPAIGN_ID);
             	String user_id = ParamUtil.getString(json, AppParams.USER_ID);
             	String base_id = "", id = "", name = "", value = "", size_id = "", size_name = "", price = "",
-            			designs = "";
+            			designs = "", mockups = "";
             	List <Map> products = ParamUtil.getListData(json, "products");
             	for(Map map : products) {
             		base_id = ParamUtil.getString(map, AppParams.BASE_ID);
@@ -42,11 +42,15 @@ public class AddProductHandler implements Handler<RoutingContext>{
             				size_name = ParamUtil.getString(map2, AppParams.SIZE_NAME);
             				price = ParamUtil.getString(map2, AppParams.PRICE);
             			}
-    				List<Map> mockups = ParamUtil.getListData(map, "mockups");
+    				List<Map> mockup = ParamUtil.getListData(map, "mockups");
+    					for(Map map3 : mockup) {
+    						mockups = ParamUtil.getString(map3, AppParams.MOCKUP_IMG_URL);
+    					}
             	}
             	Map data = new HashMap();
             	LOGGER.info("body: " + json);
-            	List<Map> camp = SubService.addProduct(campaign_id, user_id);
+            	List<Map> camp = SubService.addProduct(campaign_id, base_id, id, 
+        				size_id, designs, mockups);
             	LOGGER.info("camp: " + camp);
             	data.put("", camp);
             	LOGGER.info("data: " + data);

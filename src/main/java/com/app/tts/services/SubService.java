@@ -20,7 +20,10 @@ public class SubService extends MasterService{
 	public static final String RECOVER_PASSWORD = "{call PKG_REGISTER.update_password(?,?,?,?,?)}";
 	public static final String CHANGE_PASSWORD = "{call PKG_REGISTER.update_password(?,?,?,?,?)}";
 	public static final String CREATE_CAM = "{call PKG_BQP.create_campaign(?,?,?,?)}";
-	public static final String ADD_PRODUCT = "{call PKG_BQP.add_product(?,?,?,?,?)}";
+	public static final String CREATE_PRODUCT = "{call PKG_BQP.create_product(?,?,?,?,?,?,?,?,?)}";
+	public static final String GET_PRODUCT = "{call PKG.BQP.get_product(?,?,?,?)}";
+	public static final String GET_COLORS = "{call PKG.BQP.get_colors(?,?,?,?)}";
+	public static final String GET_SIZES = "{call PKB.get_sizes(?,?,?,?)}";
 	
 	public static List<Map> insertUser (String id, String email, String password, String phone) throws SQLException{
 		List<Map> result = excuteQuery(INSERT_USER, new Object[] {id, email, password, phone});
@@ -47,14 +50,26 @@ public class SubService extends MasterService{
 		return result;
 	}
 	
-	public static List<Map> addProduct (String id, String user_id) throws SQLException{
-		List<Map> result = excuteQuery(ADD_PRODUCT, new Object[] {id, user_id});
-		List<Map> resultDataList =  new ArrayList<>();
-		for (Map b : resultDataList) {
-			b = format(b);
-			result.add(b);
-		} 
-		return resultDataList;
+	public static List<Map> createProduct (String campaign_id, String base_id, String color_id, 
+			String size_id, String design, String mockups) throws SQLException{
+		List<Map> result = excuteQuery(CREATE_PRODUCT, new Object[] {campaign_id, base_id, color_id, 
+				size_id, design, mockups});
+		return result;
+	}
+	
+	public static List<Map> getProduct (String campaign_id) throws SQLException{
+		List<Map> result = excuteQuery(GET_PRODUCT, new Object[] {campaign_id});
+		return result;
+	}
+	
+	public static List<Map> getColor (String productId) throws SQLException{
+		List<Map> result = excuteQuery(GET_COLORS, new Object[] {productId});
+		return result;
+	}
+	
+	public static List<Map> getSize (String productId) throws SQLException{
+		List<Map> result = excuteQuery(GET_SIZES, new Object[] {productId});
+		return result;
 	}
 	
 	public static Map format(Map queryData) throws SQLException{
