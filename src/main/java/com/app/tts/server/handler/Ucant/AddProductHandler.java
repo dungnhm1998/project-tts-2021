@@ -1,8 +1,10 @@
 package com.app.tts.server.handler.Ucant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringJoiner;
 import java.util.logging.Logger;
 
 import com.app.tts.services.SubService;
@@ -23,52 +25,72 @@ public class AddProductHandler implements Handler<RoutingContext>{
             	
             	String campaign_id = ParamUtil.getString(json, AppParams.CAMPAIGN_ID);
             	String user_id = ParamUtil.getString(json, AppParams.USER_ID);
-            	String base_id = "", id = "", name = "", value = "", size_id = "", size_name = "", price = "",
-            			designs = "", mockups = "";
+            	String base_id = "", id = "", name = "", size_name = "", price = "",designs = "", mockups = "",
+            			size_id = "";
+            	List<Map> productBaseid = new ArrayList<Map>();
+            	Map input = new HashMap();
             	List <Map> getproduct = ParamUtil.getListData(json, "products");
             	for(Map product : getproduct) {
             		base_id = ParamUtil.getString(product, AppParams.BASE_ID);
             		int de = ParamUtil.getBoolean(product, AppParams.DEFAULT)? 1 : 0;
             		designs = ParamUtil.getString(product, AppParams.DESIGNS);
+            		StringJoiner coloridsub = new StringJoiner(",");
+            		StringJoiner sizeidsub = new StringJoiner(",");
             		List<Map> getcolors = ParamUtil.getListData(product, "colors");
             			for(Map colors : getcolors) {
-            				id = ParamUtil.getString(colors, AppParams.ID);
-            				name = ParamUtil.getString(colors, AppParams.NAME);
-            				value = ParamUtil.getString(colors, AppParams.VALUE);
+            				String colorid = ParamUtil.getString(colors, AppParams.ID);
+            				if(!colorid.isEmpty()) {
+            					coloridsub.add(colorid);
+            				}
+            				id = colorid.toString();
+            				input.put("id", id);
             			}
+            			LOGGER.info("id: " + id);
             		List<Map> getprices = ParamUtil.getListData(product, "prices");
             			for(Map prices : getprices) {
-            				size_id = ParamUtil.getString(prices, AppParams.SIZE_ID);
+            				String sizeid = ParamUtil.getString(prices, AppParams.SIZE_ID);
+            				if(!sizeid.isEmpty()) {
+            					sizeidsub.add(sizeid);
+            					size_id = sizeidsub.toString();
+            				}
+            				input.put("size_id", size_id);
             				size_name = ParamUtil.getString(prices, AppParams.SIZE_NAME);
             				price = ParamUtil.getString(prices, AppParams.PRICE);
             			}
+            			LOGGER.info("sizeidsub " + sizeidsub);
+        				LOGGER.info("size_id " + size_id);
     				List<Map> getmockup = ParamUtil.getListData(product, "mockups");
     					for(Map mockup : getmockup) {
     						mockups = ParamUtil.getString(mockup, AppParams.MOCKUP_IMG_URL);
     					}
-    					
+            		input.put("base_id", base_id);
+            		productBaseid.add(input);
             	}
-            	Map data = new HashMap();
-            	LOGGER.info("body: " + json);
+            	LOGGER.info("input " + input);
+            	LOGGER.info("productBaseid " + productBaseid);
             	
-            	List<Map> camp = SubService.createProduct(campaign_id, base_id, id, 
-        				size_id, designs, mockups);
-            	LOGGER.info("camp:" + camp);
-            	List<Map> product = SubService.getProduct(campaign_id);
-            		for(Map map: product) {
-            			String productId = ParamUtil.getString(map, AppParams.S_ID);
-            			List<Map> color = SubService.getColor(productId);
-            			LOGGER.info("color:" + color);
-            			List<Map> size = SubService.getSize(productId);
-            			LOGGER.info("size:" + size);
-            			map.put("colors", color);
-            			map.put("sizes", size);
-            		}
+            	Map data = new HashMap();
+            	
+            	List<Map> camp = new ArrayList();
+            	List<Map> product = new ArrayList();
+            	List<Map> color = new ArrayList();
+            	List<Map> size = new ArrayList();
+            	for(Map input1 : productBaseid) {
+	            	 camp = SubService.createProduct(campaign_id, base_id, id, 
+	        				size_id, designs, mockups);
+	         
+	            	product = SubService.getProduct(campaign_id);
+	            		for(Map map: product) {
+	            			String productId = ParamUtil.getString(map, AppParams.S_ID);
+	            			color = SubService.getColor(productId);
+	            			size = SubService.getSize(productId);
+	            			map.put("colors", color);
+	            			map.put("sizes", size);
+	            		}
+            	}
             	
             	data.put("", camp);
-            	LOGGER.info("camp: " + camp);
             	data.put("products", product);
-            	LOGGER.info("products: " + product);
             	LOGGER.info("data: " + data);
             	System.out.println("data" + data);
             	rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
