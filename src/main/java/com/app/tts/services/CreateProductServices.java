@@ -4,18 +4,22 @@ import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class CreateProductServices extends MasterService {
-    public static final String CREATE_PRODUCT = "{call PKG_QUY.create_product(?,?,?,?,?,?,?,?,?)}";
+    public static final String CREATE_PRODUCT = "{call PKG_QUY.create_product(?,?,?,?,?,?,?,?,?,?)}";
     public static final String GET_PRODUCT = "{call PKG_QUY.get_product(?,?,?,?)}";
     public static final String GET_COLORS = "{call PKG_QUY.get_color3(?,?,?,?)}";
     public static final String GET_SIZES = "{call PKG_QUY.get_color4(?,?,?,?)}";
+    private static int count = -1;
 
-    public static List<Map> createProduct(String p_campaign_id, String p_base_id, String p_colors, String p_sizes, String p_design_json, String p_mockup_img_url) throws SQLException {
+    public static List<Map> createProduct(String p_campaign_id, String p_base_id, String p_colors, String p_sizes, String priceid, String p_design_json, String p_mockup_img_url) throws SQLException {
         List<Map> resultMap = new ArrayList<>();
-        List<Map> createProduct = excuteQuery(CREATE_PRODUCT, new Object[]{p_campaign_id, p_base_id, p_colors, p_sizes, p_design_json, p_mockup_img_url});
+        List<Map> createProduct = excuteQuery(CREATE_PRODUCT, new Object[]{p_campaign_id, p_base_id, p_colors, p_sizes, priceid, p_design_json, p_mockup_img_url});
 //        List<Map> getProduct = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA);
 
         LOGGER.info("Create Product" + createProduct);
@@ -84,7 +88,7 @@ public class CreateProductServices extends MasterService {
         resultProduct.put(AppParams.DOMAIN, ParamUtil.getString(productMap, AppParams.S_DOMAIN));
         resultProduct.put(AppParams.IMG_URL, ParamUtil.getString(productMap, AppParams.S_IMG_URL));
         resultProduct.put(AppParams.DESIGN, ParamUtil.getString(productMap, AppParams.S_DESIGN_JSON));
-        resultProduct.put(AppParams.SIZES, ParamUtil.getString(productMap, "S_SIZES"));
+        resultProduct.put(AppParams.PRICE, ParamUtil.getString(productMap, "S_SIZES"));
         resultProduct.put(AppParams.COLORS, ParamUtil.getString(productMap, "S_COLORS"));
         return resultProduct;
     }
@@ -107,11 +111,13 @@ public class CreateProductServices extends MasterService {
 
         resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
         resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, "SIZE_NAME"));
-        resultMap.put(AppParams.PRICE, ParamUtil.getString(queryData, AppParams.S_PRICE));
+
+
+        String priceInSize = null;
+
         resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE1));
         resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
         resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
-
 
 
         return resultMap;

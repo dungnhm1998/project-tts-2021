@@ -97,6 +97,7 @@ public class AppParams {
 	public static final String TIMEZONE = "timezone";
 	public static final String SORT = "sort";
 	public static final String SIZES = "sizes";
+	public static final String SIZES1 = "size";
 	public static final String SIZE = "size_id";
 	public static final String COLORS = "colors";
 	public static final String VALUE = "value";
@@ -106,6 +107,7 @@ public class AppParams {
 	public static final String LABEL = "label";
 	public static final String PRINTABLE = "printable";
 	public static final String PRICE = "price";
+	public static final String PRICES = "prices";
 	public static final String DROPSHIP_PRICE = "dropship_price";
 	public static final String SECOND_SIDE_PRICE = "second_side_price";
 
@@ -277,6 +279,7 @@ public class AppParams {
 	public static final String N_POSITION = "N_POSITION";
 	public static final String S_SIZES = "S_SIZES";
 	public static final String S_PRICE = "S_PRICE";
+	public static final String S_PRICE1 = "S_PRICES";
 	public static final String S_DROPSHIP_PRICE = "S_DROPSHIP_PRICE";
 	public static final String S_SECOND_SIDE_PRICE = "S_SECOND_SIDE_PRICE";
 	public static final String S_ICON_IMG_URL = "S_ICON_IMG_URL";
@@ -351,7 +354,7 @@ public class AppParams {
 	public static final String ADMIN = "admin";
 	public static final String S_MEMBER = "S_MEMBER";
 	public static final String MEMBER = "member";
-	public static final String PRICES = "prices";
+	public static final String PRICES1 = "prices";
 
 	public static final String S_CAMPAIGN_ID = "S_CAMPAIGN_ID";
 	public static final String CAMPAIGN_ID = "campaign_id";
