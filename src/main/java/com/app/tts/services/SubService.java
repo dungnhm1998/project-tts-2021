@@ -76,7 +76,7 @@ public class SubService extends MasterService{
 		Map campaignResult = new LinkedHashMap<>();
 
 		//campaignResult
-		campaignResult.put(AppParams.ID, ParamUtil.getString(Cam , AppParams.S_campaignResult_ID));
+//		campaignResult.put(AppParams.ID, ParamUtil.getString(Cam , AppParams.S_campaignResult_ID));
 		campaignResult.put(AppParams.USER_ID, ParamUtil.getString(Cam , AppParams.S_USER_ID));
 		campaignResult.put(AppParams.TITLE, ParamUtil.getString(Cam , AppParams.S_TITLE));
 		campaignResult.put(AppParams.DESC, ParamUtil.getString(Cam , AppParams.S_DESC));
