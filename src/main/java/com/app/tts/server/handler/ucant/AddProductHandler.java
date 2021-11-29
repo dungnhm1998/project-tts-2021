@@ -1,7 +1,8 @@
-package com.app.tts.server.handler.Ucant;
+package com.app.tts.server.handler.ucant;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
@@ -23,24 +24,23 @@ public class AddProductHandler implements Handler<RoutingContext>{
             try {
             	Map json = rc.getBodyAsJson().getMap();
             	
-            	String campaign_id = ParamUtil.getString(json, AppParams.CAMPAIGN_ID);
-            	String user_id = ParamUtil.getString(json, AppParams.USER_ID);
-            	String base_id = "", id = "", name = "", size_name = "", price = "",designs = "", mockups = "",
-            			size_id = "";
+            	String campaignId = ParamUtil.getString(json, AppParams.CAMPAIGN_ID);
+            	String userId = ParamUtil.getString(json, AppParams.USER_ID);
+            	String baseId = "", id = "", sizeId = "", price = "",designs = "", mockups = "";
             	List <Map> getproduct = ParamUtil.getListData(json, "products");
 
-            	List<Map> camp = new ArrayList();
+            	Map camp = new LinkedHashMap();
             	List<Map> product = new ArrayList();
             	List<Map> color = new ArrayList();
             	List<Map> size = new ArrayList();            	
 
             	for(Map products : getproduct) {
-            		base_id = ParamUtil.getString(products, AppParams.BASE_ID);
+            		baseId = ParamUtil.getString(products, AppParams.BASE_ID);
             		int de = ParamUtil.getBoolean(products, AppParams.DEFAULT)? 1 : 0;
             		designs = ParamUtil.getString(products, AppParams.DESIGNS);
             		
             		Map input = new HashMap();
-            		input.put("base_id", base_id);
+            		input.put("baseId", baseId);
             		StringJoiner coloridsub = new StringJoiner(",");
             		StringJoiner sizeidsub = new StringJoiner(",");
             		StringJoiner pricesub = new StringJoiner(",");
@@ -53,7 +53,7 @@ public class AddProductHandler implements Handler<RoutingContext>{
             				}
             				id = colorid.toString();  				
             			}
-            			LOGGER.info("id: " + id);
+            			
             		List<Map> getprices = ParamUtil.getListData(products, "prices");
             			for(Map prices : getprices) {
             				
@@ -61,8 +61,7 @@ public class AddProductHandler implements Handler<RoutingContext>{
             				if(!sizeid.isEmpty()) {
             					sizeidsub.add(sizeid);
             				}
-            				size_id = sizeidsub.toString();
-            				size_name = ParamUtil.getString(prices, AppParams.SIZE_NAME);
+            				sizeId = sizeidsub.toString();
             				
             				String saleprice = ParamUtil.getString(prices, AppParams.PRICE);
             				if(!saleprice.isEmpty()) {
@@ -71,16 +70,15 @@ public class AddProductHandler implements Handler<RoutingContext>{
             				price = pricesub.toString();
             			}
             			
-        				LOGGER.info("size_id " + size_id);
     				List<Map> getmockup = ParamUtil.getListData(products, "mockups");
     					for(Map mockup : getmockup) {
     						mockups = ParamUtil.getString(mockup, AppParams.MOCKUP_IMG_URL);
     					}
     					
-					camp = SubService.createProduct(campaign_id, base_id, id, 
-	        				size_id, designs, mockups, price);
+					camp = SubService.createProduct(campaignId, baseId, id, 
+	        				sizeId, designs, mockups, price);
 	         
-	            	product = SubService.getProduct(campaign_id);
+	            	product = SubService.getProduct(campaignId);
 	            		for(Map map: product) {
 	            			String productId = ParamUtil.getString(map, AppParams.S_ID);
 	            			color = SubService.getColor(productId);
@@ -88,6 +86,7 @@ public class AddProductHandler implements Handler<RoutingContext>{
 	            			map.put("colors", color);
 	            			map.put("sizes", size);
 	            		}
+	            		LOGGER.info("color: " + color);
             	}
             	
             	Map data = new HashMap();
@@ -95,7 +94,6 @@ public class AddProductHandler implements Handler<RoutingContext>{
             	data.put("", camp);
             	data.put("products", product);
             	LOGGER.info("data: " + data);
-            	System.out.println("data" + data);
             	rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);
