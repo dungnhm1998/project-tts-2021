@@ -9,6 +9,7 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -91,16 +92,18 @@ public class AddProHandler implements Handler<RoutingContext> {
             for (Map mockupss : mockups) {
                 mockup = ParamUtil.getString(mockupss, AppParams.MOCKUPS);
             }
-
-            List<Map> getcampaign = addProduct(campaign_id, baseId, colorId, sizeId, priceid, designs, mockup);
+            List<Map> getcampaign = new ArrayList<>();
+            getcampaign = addProduct(campaign_id, baseId, colorId, sizeId, priceid, designs, mockup);
             List<Map> getProduct = CreateProServices.getPoduct(campaign_id);
             List<Map> getcolor = CreateProServices.get_color(campaign_id);
             List<Map> getsize = CreateProServices.get_size(campaign_id);
 
             Map result = CreateProServices.format(getcampaign, getProduct, getcolor, getsize);
-
             return result;
         }
+
+
+
         return null;
     }
 
