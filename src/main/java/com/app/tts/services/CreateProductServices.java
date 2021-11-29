@@ -15,16 +15,31 @@ public class CreateProductServices extends MasterService {
     public static final String GET_PRODUCT = "{call PKG_QUY.get_product(?,?,?,?)}";
     public static final String GET_COLORS = "{call PKG_QUY.get_color3(?,?,?,?)}";
     public static final String GET_SIZES = "{call PKG_QUY.get_color4(?,?,?,?)}";
+    public static final String GET_CAMPAIGN= "{call PKG_QUY.getCampaign(?,?,?,?)}";
     private static int count = -1;
 
     public static List<Map> createProduct(String p_campaign_id, String p_base_id, String p_colors, String p_sizes, String priceid, String p_design_json, String p_mockup_img_url) throws SQLException {
-        List<Map> resultMap = new ArrayList<>();
+//        List<Map> resultMap = new ArrayList<>();
         List<Map> createProduct = excuteQuery(CREATE_PRODUCT, new Object[]{p_campaign_id, p_base_id, p_colors, p_sizes, priceid, p_design_json, p_mockup_img_url});
 //        List<Map> getProduct = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA);
 
         LOGGER.info("Create Product" + createProduct);
-//        Map resultMap = format(getProduct);
+//        Map resultMap = format(createProduct);
 //        return resultMap;
+//        for (Map b : createProduct) {
+//            b = format(b);
+//            resultMap.add(b);
+//        }
+//
+        return createProduct;
+    }
+
+    public static List<Map> getCampaign(String campaignid) throws SQLException {
+        List<Map> resultMap = new ArrayList<>();
+        List<Map> createProduct = excuteQuery(GET_CAMPAIGN, new Object[]{campaignid});
+//        List<Map> getProduct = ParamUtil.getListData(createProduct, AppParams.RESULT_DATA);
+
+
         for (Map b : createProduct) {
             b = format(b);
             resultMap.add(b);
@@ -32,6 +47,7 @@ public class CreateProductServices extends MasterService {
 //
         return resultMap;
     }
+
 
     public static List<Map> getPoduct(String p_id) throws SQLException {
         List<Map> resultMap = new ArrayList<>();
@@ -114,7 +130,7 @@ public class CreateProductServices extends MasterService {
 
 
         String priceInSize = null;
-
+//        resultMap.put(AppParams.PRICE, ParamUtil.getString(queryData, AppParams.S_STATE1));
         resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE1));
         resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
         resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
@@ -170,4 +186,6 @@ public class CreateProductServices extends MasterService {
 
 
     private static final Logger LOGGER = Logger.getLogger(CreateProductServices.class.getName());
+
+
 }

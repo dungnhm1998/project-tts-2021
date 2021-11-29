@@ -1,5 +1,6 @@
 package com.app.tts.server.handler.campaign;
 
+import com.app.tts.services.CampaignService;
 import com.app.tts.services.CreateProductServices;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
@@ -7,6 +8,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -19,8 +21,8 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                 Map jsonrequest = rc.getBodyAsJson().getMap();
                 String campaign_id = ParamUtil.getString(jsonrequest, AppParams.CAMPAIGN_ID);
                 String baseId = "", colorId = "", sizeId = "", designs = "", mockup = "", priceid = "";
-                List<Map> items = ParamUtil.getListData(jsonrequest, AppParams.PRODUCTS);
-
+                List<Map> items = ParamUtil.getListData(jsonrequest, "products");
+                Map data = new HashMap();
                 for (Map products : items) {
 
                     baseId = ParamUtil.getString(products, AppParams.BASE_ID);
@@ -46,15 +48,17 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                         if (!sizeId.isEmpty()) {
                             sizeId = sizeId + ",";
                         }
+                        if (!priceid.isEmpty()) {
+                            priceid = priceid + ",";
+                        }
+
                         if (!sizeId.isEmpty()) {
                             sizeId = sizeId + SizeId;
                         } else {
                             sizeId = SizeId;
                         }
 
-                        if (!priceid.isEmpty()) {
-                            priceid = priceid + ",";
-                        }
+
                         if (!sizeId.isEmpty()) {
                             priceid = priceid + PriceId;
                         } else {
@@ -69,16 +73,12 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                     for (Map mockupss : mockups) {
                         mockup = ParamUtil.getString(mockupss, AppParams.MOCKUPS);
                     }
+//                     data = addProduct(campaign_id, baseId, colorId, sizeId, priceid ,designs, mockup);
 
                 }
 
-                Map data = new HashMap();
-//                Map result = new LinkedHashMap();
 
-
-
-
-                List<Map> jsonProduct = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, priceid ,designs, mockup);
+                List<Map> jsonProduct = CreateProductServices.getCampaign(campaign_id);
                 List<Map> getProduct = CreateProductServices.getPoduct(campaign_id);
                 List<Map> getcolor = CreateProductServices.get_color(campaign_id);
                 List<Map> getsize = CreateProductServices.get_size(campaign_id);
@@ -139,11 +139,9 @@ public class CreateProductHandler implements Handler<RoutingContext> {
                             for (Map prices : getsize) {
                                 String SizeId = ParamUtil.getString(prices, "sizes");
                                 if (SizeId.equals(idSize)) {
-                                    Map resultMap =new LinkedHashMap();
                                     if(count < listIdPrice.size()){
-                                        priceInSize = listIdPrice.get(count);
+                                    prices.put("price",listIdPrice.get(count));
                                     }
-                                    prices.put("price", priceInSize);
                                     listSizes.add(prices);
                                     break;
                                 }
@@ -176,6 +174,14 @@ public class CreateProductHandler implements Handler<RoutingContext> {
             }
         });
     }
+
+//    private Map addProduct(String campaign_id, String baseId, String colorId, String sizeId, String priceid, String designs, String mockup) throws SQLException {
+//
+//        List<Map> result = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, priceid ,designs, mockup);
+//
+//        return result;
+//    }
+
 
     private static final Logger LOGGER = Logger.getLogger(CreateProductHandler.class.getName());
 }
