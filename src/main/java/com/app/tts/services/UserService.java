@@ -1,9 +1,5 @@
 package com.app.tts.services;
 
-import com.app.tts.error.exception.OracleException;
-import com.app.tts.util.AppParams;
-import com.app.tts.util.ParamUtil;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.app.tts.error.exception.OracleException;
+import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
+
 public class UserService  extends MasterService{
 
     public static final String INSERT_USER = "{call PKG_QUY.create_user(?,?,?,?,?,?,?,?,?)}";
@@ -19,10 +19,15 @@ public class UserService  extends MasterService{
     public static final String GET_ALL_USER = "{call PKG_QUY.get_all_user(?,?,?,?)}";
     public static final String DEL_USER_BY_ID = "{call PKG_QUY.del_user_by_id(?,?,?,?)}";
     public static final String UPDATE_USER = "{call PKG_QUY.update_user(?,?,?,?,?,?,?,?)}";
+<<<<<<< HEAD
     public static final String GET_USER_BY_EMAIL = "{call PKG_USER.get_user_by_email(?,?,?,?)}";
     public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?,?)}";
+=======
+>>>>>>> 95e742f0b30a140d7bd8bdc5a4d8748c4412de3c
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
     public static final String RECOVER_PASSWORD = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
+    public static final String GET_USER_BY_EMAIL = "{call PKG_TTS_TRUONG.get_user_by_email(?, ?, ?, ?)}";
+    public static final String UPDATE_PASSWORD = "{call PKG_TTS_TRUONG.update_password(?, ?, ?, ?, ?)}";
     public static List<Map> getAllUser(String state) throws SQLException {
         List<Map> result = new ArrayList();
         List<Map> resultDataList = excuteQuery(GET_ALL_USER, new Object[]{state});
@@ -65,6 +70,27 @@ public class UserService  extends MasterService{
 
 
 
+    }
+    
+    public static List<Map> getUserByEmailRecover(String email) throws SQLException {
+    	
+    	List<Map> result = new ArrayList();
+        List<Map> resultDataList = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
+        LOGGER.info("=> GET EMAIL  result: " + resultDataList);
+        for (Map b : resultDataList) {
+            b = format(b);
+            result.add(b);
+        }
+        return result;
+    }
+    
+    public static List<Map> updatePassword(String email, String password)throws SQLException {
+        
+        List<Map> searchResultMap = update(UPDATE_PASSWORD, new Object[] {email, password});
+        Map resultMap = new LinkedHashMap();
+        resultMap.put("Pass: ", searchResultMap);
+        
+        return searchResultMap;
     }
     // insert user in tts_user
 

@@ -7,26 +7,19 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
-import com.app.tts.server.handler.ucant.ChangePassHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
-import com.app.tts.server.handler.ucant.LoginHandler;
-import com.app.tts.server.handler.ucant.RecoveryPassHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
-import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
-import com.app.tts.server.handler.User2.ForgotPasswordHandler;
-import com.app.tts.server.handler.User2.LoginUserHandler2;
-import com.app.tts.server.handler.User2.RegisterUserHandler2;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
-import com.app.tts.server.handler.user.RegisterUserHandler;
 import com.app.tts.server.handler.user.UpdatePassHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
+
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
@@ -145,12 +138,13 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         //api
         router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
-        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
+//        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
         router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
         router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
 
         router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
+        
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
         return router;
