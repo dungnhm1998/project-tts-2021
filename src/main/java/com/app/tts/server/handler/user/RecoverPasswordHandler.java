@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerResponse;
@@ -45,6 +46,8 @@ public class RecoverPasswordHandler implements Handler<RoutingContext> {
 				}else {
 					data.put("message", "email already exist!");
 				}
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 				routingContext.put(AppParams.RESPONSE_DATA, data);
 				future.complete();
 			} catch (Exception e) {
