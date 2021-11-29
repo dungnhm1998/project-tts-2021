@@ -60,12 +60,12 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                         data.put("avatar", user_avatar);
                         data.put("message", "login successfully");
                         data.put("email", user_email);
-                        
+
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                         routingContext.put(AppParams.RESPONSE_DATA, data);
                     } else {
-                        data.put("message", "password or email is incorrect");
+                        data.put("message", "password is incorrect");
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
                         routingContext.put(AppParams.RESPONSE_DATA, data);
