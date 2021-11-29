@@ -148,7 +148,10 @@ public class OrderService extends MasterService {
 
     public static Map getOrderById(String id) throws SQLException {
         List<Map> result = excuteQuery(GET_ORDER_BY_ID, new Object[]{id});
-        Map resultMap = result.get(0);
+        Map resultMap = new LinkedHashMap();
+        if(!result.isEmpty()) {
+             resultMap = result.get(0);
+        }
         return resultMap;
     }
 
