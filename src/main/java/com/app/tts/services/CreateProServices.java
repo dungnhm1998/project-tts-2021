@@ -44,47 +44,46 @@ public class CreateProServices extends MasterService {
 
 
     public static Map format(List<Map> getCampaign, List<Map> getProduct, List<Map> getColor, List<Map> getSize) {
-        Map campaignMap = new LinkedHashMap();
+        Map campaign = new LinkedHashMap();
 
-        Map campaign = getCampaign.get(0);
-
-        campaignMap.put(AppParams.ID, ParamUtil.getString(campaign, AppParams.S_ID_2));
-        campaignMap.put(AppParams.USER_ID, ParamUtil.getString(campaign, AppParams.S_USER_ID));
-        campaignMap.put(AppParams.TITLE, ParamUtil.getString(campaign, AppParams.S_TITLE));
-        campaignMap.put(AppParams.DESC, ParamUtil.getString(campaign, AppParams.S_DESC));
-        campaignMap.put(AppParams.CATEGORY_IDS, ParamUtil.getString(campaign, AppParams.S_CATEGORY_IDS));
-        campaignMap.put(AppParams.TAGS, ParamUtil.getString(campaign, AppParams.S_TAGS));
-        campaignMap.put(AppParams.START, ParamUtil.getString(campaign, AppParams.D_START));
-        campaignMap.put(AppParams.END, ParamUtil.getString(campaign, AppParams.D_END));
-        campaignMap.put(AppParams.RELAUNCH, ParamUtil.getString(campaign, AppParams.N_AUTO_RELAUNCH));
-        campaignMap.put(AppParams.PRIVATE, ParamUtil.getString(campaign, AppParams.N_PRIVATE));
-        campaignMap.put(AppParams.FB_PIXEL, ParamUtil.getString(campaign, AppParams.S_FB_PIXEL));
-        campaignMap.put(AppParams.GG_PIXEL, ParamUtil.getString(campaign, AppParams.S_GG_PIXEL));
-        campaignMap.put(AppParams.CREATE, ParamUtil.getString(campaign, AppParams.D_CREATE));
-        campaignMap.put(AppParams.UPDATE, ParamUtil.getString(campaign, AppParams.D_UPDATE));
-        campaignMap.put(AppParams.STATE, ParamUtil.getString(campaign, AppParams.S_STATE_2));
-        campaignMap.put(AppParams.LENGTH, ParamUtil.getString(campaign, AppParams.N_LENGTH));
-        campaignMap.put(AppParams.SALE_PRICE, ParamUtil.getString(campaign, AppParams.S_SALE_PRICE));
-        campaignMap.put(AppParams.FAVORITE, ParamUtil.getString(campaign, AppParams.N_FAVORITE));
-        campaignMap.put(AppParams.ARCHIVED, ParamUtil.getString(campaign, AppParams.N_ARCHIVED));
-        campaignMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(campaign, AppParams.S_DESIGN_FRONT_URL));
-        campaignMap.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(campaign, AppParams.S_DESIGN_BACK_URL));
-        campaignMap.put(AppParams.DOMAIN_ID, ParamUtil.getString(campaign, AppParams.S_DOMAIN_ID));
-        campaignMap.put(AppParams.DOMAIN, ParamUtil.getString(campaign, AppParams.S_DOMAIN));
-        campaignMap.put(AppParams.ART_IDS, ParamUtil.getString(campaign, AppParams.S_ART_IDS));
-        campaignMap.put(AppParams.BASE_GROUP_ID, ParamUtil.getString(campaign, AppParams.S_BASE_GROUP_ID));
-        campaignMap.put(AppParams.BACK_VIEW, ParamUtil.getString(campaign, AppParams.N_BACK_VIEW));
-        campaignMap.put(AppParams.AS_TM, ParamUtil.getString(campaign, AppParams.N_AS_TM));
-        campaignMap.put(AppParams.AD_TAGS, ParamUtil.getString(campaign, AppParams.S_AD_TAGS));
-        campaignMap.put(AppParams.SEO_TITLE, ParamUtil.getString(campaign, AppParams.S_SEO_TITLE));
-        campaignMap.put(AppParams.SEO_DESC, ParamUtil.getString(campaign, AppParams.S_SEO_DESC));
-        campaignMap.put(AppParams.SEO_IMAGE_COVER, ParamUtil.getString(campaign, AppParams.S_SEO_IMAGE_COVER));
-        campaignMap.put(AppParams.DESIGN_CHECK, ParamUtil.getString(campaign, AppParams.N_DESIGN_CHECK));
-        campaignMap.put(AppParams.DESIGN_VERSION, ParamUtil.getString(campaign, AppParams.S_DESIGN_VERSION));
-        campaignMap.put(AppParams.LEFT_CHEST, ParamUtil.getString(campaign, AppParams.N_LEFT_CHEST));
-        campaignMap.put(AppParams.SUB_STATE, ParamUtil.getString(campaign, AppParams.S_SUB_STATE));
-        campaignMap.put(AppParams.MODIFIED_AT, ParamUtil.getString(campaign, "MODIFIED_AT"));
-        campaignMap.put(AppParams.OLD_TAGS, ParamUtil.getString(campaign, "OLD_TAGS"));
+        Map getcampaign = getCampaign.get(0);
+        campaign.put(AppParams.ID, ParamUtil.getString(getcampaign, AppParams.S_ID_2));
+        campaign.put(AppParams.USER_ID, ParamUtil.getString(getcampaign, AppParams.S_USER_ID));
+        campaign.put(AppParams.TITLE, ParamUtil.getString(getcampaign, AppParams.S_TITLE));
+        campaign.put(AppParams.DESC, ParamUtil.getString(getcampaign, AppParams.S_DESC));
+        campaign.put(AppParams.CATEGORY_IDS, ParamUtil.getString(getcampaign, AppParams.S_CATEGORY_IDS));
+        campaign.put(AppParams.TAGS, ParamUtil.getString(getcampaign, AppParams.S_TAGS));
+        campaign.put(AppParams.START, ParamUtil.getString(getcampaign, AppParams.D_START));
+        campaign.put(AppParams.END, ParamUtil.getString(getcampaign, AppParams.D_END));
+        campaign.put(AppParams.RELAUNCH, ParamUtil.getString(getcampaign, AppParams.N_AUTO_RELAUNCH));
+        campaign.put(AppParams.PRIVATE, ParamUtil.getString(getcampaign, AppParams.N_PRIVATE));
+        campaign.put(AppParams.FB_PIXEL, ParamUtil.getString(getcampaign, AppParams.S_FB_PIXEL));
+        campaign.put(AppParams.GG_PIXEL, ParamUtil.getString(getcampaign, AppParams.S_GG_PIXEL));
+        campaign.put(AppParams.CREATE, ParamUtil.getString(getcampaign, AppParams.D_CREATE));
+        campaign.put(AppParams.UPDATE, ParamUtil.getString(getcampaign, AppParams.D_UPDATE));
+        campaign.put(AppParams.STATE, ParamUtil.getString(getcampaign, AppParams.S_STATE_2));
+        campaign.put(AppParams.LENGTH, ParamUtil.getString(getcampaign, AppParams.N_LENGTH));
+        campaign.put(AppParams.SALE_PRICE, ParamUtil.getString(getcampaign, AppParams.S_SALE_PRICE));
+        campaign.put(AppParams.FAVORITE, ParamUtil.getString(getcampaign, AppParams.N_FAVORITE));
+        campaign.put(AppParams.ARCHIVED, ParamUtil.getString(getcampaign, AppParams.N_ARCHIVED));
+        campaign.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(getcampaign, AppParams.S_DESIGN_FRONT_URL));
+        campaign.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(getcampaign, AppParams.S_DESIGN_BACK_URL));
+        campaign.put(AppParams.DOMAIN_ID, ParamUtil.getString(getcampaign, AppParams.S_DOMAIN_ID));
+        campaign.put(AppParams.DOMAIN, ParamUtil.getString(getcampaign, AppParams.S_DOMAIN));
+        campaign.put(AppParams.ART_IDS, ParamUtil.getString(getcampaign, AppParams.S_ART_IDS));
+        campaign.put(AppParams.BASE_GROUP_ID, ParamUtil.getString(getcampaign, AppParams.S_BASE_GROUP_ID));
+        campaign.put(AppParams.BACK_VIEW, ParamUtil.getString(getcampaign, AppParams.N_BACK_VIEW));
+        campaign.put(AppParams.AS_TM, ParamUtil.getString(getcampaign, AppParams.N_AS_TM));
+        campaign.put(AppParams.AD_TAGS, ParamUtil.getString(getcampaign, AppParams.S_AD_TAGS));
+        campaign.put(AppParams.SEO_TITLE, ParamUtil.getString(getcampaign, AppParams.S_SEO_TITLE));
+        campaign.put(AppParams.SEO_DESC, ParamUtil.getString(getcampaign, AppParams.S_SEO_DESC));
+        campaign.put(AppParams.SEO_IMAGE_COVER, ParamUtil.getString(getcampaign, AppParams.S_SEO_IMAGE_COVER));
+        campaign.put(AppParams.DESIGN_CHECK, ParamUtil.getString(getcampaign, AppParams.N_DESIGN_CHECK));
+        campaign.put(AppParams.DESIGN_VERSION, ParamUtil.getString(getcampaign, AppParams.S_DESIGN_VERSION));
+        campaign.put(AppParams.LEFT_CHEST, ParamUtil.getString(getcampaign, AppParams.N_LEFT_CHEST));
+        campaign.put(AppParams.SUB_STATE, ParamUtil.getString(getcampaign, AppParams.S_SUB_STATE));
+        campaign.put(AppParams.MODIFIED_AT, ParamUtil.getString(getcampaign, "MODIFIED_AT"));
+        campaign.put(AppParams.OLD_TAGS, ParamUtil.getString(getcampaign, "OLD_TAGS"));
 
         List<Map> listProduct = new ArrayList<>();
 
@@ -206,10 +205,10 @@ public class CreateProServices extends MasterService {
         }
 
         if (!listProduct.isEmpty()) {
-            campaignMap.put("PRODUCTS", listProduct);
+            campaign.put("PRODUCTS", listProduct);
         }
 
 
-        return  campaignMap;
+        return  campaign;
     }
 }
