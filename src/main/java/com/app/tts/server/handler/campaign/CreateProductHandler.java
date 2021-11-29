@@ -1,14 +1,12 @@
 package com.app.tts.server.handler.Campaign;
 
 import com.app.tts.services.CreateProServices;
-import com.app.tts.services.CreateProductServices;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -18,144 +16,70 @@ public class CreateProductHandler implements Handler<RoutingContext> {
     public void handle(RoutingContext rc) {
         rc.vertx().executeBlocking(future -> {
             try {
-                Map jsonrequest = rc.getBodyAsJson().getMap();
-                String campaign_id = ParamUtil.getString(jsonrequest, AppParams.CAMPAIGN_ID);
-                String baseId = "", colorId = "", sizeId = "", designs = "", mockup = "", priceid = "";
-                List<Map> items = ParamUtil.getListData(jsonrequest, "products");
+                Map json = rc.getBodyAsJson().getMap();
+
+                String campaignId = ParamUtil.getString(json, AppParams.CAMPAIGN_ID);
+                String userId = ParamUtil.getString(json, AppParams.USER_ID);
+                String baseId = "", colorId = "", name = "", size_name = "", price = "", designs = "", mockups = "",
+                        sizeId = "";
+                // get body
+                List<Map> getproduct = ParamUtil.getListData(json, "products");
                 Map data = new LinkedHashMap();
-                List<Map> jsonProduct1 = new ArrayList<>();
-                for (Map products : items) {
-
+                for (Map products : getproduct) {
                     baseId = ParamUtil.getString(products, AppParams.BASE_ID);
+                    designs = ParamUtil.getString(products, AppParams.DESIGNS);
 
-                    List<Map> colors = ParamUtil.getListData(products, AppParams.COLORS);
-                    for (Map color : colors) {
-                        String ColorId = ParamUtil.getString(color, AppParams.ID);
+                    StringJoiner colorSub = new StringJoiner(",");
+                    StringJoiner sizeSub = new StringJoiner(",");
+                    StringJoiner priceSub = new StringJoiner(",");
 
-                        if (!colorId.isEmpty()) {
-                            colorId = colorId + ",";
+
+                    List<Map> getcolors = ParamUtil.getListData(products, "colors");
+                    for (Map colors : getcolors) {
+                        String colorid = ParamUtil.getString(colors, AppParams.ID);
+                        // chèn dấu ' khi lấy nhiều id
+                        if (!colorid.isEmpty()) {
+                            colorSub.add(colorid);
                         }
-                        if (!colorId.isEmpty()) {
-                            colorId = colorId + ColorId;
-                        } else {
-                            colorId = ColorId;
-                        }
+                        colorId = colorSub.toString();
                     }
 
-                    List<Map> prices = ParamUtil.getListData(products, AppParams.PRICES);
-                    for (Map price : prices) {
-                        String SizeId = ParamUtil.getString(price, AppParams.SIZE);
-                        String PriceId = ParamUtil.getString(price, AppParams.PRICE);
-                        if (!sizeId.isEmpty()) {
-                            sizeId = sizeId + ",";
-                        }
-                        if (!priceid.isEmpty()) {
-                            priceid = priceid + ",";
-                        }
+                    List<Map> getprices = ParamUtil.getListData(products, "prices");
+                    for (Map prices : getprices) {
 
-                        if (!sizeId.isEmpty()) {
-                            sizeId = sizeId + SizeId;
-                        } else {
-                            sizeId = SizeId;
+                        String sizeid = ParamUtil.getString(prices, AppParams.SIZE_ID);
+                        // chèn dấu ' khi lấy nhiều id
+                        if (!sizeid.isEmpty()) {
+                            sizeSub.add(sizeid);
                         }
-
-
-                        if (!sizeId.isEmpty()) {
-                            priceid = priceid + PriceId;
-                        } else {
-                            priceid = PriceId;
+                        sizeId = sizeSub.toString();
+                        String saleprice = ParamUtil.getString(prices, AppParams.PRICE);
+                        if (!saleprice.isEmpty()) {
+                            priceSub.add(saleprice);
                         }
-
+                        price = priceSub.toString();
                     }
 
-                    designs = ParamUtil.getString(products, AppParams.DESIGN);
 
-                    List<Map> mockups = ParamUtil.getListData(products, AppParams.MOCKUPS);
-                    for (Map mockupss : mockups) {
-                        mockup = ParamUtil.getString(mockupss, AppParams.MOCKUPS);
+                    List<Map> getmockup = ParamUtil.getListData(products, "mockups");
+                    for (Map mockup : getmockup) {
+                        mockups = ParamUtil.getString(mockup, AppParams.MOCKUP_IMG_URL);
                     }
-                    jsonProduct1 = addProduct(campaign_id, baseId, colorId, sizeId, priceid, designs, mockup);
-//                    List<Map> jsonProduct = CreateProductServices.getCampaign(campaign_id);
-                    List<Map> getProduct = CreateProductServices.getPoduct(campaign_id);
-                    List<Map> getcolor = CreateProductServices.get_color(campaign_id);
-                    List<Map> getsize = CreateProductServices.get_size(campaign_id);
+
+                    //get Campaign
+                    List<Map> getCampaign = CreateProServices.createProduct(campaignId, baseId, colorId, sizeId, price, designs, mockups);
+                    // get product theo id campaign
+                    List<Map> getProduct = CreateProServices.getPoduct(campaignId);
+                    //getColor theo id campaign
+                    List<Map> getColor = CreateProServices.get_color(campaignId);
+                    //getSize theo id campaign
+                    List<Map> getSize = CreateProServices.get_size(campaignId);
+
+
+                    // fomart
+                    data = CreateProServices.format(getCampaign, getProduct, getColor, getSize);
 
                 }
-
-
-
-
-//
-////                List<Map> sizes = CreateProductServices.get_size(base_id);
-//                List<Map> camAndPro = new ArrayList();
-//                String title = "";
-//                for (Map map : jsonProduct) {
-//                    String campaignId = ParamUtil.getString(map, AppParams.CAMPAIGN_ID);
-//                    camAndPro.add(map);
-//                    title = ParamUtil.getString(map, AppParams.TITLE);
-//                    data.put(title, jsonProduct);
-//
-//                    List<Map> colorandsizes = new ArrayList<>();
-//                    for (Map colorAndSize : getProduct) {
-//
-//                        Map resultProduct = new LinkedHashMap();
-//                        resultProduct.put(AppParams.ID, ParamUtil.getString(colorAndSize, AppParams.PRODUCTS));
-//
-//
-//                        String color = ParamUtil.getString(colorAndSize, "colors");
-//
-//                        List<String> listIdColor = Arrays.asList(color.split(","));
-//                        int count = -1;
-//                        String priceInSize = null;
-//                        List<Map> listColor = new ArrayList<>();
-//                        for (String idColor : listIdColor) {
-//                            count++;
-//                            for (Map colors : getcolor) {
-//                                String ColorId = ParamUtil.getString(colors, "id");
-////                            resultColor.put(AppParams.ID, ParamUtil.getString(colors, AppParams.COLORS));
-//                                if (ColorId.equals(idColor)) {
-//
-//                                    listColor.add(colors);
-//                                    break;
-//                                }
-//                            }
-//
-//                        }
-//                        colorAndSize.put(AppParams.COLORS, listColor);
-//                        //
-//
-//                        String size = ParamUtil.getString(colorAndSize, "price");
-//                        String price = ParamUtil.getString(colorAndSize, "sale_price");
-//
-//
-//                        List<String> listIdSize = Arrays.asList(size.split(","));
-//                        List<String> listIdPrice = Arrays.asList(price.split(","));
-//
-//                        List<Map> listSizes = new ArrayList<>();
-//
-//                        for (String idSize : listIdSize) {
-//                            count++;
-//                            for (Map prices : getsize) {
-//                                String SizeId = ParamUtil.getString(prices, "sizes");
-//                                if (SizeId.equals(idSize)) {
-//                                    if (count < listIdPrice.size()) {
-//                                        prices.put("price", listIdPrice.get(count));
-//                                    }
-//                                    listSizes.add(prices);
-//                                    break;
-//                                }
-//                            }
-//                        }
-//
-//                        colorAndSize.put(AppParams.PRICE, listSizes);
-//
-//
-//                        colorandsizes.add(colorAndSize);
-//                    }
-//                    map.put(AppParams.PRODUCTS, colorandsizes);
-//
-//                }
-
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
@@ -172,19 +96,6 @@ public class CreateProductHandler implements Handler<RoutingContext> {
             }
         });
     }
-
-    private List<Map> addProduct(String campaign_id, String baseId, String colorId, String sizeId, String priceid, String designs, String mockup) throws SQLException {
-        List<Map> resultMap = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, priceid, designs, mockup);
-
-        return resultMap;
-    }
-
-//    private Map addProduct(String campaign_id, String baseId, String colorId, String sizeId, String priceid, String designs, String mockup) throws SQLException {
-//
-//        List<Map> result = CreateProductServices.createProduct(campaign_id, baseId, colorId, sizeId, priceid ,designs, mockup);
-//
-//        return result;
-//    }
 
 
     private static final Logger LOGGER = Logger.getLogger(CreateProductHandler.class.getName());
