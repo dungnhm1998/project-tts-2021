@@ -140,11 +140,15 @@ public class CampaignService extends MasterService {
             List<String> listPrice = Arrays.asList(price.split(","));
             int count = -1;
 
-            List<String> listIdBasePrice = new ArrayList<>();
-            for(Map sizePriceMap : sizeInput){
-                String baseIdSub = ParamUtil.getString(sizePriceMap, AppParams.S_BASE_ID);
-                listIdBasePrice.add(baseIdSub);
-            }
+            // c1
+//            List<String> listIdBasePrice = new ArrayList<>();
+//            for(Map sizePriceMap : sizeInput){
+//                String baseIdSub = ParamUtil.getString(sizePriceMap, AppParams.S_BASE_ID);
+//                listIdBasePrice.add(baseIdSub);
+//            }
+
+            ///c2
+            List<Map> listDropShipPrice = sizeInput;
 
             if (!size.isEmpty()) {
                 for (String idSize : listIdSize) {
@@ -169,10 +173,22 @@ public class CampaignService extends MasterService {
 
                             String dropshipPrice = "0";
                             String secondSidePrice = "0";
-                            if(listIdBasePrice.contains(baseId)){
-                                    dropshipPrice = ParamUtil.getString(sizeMapList, AppParams.S_DROPSHIP_PRICE);
-                                    secondSidePrice = ParamUtil.getString(sizeMapList, AppParams.S_SECOND_SIDE_PRICE);
+                            //c1 ra ket qua sai khi cung idSize, khac idBase, k kiem tra dc idBase
+//                            if(listIdBasePrice.contains(baseId)){
+//                                    dropshipPrice = ParamUtil.getString(sizeMapList, AppParams.S_DROPSHIP_PRICE);
+//                                    secondSidePrice = ParamUtil.getString(sizeMapList, AppParams.S_SECOND_SIDE_PRICE);
+//                                }
+
+                            //c2
+                            for(Map dropShipPriceMap : listDropShipPrice){
+                                String baseIdSub = ParamUtil.getString(dropShipPriceMap, AppParams.S_BASE_ID);
+                                String sizeSId = ParamUtil.getString(dropShipPriceMap, AppParams.S_ID_2);
+                                if(baseIdSub.equals(baseId) && sizeSId.equals(idSize)){
+                                    dropshipPrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_DROPSHIP_PRICE);
+                                    secondSidePrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_SECOND_SIDE_PRICE);
                                 }
+                            }
+
                             sizeMap.put(AppParams.DROPSHIP_PRICE, dropshipPrice);
                             sizeMap.put(AppParams.SECOND_SIDE_PRICE, secondSidePrice);
 
