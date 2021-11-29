@@ -147,8 +147,6 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
         router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
-        router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
-
         router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
         router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
 

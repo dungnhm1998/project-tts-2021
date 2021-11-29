@@ -27,7 +27,7 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 				JsonObject json = routingContext.getBodyAsJson();
 				String email = json.getString(AppParams.EMAIL);
 				String password = json.getString(AppParams.PASSWORD);
-				String confirmPassword = json.getString("confirmPassword");
+				String confirmPassword = json.getString("confirm_Password");
 				String phone = json.getString(AppParams.PHONE);
 				
 				String id = UUID.randomUUID().toString().substring(5, 20);
