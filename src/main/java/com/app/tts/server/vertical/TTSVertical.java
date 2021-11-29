@@ -140,7 +140,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
         router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
-        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
+        router.route(HttpMethod.PUT, "/change-pass2").handler(new UpdatePassHandler());
 
 //		router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
 //		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
@@ -159,7 +159,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());
         router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());
         router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());
-        router.route(HttpMethod.PUT, "/change-pass2").handler(new ChangePasswordHandler());
+        router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
 
         router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
         router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
