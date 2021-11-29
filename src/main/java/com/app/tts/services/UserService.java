@@ -1,9 +1,5 @@
 package com.app.tts.services;
 
-import com.app.tts.error.exception.OracleException;
-import com.app.tts.util.AppParams;
-import com.app.tts.util.ParamUtil;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,6 +7,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+
+import com.app.tts.error.exception.OracleException;
+import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
 
 public class UserService  extends MasterService{
 

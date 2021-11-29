@@ -6,13 +6,10 @@ import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import com.app.tts.encode.Md5Code;
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.core.http.HttpServerResponse;
 import io.vertx.rxjava.ext.web.RoutingContext;
