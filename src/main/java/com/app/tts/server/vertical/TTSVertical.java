@@ -141,53 +141,20 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
         // xet uri de xem handler nao se bat login, handler nao khong bat login
         router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
-//		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
         //api
         router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
-
-//        router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
         router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
-        router.route(HttpMethod.PUT, "/change-pass2").handler(new UpdatePassHandler());
-
-
-//		router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
-//		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
-//
-//		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
-//		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
-
-//		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
 
         router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
         router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
 
-        router.route(HttpMethod.POST, "/insert_order_shipping_product").handler(new InsertOrderShippingProductHandler());
-
-        router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());
-        router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());
-        router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());
         router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
-
-
-//        router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
-//        router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
-//        router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
-//        router.route(HttpMethod.POST, "/add-product").handler(new AddProHandler());
-
-//        router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
-//        router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
-//        router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
-
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
-        router.route(HttpMethod.POST, "/login1").handler(new LoginHandler());
-        router.route(HttpMethod.POST, "/recover1").handler(new RecoveryPassHandler());
-        router.route(HttpMethod.PUT, "/change-pass1").handler(new ChangePassHandler());
-        router.route(HttpMethod.POST, "/create-camp1").handler(new CreateCamHandler());
+        router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
         return router;
     }
 
