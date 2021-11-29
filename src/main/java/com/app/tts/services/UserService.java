@@ -19,7 +19,7 @@ public class UserService  extends MasterService{
     public static final String GET_ALL_USER = "{call PKG_QUY.get_all_user(?,?,?,?)}";
     public static final String DEL_USER_BY_ID = "{call PKG_QUY.del_user_by_id(?,?,?,?)}";
     public static final String UPDATE_USER = "{call PKG_QUY.update_user(?,?,?,?,?,?,?,?)}";
-    public static final String GET_USER_BY_EMAIL = "{call PKG_QUY.get_user_by_email(?,?,?,?)}";
+    public static final String GET_USER_BY_EMAIL = "{call PKG_USER.get_user_by_email(?,?,?,?)}";
     public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?,?)}";
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
     public static final String RECOVER_PASSWORD = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
@@ -88,6 +88,16 @@ public class UserService  extends MasterService{
 
 
     public static Map getUserByEmail(String email) throws SQLException {
+
+        Map resultMap = new HashMap<>();
+        Map resultDataList = searchOne(GET_USER_BY_EMAIL, new Object[]{email});
+
+        LOGGER.info("=> GET EMAIL  result: " + resultDataList);
+
+        return resultDataList;
+    }
+
+    public static Map getUserByEmailq(String email) throws SQLException {
 
         Map resultMap = new HashMap<>();
         Map resultDataList = searchOne(GET_USER_BY_EMAIL, new Object[]{email});

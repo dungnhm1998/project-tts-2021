@@ -23,20 +23,22 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
             try {
-                // lấy body
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
-                //tạo session
                 Session session = routingContext.session();
 
-                String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
-                String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
-                String EncodePassword = Md5Code.md5(password);
+                String email = ParamUtil.getString(jsonRequest, "email");
+                String password = ParamUtil.getString(jsonRequest, "password");
+                String encodePassword = Md5Code.md5(password);
                 Gson gson = new Gson();
-                Map user =  UserService.getUserByEmail(email);
-                String pass = ParamUtil.getString(user, AppParams.S_PASSWORD);
-                Map data = new HashMap();
+                Map data = new HashMap<>();
+                Map user = UserService.getUserByEmailq(email);
+
+                String user_id = ParamUtil.getString(user, "S_ID");
+                String user_avatar = ParamUtil.getString(user, "S_AVATAR");
+                String user_password = ParamUtil.getString(user, "S_PASSWORD");
+                String user_email = ParamUtil.getString(user, "S_EMAIL");
                 if (!user.isEmpty()) {
-                    if (pass.equals(EncodePassword)) {
+                    if (user_password.equals(encodePassword)) {
                         if (session != null) {
                             LOGGER.info("Connection to server sucessfully");
                             // Check server redis có chạy không
@@ -44,30 +46,35 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                             // Set timout cho session
                             SetParams ttl = new SetParams();
                             ttl.ex(30 * 60);
-
                             // Lưu data của user vào session
                             jedis.set(session.id(), gson.toJson(user), ttl);
-//							LOGGER.info("user-id = "+ user.get(AppParams.ID).toString());
                             // Lưu sessionId vào cookie
                             Cookie cookie = Cookie.cookie("sessionId", session.id());
                             routingContext.addCookie(cookie);
-                            data.put(AppParams.ID, user.get(AppParams.S_ID).toString());
-                            data.put("avatar", "....");
-                            data.put("message", "login successfully");
-                            data.put("email", email);
-
+                            routingContext.put(AppParams.USER_ID, user_id);
                         } else {
                             LOGGER.info("session is null");
                         }
+                        data.put("id", user_id);
+                        data.put("avatar", user_avatar);
+                        data.put("message", "login successfully");
+                        data.put("email", user_email);
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                         routingContext.put(AppParams.RESPONSE_DATA, data);
-	                }else {
-                        LOGGER.info("message"+ "password is incorrect");
-	                }
-                }else {
-                    LOGGER.info("message"+ "email is invalid");
-                }    	
+                    } else {
+                        data.put("message", "password or email is incorrect");
+                        routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
+                        routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
+                        routingContext.put(AppParams.RESPONSE_DATA, data);
+                    }
+
+                } else {
+                    data.put("message", " email is valid");
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
+                    routingContext.put(AppParams.RESPONSE_DATA, "{}");
+                }
                 future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
