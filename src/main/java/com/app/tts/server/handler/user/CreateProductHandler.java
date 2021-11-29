@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.Campaign;
+package com.app.tts.server.handler.user;
 
 import com.app.tts.services.CreateProServices;
 import com.app.tts.util.AppParams;
@@ -78,7 +78,7 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
                     // fomart
                     data = CreateProServices.format(getCampaign, getProduct, getColor, getSize);
-
+                    LOGGER.info( "result: "+ data);
                 }
 
                 rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
