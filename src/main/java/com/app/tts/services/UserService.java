@@ -19,10 +19,10 @@ public class UserService  extends MasterService{
     public static final String GET_ALL_USER = "{call PKG_QUY.get_all_user(?,?,?,?)}";
     public static final String DEL_USER_BY_ID = "{call PKG_QUY.del_user_by_id(?,?,?,?)}";
     public static final String UPDATE_USER = "{call PKG_QUY.update_user(?,?,?,?,?,?,?,?)}";
-    public static final String GET_USER_BY_EMAIL = "{call PKG_USER.get_user_by_email(?,?,?,?)}";
-    public static final String UPDATE_PASSWORD = "{call PKG_QUY.update_password(?,?,?,?,?)}";
     public static final String GET_PASS_BY_EMAIL = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
     public static final String RECOVER_PASSWORD = "{call PKG_QUY.get_user_by_password(?,?,?,?)}";
+    public static final String UPDATE_PASSWORD = "{call PKG_TTS_TRUONG.update_password(?, ?, ?, ?, ?)}";
+    public static final String GET_USER_BY_EMAIL = "{call PKG_TTS_TRUONG.get_user_by_email(?, ?, ?, ?)}";
     public static List<Map> getAllUser(String state) throws SQLException {
         List<Map> result = new ArrayList();
         List<Map> resultDataList = excuteQuery(GET_ALL_USER, new Object[]{state});
