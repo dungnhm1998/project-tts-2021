@@ -79,14 +79,15 @@ public class AddProductHandler implements Handler<RoutingContext>{
 	        				sizeId, designs, mockups, price);
 	         
 	            	product = SubService.getProduct(campaignId);
+	            	LOGGER.info("product: " + product);
 	            		for(Map map: product) {
-	            			String productId = ParamUtil.getString(map, AppParams.S_ID);
+	            			String productId = ParamUtil.getString(map, "id");
+	            			LOGGER.info("productId: " + productId);
 	            			color = SubService.getColor(productId);
 	            			size = SubService.getSize(productId);
 	            			map.put("colors", color);
 	            			map.put("sizes", size);
 	            		}
-	            		LOGGER.info("color: " + color);
             	}
             	
             	Map data = new HashMap();

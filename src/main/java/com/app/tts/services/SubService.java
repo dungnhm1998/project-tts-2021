@@ -78,7 +78,7 @@ public class SubService extends MasterService{
 	            b = format3(b);
 	            resultData.add(b);
 	        }
-		return result;
+		return resultData;
 	}
 	
 	public static List<Map> getSize (String productId) throws SQLException{
@@ -88,7 +88,7 @@ public class SubService extends MasterService{
 	            b = format4(b);
 	            resultData.add(b);
 	        }
-		return result;
+		return resultData;
 	}
 	
 	public static Map format1(List<Map> result) throws SQLException{
@@ -177,6 +177,7 @@ public class SubService extends MasterService{
 		sizeResult.put(AppParams.STATE, ParamUtil.getString(size, AppParams.S_STATE));
 		sizeResult.put(AppParams.DROPSHIP_PRICE, ParamUtil.getString(size, AppParams.S_DROPSHIP_PRICE));
 		sizeResult.put(AppParams.SECOND_SIDE_PRICE, ParamUtil.getString(size, AppParams.S_SECOND_SIDE_PRICE));
+		
 		return sizeResult;
 	}
 	
