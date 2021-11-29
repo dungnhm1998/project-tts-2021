@@ -40,8 +40,7 @@ public class RecoverPasswordHandler implements Handler<RoutingContext> {
 				
 				Map data = new HashMap();
 				List<Map> users = UserService.getUserByEmailRecover(email);
-				System.out.println(users);
-				LOGGER.info("" + users);
+				
 				if(!users.isEmpty()) {
 					UserService.updatePassword(email, password);
 					data.put("message ", "recover password successfully");
