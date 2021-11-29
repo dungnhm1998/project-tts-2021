@@ -37,7 +37,7 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                 String user_avatar = ParamUtil.getString(user, "S_AVATAR");
                 String user_password = ParamUtil.getString(user, "S_PASSWORD");
                 String user_email = ParamUtil.getString(user, "S_EMAIL");
-                if (!user.isEmpty()) {
+                if (!user_email.isEmpty()) {
                     if (user_password.equals(encodePassword)) {
                         if (session != null) {
                             LOGGER.info("Connection to server sucessfully");
@@ -55,10 +55,12 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                         } else {
                             LOGGER.info("session is null");
                         }
+
                         data.put("id", user_id);
                         data.put("avatar", user_avatar);
                         data.put("message", "login successfully");
                         data.put("email", user_email);
+                        
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                         routingContext.put(AppParams.RESPONSE_DATA, data);
@@ -73,7 +75,7 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                     data.put("message", " email is valid");
                     routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
                     routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
-                    routingContext.put(AppParams.RESPONSE_DATA, "{}");
+                    routingContext.put(AppParams.RESPONSE_DATA, data);
                 }
                 future.complete();
             } catch (Exception e) {
