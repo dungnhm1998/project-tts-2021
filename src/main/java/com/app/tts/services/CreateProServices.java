@@ -14,9 +14,9 @@ public class CreateProServices extends MasterService {
     public static final String GET_SIZES = "{call PKG_QUY.get_color4(?,?,?,?)}";
 
 
-    public static List<Map> createProduct(String p_campaign_id, String p_base_id, String p_colors, String p_sizes, String priceid, String p_design_json, String p_mockup_img_url) throws SQLException {
+    public static List<Map> createProduct(String campaignId, String baseId, String colorId, String sizeId, String prices, String p_design_json, String p_mockup_img_url) throws SQLException {
 
-        List<Map> createProduct = excuteQuery(CREATE_PRODUCT, new Object[]{p_campaign_id, p_base_id, p_colors, p_sizes, priceid, p_design_json, p_mockup_img_url});
+        List<Map> createProduct = excuteQuery(CREATE_PRODUCT, new Object[]{campaignId, baseId, colorId, sizeId, prices, p_design_json, p_mockup_img_url});
 
         LOGGER.info("Create Product" + createProduct);
 
@@ -24,28 +24,29 @@ public class CreateProServices extends MasterService {
     }
 
 
-    public static List<Map> getPoduct(String p_id) throws SQLException {
-        List<Map> get_color = excuteQuery(GET_PRODUCT, new Object[]{p_id});
+    public static List<Map> getPoduct(String campaignId) throws SQLException {
+        List<Map> get_color = excuteQuery(GET_PRODUCT, new Object[]{campaignId});
+        LOGGER.info("getPoduct : " + get_color);
         return get_color;
     }
 
-    public static List<Map> get_color(String p_id) throws SQLException {
-        List<Map> get_color3 = excuteQuery(GET_COLORS, new Object[]{p_id});
+    public static List<Map> get_color(String campaignId) throws SQLException {
+        List<Map> get_color3 = excuteQuery(GET_COLORS, new Object[]{campaignId});
+        LOGGER.info("get_color: " + get_color3);
         return get_color3;
     }
 
-    public static List<Map> get_size(String p_id) throws SQLException {
-        List<Map> get_color4 = excuteQuery(GET_SIZES, new Object[]{p_id});
-
+    public static List<Map> get_size(String campaignId) throws SQLException {
+        List<Map> get_color4 = excuteQuery(GET_SIZES, new Object[]{campaignId});
+        LOGGER.info("get_size: " + get_color4);
         return get_color4;
     }
 
-    private static final Logger LOGGER = Logger.getLogger(CreateProductServices.class.getName());
 
 
     public static Map format(List<Map> getCampaign, List<Map> getProduct, List<Map> getColor, List<Map> getSize) {
+        // get campaign
         Map campaign = new LinkedHashMap();
-
         Map getcampaign = getCampaign.get(0);
         campaign.put(AppParams.ID, ParamUtil.getString(getcampaign, AppParams.S_ID_2));
         campaign.put(AppParams.USER_ID, ParamUtil.getString(getcampaign, AppParams.S_USER_ID));
@@ -85,8 +86,8 @@ public class CreateProServices extends MasterService {
         campaign.put(AppParams.MODIFIED_AT, ParamUtil.getString(getcampaign, "MODIFIED_AT"));
         campaign.put(AppParams.OLD_TAGS, ParamUtil.getString(getcampaign, "OLD_TAGS"));
 
+        // list product theo id campaign
         List<Map> listProduct = new ArrayList<>();
-
         for (Map productMap : getProduct) {
             Map resultProduct = new LinkedHashMap();
 
@@ -112,7 +113,7 @@ public class CreateProServices extends MasterService {
             resultProduct.put(AppParams.DESIGN, ParamUtil.getString(productMap, AppParams.S_DESIGN_JSON));
 
 
-
+        // get color
             List<Map> listColor = new ArrayList<>();
 
             // danh sach id color co trong product
@@ -142,6 +143,8 @@ public class CreateProServices extends MasterService {
 
             resultProduct.put(AppParams.COLORS, listColor);
             //
+
+            // get sizes
             List<Map> listSize = new ArrayList<>();
 
             // danh sach id size co trong product
@@ -205,10 +208,12 @@ public class CreateProServices extends MasterService {
         }
 
         if (!listProduct.isEmpty()) {
-            campaign.put("PRODUCTS", listProduct);
+            campaign.put("products", listProduct);
         }
-
 
         return  campaign;
     }
+
+    private static final Logger LOGGER = Logger.getLogger(CreateProServices.class.getName());
+
 }

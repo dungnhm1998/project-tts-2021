@@ -14,14 +14,12 @@ import com.app.tts.server.handler.User2.ForgotPasswordHandler;
 import com.app.tts.server.handler.User2.LoginUserHandler2;
 import com.app.tts.server.handler.User2.RegisterUserHandler2;
 //import com.app.tts.server.handler.base.ListBaseHandler;
-import com.app.tts.server.handler.campaign.AddProHandler;
 import com.app.tts.server.handler.campaign.AddProductHandler;
 import com.app.tts.server.handler.campaign.CreateCampaignHandler;
 import com.app.tts.server.handler.campaign.CreateProductHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
-import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.user.*;
 import com.app.tts.util.LoggerInterface;
@@ -166,8 +164,8 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler());
         router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());
         router.route(HttpMethod.POST, "/create-product").handler(new CreateProductHandler());
-        router.route(HttpMethod.POST, "/add-product").handler(new AddProHandler());
 
+        router.route(HttpMethod.POST, "/register").handler(new RegisterUserHandler());
         router.route(HttpMethod.POST, "/register1").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/login1").handler(new LoginHandler());
         router.route(HttpMethod.POST, "/recover1").handler(new RecoveryPassHandler());

@@ -23,7 +23,9 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
             try {
+                // lấy body
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
+                //tạo session
                 Session session = routingContext.session();
 
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
@@ -53,13 +55,13 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                             data.put("avatar", "....");
                             data.put("message", "login successfully");
                             data.put("email", email);
-                            routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                            routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                            routingContext.put(AppParams.RESPONSE_DATA, data);
+
                         } else {
                             LOGGER.info("session is null");
                         }
-
+                        routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                        routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                        routingContext.put(AppParams.RESPONSE_DATA, data);
 	                }else {
                         LOGGER.info("message"+ "password is incorrect");
 	                }
