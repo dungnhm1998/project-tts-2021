@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.User;
+package com.app.tts.server.handler.user;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,18 +39,17 @@ public class RecoverPasswordHandler implements Handler<RoutingContext> {
 				String password = randomAlphaNumeric(6);
 				
 				Map data = new HashMap();
-				List<Map> users = UserService.getPassByEmail(email);
+				List<Map> users = UserService.getUserByEmailRecover(email);
+				System.out.println(users);
+				LOGGER.info("" + users);
 				if(!users.isEmpty()) {
-					UserService.updatePass(email, password);
-					routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-					routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+					UserService.updatePassword(email, password);
 					data.put("message ", "recover password successfully");
 					data.put("recover_password ", password);
-					routingContext.put(AppParams.RESPONSE_DATA, data);
 				}else {
-					response.end(Json.encode("email already exist!"));
+					data.put("message", "email already exist!");
 				}
-				
+				routingContext.put(AppParams.RESPONSE_DATA, data);
 				future.complete();
 			} catch (Exception e) {
 				routingContext.fail(e);
