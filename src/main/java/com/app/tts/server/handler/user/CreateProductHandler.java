@@ -20,7 +20,7 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
                 String campaignId = ParamUtil.getString(json, AppParams.CAMPAIGN_ID);
                 String userId = ParamUtil.getString(json, AppParams.USER_ID);
-                String baseId = "", colorId = "", name = "", size_name = "", price = "", designs = "", mockups = "",
+                String baseId = "", colorId = "",  price = "", designs = "", mockups = "",
                         sizeId = "";
                 // get body
                 List<Map> getproduct = ParamUtil.getListData(json, "products");

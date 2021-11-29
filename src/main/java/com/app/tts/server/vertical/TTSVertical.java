@@ -14,6 +14,7 @@ import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.user.CreateProductHandler;
 import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
 import com.app.tts.server.handler.user.UpdatePassHandler;
@@ -146,6 +147,9 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
+
+        router.route(HttpMethod.POST, "/add-product").handler(new CreateProductHandler());
+
         return router;
     }
 
