@@ -21,7 +21,7 @@ import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
-import com.app.tts.server.handler.user.*;
+import com.app.tts.server.handler.User.RecoverPasswordHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
