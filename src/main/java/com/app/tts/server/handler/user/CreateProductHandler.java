@@ -68,11 +68,11 @@ public class CreateProductHandler implements Handler<RoutingContext> {
 
                     //get Campaign
                     List<Map> getCampaign = CreateProServices.createProduct(campaignId, baseId, colorId, sizeId, price, designs, mockups);
-                    // get product theo id campaign
+                    // get list product theo id campaign
                     List<Map> getProduct = CreateProServices.getPoduct(campaignId);
-                    //getColor theo id campaign
+                    //getListColor theo id campaign
                     List<Map> getColor = CreateProServices.get_color(campaignId);
-                    //getSize theo id campaign
+                    //getlistSize theo id campaign
                     List<Map> getSize = CreateProServices.get_size(campaignId);
 
 
