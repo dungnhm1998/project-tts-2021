@@ -12,6 +12,7 @@ import com.app.tts.encode.Md5Code;
 import com.app.tts.services.SubService;
 import com.app.tts.session.redis.SessionStore;
 import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
@@ -24,11 +25,11 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 
 		routingContext.vertx().executeBlocking(future -> {
 			try {
-				JsonObject json = routingContext.getBodyAsJson();
-				String email = json.getString(AppParams.EMAIL);
-				String password = json.getString(AppParams.PASSWORD);
-				String confirmPassword = json.getString("confirmPassword");
-				String phone = json.getString(AppParams.PHONE);
+				Map json = routingContext.getBodyAsJson().getMap();
+				String email = ParamUtil.getString(json, AppParams.EMAIL);
+				String password = ParamUtil.getString(json, AppParams.PASSWORD);
+				String confirmPassword = ParamUtil.getString(json, "confirm_password");
+				String phone = ParamUtil.getString(json, AppParams.PHONE);
 				
 				String id = UUID.randomUUID().toString().substring(5, 20);
 				Map data = new HashMap<>();

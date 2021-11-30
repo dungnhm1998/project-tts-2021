@@ -2,6 +2,7 @@ package com.app.tts.services;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,6 +26,9 @@ public class SubService extends MasterService{
 	public static final String GET_PRODUCT = "{call PKG_BQP.get_product(?,?,?,?)}";
 	public static final String GET_COLORS = "{call PKG_BQP.get_colors(?,?,?,?)}";
 	public static final String GET_SIZES = "{call PKG_BQP.get_sizes(?,?,?,?)}";
+	public static final String LIST_BASE_AND_GROUP = "{call PKG_BQP.get_base_and_group(?,?,?)}";
+	public static final String GET_LIST_SIZE = "{call PKG_BQP.get_list_size(?,?,?,?)}";
+	public static final String GET_LIST_COLOR = "{call PKG>BQP.get_list_color(?,?,?,?)}";
 	
 	public static List<Map> insertUser (String id, String email, String password, String phone) throws SQLException{
 		List<Map> result = excuteQuery(INSERT_USER, new Object[] {id, email, password, phone});
@@ -56,7 +60,6 @@ public class SubService extends MasterService{
 		List<Map> result = excuteQuery(CREATE_PRODUCT, new Object[] {campaignResult_id, baseId, colorId, 
 				sizeId, design, mockups, price});
 		Map resultData = format1(result);
-           
 		return resultData;
 	}
 	
@@ -64,8 +67,8 @@ public class SubService extends MasterService{
 		List<Map> result = excuteQuery(GET_PRODUCT, new Object[] {campaignId});
 		List<Map> resultData = new ArrayList<>();
 		for (Map b : result) {
-	            b = format2(b);
-	            resultData.add(b);
+            b = format2(b);
+            resultData.add(b);
 	        }
 		return resultData;
 		
@@ -75,8 +78,8 @@ public class SubService extends MasterService{
 		List<Map> result = excuteQuery(GET_COLORS, new Object[] {productId});
 		List<Map> resultData = new ArrayList<>();
 		for (Map b : result) {
-	            b = format3(b);
-	            resultData.add(b);
+            b = format3(b);
+            resultData.add(b);
 	        }
 		return resultData;
 	}
@@ -85,10 +88,31 @@ public class SubService extends MasterService{
 		List<Map> result = excuteQuery(GET_SIZES, new Object[] {productId});
 		List<Map> resultData = new ArrayList<>();
 		for (Map b : result) {
-	            b = format4(b);
-	            resultData.add(b);
+            b = format4(b);
+            resultData.add(b);
 	        }
 		return resultData;
+	}
+	
+	public static List<Map> getListBaseGroup () throws SQLException{
+		List<Map> result = excuteQuery(LIST_BASE_AND_GROUP, new Object[] {});
+		List<Map> resultData = new ArrayList<>();
+		for (Map b : result) {
+			b = formatList(b);
+			resultData.add(b);
+		}
+		LOGGER.info("result: " + result);
+		return resultData;
+	}
+	
+	public static List<Map> getListSize(String baseId) throws SQLException{
+		List<Map> result = excuteQuery(GET_LIST_SIZE, new Object[] {baseId});
+		return result;
+	}
+	
+	public static List<Map> getListColor(String baseId) throws SQLException{
+		List<Map> result = excuteQuery(GET_LIST_COLOR, new Object[] {baseId});
+		return result;
 	}
 	
 	public static Map format1(List<Map> result) throws SQLException{
@@ -180,6 +204,40 @@ public class SubService extends MasterService{
 		
 		return sizeResult;
 	}
+	
+	private static Map formatBaseGroup(Map queryData) {
+
+        Map resultMap = new LinkedHashMap<>();
+        Map printTable = new LinkedHashMap<>();
+        Map image = new LinkedHashMap<>();
+        resultMap.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
+        resultMap.put(AppParams.TYPE_ID, ParamUtil.getString(queryData, AppParams.S_TYPE_ID));
+        resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, AppParams.S_NAME));
+        resultMap.put(AppParams.GROUP_ID, ParamUtil.getString(queryData, AppParams.S_GROUP_ID));
+        resultMap.put(AppParams.GROUP_NAME, ParamUtil.getString(queryData, AppParams.S_GROUP_NAME));
+       
+        //printable
+        printTable.put("front_top", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_TOP));
+        printTable.put("front_left", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_LEFT));
+        printTable.put("front_width", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_WIDTH));
+        printTable.put("front_height", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_HEIGHT));
+        printTable.put("back_top", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_BACK_TOP));
+        printTable.put("back_left", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_BACK_LEFT));
+        printTable.put("back_width", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_BACK_WIDTH));
+        printTable.put("back_height", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_BACK_HEIGHT));
+        //image
+        image.put("icon_url", ParamUtil.getString(queryData, AppParams.S_ICON_IMG_URL));
+        image.put("front_url", ParamUtil.getString(queryData, AppParams.S_FRONT_IMG_URL));
+        image.put("front_width", ParamUtil.getString(queryData, AppParams.S_FRONT_IMG_WIDTH));
+        image.put("front_height", ParamUtil.getString(queryData, AppParams.S_FRONT_IMG_HEIGHT));
+        image.put("back_url", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_URL));
+        image.put("back_width", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_WIDTH));
+        image.put("back_height", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_HEIGHT));
+
+        resultMap.put(AppParams.IMAGE, image);
+        resultMap.put(AppParams.PRINTABLE, printTable);
+        return resultMap;
+    }
 	
 	private static final Logger LOGGER = Logger.getLogger(SubService.class.getName());
 }

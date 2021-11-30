@@ -10,6 +10,7 @@ import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.ucant.AddProductHandler;
 import com.app.tts.server.handler.ucant.ChangePassHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
+import com.app.tts.server.handler.ucant.ListBaseHandler;
 import com.app.tts.server.handler.ucant.LoginHandler;
 import com.app.tts.server.handler.ucant.RecoveryPassHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
@@ -143,6 +144,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePassHandler());
 		router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
 		router.route(HttpMethod.POST, "/add-product").handler(new AddProductHandler());
+		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 		return router;
 	}
 }
