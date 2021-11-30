@@ -10,8 +10,14 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.sql.SQLException;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class getBaseHandler implements Handler<RoutingContext> {
@@ -20,14 +26,79 @@ public class getBaseHandler implements Handler<RoutingContext> {
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
             try {
-
-                Map listBaseRedis = RedisService.getMap(RedisKeyEnum.BASES_MAP);
-                if (listBaseRedis == null || listBaseRedis.isEmpty()) {
-                    listBaseRedis = getListBaseFromDB();
+                Map listBaseDB = new HashMap();
+                List<Map> listBaseAndGroup = GetBaseService.getBaseService();
+                Map listBaseId = listBaseAndGroup.get(0);
+                String baseid = ParamUtil.getString(listBaseId, "base_id");
+                String color = ParamUtil.getString(listBaseId, "colors");
+                String size = ParamUtil.getString(listBaseId, "sizes");
+                List<Map> listBaseColor = GetBaseService.getBaseColor(baseid);
+                List<Map> listBaseSize = GetBaseService.getBaseSize(baseid);
+                Set<String> listBaseGroupId = new HashSet();
+                for (Map baseAndGroup : listBaseAndGroup) {
+                    //get base id
+                    String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
+                    listBaseGroupId.add(baseGroupId);
                 }
+
+
+                //list base group
+                for (String groupId : listBaseGroupId) {
+                    List<Map> listBaseGroup1 = new ArrayList();
+                    String baseGroupName1 = "";
+                    for (Map baseAndGroup : listBaseAndGroup) {
+
+                        // list id color
+                        List<String> listIdColor = Arrays.asList(color.split(","));
+
+                        //ghep theo color
+                        List<Map> listColorBase = new ArrayList<>();
+                        if (!color.isEmpty()) {
+                            for (String idColor : listIdColor) {
+                                Map colorMap = new LinkedHashMap();
+                                for (Map colors : listBaseColor) {
+                                    String idColorInList = ParamUtil.getString(colors, "id");
+                                    if (idColorInList.equals(idColor)) {
+                                        listColorBase.add(colors);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        baseAndGroup.put("colors", listColorBase);
+                        List<String> listIdSize = Arrays.asList(size.split(","));
+
+                        //ghep theo color
+                        List<Map> listSizeBase = new ArrayList<>();
+                        if (!color.isEmpty()) {
+                            for (String idSize : listIdSize) {
+                                Map colorMap = new LinkedHashMap();
+                                for (Map sizes : listBaseSize) {
+                                    String idSizeInList = ParamUtil.getString(sizes, "id");
+                                    if (idSizeInList.equals(idSize)) {
+                                        listSizeBase.add(sizes);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        baseAndGroup.put("sizes", listSizeBase);
+
+                        String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
+                        if (groupId.equals(baseGroupId)) {
+                            listBaseGroup1.add(baseAndGroup);
+                            baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
+                        }
+                    }
+                    listBaseDB.put(baseGroupName1, listBaseGroup1);
+                }
+
+//		RedisService.persistMap(RedisKeyEnum.BASES_MAP, listBaseDB);
+
+
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                routingContext.put(AppParams.RESPONSE_DATA, listBaseRedis);
+                routingContext.put(AppParams.RESPONSE_DATA, listBaseDB);
                 future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
@@ -41,78 +112,9 @@ public class getBaseHandler implements Handler<RoutingContext> {
         });
     }
 
-    public static Map getListBaseFromDB() throws SQLException {
-        Map listBaseDB = new HashMap();
-        List<Map> listBaseAndGroup = GetBaseService.getBaseService();
-        Map listBaseId = listBaseAndGroup.get(0);
-        String baseId = ParamUtil.getString(listBaseId, "base_id");
-
-        List<Map> listBaseColor = GetBaseService.getBaseColor(baseId);
-        List<Map> listBaseSize = GetBaseService.getBaseSize();
-        Set<String> listBaseGroupId = new HashSet();
-        for (Map baseAndGroup : listBaseAndGroup) {
-            //get base id
-            String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
-            listBaseGroupId.add(baseGroupId);
-        }
-
+//    public static Map getListBaseFromDB() throws SQLException {
 //
-//        List<Map> listSizeAndGroup = GetBaseService.getBaseService();
-//
-//        for (Map baseSizeAndGroup : listSizeAndGroup) {
-//            //get base id
-//            String baseGroupId = ParamUtil.getString(baseSizeAndGroup, AppParams.GROUP_ID);
-//            listBaseGroupId.add(baseGroupId);
-//        }
-
-
-        //list base group
-        for (String groupId : listBaseGroupId) {
-            List<Map> listBaseGroup1 = new ArrayList();
-            String baseGroupName1 = "";
-            for (Map baseAndGroup : listBaseAndGroup) {
-
-                String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
-                if (groupId.equals(baseGroupId)) {
-                    listBaseGroup1.add(baseAndGroup);
-                    baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
-                }
-
-                List<Map> listColor = new ArrayList<>();
-
-                // danh sach id color co trong product
-                String color = ParamUtil.getString(productMap, "S_COLORS");
-                // list id color
-                List<String> listIdColor = Arrays.asList(color.split(","));
-
-
-                //ghep theo color
-                List<Map> listColorBase = new ArrayList<>();
-                for (Map color : listBaseColor) {
-                    String baseColorId = ParamUtil.getString(color, "BASE_ID");
-                    if (baseId.equals(baseColorId)) {
-                        listColorBase.add(color);
-                    }
-                }
-
-                baseAndGroup.put(AppParams.COLORS, listColorBase);
-                //ghep theo size
-                List<Map> listSizeBase = new ArrayList<>();
-                for(Map size: listBaseSize){
-                    String baseSizeId = ParamUtil.getString(size, AppParams.S_BASE_ID);
-                    if(baseId.equals(baseSizeId)){
-                        listSizeBase.add(size);
-                    }
-                }
-                baseAndGroup.put(AppParams.SIZES, listSizeBase);
-            }
-            listBaseDB.put(baseGroupName1, listBaseGroup1);
-        }
-
-//		RedisService.persistMap(RedisKeyEnum.BASES_MAP, listBaseDB);
-
-        return listBaseDB;
-    }
+//    }
 
     private static final Logger LOGGER = Logger.getLogger(getBaseHandler.class.getName());
 }

@@ -6,7 +6,7 @@
 package com.app.tts.server.vertical;
 
 
-import com.app.tts.server.handler.User.*;
+
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.User.GetAllUserHandler;
@@ -138,11 +138,11 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
-		router.route(HttpMethod.GET, "/list-base").handler(new getBaseHandler());
-		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseGroupColorSizeHandler());
+		router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
+		router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
 		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
 		router.route(HttpMethod.GET, "/get-order").handler(new Get_OrderHandler());
 		router.route(HttpMethod.GET, "/list-campaign").handler(new GetCampaignHandler());
 		router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
@@ -152,7 +152,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
 
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
 
 		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
 		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
