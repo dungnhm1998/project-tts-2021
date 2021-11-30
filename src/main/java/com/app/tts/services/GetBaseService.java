@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class GetBaseService extends MasterService {
     public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?)}";
-    public static final String GET_LIST_COLOR = "{call PKG_QUY.get_color1(?,?,?)}";
+    public static final String GET_LIST_COLOR = "{call PKG_QUY.get_color1(?,?,?,?)}";
     public static final String GET_LIST_SIZE = "{call PKG_QUY.get_size(?,?,?)}";
 
     public static List<Map> getBaseService() throws SQLException {
@@ -27,9 +27,9 @@ public class GetBaseService extends MasterService {
         return result;
     }
 
-    public static List<Map> getBaseColor() throws SQLException {
+    public static List<Map> getBaseColor(String base_id) throws SQLException {
         List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{});
+        List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{base_id});
         LOGGER.info("resultcolor" + resultDataList);
         for (Map b : resultDataList) {
             b = format1(b);
@@ -54,13 +54,14 @@ public class GetBaseService extends MasterService {
     public static Map format1(Map queryData) {
         Map resultMap = new LinkedHashMap<>();
         Map colors = new LinkedHashMap<>();
-        resultMap.put(AppParams.COLORS, colors);
+
 
         //colors
         colors.put("id", ParamUtil.getString(queryData, AppParams.S_COLORS));
         colors.put("name", ParamUtil.getString(queryData, AppParams.S_NAME_COLOR));
         colors.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
         colors.put("position", ParamUtil.getString(queryData, AppParams.N_POSITION));
+        resultMap.put(AppParams.COLORS, colors);
         return resultMap;
 
     }
