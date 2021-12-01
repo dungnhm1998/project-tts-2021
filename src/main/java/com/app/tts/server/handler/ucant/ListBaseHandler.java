@@ -28,18 +28,21 @@ public class ListBaseHandler implements Handler<RoutingContext>{
         		Map listBaseDB = new HashMap();
         		List<Map> listBaseAndGroup = SubService.getListBaseGroup();
         		Set<String> listBaseGroupId = new HashSet();
-
+        		Set<String> listBaseId = new HashSet<>();
+        		
         		for (Map baseAndGroup : listBaseAndGroup) {
         			//get base id
-        			String baseId = ParamUtil.getString(baseAndGroup, AppParams.ID);
         			String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
-        			String strColor = ParamUtil.getString(baseAndGroup, AppParams.COLORS);
+        			String baseId = ParamUtil.getString(baseAndGroup, AppParams.ID);
         			listBaseGroupId.add(baseGroupId);
-        		}
-
+        			listBaseId.add(baseId);
+        		}	
+        		
         		//list base group
         		for (String groupId : listBaseGroupId) {
         			List<Map> listBaseGroup = new ArrayList();
+        			List<Map> listSize = new ArrayList();
+    				List<Map> listColor = new ArrayList();
         			String baseGroupName = "";
         			for (Map baseAndGroup : listBaseAndGroup) {
         				String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
@@ -47,10 +50,18 @@ public class ListBaseHandler implements Handler<RoutingContext>{
         					listBaseGroup.add(baseAndGroup);
         					baseGroupName = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
         				}
+        				for(String id : listBaseId) {
+        					String baseId = ParamUtil.getString(baseAndGroup, AppParams.ID);
+        					if(id.equals(baseId)) {
+	        					listSize = SubService.getListSize(id);
+	        					listColor = SubService.getListColor(id);
+	        					baseAndGroup.put("sizes", listSize);
+	        					baseAndGroup.put("colors", listColor);
+        					}
+        				}
         			}
         			listBaseDB.put(baseGroupName, listBaseGroup);
         		}
-        		LOGGER.info("result: " + listBaseDB);
         		
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
