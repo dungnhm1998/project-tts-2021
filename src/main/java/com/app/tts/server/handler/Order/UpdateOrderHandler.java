@@ -8,6 +8,7 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -22,8 +23,8 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                     Map jsonRequest = routingContext.getBodyAsJson().getMap();
                     Map result = inputData(jsonRequest);
 
-                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                     routingContext.put(AppParams.RESPONSE_DATA, result);
                     future.complete();
                 } catch (Exception e) {
@@ -40,8 +41,9 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 
         public static Map inputData(Map mapRequest) throws SQLException {
             //order
-            Random rand = new Random();
-            String orderId = String.valueOf(rand.nextInt(1000000000));
+//            Random rand = new Random();
+//            String orderId = String.valueOf(rand.nextInt(1000000000));
+            String orderId = ParamUtil.getString(mapRequest, "id");
             String source = ParamUtil.getString(mapRequest, AppParams.SOURCE);
             String currency = ParamUtil.getString(mapRequest, AppParams.CURRENCY);
             String note = ParamUtil.getString(mapRequest, AppParams.NOTE);
@@ -64,8 +66,9 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
             String addrVerifiedNote;
 
             //shipping
-            String shippingId = String.valueOf(rand.nextInt(1000000000));
+//            String shippingId = String.valueOf(rand.nextInt(1000000000));
 
+            String shippingId = ParamUtil.getString(shippingMap, "id");
             String email = ParamUtil.getString(shippingMap, AppParams.EMAIL);
             String nameShipping = ParamUtil.getString(shippingMap, AppParams.NAME);
             String phone = ParamUtil.getString(shippingMap, AppParams.PHONE);
@@ -106,16 +109,16 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
             }
 
-            List<Map> orderResultList = updateOrder(orderId, source, currency, note,
+            Map orderResultList = updateOrder(orderId, source, currency, note,
                     storeId, referenceId, state, shippingMethod,
                     shippingId, extraFee, taxAmount, iossNumber,
                     addrVerified, addrVerifiedNote);
-            Map orderResultMap = orderResultList.get(0);
 
-            List<Map> shippingResultList = updateShipping(shippingId,
+
+            Map shippingResultList = updateShipping(shippingId,
                     email, nameShipping, phone,
                     line1, line2, city, stateShipping, postalCode, country, countryName);
-            Map shippingResultMap = shippingResultList.get(0);
+
 
             List<Map> productResultList = updateProduct(
                     id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price,
@@ -123,9 +126,17 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                     variantName, unitAmount
             );
 
-            Map result = OrderService.formatInsertOrder(orderResultMap, shippingResultMap, productResultList);
+//            Map result = OrderService.formatUpdateOrder(orderResultList, shippingResultList, productResultList);
+//
+//            return result;
+            Map data = new LinkedHashMap();
 
-            return result;
+            data.put("orderResultList", orderResultList);
+            data.put("shippingResultList", shippingResultList);
+            data.put("productResultList", productResultList);
+
+            return data;
+
         }
 
         public static List<Map> updateProduct(
@@ -141,22 +152,22 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
             return resultMap;
         }
 
-        public static List<Map> updateShipping(String shippingId,
+        public static Map updateShipping(String shippingId,
                 String email, String nameShipping, String phone,
                 String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
-            List<Map> resultMap = OrderService.updateShipping(shippingId,
+            Map resultMap = OrderService.updateShipping(shippingId,
                     email, nameShipping, phone,
                     line1, line2, city, state, postalCode, country, countryName);
 
             return resultMap;
         }
 
-        public static List<Map> updateOrder(
+        public static Map updateOrder(
                 String orderId, String source, String currency, String note,
                 String storeId, String referenceId, String state, String shippingMethod,
                 String shipping, String extraFee, String taxAmount, String iossNumber,
         int addrVerified, String addrVerifiedNote) throws SQLException {
-            List<Map> result = OrderService.updateOrder(
+            Map result = OrderService.updateOrder(
                     orderId, source, currency, note,
                     storeId, referenceId, state, shippingMethod,
                     shipping, extraFee, taxAmount, iossNumber,
