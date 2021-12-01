@@ -8,6 +8,7 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 Map data = new LinkedHashMap();
 //            Random rand = new Random();
 //            String orderId = String.valueOf(rand.nextInt(1000000000));
+                List<Map> productResultList = new ArrayList<>();
                 String orderId = ParamUtil.getString(jsonRequest, "id");
                 String source = ParamUtil.getString(jsonRequest, AppParams.SOURCE);
                 String currency = ParamUtil.getString(jsonRequest, AppParams.CURRENCY);
@@ -89,26 +91,16 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                     variantName = ParamUtil.getString(mapProduct, AppParams.VARIANT_NAME);
                     unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
 
-                    Map orderResultList = updateOrder(orderId, source, currency, note,
-                            storeId, referenceId, state, shippingMethod,
-                            shippingId, extraFee, taxAmount, iossNumber,
-                            addrVerified, addrVerifiedNote);
-
-
-                    Map shippingResultList = updateShipping(shippingId,
-                            email, nameShipping, phone,
-                            line1, line2, city, stateShipping, postalCode, country, countryName);
-
-
-                    List<Map> productResultList = updateProduct(
-                            id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price,
-                            designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
-                            variantName, unitAmount
-                    );
-
-                    data = OrderService.formatUpdateOrder(orderResultList, shippingResultList, productResultList);
-
+                    productResultList = OrderService.updateProduct(id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price, designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5, variantName, unitAmount);
+                    
                 }
+
+                Map orderResultList = OrderService.updateOrder(orderId, source, currency, note, storeId, referenceId, state, shippingMethod, shippingId, extraFee, taxAmount, iossNumber, addrVerified, addrVerifiedNote);
+
+                Map shippingResultList = OrderService.updateShipping(shippingId, email, nameShipping, phone, line1, line2, city, stateShipping, postalCode, country, countryName);
+
+                data = OrderService.formatUpdateOrder(orderResultList, shippingResultList, productResultList);
+
 
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
@@ -126,47 +118,47 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
         });
     }
 
-    public static Map inputData(Map mapRequest) throws SQLException {
-
-
-        return null;
-    }
-
-    public static List<Map> updateProduct(
-            String id, String baseId, String color, String colorId, String colorName, String sizeId, String size_name, String quantity, String price,
-            String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
-            String variantName, String unitAmount
-    ) throws SQLException {
-        List<Map> resultMap = OrderService.updateProduct(
-                id, baseId, color, colorId, colorName, sizeId, size_name, quantity, price,
-                designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
-                variantName, unitAmount);
-
-        return resultMap;
-    }
-
-    public static Map updateShipping(String shippingId,
-                                     String email, String nameShipping, String phone,
-                                     String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
-        Map resultMap = OrderService.updateShipping(shippingId,
-                email, nameShipping, phone,
-                line1, line2, city, state, postalCode, country, countryName);
-
-        return resultMap;
-    }
-
-    public static Map updateOrder(
-            String orderId, String source, String currency, String note,
-            String storeId, String referenceId, String state, String shippingMethod,
-            String shipping, String extraFee, String taxAmount, String iossNumber,
-            int addrVerified, String addrVerifiedNote) throws SQLException {
-        Map result = OrderService.updateOrder(
-                orderId, source, currency, note,
-                storeId, referenceId, state, shippingMethod,
-                shipping, extraFee, taxAmount, iossNumber,
-                addrVerified, addrVerifiedNote
-        );
-        return result;
-    }
+//    public static Map inputData(Map mapRequest) throws SQLException {
+//
+//
+//        return null;
+//    }
+//
+//    public static List<Map> updateProduct(
+//            String id, String baseId, String color, String colorId, String colorName, String sizeId, String size_name, String quantity, String price,
+//            String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
+//            String variantName, String unitAmount
+//    ) throws SQLException {
+//        List<Map> resultMap = OrderService.updateProduct(
+//                id, baseId, color, colorId, colorName, sizeId, size_name, quantity, price,
+//                designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
+//                variantName, unitAmount);
+//
+//        return resultMap;
+//    }
+//
+//    public static Map updateShipping(String shippingId,
+//                                     String email, String nameShipping, String phone,
+//                                     String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
+//        Map resultMap = OrderService.updateShipping(shippingId,
+//                email, nameShipping, phone,
+//                line1, line2, city, state, postalCode, country, countryName);
+//
+//        return resultMap;
+//    }
+//
+//    public static Map updateOrder(
+//            String orderId, String source, String currency, String note,
+//            String storeId, String referenceId, String state, String shippingMethod,
+//            String shipping, String extraFee, String taxAmount, String iossNumber,
+//            int addrVerified, String addrVerifiedNote) throws SQLException {
+//        Map result = OrderService.updateOrder(
+//                orderId, source, currency, note,
+//                storeId, referenceId, state, shippingMethod,
+//                shipping, extraFee, taxAmount, iossNumber,
+//                addrVerified, addrVerifiedNote
+//        );
+//        return result;
+//    }
 }
 
