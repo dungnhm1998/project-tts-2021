@@ -22,7 +22,7 @@ public class UpdatePassHandler implements Handler<RoutingContext> {
             try {
                 Map jsonRequest = rc.getBodyAsJson().getMap();
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
-                String password = ParamUtil.getString(jsonRequest, "password");
+                String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
                 String new_password = ParamUtil.getString(jsonRequest, "new_password");
                 String confirm_password = ParamUtil.getString(jsonRequest, "confirm_password");
 
