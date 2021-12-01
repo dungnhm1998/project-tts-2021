@@ -67,7 +67,7 @@ public class GetListOrderProductHandler implements Handler<RoutingContext> {
 
         for (int number = 0; number < listOrder.size(); number++) {
             Map orderMap = listOrder.get(number);
-            String orderId = ParamUtil.getString(orderMap, AppParams.S_ID_2);
+            String orderId = ParamUtil.getString(orderMap, AppParams.S_ID);
             if (orderProductMap.containsKey(orderId)) {
                 orderMap.put(AppParams.ORDER_PRODUCT, orderProductMap.get(orderId));
             }

@@ -65,7 +65,7 @@ public class OrderService extends MasterService {
         orderMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_METHOD));
 
         Map shippingMap = new LinkedHashMap();
-        shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL_2));
+        shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL));
         shippingMap.put(AppParams.NAME, ParamUtil.getString(shippingInput, AppParams.S_NAME));
         shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, AppParams.S_PHONE));
 
@@ -73,7 +73,7 @@ public class OrderService extends MasterService {
         addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
         addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
         addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
-        addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE_2));
+        addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE));
         addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
         addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
         addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
@@ -89,7 +89,7 @@ public class OrderService extends MasterService {
 
         orderMap.put(AppParams.SHIPPING, shippingMap);
 
-        orderMap.put(AppParams.EXTRA_FEE_2, ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
+        orderMap.put(AppParams.EXTRA_FEE, ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
 
         List<Map> itemsList = new LinkedList<>();
         for (Map productInput : productList) {
@@ -160,7 +160,7 @@ public class OrderService extends MasterService {
         Map resultMap = new LinkedHashMap();
         Map orderProduct = new LinkedHashMap();
 
-        resultMap.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID_2));
+        resultMap.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID));
         resultMap.put(AppParams.AMOUNT, ParamUtil.getString(inputMap, AppParams.S_AMOUNT));
         resultMap.put(AppParams.CURRENCY, ParamUtil.getString(inputMap, AppParams.S_CURRENCY));
         resultMap.put(AppParams.STATE, ParamUtil.getString(inputMap, AppParams.S_STATE));
@@ -203,7 +203,7 @@ public class OrderService extends MasterService {
         resultMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(inputMap, AppParams.S_TAX_AMOUNT));
         resultMap.put(AppParams.IOSS_NUMBER, ParamUtil.getString(inputMap, AppParams.S_IOSS_NUMBER));
         //product
-        orderProduct.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID_2));
+        orderProduct.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID));
         orderProduct.put(AppParams.ORDER_ID, ParamUtil.getString(inputMap, AppParams.S_ORDER_ID));
         orderProduct.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(inputMap, AppParams.S_CAMPAIGN_ID));
         orderProduct.put(AppParams.PRODUCT_ID, ParamUtil.getString(inputMap, AppParams.S_PRODUCT_ID));

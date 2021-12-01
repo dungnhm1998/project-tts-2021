@@ -48,7 +48,7 @@ public class CreateProServices extends MasterService {
         // get campaign
         Map campaign = new LinkedHashMap();
         Map getcampaign = getCampaign.get(0);
-        campaign.put(AppParams.ID, ParamUtil.getString(getcampaign, AppParams.S_ID_2));
+        campaign.put(AppParams.ID, ParamUtil.getString(getcampaign, AppParams.S_ID));
         campaign.put(AppParams.USER_ID, ParamUtil.getString(getcampaign, AppParams.S_USER_ID));
         campaign.put(AppParams.TITLE, ParamUtil.getString(getcampaign, AppParams.S_TITLE));
         campaign.put(AppParams.DESC, ParamUtil.getString(getcampaign, AppParams.S_DESC));
@@ -62,7 +62,7 @@ public class CreateProServices extends MasterService {
         campaign.put(AppParams.GG_PIXEL, ParamUtil.getString(getcampaign, AppParams.S_GG_PIXEL));
         campaign.put(AppParams.CREATE, ParamUtil.getString(getcampaign, AppParams.D_CREATE));
         campaign.put(AppParams.UPDATE, ParamUtil.getString(getcampaign, AppParams.D_UPDATE));
-        campaign.put(AppParams.STATE, ParamUtil.getString(getcampaign, AppParams.S_STATE_2));
+        campaign.put(AppParams.STATE, ParamUtil.getString(getcampaign, AppParams.S_STATE));
         campaign.put(AppParams.LENGTH, ParamUtil.getString(getcampaign, AppParams.N_LENGTH));
         campaign.put(AppParams.SALE_PRICE, ParamUtil.getString(getcampaign, AppParams.S_SALE_PRICE));
         campaign.put(AppParams.FAVORITE, ParamUtil.getString(getcampaign, AppParams.N_FAVORITE));
@@ -91,7 +91,7 @@ public class CreateProServices extends MasterService {
         for (Map productMap : getProduct) {
             Map resultProduct = new LinkedHashMap();
 
-            resultProduct.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID_2));
+            resultProduct.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID));
             String baseId = ParamUtil.getString(productMap, AppParams.S_BASE_ID);//s
             resultProduct.put(AppParams.BASE_ID, baseId);
             resultProduct.put(AppParams.NAME, ParamUtil.getString(productMap, AppParams.S_NAME));
@@ -102,7 +102,7 @@ public class CreateProServices extends MasterService {
             resultProduct.put(AppParams.BACK_VIEW, ParamUtil.getString(productMap, AppParams.N_BACK_VIEW));
             resultProduct.put(AppParams.MOCKUP_IMG_URL, ParamUtil.getString(productMap, AppParams.S_MOCKUP_IMG_URL));
             resultProduct.put(AppParams.POSITION, ParamUtil.getString(productMap, AppParams.N_POSITION));
-            resultProduct.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE1));
+            resultProduct.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE));
             resultProduct.put(AppParams.CREATE_AT, ParamUtil.getString(productMap, AppParams.D_CREATE));
             resultProduct.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(productMap, AppParams.S_CAMPAIGN_ID));
 
@@ -168,7 +168,7 @@ public class CreateProServices extends MasterService {
                     Map sizeMap = new LinkedHashMap();
 
                     for (Map sizeMapList : getSize) {
-                        String idSizeInList = ParamUtil.getString(sizeMapList, AppParams.S_ID_2);
+                        String idSizeInList = ParamUtil.getString(sizeMapList, AppParams.S_ID);
                         if (idSizeInList.equals(idSize)) {
 //                            String sizeSId = ParamUtil.getString(sizeMapList, AppParams.S_ID_2);//s
                             sizeMap.put(AppParams.SIZES, ParamUtil.getString(sizeMapList, AppParams.S_SIZES));
@@ -178,7 +178,7 @@ public class CreateProServices extends MasterService {
                                 priceInSize = listPrice.get(count);
                             }
                             sizeMap.put(AppParams.PRICE, priceInSize);
-                            sizeMap.put(AppParams.STATE, ParamUtil.getString(sizeMapList, AppParams.S_STATE_2));
+                            sizeMap.put(AppParams.STATE, ParamUtil.getString(sizeMapList, AppParams.S_STATE));
 
                             //price s
                             // BASE_ID o tren cho duyet product, size_id ngay ben tren -> xac dinh duy nhat 1 Map chua gia dropship

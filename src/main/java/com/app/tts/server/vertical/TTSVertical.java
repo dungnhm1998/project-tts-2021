@@ -7,7 +7,7 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-import com.app.tts.server.handler.User.LoginUserHandler;
+import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
@@ -28,6 +28,7 @@ import io.vertx.rxjava.core.http.HttpServer;
 import io.vertx.rxjava.ext.web.Router;
 import io.vertx.rxjava.ext.web.handler.BodyHandler;
 import io.vertx.rxjava.ext.web.handler.CookieHandler;
+import io.vertx.rxjava.ext.web.handler.CorsHandler;
 import io.vertx.rxjava.ext.web.handler.ResponseTimeHandler;
 import io.vertx.rxjava.ext.web.handler.SessionHandler;
 import io.vertx.rxjava.ext.web.handler.TimeoutHandler;
@@ -85,10 +86,11 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         Router router = Router.router(vertx);
         router.route().handler(CookieHandler.create());
         router.route().handler(BodyHandler.create());
-        router.route().handler(io.vertx.rxjava.ext.web.handler.CorsHandler.create("*")
-                .allowedMethod(io.vertx.core.http.HttpMethod.GET)
-                .allowedMethod(io.vertx.core.http.HttpMethod.POST)
-                .allowedMethod(io.vertx.core.http.HttpMethod.OPTIONS)
+        router.route().handler(CorsHandler.create("*")
+                .allowedMethod(HttpMethod.GET)
+                .allowedMethod(HttpMethod.PUT)
+                .allowedMethod(HttpMethod.POST)
+                .allowedMethod(HttpMethod.OPTIONS)
                 .allowedHeader("Access-Control-Request-Method")
                 .allowedHeader("Access-Control-Allow-Credentials")
                 .allowedHeader("Access-Control-Allow-Origin")

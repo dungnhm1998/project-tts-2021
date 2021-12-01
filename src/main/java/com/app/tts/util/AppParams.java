@@ -97,8 +97,7 @@ public class AppParams {
 	public static final String TIMEZONE = "timezone";
 	public static final String SORT = "sort";
 	public static final String SIZES = "sizes";
-	public static final String SIZES1 = "size";
-	public static final String SIZE = "size_id";
+	public static final String SIZE = "size";
 	public static final String COLORS = "colors";
 	public static final String VALUE = "value";
 	public static final String POSITION = "position";
@@ -145,8 +144,6 @@ public class AppParams {
 	public static final String RESPONSE_CODE = "response_code";
 	public static final String RESPONSE_MSG = "response_msg";
 	public static final String RESPONSE_DATA = "response_data";
-	public static final String RESPONSE_DATA_2 = "response_data_2";
-	public static final String RESPONSE_DATA_3 = "response_data_3";
 
 	/**
 	 * Error Params
@@ -160,7 +157,6 @@ public class AppParams {
 	 * DB COLUMNS
 	 */
 	public static final String S_ORDER_ID = "S_ORDER_ID";
-	public static final String S_ID_2 = "S_ID";
 	public static final String ORDER_PRODUCT = "order_product";
 	// order
 	public static final String AMOUNT = "amount";
@@ -278,7 +274,7 @@ public class AppParams {
 	public static final String N_POSITION = "N_POSITION";
 	public static final String S_SIZES = "S_SIZES";
 	public static final String S_PRICE = "S_PRICE";
-	public static final String S_PRICE1 = "S_PRICES";
+	public static final String S_PRICES = "S_PRICES";
 	public static final String S_DROPSHIP_PRICE = "S_DROPSHIP_PRICE";
 	public static final String S_SECOND_SIDE_PRICE = "S_SECOND_SIDE_PRICE";
 	public static final String S_ICON_IMG_URL = "S_ICON_IMG_URL";
@@ -327,14 +323,14 @@ public class AppParams {
 	public static final String ERROR = "error";
 
 	public static final String USERNAME = "username";
-	public static final String S_USERNAME = "TTS_USERNAME";
+	public static final String S_USERNAME = "S_USERNAME";
 	public static final String PASSWORD = "password";
 	public static final String ADDRESS = "address";
 	public static final String S_FIRST_NAME = "S_FIRST_NAME";
 	public static final String S_LAST_NAME = "S_LAST_NAME";
-	public static final String S_ADDRESS = "TTS_ADDRESS";
-	public static final String D_CREATED_AT = "CREATED_AT";
-	public static final String D_UPDATED_AT = "UPDATED_AT";
+	public static final String S_ADDRESS = "S_ADDRESS";
+	public static final String D_CREATED_AT = "D_CREATED_AT";
+	public static final String D_UPDATED_AT = "D_UPDATED_AT";
 	public static final String D_LAST_LOGGED_IN = "D_LAST_LOGGEDIN";
 	public static final String CREATE_AT = "created_at";
 	public static final String UPDATE_AT = "updated_at";
@@ -352,8 +348,6 @@ public class AppParams {
 	public static final String ADMIN = "admin";
 	public static final String S_MEMBER = "S_MEMBER";
 	public static final String MEMBER = "member";
-	public static final String PRICES1 = "prices";
-
 	public static final String S_CAMPAIGN_ID = "S_CAMPAIGN_ID";
 	public static final String CAMPAIGN_ID = "campaign_id";
 	public static final String BASE_ID = "base_id";
@@ -378,7 +372,6 @@ public class AppParams {
 	public static final String CREATED_AT = "created_at";
 	public static final String DEFAULT = "default";
 	public static final String N_DEFAULT = "N_DEFAULT";
-	public static final String N_DEFAULT1 = "DEFAULT1";
 	public static final String DEFAULT_COLOR_ID = "default_color_id";
 	public static final String S_DOMAIN = "S_DOMAIN";
 	public static final String IMG_URL = "img_url";
@@ -433,7 +426,7 @@ public class AppParams {
 	public static final String ORDER_ID = "order_id";
 	public static final String PRODUCT_ID = "product_id";
 	public static final String S_PRODUCT_ID = "S_PRODUCT_ID";
-	public static final String VARIANT_ID = "variant_to";
+	public static final String VARIANT_ID = "variant_id";
 	public static final String S_VARIANT_ID = "S_VARIANT_ID";
 	public static final String S_SIZE_ID = "S_SIZE_ID";
 	public static final String SIZE_ID = "size_id";
@@ -474,10 +467,8 @@ public class AppParams {
 	public static final String PRODUCTSID = "PRODUCT_ID";
 	public static final String MOCKUPS = "mockups";
 	public static final String NAME_COLOR = "NAME_COLOR";
-
     public static final String REFERENCE_ID = "reference_id";
 	public static final String SHIPPING = "shipping";
-	public static final String EXTRA_FEE_2 = "extra_fee";
 	public static final String ITEMS = "items";
 	public static final String LINE1 = "line1";
 	public static final String LINE2 = "line2";
@@ -492,11 +483,8 @@ public class AppParams {
 	public static final String S_POSTAL_CODE = "S_POSTAL_CODE";
 	public static final String S_COUNTRY_CODE = "S_COUNTRY_CODE";
 	public static final String S_COUNTRY_NAME = "S_COUNTRY_NAME";
-	public static final String S_EMAIL_2 = "S_EMAIL";
-	public static final String S_STATE_2 = "S_STATE";
     public static final String CONFIRM_PASSWORD = "confirm_password";
     public static final String NEW_PASSWORD = "new_password";
     public static final String RESULT_DATA_4 = "result_data_4";
 	public static final String RESULT_DATA_5 = "result_data_5";
-
 }

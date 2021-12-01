@@ -54,7 +54,7 @@ public class InsertOrderShippingProductHandler implements Handler<RoutingContext
 
         Map shippingMap = ParamUtil.getMapData(mapRequest, AppParams.SHIPPING);
 
-        String extraFee = ParamUtil.getString(mapRequest, AppParams.EXTRA_FEE_2);
+        String extraFee = ParamUtil.getString(mapRequest, AppParams.EXTRA_FEE);
 
         List<Map> itemsList = ParamUtil.getListData(mapRequest, AppParams.ITEMS);
 

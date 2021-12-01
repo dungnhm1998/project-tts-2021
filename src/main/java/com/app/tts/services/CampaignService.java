@@ -36,7 +36,7 @@ public class CampaignService extends MasterService {
 
         Map campaign = listCampaign.get(0);
 
-        campaignMap.put(AppParams.ID, ParamUtil.getString(campaign, AppParams.S_ID_2));
+        campaignMap.put(AppParams.ID, ParamUtil.getString(campaign, AppParams.S_ID));
         campaignMap.put(AppParams.USER_ID, ParamUtil.getString(campaign, AppParams.S_USER_ID));
         campaignMap.put(AppParams.TITLE, ParamUtil.getString(campaign, AppParams.S_TITLE));
         campaignMap.put(AppParams.DESC, ParamUtil.getString(campaign, AppParams.S_DESC));
@@ -50,7 +50,7 @@ public class CampaignService extends MasterService {
         campaignMap.put(AppParams.GG_PIXEL, ParamUtil.getString(campaign, AppParams.S_GG_PIXEL));
         campaignMap.put(AppParams.CREATE, ParamUtil.getString(campaign, AppParams.D_CREATE));
         campaignMap.put(AppParams.UPDATE, ParamUtil.getString(campaign, AppParams.D_UPDATE));
-        campaignMap.put(AppParams.STATE, ParamUtil.getString(campaign, AppParams.S_STATE_2));
+        campaignMap.put(AppParams.STATE, ParamUtil.getString(campaign, AppParams.S_STATE));
         campaignMap.put(AppParams.LENGTH, ParamUtil.getString(campaign, AppParams.N_LENGTH));
         campaignMap.put(AppParams.SALE_PRICE, ParamUtil.getString(campaign, AppParams.S_SALE_PRICE));
         campaignMap.put(AppParams.FAVORITE, ParamUtil.getString(campaign, AppParams.N_FAVORITE));
@@ -79,7 +79,7 @@ public class CampaignService extends MasterService {
         for (Map productMap : productInput) {
             Map resultProduct = new LinkedHashMap();
 
-            resultProduct.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID_2));
+            resultProduct.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID));
             String baseId = ParamUtil.getString(productMap, AppParams.S_BASE_ID);//s
             resultProduct.put(AppParams.BASE_ID, baseId);
             resultProduct.put(AppParams.NAME, ParamUtil.getString(productMap, AppParams.S_NAME));
@@ -90,7 +90,7 @@ public class CampaignService extends MasterService {
             resultProduct.put(AppParams.BACK_VIEW, ParamUtil.getString(productMap, AppParams.N_BACK_VIEW));
             resultProduct.put(AppParams.MOCKUP_IMG_URL, ParamUtil.getString(productMap, AppParams.S_MOCKUP_IMG_URL));
             resultProduct.put(AppParams.POSITION, ParamUtil.getString(productMap, AppParams.N_POSITION));
-            resultProduct.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE_2));
+            resultProduct.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE));
             resultProduct.put(AppParams.CREATE_AT, ParamUtil.getString(productMap, AppParams.D_CREATE));
             resultProduct.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(productMap, AppParams.S_CAMPAIGN_ID));
             //default chua gia tri boolean nhung dau ra de so
@@ -111,9 +111,9 @@ public class CampaignService extends MasterService {
                     Map colorMap = new LinkedHashMap();
 
                     for (Map colorMapList : colorInput) {
-                        String idColorInList = ParamUtil.getString(colorMapList, AppParams.S_ID_2);
+                        String idColorInList = ParamUtil.getString(colorMapList, AppParams.S_ID);
                         if (idColorInList.equals(idColor)) {
-                            colorMap.put(AppParams.ID, ParamUtil.getString(colorMapList, AppParams.S_ID_2));
+                            colorMap.put(AppParams.ID, ParamUtil.getString(colorMapList, AppParams.S_ID));
                             colorMap.put(AppParams.NAME, ParamUtil.getString(colorMapList, AppParams.S_NAME));
                             colorMap.put(AppParams.VALUE, ParamUtil.getString(colorMapList, AppParams.S_VALUE));
                             colorMap.put(AppParams.POSITION, ParamUtil.getString(colorMapList, AppParams.N_POSITION));
@@ -156,17 +156,17 @@ public class CampaignService extends MasterService {
                     Map sizeMap = new LinkedHashMap();
 
                     for (Map sizeMapList : sizeInput) {
-                        String idSizeInList = ParamUtil.getString(sizeMapList, AppParams.S_ID_2);
+                        String idSizeInList = ParamUtil.getString(sizeMapList, AppParams.S_ID);
                         if (idSizeInList.equals(idSize)) {
 //                            String sizeSId = ParamUtil.getString(sizeMapList, AppParams.S_ID_2);//s
-                            sizeMap.put(AppParams.ID, ParamUtil.getString(sizeMapList, AppParams.S_ID_2));
+                            sizeMap.put(AppParams.ID, ParamUtil.getString(sizeMapList, AppParams.S_ID));
                             sizeMap.put(AppParams.NAME, ParamUtil.getString(sizeMapList, AppParams.S_NAME));
                             String priceInSize = null;
                             if(count < listPrice.size()){
                                 priceInSize = listPrice.get(count);
                             }
                             sizeMap.put(AppParams.PRICE, priceInSize);
-                            sizeMap.put(AppParams.STATE, ParamUtil.getString(sizeMapList, AppParams.S_STATE_2));
+                            sizeMap.put(AppParams.STATE, ParamUtil.getString(sizeMapList, AppParams.S_STATE));
 
                             //price s
                             // BASE_ID o tren cho duyet product, size_id ngay ben tren -> xac dinh duy nhat 1 Map chua gia dropship
@@ -182,7 +182,7 @@ public class CampaignService extends MasterService {
                             //c2
                             for(Map dropShipPriceMap : listDropShipPrice){
                                 String baseIdSub = ParamUtil.getString(dropShipPriceMap, AppParams.S_BASE_ID);
-                                String sizeSId = ParamUtil.getString(dropShipPriceMap, AppParams.S_ID_2);
+                                String sizeSId = ParamUtil.getString(dropShipPriceMap, AppParams.S_ID);
                                 if(baseIdSub.equals(baseId) && sizeSId.equals(idSize)){
                                     dropshipPrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_DROPSHIP_PRICE);
                                     secondSidePrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_SECOND_SIDE_PRICE);

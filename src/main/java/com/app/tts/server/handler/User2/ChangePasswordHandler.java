@@ -27,7 +27,8 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                 Map data = new LinkedHashMap();
 
                 String passwordMd5 = FormatUtil.getMd5(password);
-                String passwordDB = ParamUtil.getString(UserService2.getUserByEmail(email), AppParams.S_PASSWORD);
+                Map userDB = UserService2.getUserByEmail(email);
+                String passwordDB = ParamUtil.getString(userDB, AppParams.S_PASSWORD);
                 if (!passwordDB.isEmpty()) {
                     if (passwordMd5.equals(passwordDB)) {
                         if (newPassword.equals(confirmPassword)) {
