@@ -513,4 +513,14 @@ public class AppParams {
 	public static final String PARTNER_PROPERTIES = "partner_properties";
 	public static final String PARTNER_OPTION = "partner_option";
 	public static final String CUSTOM_DATA = "custom_data";
+    public static final String REFERENCE_ID = "reference_id";
+	public static final String EXTRA_FEE_2 = "extra_fee_2";
+	public static final String ITEMS = "items";
+	public static final String LINE1 = "line1";
+	public static final String LINE2 = "lien2";
+	public static final String CITY = "city";
+	public static final String POSTAL_CODE = "postal_code";
+	public static final String COUNTRY = "coutry";
+	public static final String COUNTRY_NAME = "country_name";
+	public static final String COLOR = "color";
 }

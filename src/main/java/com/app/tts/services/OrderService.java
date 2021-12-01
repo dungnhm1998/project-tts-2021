@@ -6,6 +6,7 @@ import com.app.tts.util.ParamUtil;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,8 @@ public class OrderService extends MasterService {
     private static final String GET_ORDER_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER_BY_ID(?,?,?,?)}";
     private static final String GET_ORDER_PRODUCT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER_PRODUCT(?,?,?)}";
     private static final String GET_ORDER = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER(?,?,?)}";
+
+    private static final String UPDATE_ORDER = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
     public static List<Map> getOrderProduct() throws SQLException {
         List<Map> resultMap = excuteQuery(GET_ORDER_PRODUCT, new Object[]{});
@@ -39,6 +42,115 @@ public class OrderService extends MasterService {
         Map resultMap = result.get(0);
         return resultMap;
     }
+
+
+    public static List<Map> updateProduct(String id, String baseId, String color, String colorId, String colorName, String sizeId, String size_name, String quantity, String price,
+                                    String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
+                                    String variantName, String unitAmount) throws SQLException {
+        List<Map> result = excuteQuery(GET_ORDER_BY_ID, new Object[]{ id, baseId, color, colorId, colorName, sizeId, size_name, quantity, price,
+                designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
+                variantName, unitAmount});
+        Map resultMap = result.get(0);
+        return result;
+    }
+
+    public static List<Map> updateShipping(String shippingId,
+                                     String email, String nameShipping, String phone,
+                                     String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
+        List<Map> result = excuteQuery(GET_ORDER_BY_ID, new Object[]{shippingId,
+                email, nameShipping, phone,
+                line1, line2, city, state, postalCode, country, countryName});
+        Map resultMap = result.get(0);
+        return result;
+    }
+
+    public static List<Map> updateOrder(String orderId, String source, String currency, String note,
+                                  String storeId, String referenceId, String state, String shippingMethod,
+                                  String shipping, String extraFee, String taxAmount, String iossNumber,
+                                  int addrVerified, String addrVerifiedNote) throws SQLException {
+        List<Map> result = excuteQuery(UPDATE_ORDER, new Object[]{ orderId, source, currency, note,
+                storeId, referenceId, state, shippingMethod,
+                shipping, extraFee, taxAmount, iossNumber,
+                addrVerified, addrVerifiedNote});
+        Map resultMap = result.get(0);
+        return result;
+    }
+
+
+    public static Map formatInsertOrder(Map orderInput, Map shippingInput, List<Map> productList) {
+        Map orderMap = new LinkedHashMap();
+        orderMap.put(AppParams.SOURCE, ParamUtil.getString(orderInput, AppParams.S_SOURCE));
+        orderMap.put(AppParams.CURRENCY, ParamUtil.getString(orderInput, AppParams.S_CURRENCY));
+        orderMap.put(AppParams.NOTE, ParamUtil.getString(orderInput, AppParams.S_NOTE));
+
+        orderMap.put(AppParams.STORE_ID, ParamUtil.getString(orderInput, AppParams.S_STORE_ID));
+        orderMap.put(AppParams.REFERENCE_ID, ParamUtil.getString(orderInput, AppParams.S_REFERENCE_ORDER));
+        orderMap.put(AppParams.STATE, ParamUtil.getString(orderInput, AppParams.S_STATE));
+        orderMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_METHOD));
+
+        Map shippingMap = new LinkedHashMap();
+        shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL));
+        shippingMap.put(AppParams.NAME, ParamUtil.getString(shippingInput, AppParams.S_NAME));
+        shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, AppParams.S_PHONE));
+
+        Map addressMap = new LinkedHashMap();
+        addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
+        addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
+        addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
+        addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE));
+        addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
+        addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
+        addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
+        Boolean addrVerified;
+        if (ParamUtil.getInt(orderInput, AppParams.N_ADDR_VERIFIED) == 1) {
+            addrVerified = true;
+        } else {
+            addrVerified = false;
+        }
+        addressMap.put(AppParams.ADDR_VERIFIED, addrVerified);
+        addressMap.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(orderInput, AppParams.S_ADDR_VERIFIED_NOTE));
+        shippingMap.put(AppParams.ADDRESS, addressMap);
+
+        orderMap.put(AppParams.SHIPPING, shippingMap);
+
+        orderMap.put(AppParams.EXTRA_FEE_2, ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
+
+        List<Map> itemsList = new LinkedList<>();
+        for (Map productInput : productList) {
+            Map productMap = new LinkedHashMap();
+            productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID));
+            productMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
+            productMap.put(AppParams.COLOR, ParamUtil.getString(productInput, AppParams.S_COLOR_VALUE));
+            productMap.put(AppParams.COLOR_ID, ParamUtil.getString(productInput, AppParams.S_COLOR_ID));
+            productMap.put(AppParams.COLOR_NAME, ParamUtil.getString(productInput, AppParams.S_COLOR_NAME));
+            productMap.put(AppParams.SIZE_ID, ParamUtil.getString(productInput, AppParams.S_SIZE_ID));
+            productMap.put(AppParams.SIZE_NAME, ParamUtil.getString(productInput, AppParams.S_SIZE_NAME));
+            productMap.put(AppParams.QUANTITY, ParamUtil.getString(productInput, AppParams.N_QUANTITY));
+            productMap.put(AppParams.PRICE, ParamUtil.getString(productInput, AppParams.S_PRICE));
+
+            Map designsMap = new LinkedHashMap();
+            designsMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_FRONT_URL));
+            designsMap.put(AppParams.DESIGN_FRONT_URL_MD5, ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
+            designsMap.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_BACK_URL));
+            designsMap.put(AppParams.DESIGN_BACK_URL_MD5, ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
+            productMap.put(AppParams.DESIGNS, designsMap);
+
+            productMap.put(AppParams.VARIANT_NAME, ParamUtil.getString(productInput, AppParams.S_VARIANT_NAME));
+            productMap.put(AppParams.UNIT_AMOUNT, ParamUtil.getString(productInput, AppParams.S_UNIT_AMOUNT));
+
+            itemsList.add(productMap);
+        }
+
+        orderMap.put(AppParams.ITEMS, itemsList);
+
+        orderMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(orderInput, AppParams.S_TAX_AMOUNT));
+        orderMap.put(AppParams.IOSS_NUMBER, ParamUtil.getString(orderInput, AppParams.S_IOSS_NUMBER));
+
+        return orderMap;
+    }
+
+
+
 
     public static Map formatOrder(Map inputMap){
         Map resultMap = new LinkedHashMap();
@@ -128,4 +240,7 @@ public class OrderService extends MasterService {
 
         return resultMap;
     }
+
+
+
 }
