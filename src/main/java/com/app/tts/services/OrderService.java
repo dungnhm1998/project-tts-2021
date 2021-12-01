@@ -17,11 +17,12 @@ public class OrderService extends MasterService {
 
     private static final String UPDATE_ORDER = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String UPDATE_SHIPPING = "{call PKG_QUY.UPDATE_SHIPPING_SHIPPING(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-    private static final String UPDATE_PRODUCT = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER_PRODUCT(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String UPDATE_PRODUCT = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER_PRODUCT(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+
     public static List<Map> getOrderProduct() throws SQLException {
         List<Map> resultMap = excuteQuery(GET_ORDER_PRODUCT, new Object[]{});
         List<Map> result = new ArrayList<>();
-        for(Map map : resultMap){
+        for (Map map : resultMap) {
             map = formatOrder(map);
             result.add(map);
         }
@@ -32,13 +33,12 @@ public class OrderService extends MasterService {
     public static List<Map> getOrder() throws SQLException {
         List<Map> resultMap = excuteQuery(GET_ORDER, new Object[]{});
         List<Map> result = new ArrayList<>();
-        for(Map map : resultMap){
+        for (Map map : resultMap) {
             map = formatOrder(map);
             result.add(map);
         }
         return result;
     }
-
 
 
     public static Map getOrderById(String id) throws SQLException {
@@ -48,10 +48,10 @@ public class OrderService extends MasterService {
     }
 
 
-    public static List<Map> updateProduct(String id, String baseId, String color, String colorId, String colorName, String sizeId, String size_name, String quantity, String price,
-                                    String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
-                                    String variantName, String unitAmount) throws SQLException {
-        List<Map> result = excuteQuery(UPDATE_PRODUCT, new Object[]{ id, baseId, color, colorId, colorName, sizeId, size_name, quantity, price,
+    public static List<Map> updateProduct(String id, String orderId, String baseId, String color, String colorId, String colorName, String sizeId, String size_name, String quantity, String price,
+                                          String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
+                                          String variantName, String unitAmount) throws SQLException {
+        List<Map> result = excuteQuery(UPDATE_PRODUCT, new Object[]{id, orderId, baseId, color, colorId, colorName, sizeId, size_name, quantity, price,
                 designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
                 variantName, unitAmount});
 
@@ -72,7 +72,7 @@ public class OrderService extends MasterService {
                                   String storeId, String referenceId, String state, String shippingMethod,
                                   String shipping, String extraFee, String taxAmount, String iossNumber,
                                   int addrVerified, String addrVerifiedNote) throws SQLException {
-        Map result = searchOne(UPDATE_ORDER, new Object[]{ orderId, source, currency, note,
+        Map result = searchOne(UPDATE_ORDER, new Object[]{orderId, source, currency, note,
                 storeId, referenceId, state, shippingMethod,
                 shipping, extraFee, taxAmount, iossNumber,
                 addrVerified, addrVerifiedNote});
@@ -137,10 +137,10 @@ public class OrderService extends MasterService {
             productMap.put(AppParams.PRICE, ParamUtil.getString(productInput, AppParams.S_PRICE));
 
             Map designsMap = new LinkedHashMap();
-            designsMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_FRONT_URL));
-            designsMap.put(AppParams.DESIGN_FRONT_URL_MD5, ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
+            designsMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
+            designsMap.put(AppParams.DESIGN_FRONT_URL_MD5, ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
             designsMap.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_BACK_URL));
-            designsMap.put(AppParams.DESIGN_BACK_URL_MD5, ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
+            designsMap.put(AppParams.DESIGN_BACK_URL_MD5, ParamUtil.getString(productInput, AppParams.S_DESIGN_FRONT_URL));
             productMap.put(AppParams.DESIGNS, designsMap);
 
             productMap.put(AppParams.VARIANT_NAME, ParamUtil.getString(productInput, AppParams.S_VARIANT_NAME));
@@ -158,9 +158,7 @@ public class OrderService extends MasterService {
     }
 
 
-
-
-    public static Map formatOrder(Map inputMap){
+    public static Map formatOrder(Map inputMap) {
         Map resultMap = new LinkedHashMap();
         Map orderProduct = new LinkedHashMap();
 
@@ -248,7 +246,6 @@ public class OrderService extends MasterService {
 
         return resultMap;
     }
-
 
 
 }

@@ -7,7 +7,6 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,6 +33,9 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 String storeId = ParamUtil.getString(jsonRequest, AppParams.STORE_ID);
                 String referenceId = ParamUtil.getString(jsonRequest, AppParams.REFERENCE_ID);
                 String state = ParamUtil.getString(jsonRequest, AppParams.STATE);
+
+                String taxAmount = ParamUtil.getString(jsonRequest, AppParams.TAX_AMOUNT);
+                String iossNumber = ParamUtil.getString(jsonRequest, AppParams.IOSS_NUMBER);
                 String shippingMethod = ParamUtil.getString(jsonRequest, AppParams.SHIPPING_METHOD);
 
                 Map shippingMap = ParamUtil.getMapData(jsonRequest, AppParams.SHIPPING);
@@ -42,8 +44,6 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 
                 List<Map> itemsList = ParamUtil.getListData(jsonRequest, AppParams.ITEMS);
 
-                String taxAmount = ParamUtil.getString(jsonRequest, AppParams.TAX_AMOUNT);
-                String iossNumber = ParamUtil.getString(jsonRequest, AppParams.IOSS_NUMBER);
 
                 int addrVerified;
                 String addrVerifiedNote;
@@ -68,9 +68,9 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 addrVerifiedNote = ParamUtil.getString(addressMap, AppParams.ADDR_VERIFIED_NOTE);
 
                 // product
-                String id = "", baseId = "", color = "", colorId = "", colorName = "", sizeId = "", sizeName = "", quantity = "", price = "",
+                String id , baseId = "", color = "", colorId = "", colorName = "", sizeId = "", sizeName = "", quantity = "", price = "",
                         designFrontUrl = "", designFrontUrlMd5 = "", designBackUrl = "", designBackUrlMd5 = "",
-                        variantName = "", unitAmount = "";
+                        variantName = "", unitAmount = "", order_id = "";
                 for (Map mapProduct : itemsList) {
                     id = ParamUtil.getString(mapProduct, AppParams.ID);
                     baseId = ParamUtil.getString(mapProduct, AppParams.BASE_ID);
@@ -91,8 +91,8 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                     variantName = ParamUtil.getString(mapProduct, AppParams.VARIANT_NAME);
                     unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
 
-                    productResultList = OrderService.updateProduct(id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price, designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5, variantName, unitAmount);
-                    
+                    productResultList = OrderService.updateProduct(id, orderId,baseId, color, colorId, colorName, sizeId, sizeName, quantity, price, designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5, variantName, unitAmount);
+
                 }
 
                 Map orderResultList = OrderService.updateOrder(orderId, source, currency, note, storeId, referenceId, state, shippingMethod, shippingId, extraFee, taxAmount, iossNumber, addrVerified, addrVerifiedNote);
