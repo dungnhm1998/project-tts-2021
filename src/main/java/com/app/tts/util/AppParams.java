@@ -233,8 +233,7 @@ public class AppParams {
 	public static final String S_IOSS_NUMBER = "S_IOSS_NUMBER";
 
 
-	public static final String S_ID = "TTS_ID";
-	public static final String S_ID1 = "S_ID";
+	public static final String S_ID = "S_ID";
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
@@ -300,11 +299,10 @@ public class AppParams {
 	public static final String S_PRINTABLE_BACK_WIDTH = "S_PRINTABLE_BACK_WIDTH";
 	public static final String S_PRINTABLE_BACK_HEIGHT = "S_PRINTABLE_BACK_HEIGHT";
 
-	public static final String S_STATE = "TTS_STATE";
+	public static final String S_STATE = "S_STATE";
 	public static final String D_CREATE = "D_CREATE";
 	public static final String D_UPDATE = "D_UPDATE";
 
-	public static final String S_MESSAGE = "S_MESSAGE";
 
 	public static final String S_DESIGN_FRONT_URL = "S_DESIGN_FRONT_URL";
 	public static final String S_DESIGN_BACK_URL = "S_DESIGN_BACK_URL";
@@ -348,8 +346,8 @@ public class AppParams {
 	public static final String SENDER = "sender";
 	public static final String MEDIA = "media";
 	public static final String S_PHONE = "TTS_PHONE";
-	public static final String S_PASSWORD = "TTS_PASSWORD";
-	public static final String S_EMAIL = "TTS_EMAIL";
+	public static final String S_PASSWORD = "S_PASSWORD";
+	public static final String S_EMAIL = "S_EMAIL";
 	public static final String S_ADMIN = "S_ADMIN";
 	public static final String ADMIN = "admin";
 	public static final String S_MEMBER = "S_MEMBER";
@@ -472,14 +470,11 @@ public class AppParams {
 	public static final String PARTNER_PROPERTIES = "partner_properties";
 	public static final String PARTNER_OPTION = "partner_option";
 	public static final String CUSTOM_DATA = "custom_data";
-//<<<<<<< HEAD
     public static final String PRODUCTS = "products";
 	public static final String PRODUCTSID = "PRODUCT_ID";
 	public static final String MOCKUPS = "mockups";
 	public static final String NAME_COLOR = "NAME_COLOR";
-//	public static final String SIZE_NAME = "SIZE_NAME";
-	public static final String S_NAME_COLOR = "S_NAME_COLOR";
-//=======
+
     public static final String REFERENCE_ID = "reference_id";
 	public static final String SHIPPING = "shipping";
 	public static final String EXTRA_FEE_2 = "extra_fee";
@@ -504,5 +499,4 @@ public class AppParams {
     public static final String RESULT_DATA_4 = "result_data_4";
 	public static final String RESULT_DATA_5 = "result_data_5";
 
-	public static final String S_STATE1 = "S_STATE";
 }

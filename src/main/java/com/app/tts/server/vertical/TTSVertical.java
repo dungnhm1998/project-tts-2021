@@ -7,6 +7,7 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
+import com.app.tts.server.handler.User.LoginUserHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
@@ -14,10 +15,7 @@ import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
-import com.app.tts.server.handler.user.CreateProductHandler;
-import com.app.tts.server.handler.user.LoginUserHandler;
-import com.app.tts.server.handler.user.RecoverPasswordHandler;
-import com.app.tts.server.handler.user.UpdatePassHandler;
+
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -138,7 +136,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
         //api
         router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
-        router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
+//        router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
 //        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
         router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
@@ -148,7 +146,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
 
-        router.route(HttpMethod.POST, "/add-product").handler(new CreateProductHandler());
+        router.route(HttpMethod.POST, "/add-product").handler(new CreateCamHandler());
 
         return router;
     }

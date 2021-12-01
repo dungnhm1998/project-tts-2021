@@ -26,17 +26,17 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
                 Session session = routingContext.session();
 
-                String email = ParamUtil.getString(jsonRequest, "email");
-                String password = ParamUtil.getString(jsonRequest, "password");
+                String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
+                String password = ParamUtil.getString(jsonRequest, AppParams.PASSWORD);
                 String encodePassword = Md5Code.md5(password);
                 Gson gson = new Gson();
                 Map data = new HashMap<>();
                 Map user = UserService.getUserByEmailq(email);
 
-                String user_id = ParamUtil.getString(user, "S_ID");
-                String user_avatar = ParamUtil.getString(user, "S_AVATAR");
-                String user_password = ParamUtil.getString(user, "S_PASSWORD");
-                String user_email = ParamUtil.getString(user, "S_EMAIL");
+                String user_id = ParamUtil.getString(user, AppParams.S_ID);
+                String user_avatar = ParamUtil.getString(user, AppParams.S_AVATAR);
+                String user_password = ParamUtil.getString(user, AppParams.S_PASSWORD);
+                String user_email = ParamUtil.getString(user, AppParams.S_EMAIL);
                 if (!user_email.isEmpty()) {
                     if (user_password.equals(encodePassword)) {
                         if (session != null) {
@@ -56,23 +56,23 @@ public class LoginUserHandler implements Handler<RoutingContext>, SessionStore {
                             LOGGER.info("session is null");
                         }
 
-                        data.put("id", user_id);
-                        data.put("avatar", user_avatar);
-                        data.put("message", "login successfully");
-                        data.put("email", user_email);
+                        data.put(AppParams.ID, user_id);
+                        data.put(AppParams.AVATAR, user_avatar);
+                        data.put(AppParams.MESSAGE, "login successfully");
+                        data.put(AppParams.EMAIL, user_email);
 
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                         routingContext.put(AppParams.RESPONSE_DATA, data);
                     } else {
-                        data.put("message", "password is incorrect");
+                        data.put(AppParams.MESSAGE, "password is incorrect");
                         routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
                         routingContext.put(AppParams.RESPONSE_DATA, data);
                     }
 
                 } else {
-                    data.put("message", " email is valid");
+                    data.put(AppParams.MESSAGE, " email is valid");
                     routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
                     routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
                     routingContext.put(AppParams.RESPONSE_DATA, data);
