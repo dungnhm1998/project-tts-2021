@@ -523,4 +523,5 @@ public class AppParams {
 	public static final String COUNTRY = "coutry";
 	public static final String COUNTRY_NAME = "country_name";
 	public static final String COLOR = "color";
+    public static final String GIFT = "gift";
 }

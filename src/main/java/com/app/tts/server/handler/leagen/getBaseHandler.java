@@ -1,15 +1,12 @@
 package com.app.tts.server.handler.leagen;
 
-import com.app.tts.data.type.RedisKeyEnum;
 import com.app.tts.services.GetBaseService;
-import com.app.tts.services.RedisService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,11 +24,19 @@ public class getBaseHandler implements Handler<RoutingContext> {
         routingContext.vertx().executeBlocking(future -> {
             try {
                 Map listBaseDB = new HashMap();
+                int count =-1;
+                String baseid = "";
+                String color = "";
+                String size = "";
                 List<Map> listBaseAndGroup = GetBaseService.getBaseService();
-                Map listBaseId = listBaseAndGroup.get(0);
-                String baseid = ParamUtil.getString(listBaseId, "base_id");
-                String color = ParamUtil.getString(listBaseId, "colors");
-                String size = ParamUtil.getString(listBaseId, "sizes");
+                for (Map lisId : listBaseAndGroup) {
+                    baseid = ParamUtil.getString(lisId, "id");
+                    color = ParamUtil.getString(lisId, "colors");
+                    size = ParamUtil.getString(lisId, "sizes");
+                }
+//                Map listBaseId = listBaseAndGroup.get(0);
+
+
                 List<Map> listBaseColor = GetBaseService.getBaseColor(baseid);
                 List<Map> listBaseSize = GetBaseService.getBaseSize(baseid);
                 Set<String> listBaseGroupId = new HashSet();
@@ -55,6 +60,7 @@ public class getBaseHandler implements Handler<RoutingContext> {
                         List<Map> listColorBase = new ArrayList<>();
                         if (!color.isEmpty()) {
                             for (String idColor : listIdColor) {
+                                count ++;
                                 Map colorMap = new LinkedHashMap();
                                 for (Map colors : listBaseColor) {
                                     String idColorInList = ParamUtil.getString(colors, "id");

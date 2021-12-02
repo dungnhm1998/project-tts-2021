@@ -70,7 +70,10 @@ public class GetBaseService extends MasterService {
         //sizes
         resultMap.put("id", ParamUtil.getString(queryData, AppParams.SIZE_ID));
         resultMap.put("name", ParamUtil.getString(queryData, AppParams.S_SIZE_NAME));
-        resultMap.put("unit", ParamUtil.getString(queryData, AppParams.S_UNIT));
+        resultMap.put("price", ParamUtil.getString(queryData, AppParams.S_PRICE));
+        resultMap.put("state", ParamUtil.getString(queryData, AppParams.S_STATE));
+        resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
+        resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
 
         return resultMap;
 
@@ -85,11 +88,14 @@ public class GetBaseService extends MasterService {
         Map image = new LinkedHashMap<>();
 
 
+        resultMap.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_BASE_ID));
+        resultMap.put(AppParams.TYPE_ID, ParamUtil.getString(queryData, AppParams.S_TYPE_ID));
+        resultMap.put(AppParams.NAME, ParamUtil.getString(queryData, "S_BASE_NAME"));
         resultMap.put(AppParams.GROUP_ID, ParamUtil.getString(queryData, AppParams.S_GROUP_ID));
         resultMap.put(AppParams.GROUP_NAME, ParamUtil.getString(queryData, AppParams.S_GROUP_NAME));
-        resultMap.put(AppParams.TYPE_ID, ParamUtil.getString(queryData, AppParams.S_TYPE_ID));
-        resultMap.put(AppParams.RESOLUTION_REQUIRE, ParamUtil.getString(queryData, AppParams.S_RESOLUTION_REQUIRE));
-        resultMap.put(AppParams.BASE_ID, ParamUtil.getString(queryData, AppParams.S_BASE_ID));
+
+//        resultMap.put(AppParams.RESOLUTION_REQUIRE, ParamUtil.getString(queryData, AppParams.S_RESOLUTION_REQUIRE));
+
 
         //printable
         printTable.put("front_top", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_TOP));
@@ -110,10 +116,11 @@ public class GetBaseService extends MasterService {
         image.put("back_height", ParamUtil.getString(queryData, AppParams.S_BACK_IMG_HEIGHT));
 
 
-        resultMap.put(AppParams.PRINTABLE, printTable);
-        resultMap.put(AppParams.IMAGE, image);
-        resultMap.put(AppParams.COLORS, ParamUtil.getString(queryData, AppParams.S_COLORS));
         resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
+        resultMap.put(AppParams.COLORS, ParamUtil.getString(queryData, AppParams.S_COLORS));
+
+        resultMap.put(AppParams.IMAGE, image);
+        resultMap.put(AppParams.PRINTABLE, printTable);
 
         return resultMap;
     }

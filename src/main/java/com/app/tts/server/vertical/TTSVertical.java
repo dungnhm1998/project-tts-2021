@@ -23,7 +23,6 @@ import com.app.tts.server.handler.leagen.CreateCampaignHandler;
 import com.app.tts.server.handler.leagen.getBaseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
-import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
@@ -35,11 +34,13 @@ import io.vertx.rxjava.ext.web.Router;
 import io.vertx.rxjava.ext.web.handler.*;
 import io.vertx.rxjava.ext.web.sstore.LocalSessionStore;
 
+import java.util.logging.Logger;
+
 /**
  *
  * @author hungdt
  */
-public class TTSVertical extends AbstractVerticle implements LoggerInterface {
+public class TTSVertical extends AbstractVerticle {
 
 	private String serverHost;
 	private int serverPort;
@@ -78,7 +79,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 	@Override
 	public void start() throws Exception {
 
-		logger.info("[INIT] STARTING UP ORDER API SERVER...");
+		LOGGER.info("[INIT] STARTING UP ORDER API SERVER...");
 
 		httpClient = vertx.createHttpClient();
 		httpsClient = vertx.createHttpClient(new HttpClientOptions().setSsl(true).setTrustAll(true));
@@ -123,9 +124,9 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		httpServer.listen(result -> {
 			if (result.failed()) {
-				logger.error("[INIT] START TTS API ERROR " + result.cause() + "\uD83D\uDE02");
+				LOGGER.info("Failed to[INIT] START TTS API ERROR " + result.cause() + "\uD83D\uDE02");
 			} else {
-				logger.info("[INIT] TTS SERVER STARTED AT " + " \uD83D\uDE02" + StringPool.SPACE + serverHost + StringPool.COLON + serverPort + " \uD83D\uDE02 ");
+				LOGGER.info("[INIT] TTS SERVER STARTED AT " + " \uD83D\uDE02" + StringPool.SPACE + serverHost + StringPool.COLON + serverPort + " \uD83D\uDE02 ");
 			}
 		});
 	}
@@ -160,4 +161,6 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
 		return router;
 	}
+
+	private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
 }

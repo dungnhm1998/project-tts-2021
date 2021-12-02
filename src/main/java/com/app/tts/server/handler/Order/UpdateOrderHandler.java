@@ -68,32 +68,35 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 addrVerifiedNote = ParamUtil.getString(addressMap, AppParams.ADDR_VERIFIED_NOTE);
 
                 // product
-                String id , baseId = "", color = "", colorId = "", colorName = "", sizeId = "", sizeName = "", quantity = "", price = "",
-                        designFrontUrl = "", designFrontUrlMd5 = "", designBackUrl = "", designBackUrlMd5 = "",
-                        variantName = "", unitAmount = "", order_id = "";
+                String orProductId = "", baseId = "", clValue = "", colorId = "", colorName = "", sizeId = "", sizeName = "", quantity = "",
+                        s_design_front_url = "", s_design_back_url = "", s_variant_front_url = "",
+                        s_variant_back_url = "", variantName = "", unitAmount = "";
                 for (Map mapProduct : itemsList) {
-                    id = ParamUtil.getString(mapProduct, AppParams.ID);
+                    orProductId = ParamUtil.getString(mapProduct, AppParams.ID);
                     baseId = ParamUtil.getString(mapProduct, AppParams.BASE_ID);
-                    color = ParamUtil.getString(mapProduct, AppParams.COLOR);
+                    clValue = ParamUtil.getString(mapProduct, AppParams.COLOR);
                     colorId = ParamUtil.getString(mapProduct, AppParams.COLOR_ID);
                     colorName = ParamUtil.getString(mapProduct, AppParams.COLOR_NAME);
-                    sizeId = ParamUtil.getString(mapProduct, AppParams.SIZE_ID);
+                    sizeId = ParamUtil.getString(mapProduct, "size_id");
                     sizeName = ParamUtil.getString(mapProduct, AppParams.SIZE_NAME);
                     quantity = ParamUtil.getString(mapProduct, AppParams.QUANTITY);
-                    price = ParamUtil.getString(mapProduct, AppParams.PRICE);
+
 
                     Map designsMap = ParamUtil.getMapData(mapProduct, AppParams.DESIGNS);
-                    designFrontUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_FRONT_URL);
-                    designFrontUrlMd5 = ParamUtil.getString(designsMap, AppParams.DESIGN_FRONT_URL_MD5);
-                    designBackUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_BACK_URL);
-                    designBackUrlMd5 = ParamUtil.getString(designsMap, AppParams.DESIGN_BACK_URL_MD5);
+                    s_design_front_url = ParamUtil.getString(designsMap, "design_front_url");
+                    s_variant_back_url = ParamUtil.getString(designsMap, "mockup_back_url");
+                    s_variant_front_url = ParamUtil.getString(designsMap, "mockup_front_url");
+                    s_design_back_url = ParamUtil.getString(designsMap, "design_back_url");
 
-                    variantName = ParamUtil.getString(mapProduct, AppParams.VARIANT_NAME);
+
+                    variantName = ParamUtil.getString(mapProduct, "variant_id");
                     unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
 
-                    productResultList = OrderService.updateProduct(id, orderId,baseId, color, colorId, colorName, sizeId, sizeName, quantity, price, designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5, variantName, unitAmount);
+                    productResultList = OrderService.updateProduct(orProductId, orderId, baseId, clValue, colorId, colorName, sizeId, sizeName, quantity,
+                            s_design_front_url, s_variant_front_url,s_design_back_url, s_variant_back_url, variantName, unitAmount);
 
                 }
+
 
                 Map orderResultList = OrderService.updateOrder(orderId, source, currency, note, storeId, referenceId, state, shippingMethod, shippingId, extraFee, taxAmount, iossNumber, addrVerified, addrVerifiedNote);
 
