@@ -435,7 +435,7 @@ public class AppParams {
 	public static final String ORDER_ID = "order_id";
 	public static final String PRODUCT_ID = "product_id";
 	public static final String S_PRODUCT_ID = "S_PRODUCT_ID";
-	public static final String VARIANT_ID = "variant_to";
+	public static final String VARIANT_ID = "variant_id";
 	public static final String S_VARIANT_ID = "S_VARIANT_ID";
 	public static final String S_SIZE_ID = "S_SIZE_ID";
 	public static final String SIZE_ID = "size_id";
@@ -505,4 +505,7 @@ public class AppParams {
 	public static final String RESULT_DATA_5 = "result_data_5";
 
 	public static final String S_STATE1 = "S_STATE";
+    public static final String CREATE_DATE = "create_date";
+	public static final String UPDATE_DATE = "update_date";
+	public static final String ORDER_DATE = "order_date";
 }

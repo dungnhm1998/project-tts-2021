@@ -7,6 +7,8 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
+import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
+import com.app.tts.server.handler.Order.UpdateOrderShippingProductHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
@@ -144,6 +146,8 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
         router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
         router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
+        router.route(HttpMethod.POST, "/insert_order_product_shipping").handler(new InsertOrderShippingProductHandler());
+        router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderShippingProductHandler());
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
