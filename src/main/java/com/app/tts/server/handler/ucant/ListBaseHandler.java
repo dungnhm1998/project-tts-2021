@@ -2,8 +2,10 @@ package com.app.tts.server.handler.ucant;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,43 +28,42 @@ public class ListBaseHandler implements Handler<RoutingContext>{
         	try {
         		
         		Map listBaseDB = new HashMap();
-        		List<Map> listBaseAndGroup = SubService.getListBaseGroup();
-        		Set<String> listBaseGroupId = new HashSet();
-        		Set<String> listBaseId = new HashSet<>();
-        		
-        		for (Map baseAndGroup : listBaseAndGroup) {
-        			//get base id
-        			String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
-        			String baseId = ParamUtil.getString(baseAndGroup, AppParams.ID);
-        			listBaseGroupId.add(baseGroupId);
-        			listBaseId.add(baseId);
-        		}	
-        		
-        		//list base group
-        		for (String groupId : listBaseGroupId) {
-        			List<Map> listBaseGroup = new ArrayList();
-        			List<Map> listSize = new ArrayList();
-    				List<Map> listColor = new ArrayList();
-        			String baseGroupName = "";
-        			for (Map baseAndGroup : listBaseAndGroup) {
+                List<Map> listBaseAndGroup = SubService.getListBaseGroup();
+                Set<String> listBaseGroupId = new HashSet();
+               
+                for (Map map: listBaseAndGroup) {
+//                	List<Map> listBaseSize = new ArrayList();
+//            		String sizes = ParamUtil.getString(map, "sizes");
+//                	listBaseSize = SubService.getListSize(sizes);
+//                	LOGGER.info("sizes: " + listBaseSize);
+//                	map.put("sizes", listBaseSize);
+
+                	List<Map> listBaseColor = new ArrayList();
+                	String colors = ParamUtil.getString(map, "colors");
+                	listBaseColor = SubService.getListColor(colors);
+                	LOGGER.info("colors: " + listBaseColor);
+                	map.put("colors", listBaseColor);
+    			}
+                for (Map baseAndGroup : listBaseAndGroup) {
+                    //get base id
+                    String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
+                    listBaseGroupId.add(baseGroupId);
+                }
+
+                //list base group
+                for (String groupId : listBaseGroupId) {
+                    List<Map> listBaseGroup = new ArrayList();
+                    String baseGroupName = "";
+                    for (Map baseAndGroup : listBaseAndGroup) {
         				String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
         				if (groupId.equals(baseGroupId)) {
         					listBaseGroup.add(baseAndGroup);
         					baseGroupName = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
         				}
-        				for(String id : listBaseId) {
-        					String baseId = ParamUtil.getString(baseAndGroup, AppParams.ID);
-        					if(id.equals(baseId)) {
-	        					listSize = SubService.getListSize(id);
-	        					listColor = SubService.getListColor(id);
-	        					baseAndGroup.put("sizes", listSize);
-	        					baseAndGroup.put("colors", listColor);
-        					}
-        				}
         			}
         			listBaseDB.put(baseGroupName, listBaseGroup);
         		}
-        		
+                
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 				routingContext.put(AppParams.RESPONSE_DATA, listBaseDB);
