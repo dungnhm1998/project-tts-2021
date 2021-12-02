@@ -487,4 +487,9 @@ public class AppParams {
     public static final String NEW_PASSWORD = "new_password";
     public static final String RESULT_DATA_4 = "result_data_4";
 	public static final String RESULT_DATA_5 = "result_data_5";
+
+    public static final String CREATE_DATE = "create_date";
+	public static final String UPDATE_DATE = "update_date";
+	public static final String ORDER_DATE = "order_date";
+
 }

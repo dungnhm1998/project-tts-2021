@@ -162,7 +162,7 @@ public class CampaignService extends MasterService {
                             sizeMap.put(AppParams.ID, ParamUtil.getString(sizeMapList, AppParams.S_ID));
                             sizeMap.put(AppParams.NAME, ParamUtil.getString(sizeMapList, AppParams.S_NAME));
                             String priceInSize = null;
-                            if(count < listPrice.size()){
+                            if (count < listPrice.size()) {
                                 priceInSize = listPrice.get(count);
                             }
                             sizeMap.put(AppParams.PRICE, priceInSize);
@@ -180,10 +180,12 @@ public class CampaignService extends MasterService {
 //                                }
 
                             //c2
-                            for(Map dropShipPriceMap : listDropShipPrice){
+                            for (Map dropShipPriceMap : listDropShipPrice) {
                                 String baseIdSub = ParamUtil.getString(dropShipPriceMap, AppParams.S_BASE_ID);
+
                                 String sizeSId = ParamUtil.getString(dropShipPriceMap, AppParams.S_ID);
                                 if(baseIdSub.equals(baseId) && sizeSId.equals(idSize)){
+
                                     dropshipPrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_DROPSHIP_PRICE);
                                     secondSidePrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_SECOND_SIDE_PRICE);
                                 }

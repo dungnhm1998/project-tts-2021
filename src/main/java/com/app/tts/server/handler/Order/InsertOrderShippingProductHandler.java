@@ -5,11 +5,11 @@ import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.sql.SQLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -83,18 +83,20 @@ public class InsertOrderShippingProductHandler implements Handler<RoutingContext
         addrVerifiedNote = ParamUtil.getString(addressMap, AppParams.ADDR_VERIFIED_NOTE);
 
         // product
-        String id = "", baseId = "", color = "", colorId = "", colorName = "", sizeId = "", sizeName = "", quantity = "", price = "",
+        List<Map> productResultList = new LinkedList<>();
+        String id = "", baseId = "", color = "", colorId = "", colorName = "", sizeId = "", sizeName = "", price = "",
                 designFrontUrl = "", designFrontUrlMd5 = "", designBackUrl = "", designBackUrlMd5 = "",
                 variantName = "", unitAmount = "";
+        int quantity = 0;
         for (Map mapProduct : itemsList) {
-            id = ParamUtil.getString(mapProduct, AppParams.ID);
+            id = String.valueOf(rand.nextInt(1000000000));
             baseId = ParamUtil.getString(mapProduct, AppParams.BASE_ID);
             color = ParamUtil.getString(mapProduct, AppParams.COLOR);
             colorId = ParamUtil.getString(mapProduct, AppParams.COLOR_ID);
             colorName = ParamUtil.getString(mapProduct, AppParams.COLOR_NAME);
             sizeId = ParamUtil.getString(mapProduct, AppParams.SIZE_ID);
             sizeName = ParamUtil.getString(mapProduct, AppParams.SIZE_NAME);
-            quantity = ParamUtil.getString(mapProduct, AppParams.QUANTITY);
+            quantity = ParamUtil.getInt(mapProduct, AppParams.QUANTITY);
             price = ParamUtil.getString(mapProduct, AppParams.PRICE);
 
             Map designsMap = ParamUtil.getMapData(mapProduct, AppParams.DESIGNS);
@@ -105,6 +107,13 @@ public class InsertOrderShippingProductHandler implements Handler<RoutingContext
 
             variantName = ParamUtil.getString(mapProduct, AppParams.VARIANT_NAME);
             unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
+
+            Map productResultMap = insertProduct(orderId,
+                    id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price,
+                    designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
+                    variantName, unitAmount
+            );
+            productResultList.add(productResultMap);
         }
 
         List<Map> orderResultList = insertOrder(orderId, source, currency, note,
@@ -118,24 +127,18 @@ public class InsertOrderShippingProductHandler implements Handler<RoutingContext
                 line1, line2, city, stateShipping, postalCode, country, countryName);
         Map shippingResultMap = shippingResultList.get(0);
 
-        List<Map> productResultList = insertProduct(
-                id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price,
-                designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
-                variantName, unitAmount
-        );
-
         Map result = OrderService.formatInsertOrder(orderResultMap, shippingResultMap, productResultList);
 
         return result;
     }
 
-    public static List<Map> insertProduct(
-            String id, String baseId, String color, String colorId, String colorName, String sizeId, String size_name, String quantity, String price,
-            String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
-            String variantName, String unitAmount
+    public static Map insertProduct(String orderId,
+                                    String id, String baseId, String color, String colorId, String colorName, String sizeId, String sizeName, int quantity, String price,
+                                    String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
+                                    String variantName, String unitAmount
     ) throws SQLException {
-        List<Map> resultMap = OrderService.indertProduct(
-                id, baseId, color, colorId, colorName, sizeId, size_name, quantity, price,
+        Map resultMap = OrderService.insertProduct(orderId,
+                id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price,
                 designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
                 variantName, unitAmount);
 
@@ -145,7 +148,7 @@ public class InsertOrderShippingProductHandler implements Handler<RoutingContext
     public static List<Map> insertShipping(String shippingId,
                                            String email, String nameShipping, String phone,
                                            String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
-        List<Map> resultMap = OrderService.indertShipping(shippingId,
+        List<Map> resultMap = OrderService.insertShipping(shippingId,
                 email, nameShipping, phone,
                 line1, line2, city, state, postalCode, country, countryName);
 

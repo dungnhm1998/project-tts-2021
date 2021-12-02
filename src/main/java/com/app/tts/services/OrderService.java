@@ -16,22 +16,248 @@ public class OrderService extends MasterService {
     private static final String INSERT_SHIPPING = "{call PKG_DROPSHIP_ORDER_PHUONG.INSERT_SHIPPING" +
             "(?, ?,?,?, ?,?,?,?,?,?,?, ?,?,?)}";
     private static final String INSERT_DROPSHIP_ORDER_PRODUCT = "{call PKG_DROPSHIP_ORDER_PHUONG.INSERT_DROPSHIP_ORDER_PRODUCT" +
-            "(?,?,?,?,?,?,?,?,?, ?,?,?,?, ?,?, ?,?,?)}";
+            "(?, ?,?,?,?,?,?,?,?,?, ?,?,?,?, ?,?, ?,?,?)}";
 
-    public static List<Map> indertProduct(
-            String id, String baseId, String color, String colorId, String colorName, String sizeId, String sizeName, String quantity, String price,
-            String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
-            String variantName, String unitAmount
+    private static final String UPDATE_DROPSHIP_ORDER = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_DROPSHIP_ORDER" +
+            "(?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?, ?,?,?,?,?, ?, ?,?,?,?, ?,?, ?,?,?)}";
+    private static final String UPDATE_SHIPPING = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_SHIPPING" +
+            "(?, ?,?,?,?, ?,?,?,?,?,?,?, ?,?,?)}";
+    private static final String UPDATE_DROPSHIP_ORDER_PRODUCT = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_DROPSHIP_ORDER_PRODUCT" +
+            "(?, ?,?, ?,?,?,?,?, ?,?, ?,?, ?,?, ?,?, ?,?,?)}";
+
+    private static final String GET_PRODUCT_BY_ORDER_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_PRODUCT_BY_ORDER_ID" +
+            "(?, ?,?,?)}";
+    private static final String DELETE_PRODUCT_IN_ORDER = "{call PKG_DROPSHIP_ORDER_PHUONG.DELETE_PRODUCT_IN_ORDER" +
+            "(?,?, ?,?,?)}";
+
+    public static Map deleteProductInOrder(String orderId, String productId) throws SQLException {
+        List<Map> resultMap = excuteQuery(DELETE_PRODUCT_IN_ORDER, new Object[]{orderId, productId});
+        Map result = new LinkedHashMap();
+        if (!resultMap.isEmpty()) {
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static List<String> getProductByOrderId(String orderId) throws SQLException {
+        List<Map> resultList = excuteQuery(GET_PRODUCT_BY_ORDER_ID, new Object[]{orderId});
+        List<String> result = new LinkedList<>();
+        for (Map resultMap : resultList) {
+            result.add(ParamUtil.getString(resultMap, AppParams.S_ID_2));
+        }
+        return result;
+    }
+
+    public static Map updateProduct(String orderId,
+                                    String id, String baseId,
+                                    String color, String colorId, String colorName, String sizeId, String sizeName,
+                                    String customData, int quantity,
+                                    String campaignId, String unitAmount,
+                                    String designFrontUrl, String designBackUrl,
+                                    String variantId, String productId) throws SQLException {
+        List<Map> resultMap = excuteQuery(UPDATE_DROPSHIP_ORDER_PRODUCT, new Object[]{orderId,
+                id, baseId,
+                color, colorId, colorName, sizeId, sizeName,
+                customData, quantity,
+                campaignId, unitAmount,
+                designFrontUrl, designBackUrl,
+                variantId, productId});
+
+        Map result = new LinkedHashMap();
+        if (!resultMap.isEmpty()) {
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map updateShipping(String shippingId,
+                                     String nameShipping, String email, String phone, int gift,
+                                     String line1, String line2, String city, String state, String postalCode, String country, String countryName)
+            throws SQLException {
+        List<Map> resultMap = excuteQuery(UPDATE_SHIPPING, new Object[]{shippingId,
+                nameShipping, email, phone, gift,
+                line1, line2, city, state, postalCode, country, countryName});
+
+        Map result = new LinkedHashMap();
+        if (!resultMap.isEmpty()) {
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map updateOrder(String orderId,
+                                  String currency, String subAmount, String shippingFee, String taxAmount, String state,
+                                  Date createDate, Date updateDate, String trackingCode, Date orderDate, String note,
+                                  String channel, String userId, String storeId,
+                                  String shippingId, String originalId, String source, String shippingMethod, int fulfillState,
+                                  String iossNumber,
+                                  String referenceId, int requireRefund, String extraFee, String amount,
+                                  int addrVerified, String addrVerifiedNote) throws SQLException {
+        List<Map> resultMap = excuteQuery(UPDATE_DROPSHIP_ORDER, new Object[]{orderId,
+                currency, subAmount, shippingFee, taxAmount, state,
+                createDate, updateDate, trackingCode, orderDate, note,
+                channel, userId, storeId,
+                shippingId, originalId, source, shippingMethod, fulfillState,
+                iossNumber,
+                referenceId, requireRefund, extraFee, amount,
+                addrVerified, addrVerifiedNote});
+
+        Map result = new LinkedHashMap();
+        if (!resultMap.isEmpty()) {
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map formatUpdateOrder(Map orderInput, Map shippingInput, List<Map> productListInput) {
+        Map orderMap = new LinkedHashMap();
+
+        orderMap.put(AppParams.ID, ParamUtil.getString(orderInput, AppParams.S_ID_2));
+        orderMap.put(AppParams.CURRENCY, ParamUtil.getString(orderInput, AppParams.S_CURRENCY));
+        orderMap.put(AppParams.SUB_AMOUNT, ParamUtil.getString(orderInput, AppParams.S_SUB_AMOUNT));
+        orderMap.put(AppParams.SHIPPING_FEE, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_FEE));
+        orderMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(orderInput, AppParams.S_TAX_AMOUNT));
+        orderMap.put(AppParams.STATE, ParamUtil.getString(orderInput, AppParams.S_STATE_2));
+        orderMap.put(AppParams.QUANTITY, "");
+        orderMap.put(AppParams.CREATE_DATE, ParamUtil.getString(orderInput, AppParams.D_CREATE));
+        orderMap.put(AppParams.UPDATE_DATE, ParamUtil.getString(orderInput, AppParams.D_UPDATE));
+        orderMap.put(AppParams.TRACKING_CODE, ParamUtil.getString(orderInput, AppParams.S_TRACKING_CODE));
+        orderMap.put(AppParams.ORDER_DATE, ParamUtil.getString(orderInput, AppParams.D_ORDER));
+        orderMap.put(AppParams.NOTE, ParamUtil.getString(orderInput, AppParams.S_NOTE));
+        orderMap.put(AppParams.CHANNEL, ParamUtil.getString(orderInput, AppParams.S_CHANNEL));
+        orderMap.put(AppParams.USER_ID, ParamUtil.getString(orderInput, AppParams.S_USER_ID));
+        orderMap.put(AppParams.STORE_ID, ParamUtil.getString(orderInput, AppParams.S_STORE_ID));
+        orderMap.put("store_name", "");
+        orderMap.put(AppParams.SHIPPING_ID, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_ID));
+        orderMap.put(AppParams.ORIGINAL_ID, ParamUtil.getString(orderInput, AppParams.S_ORIGINAL_ID));
+        orderMap.put(AppParams.SOURCE, ParamUtil.getString(orderInput, AppParams.S_SOURCE));
+        orderMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_METHOD));
+        orderMap.put("fulfill_state", ParamUtil.getInt(orderInput, AppParams.N_FULFILLED_ITEM) == 0 ? "Unfulfilled" : "Fulfilled");
+        orderMap.put(AppParams.IOSS_NUMBER, ParamUtil.getString(orderInput, AppParams.S_IOSS_NUMBER));
+
+        //SHIPPING
+        Map shippingMap = new LinkedHashMap();
+        shippingMap.put(AppParams.ID, ParamUtil.getString(shippingInput, AppParams.S_ID_2));
+        shippingMap.put(AppParams.NAME, ParamUtil.getString(shippingInput, AppParams.S_NAME));
+        shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL_2));
+        shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, "S_PHONE"));
+        shippingMap.put("gift", ParamUtil.getInt(shippingInput, "N_GIFT") == 1);
+        //address
+        Map addressMap = new LinkedHashMap();
+        addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
+        addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
+        addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
+        addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE_2));
+        addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
+        addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
+        addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
+
+        addressMap.put(AppParams.ADDR_VERIFIED, ParamUtil.getInt(orderInput, AppParams.N_ADDR_VERIFIED) == 1);
+        addressMap.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(orderInput, AppParams.S_ADDR_VERIFIED_NOTE));
+
+        shippingMap.put(AppParams.ADDRESS, addressMap);
+
+        orderMap.put(AppParams.SHIPPING, shippingMap);
+
+        orderMap.put("store_domain", "");
+        orderMap.put(AppParams.REFERENCE_ID, ParamUtil.getString(orderInput, AppParams.S_REFERENCE_ORDER));
+        orderMap.put(AppParams.REQUIRE_REFUND, ParamUtil.getInt(orderInput, AppParams.N_REQUIRE_REFUND));
+        orderMap.put(AppParams.EXTRA_FEE_2, ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
+        orderMap.put(AppParams.AMOUNT, ParamUtil.getString(orderInput, AppParams.S_AMOUNT));
+
+        List<Map> itemsList = new LinkedList<>();
+        for (Map productMap : productListInput) {
+            Map itemsMap = new LinkedHashMap();
+            itemsMap.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID_2));
+            itemsMap.put("campaign_title", "");
+            itemsMap.put("campaign_url", "");
+            itemsMap.put(AppParams.USER_ID, ParamUtil.getString(orderInput, AppParams.S_USER_ID));
+
+            Map campaignMap = new LinkedHashMap();
+            campaignMap.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_CAMPAIGN_ID));
+            campaignMap.put(AppParams.TITLE, "");
+            campaignMap.put(AppParams.URL, "");
+            campaignMap.put("end_time", "");
+            campaignMap.put(AppParams.DOMAIN, "");
+            campaignMap.put(AppParams.DOMAIN_ID, "");
+
+            itemsMap.put("campaign", campaignMap);
+
+            itemsMap.put(AppParams.PRODUCT_ID, ParamUtil.getString(productMap, AppParams.S_PRODUCT_ID));
+            itemsMap.put(AppParams.BASE_ID, ParamUtil.getString(productMap, AppParams.S_BASE_ID));
+            itemsMap.put(AppParams.VARIANT_ID, ParamUtil.getString(productMap, AppParams.S_VARIANT_ID));
+            itemsMap.put(AppParams.VARIANT_NAME, ParamUtil.getString(productMap, AppParams.S_VARIANT_NAME));
+            itemsMap.put(AppParams.SIZE_ID, ParamUtil.getString(productMap, AppParams.S_SIZE_ID));
+            itemsMap.put(AppParams.SIZE_NAME, ParamUtil.getString(productMap, AppParams.S_SIZE_NAME));
+            itemsMap.put(AppParams.COLOR_ID, ParamUtil.getString(productMap, AppParams.S_COLOR_ID));
+            itemsMap.put(AppParams.COLOR_NAME, ParamUtil.getString(productMap, AppParams.S_COLOR_NAME));
+            itemsMap.put(AppParams.COLOR, ParamUtil.getString(productMap, AppParams.S_COLOR_VALUE));
+            itemsMap.put("variant_image", ParamUtil.getString(productMap, AppParams.S_VARIANT_FRONT_URL));// k tim thay cot tuong ung
+            itemsMap.put(AppParams.PRICE, ParamUtil.getString(productMap, AppParams.S_PRICE));
+            itemsMap.put(AppParams.CURRENCY, ParamUtil.getString(productMap, AppParams.S_CURRENCY));
+            itemsMap.put(AppParams.QUANTITY, ParamUtil.getInt(productMap, AppParams.N_QUANTITY));
+            itemsMap.put(AppParams.SHIPPING_FEE, ParamUtil.getString(productMap, AppParams.S_SHIPPING_FEE));
+            itemsMap.put(AppParams.AMOUNT, ParamUtil.getString(productMap, AppParams.S_AMOUNT));
+            itemsMap.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE_2));
+            itemsMap.put(AppParams.BASE_COST, ParamUtil.getString(productMap, AppParams.S_BASE_COST));
+            itemsMap.put(AppParams.LINE_ITEM_ID, ParamUtil.getString(productMap, AppParams.S_LINE_ITEM_ID));
+            itemsMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(productMap, AppParams.S_SHIPPING_METHOD));
+            itemsMap.put(AppParams.ITEM_TYPE, ParamUtil.getString(productMap, AppParams.S_ITEM_TYPE));
+            itemsMap.put(AppParams.PRINT_DETAIL, ParamUtil.getString(productMap, AppParams.S_PRINT_DETAIL));
+
+            Map designsMap = new LinkedHashMap();
+            designsMap.put("mockup_front_url", "");
+            designsMap.put("mockup_back_url", "");
+            designsMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(productMap, AppParams.S_DESIGN_FRONT_URL));
+            designsMap.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(productMap, AppParams.S_DESIGN_BACK_URL));
+
+            itemsMap.put(AppParams.DESIGNS, designsMap);
+
+            itemsMap.put(AppParams.PARTNER_SKU, ParamUtil.getString(productMap, AppParams.S_PARTNER_SKU));
+            itemsMap.put("partner_url", "");
+            itemsMap.put("base_short_code", "");
+            itemsMap.put(AppParams.UNIT_AMOUNT, ParamUtil.getString(productMap, AppParams.S_UNIT_AMOUNT));
+            itemsMap.put("tax", "");// k tim thay cot nay
+            itemsMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(productMap, AppParams.S_TAX_AMOUNT));
+            itemsMap.put("tax_rate", "0.0"); // k tim thay cot nay
+
+            Map brandMap = new LinkedHashMap();
+            itemsMap.put("brand", brandMap);
+
+            String source = ParamUtil.getString(orderInput, AppParams.S_SOURCE);
+            List<String> listSource = Arrays.asList(source.split("\\."));
+            if (!listSource.isEmpty()) {
+                itemsMap.put(AppParams.SOURCE, listSource.get(0));
+            } else {
+                itemsMap.put(AppParams.SOURCE, "");
+            }
+
+            itemsList.add(itemsMap);
+        }
+
+        orderMap.put(AppParams.ITEMS, itemsList);
+
+        return orderMap;
+    }
+
+    public static Map insertProduct(String orderId,
+                                    String id, String baseId, String color, String colorId, String colorName, String sizeId, String sizeName, int quantity, String price,
+                                    String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
+                                    String variantName, String unitAmount
     ) throws SQLException {
-        List<Map> resultMap = excuteQuery(INSERT_DROPSHIP_ORDER_PRODUCT, new Object[]{
+        List<Map> resultMap = excuteQuery(INSERT_DROPSHIP_ORDER_PRODUCT, new Object[]{orderId,
                 id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, price,
                 designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
                 variantName, unitAmount
         });
-        return resultMap;
+        Map result = new LinkedHashMap();
+        if (!resultMap.isEmpty()) {
+            result = resultMap.get(0);
+        }
+        return result;
     }
 
-    public static List<Map> indertShipping(String shippingId,
+    public static List<Map> insertShipping(String shippingId,
                                            String email, String nameShipping, String phone,
                                            String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
         List<Map> resultMap = excuteQuery(INSERT_SHIPPING, new Object[]{shippingId,
@@ -77,13 +303,8 @@ public class OrderService extends MasterService {
         addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
         addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
         addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
-        Boolean addrVerified;
-        if (ParamUtil.getInt(orderInput, AppParams.N_ADDR_VERIFIED) == 1) {
-            addrVerified = true;
-        } else {
-            addrVerified = false;
-        }
-        addressMap.put(AppParams.ADDR_VERIFIED, addrVerified);
+
+        addressMap.put(AppParams.ADDR_VERIFIED, ParamUtil.getInt(orderInput, AppParams.N_ADDR_VERIFIED) == 1);
         addressMap.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(orderInput, AppParams.S_ADDR_VERIFIED_NOTE));
         shippingMap.put(AppParams.ADDRESS, addressMap);
 
@@ -94,14 +315,14 @@ public class OrderService extends MasterService {
         List<Map> itemsList = new LinkedList<>();
         for (Map productInput : productList) {
             Map productMap = new LinkedHashMap();
-            productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID));
+            productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID_2));
             productMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
             productMap.put(AppParams.COLOR, ParamUtil.getString(productInput, AppParams.S_COLOR_VALUE));
             productMap.put(AppParams.COLOR_ID, ParamUtil.getString(productInput, AppParams.S_COLOR_ID));
             productMap.put(AppParams.COLOR_NAME, ParamUtil.getString(productInput, AppParams.S_COLOR_NAME));
             productMap.put(AppParams.SIZE_ID, ParamUtil.getString(productInput, AppParams.S_SIZE_ID));
             productMap.put(AppParams.SIZE_NAME, ParamUtil.getString(productInput, AppParams.S_SIZE_NAME));
-            productMap.put(AppParams.QUANTITY, ParamUtil.getString(productInput, AppParams.N_QUANTITY));
+            productMap.put(AppParams.QUANTITY, ParamUtil.getInt(productInput, AppParams.N_QUANTITY));
             productMap.put(AppParams.PRICE, ParamUtil.getString(productInput, AppParams.S_PRICE));
 
             Map designsMap = new LinkedHashMap();
@@ -149,8 +370,8 @@ public class OrderService extends MasterService {
     public static Map getOrderById(String id) throws SQLException {
         List<Map> result = excuteQuery(GET_ORDER_BY_ID, new Object[]{id});
         Map resultMap = new LinkedHashMap();
-        if(!result.isEmpty()) {
-             resultMap = result.get(0);
+        if (!result.isEmpty()) {
+            resultMap = result.get(0);
         }
         return resultMap;
     }
