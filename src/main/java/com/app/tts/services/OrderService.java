@@ -43,7 +43,7 @@ public class OrderService extends MasterService {
         List<Map> resultList = excuteQuery(GET_PRODUCT_BY_ORDER_ID, new Object[]{orderId});
         List<String> result = new LinkedList<>();
         for (Map resultMap : resultList) {
-            result.add(ParamUtil.getString(resultMap, AppParams.S_ID_2));
+            result.add(ParamUtil.getString(resultMap, AppParams.S_ID));
         }
         return result;
     }
@@ -112,12 +112,12 @@ public class OrderService extends MasterService {
     public static Map formatUpdateOrder(Map orderInput, Map shippingInput, List<Map> productListInput) {
         Map orderMap = new LinkedHashMap();
 
-        orderMap.put(AppParams.ID, ParamUtil.getString(orderInput, AppParams.S_ID_2));
+        orderMap.put(AppParams.ID, ParamUtil.getString(orderInput, AppParams.S_ID));
         orderMap.put(AppParams.CURRENCY, ParamUtil.getString(orderInput, AppParams.S_CURRENCY));
         orderMap.put(AppParams.SUB_AMOUNT, ParamUtil.getString(orderInput, AppParams.S_SUB_AMOUNT));
         orderMap.put(AppParams.SHIPPING_FEE, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_FEE));
         orderMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(orderInput, AppParams.S_TAX_AMOUNT));
-        orderMap.put(AppParams.STATE, ParamUtil.getString(orderInput, AppParams.S_STATE_2));
+        orderMap.put(AppParams.STATE, ParamUtil.getString(orderInput, AppParams.S_STATE));
         orderMap.put(AppParams.QUANTITY, "");
         orderMap.put(AppParams.CREATE_DATE, ParamUtil.getString(orderInput, AppParams.D_CREATE));
         orderMap.put(AppParams.UPDATE_DATE, ParamUtil.getString(orderInput, AppParams.D_UPDATE));
@@ -137,9 +137,9 @@ public class OrderService extends MasterService {
 
         //SHIPPING
         Map shippingMap = new LinkedHashMap();
-        shippingMap.put(AppParams.ID, ParamUtil.getString(shippingInput, AppParams.S_ID_2));
+        shippingMap.put(AppParams.ID, ParamUtil.getString(shippingInput, AppParams.S_ID));
         shippingMap.put(AppParams.NAME, ParamUtil.getString(shippingInput, AppParams.S_NAME));
-        shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL_2));
+        shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL));
         shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, "S_PHONE"));
         shippingMap.put("gift", ParamUtil.getInt(shippingInput, "N_GIFT") == 1);
         //address
@@ -147,7 +147,7 @@ public class OrderService extends MasterService {
         addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
         addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
         addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
-        addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE_2));
+        addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE));
         addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
         addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
         addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
@@ -162,13 +162,13 @@ public class OrderService extends MasterService {
         orderMap.put("store_domain", "");
         orderMap.put(AppParams.REFERENCE_ID, ParamUtil.getString(orderInput, AppParams.S_REFERENCE_ORDER));
         orderMap.put(AppParams.REQUIRE_REFUND, ParamUtil.getInt(orderInput, AppParams.N_REQUIRE_REFUND));
-        orderMap.put(AppParams.EXTRA_FEE_2, ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
+        orderMap.put("extra_fee", ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
         orderMap.put(AppParams.AMOUNT, ParamUtil.getString(orderInput, AppParams.S_AMOUNT));
 
         List<Map> itemsList = new LinkedList<>();
         for (Map productMap : productListInput) {
             Map itemsMap = new LinkedHashMap();
-            itemsMap.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID_2));
+            itemsMap.put(AppParams.ID, ParamUtil.getString(productMap, AppParams.S_ID));
             itemsMap.put("campaign_title", "");
             itemsMap.put("campaign_url", "");
             itemsMap.put(AppParams.USER_ID, ParamUtil.getString(orderInput, AppParams.S_USER_ID));
@@ -198,7 +198,7 @@ public class OrderService extends MasterService {
             itemsMap.put(AppParams.QUANTITY, ParamUtil.getInt(productMap, AppParams.N_QUANTITY));
             itemsMap.put(AppParams.SHIPPING_FEE, ParamUtil.getString(productMap, AppParams.S_SHIPPING_FEE));
             itemsMap.put(AppParams.AMOUNT, ParamUtil.getString(productMap, AppParams.S_AMOUNT));
-            itemsMap.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE_2));
+            itemsMap.put(AppParams.STATE, ParamUtil.getString(productMap, AppParams.S_STATE));
             itemsMap.put(AppParams.BASE_COST, ParamUtil.getString(productMap, AppParams.S_BASE_COST));
             itemsMap.put(AppParams.LINE_ITEM_ID, ParamUtil.getString(productMap, AppParams.S_LINE_ITEM_ID));
             itemsMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(productMap, AppParams.S_SHIPPING_METHOD));
@@ -315,7 +315,7 @@ public class OrderService extends MasterService {
         List<Map> itemsList = new LinkedList<>();
         for (Map productInput : productList) {
             Map productMap = new LinkedHashMap();
-            productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID_2));
+            productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID));
             productMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
             productMap.put(AppParams.COLOR, ParamUtil.getString(productInput, AppParams.S_COLOR_VALUE));
             productMap.put(AppParams.COLOR_ID, ParamUtil.getString(productInput, AppParams.S_COLOR_ID));

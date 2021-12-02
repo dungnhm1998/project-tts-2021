@@ -96,7 +96,7 @@ public class UpdateOrderShippingProductHandler implements Handler<RoutingContext
 
         String referenceId = ParamUtil.getString(mapRequest, AppParams.REFERENCE_ID);
         int requireRefund = ParamUtil.getInt(mapRequest, AppParams.REQUIRE_REFUND);
-        String extraFee = ParamUtil.getString(mapRequest, AppParams.EXTRA_FEE_2);
+        String extraFee = ParamUtil.getString(mapRequest, "extra_fee");
         String amount = ParamUtil.getString(mapRequest, AppParams.AMOUNT);
 
         List<Map> listItems = ParamUtil.getListData(mapRequest, AppParams.ITEMS);
