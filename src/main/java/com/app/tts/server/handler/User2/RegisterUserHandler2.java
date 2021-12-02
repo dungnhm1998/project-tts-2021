@@ -53,8 +53,8 @@ public class RegisterUserHandler2 implements Handler<RoutingContext> {
                     message = "confirm_password not equals password";
                 }
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 
                 if (ParamUtil.getString(data, AppParams.MESSAGE) == null) {
                     data.put(AppParams.MESSAGE, message);

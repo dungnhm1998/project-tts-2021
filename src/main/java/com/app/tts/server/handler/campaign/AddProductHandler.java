@@ -77,8 +77,8 @@ public class AddProductHandler implements Handler<RoutingContext> {
                             mockups);
                 }
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 routingContext.put(AppParams.RESPONSE_DATA, data);
 
                 future.complete();

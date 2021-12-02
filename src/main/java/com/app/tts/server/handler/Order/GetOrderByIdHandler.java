@@ -29,8 +29,8 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
                     data.put(AppParams.RESPONSE_DATA, resultOrder);
                 }
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 routingContext.put(AppParams.RESPONSE_DATA, data);
                 future.complete();
             } catch (Exception e) {
