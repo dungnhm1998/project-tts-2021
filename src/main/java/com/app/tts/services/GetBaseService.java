@@ -27,9 +27,9 @@ public class GetBaseService extends MasterService {
         return result;
     }
 
-    public static List<Map> getBaseColor(String base_id) throws SQLException {
+    public static List<Map> getBaseColor(String id) throws SQLException {
         List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{base_id});
+        List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{id});
         LOGGER.info("resultcolor" + resultDataList);
         for (Map b : resultDataList) {
             b = format1(b);
@@ -39,9 +39,9 @@ public class GetBaseService extends MasterService {
         return result;
     }
 
-    public static List<Map> getBaseSize(String base_id) throws SQLException {
+    public static List<Map> getBaseSize(String id ) throws SQLException {
         List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_LIST_SIZE, new Object[]{base_id});
+        List<Map> resultDataList = excuteQuery(GET_LIST_SIZE, new Object[]{id});
         LOGGER.info("resultSize" + resultDataList);
         for (Map b : resultDataList) {
             b = format2(b);
@@ -59,7 +59,7 @@ public class GetBaseService extends MasterService {
         resultMap.put("name", ParamUtil.getString(queryData, AppParams.S_NAME_COLOR));
         resultMap.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
         resultMap.put("position", ParamUtil.getString(queryData, AppParams.N_POSITION));
-        resultMap.put("base_id", ParamUtil.getString(queryData, "BASE_ID"));
+        resultMap.put("base", ParamUtil.getString(queryData, "BASEID"));
 
         return resultMap;
 
@@ -74,6 +74,7 @@ public class GetBaseService extends MasterService {
         resultMap.put("state", ParamUtil.getString(queryData, AppParams.S_STATE));
         resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
         resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
+
 
         return resultMap;
 

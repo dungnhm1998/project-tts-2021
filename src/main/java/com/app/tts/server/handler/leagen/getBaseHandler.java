@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,21 +23,40 @@ public class getBaseHandler implements Handler<RoutingContext> {
         routingContext.vertx().executeBlocking(future -> {
             try {
                 Map listBaseDB = new HashMap();
-                int count =-1;
-                String baseid = "";
-                String color = "";
-                String size = "";
+                String baseId = "";
+                List<Map> listBaseColor = new ArrayList<>();
+                List<Map> listBaseSize = new ArrayList<>();
                 List<Map> listBaseAndGroup = GetBaseService.getBaseService();
-                for (Map lisId : listBaseAndGroup) {
-                    baseid = ParamUtil.getString(lisId, "id");
-                    color = ParamUtil.getString(lisId, "colors");
-                    size = ParamUtil.getString(lisId, "sizes");
+
+                for (Map map : listBaseAndGroup) {
+                    baseId = ParamUtil.getString(map, "group_id");
+
+                    listBaseColor = GetBaseService.getBaseColor(baseId);
+                    listBaseSize = GetBaseService.getBaseSize(baseId);
+                    break;
                 }
-//                Map listBaseId = listBaseAndGroup.get(0);
 
 
-                List<Map> listBaseColor = GetBaseService.getBaseColor(baseid);
-                List<Map> listBaseSize = GetBaseService.getBaseSize(baseid);
+                Map lisId = listBaseAndGroup.get(0);
+                String color = ParamUtil.getString(lisId, "colors");
+                String size = ParamUtil.getString(lisId, "sizes");
+
+
+                Set<String> list = new HashSet();
+                for (Map baseAndColor : listBaseColor) {
+                    //get base id
+                    String baseColorId = ParamUtil.getString(baseAndColor, "id");
+                    list.add(baseColorId);
+                }
+
+                Set<String> list1 = new HashSet();
+                for (Map baseAndSize : listBaseSize) {
+                    //get base id
+                    String baseSizeId = ParamUtil.getString(baseAndSize, "id");
+                    list1.add(baseSizeId);
+                }
+
+
                 Set<String> listBaseGroupId = new HashSet();
                 for (Map baseAndGroup : listBaseAndGroup) {
                     //get base id
@@ -54,40 +72,60 @@ public class getBaseHandler implements Handler<RoutingContext> {
                     for (Map baseAndGroup : listBaseAndGroup) {
 
                         // list id color
-                        List<String> listIdColor = Arrays.asList(color.split(","));
-
-                        //ghep theo color
-                        List<Map> listColorBase = new ArrayList<>();
-                        if (!color.isEmpty()) {
-                            for (String idColor : listIdColor) {
-                                count ++;
-                                Map colorMap = new LinkedHashMap();
-                                for (Map colors : listBaseColor) {
-                                    String idColorInList = ParamUtil.getString(colors, "id");
-                                    if (idColorInList.equals(idColor)) {
-                                        listColorBase.add(colors);
-                                        break;
-                                    }
+//                        List<String> listIdColor = Arrays.asList(color.split(","));
+//
+//                        //ghep theo color
+//                        List<Map> listColorBase = new ArrayList<>();
+//                        if (!color.isEmpty()) {
+//                            for (String idSize : listIdColor) {
+//                                for (Map sizes : listBaseColor) {
+//                                    String idSizeInList = ParamUtil.getString(sizes, "id");
+//                                    if (idSizeInList.equals(idSize)) {
+//                                        listColorBase.add(sizes);
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+                        List<Map> listBaseColor1 = new ArrayList();
+                        for (String ColorId : list) {
+                            for (Map baseAndColor : listBaseColor) {
+                                String baseColorId = ParamUtil.getString(baseAndColor, "id");
+                                if (ColorId.equals(baseColorId)) {
+                                    listBaseColor1.add(baseAndColor);
                                 }
                             }
                         }
-                        baseAndGroup.put("colors", listColorBase);
+
+                        baseAndGroup.put("colors", listBaseColor1);
+
+
                         List<String> listIdSize = Arrays.asList(size.split(","));
 
-                        //ghep theo color
-                        List<Map> listSizeBase = new ArrayList<>();
-                        if (!color.isEmpty()) {
-                            for (String idSize : listIdSize) {
-                                Map colorMap = new LinkedHashMap();
-                                for (Map sizes : listBaseSize) {
-                                    String idSizeInList = ParamUtil.getString(sizes, "id");
-                                    if (idSizeInList.equals(idSize)) {
-                                        listSizeBase.add(sizes);
-                                        break;
-                                    }
+
+//                        //ghep theo size
+//                        List<Map> listSizeBase = new ArrayList<>();
+//                        if (!color.isEmpty()) {
+//                            for (String idSize : listIdSize) {
+//                                for (Map sizes : listBaseSize) {
+//                                    String idSizeInList = ParamUtil.getString(sizes, "id");
+//                                    if (idSizeInList.equals(idSize)) {
+//                                        listSizeBase.add(sizes);
+//                                        break;
+//                                    }
+//                                }
+//                            }
+//                        }
+                        List<Map> listSizeBase = new ArrayList();
+                        for (String SizeId : list) {
+                            for (Map baseAndSize : listBaseSize) {
+                                String baseSizeId = ParamUtil.getString(baseAndSize, "id");
+                                if (SizeId.equals(baseSizeId)) {
+                                    listSizeBase.add(baseAndSize);
                                 }
                             }
                         }
+
                         baseAndGroup.put("sizes", listSizeBase);
 
                         String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
