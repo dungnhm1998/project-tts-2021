@@ -23,6 +23,9 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                 String newPassword = ParamUtil.getString(jsonRequest, AppParams.NEW_PASSWORD);
                 String confirmPassword = ParamUtil.getString(jsonRequest, AppParams.CONFIRM_PASSWORD);
 
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+
                 String message = null;
                 Map data = new LinkedHashMap();
 
@@ -34,6 +37,9 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                         if (newPassword.equals(confirmPassword)) {
                             changePassword(email, newPassword);
                             message = "change password successfully";
+
+                            routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                            routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                         } else {
                             message = "confirm password is not correct";
                         }
@@ -45,8 +51,6 @@ public class ChangePasswordHandler implements Handler<RoutingContext> {
                 }
                 data.put(AppParams.MESSAGE, message);
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 routingContext.put(AppParams.RESPONSE_DATA, data);
 
                 future.complete();

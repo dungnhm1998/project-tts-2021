@@ -351,7 +351,7 @@ public class OrderService extends MasterService {
         List<Map> resultMap = excuteQuery(GET_ORDER_PRODUCT, new Object[]{});
         List<Map> result = new ArrayList<>();
         for (Map map : resultMap) {
-            map = formatOrder(map);
+            map = formatOrderProduct(map);
             result.add(map);
         }
         return result;
@@ -379,7 +379,6 @@ public class OrderService extends MasterService {
 
     public static Map formatOrder(Map inputMap) {
         Map resultMap = new LinkedHashMap();
-        Map orderProduct = new LinkedHashMap();
 
         resultMap.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID));
         resultMap.put(AppParams.AMOUNT, ParamUtil.getString(inputMap, AppParams.S_AMOUNT));
@@ -423,7 +422,12 @@ public class OrderService extends MasterService {
         resultMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(inputMap, AppParams.S_SHIPPING_METHOD));
         resultMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(inputMap, AppParams.S_TAX_AMOUNT));
         resultMap.put(AppParams.IOSS_NUMBER, ParamUtil.getString(inputMap, AppParams.S_IOSS_NUMBER));
+
+        return resultMap;
+    }
+        public static Map formatOrderProduct(Map inputMap) {
         //product
+        Map orderProduct = new LinkedHashMap();
         orderProduct.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID));
         orderProduct.put(AppParams.ORDER_ID, ParamUtil.getString(inputMap, AppParams.S_ORDER_ID));
         orderProduct.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(inputMap, AppParams.S_CAMPAIGN_ID));
@@ -461,8 +465,6 @@ public class OrderService extends MasterService {
         orderProduct.put(AppParams.TAX_AMOUNT, ParamUtil.getString(inputMap, AppParams.S_TAX_AMOUNT));
         orderProduct.put(AppParams.CUSTOM_DATA, ParamUtil.getString(inputMap, AppParams.S_CUSTOM_DATA));
 
-        resultMap.put(AppParams.ORDER_PRODUCT, orderProduct);
-
-        return resultMap;
+        return orderProduct;
     }
 }

@@ -27,6 +27,9 @@ public class RegisterUserHandler2 implements Handler<RoutingContext> {
                 String confirmPassword = ParamUtil.getString(jsonRequest, AppParams.CONFIRM_PASSWORD);
                 String phone = ParamUtil.getString(jsonRequest, AppParams.PHONE);
 
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+
                 String message = null;
                 Map data = new LinkedHashMap();
 
@@ -40,6 +43,9 @@ public class RegisterUserHandler2 implements Handler<RoutingContext> {
                             data.put("avatar", "");
                             data.put(AppParams.MESSAGE, "register successed");
                             data.put(AppParams.EMAIL, ParamUtil.getString(result, AppParams.EMAIL));
+
+                            routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                            routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 //                        }else{
 //                            message = "email do not validate";
 //                        }
@@ -53,10 +59,7 @@ public class RegisterUserHandler2 implements Handler<RoutingContext> {
                     message = "confirm_password not equals password";
                 }
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-
-                if (ParamUtil.getString(data, AppParams.MESSAGE) == null) {
+                if (ParamUtil.getString(data, AppParams.MESSAGE).isEmpty()) {
                     data.put(AppParams.MESSAGE, message);
                 }
 

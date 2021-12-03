@@ -18,6 +18,9 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
         routingContext.vertx().executeBlocking(future -> {
             try {
                 String id = routingContext.request().getParam("id");
+
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
                 Map data = new LinkedHashMap();
 
                 Map resultOrder = getOrder(id);
@@ -26,11 +29,12 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
                     message = "Can't find order with id = " + id;
                     data.put(AppParams.RESPONSE_MSG, message);
                 } else {
-                    data.put(AppParams.RESPONSE_DATA, resultOrder);
+                    data = resultOrder;
+
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 }
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 routingContext.put(AppParams.RESPONSE_DATA, data);
                 future.complete();
             } catch (Exception e) {

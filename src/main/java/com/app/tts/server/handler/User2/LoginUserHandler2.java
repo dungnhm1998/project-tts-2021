@@ -57,8 +57,8 @@ public class LoginUserHandler2 implements Handler<RoutingContext>, SessionStore 
                         routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 //                        routingContext.put(AppParams.RESPONSE_DATA, data);
                     } else {
-                        routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                        routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                        routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                        routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
                         data.put(AppParams.MESSAGE, "Incorrect email or password");
 //                        routingContext.put(AppParams.RESPONSE_DATA, "email or password not correct"); // truyen kieu nay bi loi
                         // RESPONSE_DATA chua du lieu dang map

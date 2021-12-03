@@ -123,7 +123,7 @@ public class UpdateOrderShippingProductHandler implements Handler<RoutingContext
             String variantId = ParamUtil.getString(productMap, AppParams.VARIANT_ID);
             String productId = ParamUtil.getString(productMap, AppParams.PRODUCT_ID);
 
-            Map productMapInput = new LinkedHashMap();
+            Map productMapInput ;
             if (!id.isEmpty()) {
                 productMapInput = updateProduct(orderId,
                         id, baseId,
