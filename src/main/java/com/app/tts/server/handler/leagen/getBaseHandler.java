@@ -103,6 +103,7 @@ public class getBaseHandler implements Handler<RoutingContext> {
                     listBaseGroup1.add(baseAndGroup);
                     baseGroupName1 = ParamUtil.getString(baseAndGroup, AppParams.GROUP_NAME);
                 }
+
             }
             listBaseDB.put(baseGroupName1, listBaseGroup1);
         }

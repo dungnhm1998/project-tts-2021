@@ -11,6 +11,7 @@ import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.Order.UpdateOrderHandler;
 import com.app.tts.server.handler.User.GetAllUserHandler;
+import com.app.tts.server.handler.User.getBaseHandler1;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.base.ListBaseHandler2;
@@ -141,6 +142,11 @@ public class TTSVertical extends AbstractVerticle {
 
 		//api
 		router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
+		router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
+
+
+
+
 		router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
 //		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
