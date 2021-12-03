@@ -14,6 +14,12 @@ public class CampaignService extends MasterService {
     private static final String UPDATE_CAMPAIGN = "{call PKG_BQP.UPDATE_CAMPAIGN(?,?,?,?,?, ?,?,?)}";
     private static final String CREATE_CAMPAIGN = "{call PKG_DROPSHIP_ORDER_PHUONG.CREATE_CAMPAIGN(?, ?,?,?)}";
     private static final String ADD_PRODUCT = "{call PKG_DROPSHIP_ORDER_PHUONG.ADD_PRODUCT(?, ?,?, ?,?, ?,?, ?, ?,?, ?,?,?,?)}";
+    private static final String GET_ID_USER = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ID_USER(?, ?,?,?)}";
+
+    public static List<Map> getIdUser(String userId)throws SQLException{
+        List<Map> result = excuteQuery(GET_ID_USER, new Object[]{userId});
+        return result;
+    }
 
     public static Map addProduct(String campaignId,
                                  int defaultN, String baseId,
@@ -223,7 +229,10 @@ public class CampaignService extends MasterService {
 
     public static Map createCampaign(String userId) throws SQLException {
         List<Map> result = excuteQuery(CREATE_CAMPAIGN, new Object[]{userId});
-        Map resultMap = result.get(0);
+        Map resultMap = new LinkedHashMap();
+        if(!result.isEmpty()) {
+             resultMap = result.get(0);
+        }
         return resultMap;
     }
 

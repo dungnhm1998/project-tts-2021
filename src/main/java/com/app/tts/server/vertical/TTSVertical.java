@@ -9,6 +9,8 @@ import com.app.tts.server.handler.User2.ForgotPasswordHandler;
 import com.app.tts.server.handler.User2.LoginUserHandler2;
 import com.app.tts.server.handler.User2.RegisterUserHandler2;
 import com.app.tts.server.handler.campaign.AddProductHandler;
+import com.app.tts.server.handler.campaign.CreateCampaignHandler2;
+import com.app.tts.server.handler.campaign.ListBaseHandler2;
 import com.app.tts.server.handler.order.GetListOrderProductHandler;
 import com.app.tts.server.handler.order.GetOrderByIdHandler;
 import com.app.tts.server.handler.order.InsertOrderShippingProductHandler;
@@ -164,6 +166,8 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());//ok
         router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());//ok
         router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
+        router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler2());
+        router.route(HttpMethod.GET, "/list-base2").handler(new ListBaseHandler2());
         //api
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());

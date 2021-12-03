@@ -9,11 +9,7 @@ import oracle.jdbc.OracleTypes;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class BaseService extends MasterService{
@@ -22,6 +18,107 @@ public class BaseService extends MasterService{
 	public static final String GET_LIST_BASE = "{call PKG_BASE.get_list_base(?,?,?)}";
 
 	public static final String GET_10_BASE = "{call PKG_PHUONG.GET_10_BASE(?,?,?,?,?)}";
+	public static final String LIST_GROUP_BASE_COLOR_SIZE = "{call PKG_PHUONG.LIST_GROUP_BASE_COLOR_SIZE(?,?,?,?,?,?)}";
+
+	public static Map listGroupBaseColorSize() throws SQLException{
+		Map resultQuery = excuteQuery4OutPut(LIST_GROUP_BASE_COLOR_SIZE, new Object[]{});
+		List<Map> listBaseDB = ParamUtil.getListData(resultQuery, AppParams.RESULT_DATA);
+		List<Map> listColorDB = ParamUtil.getListData(resultQuery, AppParams.RESULT_DATA_2);
+		List<Map> listSizeDB = ParamUtil.getListData(resultQuery, AppParams.RESULT_DATA_3);
+		List<Map> listPriceDB = ParamUtil.getListData(resultQuery, AppParams.RESULT_DATA_4);
+
+		Map<String, List<Map>> mapSize = new LinkedHashMap<>();
+		for(Map size : listSizeDB){
+			String baseIdInSize = ParamUtil.getString(size, "BASE_ID");
+			String sizeId = ParamUtil.getString(size, "SIZE_ID");
+
+			for(Map price : listPriceDB){
+				String baseIdInPrice = ParamUtil.getString(price, "BASE_ID");
+				String sizeIdInPrice = ParamUtil.getString(price, "SIZE_ID");
+
+				if(baseIdInSize.equals(baseIdInPrice) && sizeId.equals(sizeIdInPrice)){
+					size.put(AppParams.S_PRICE, ParamUtil.getString(price, AppParams.S_PRICE));
+					size.put(AppParams.S_DROPSHIP_PRICE, ParamUtil.getString(price, AppParams.S_DROPSHIP_PRICE));
+					size.put(AppParams.S_SECOND_SIDE_PRICE,ParamUtil.getString(price, AppParams.S_SECOND_SIDE_PRICE));
+				}
+			}
+
+			size = formatSize(size);
+
+			if(mapSize.containsKey(baseIdInSize)){
+				mapSize.get(baseIdInSize).add(size);
+			}else{
+				List<Map> listSize = new LinkedList<>();
+				listSize.add(size);
+				mapSize.put(baseIdInSize, listSize);
+			}
+		}
+
+		Map<String, List<Map>> mapColor = new LinkedHashMap<>();
+		for(Map color: listColorDB){
+			String baseIdInColor = ParamUtil.getString(color, "BASE_ID");
+			color = formatColor(color);
+
+			if(mapColor.containsKey(baseIdInColor)){
+				mapColor.get(baseIdInColor).add(color);
+			}else{
+				List<Map> listColor = new LinkedList<>();
+				listColor.add(color);
+				mapColor.put(baseIdInColor, listColor);
+			}
+		}
+
+		Map<String, List<Map>> resultGroup = new LinkedHashMap();
+		for(Map base : listBaseDB){
+			String groupName = ParamUtil.getString(base, AppParams.S_GROUP_NAME);
+			String baseId = ParamUtil.getString(base, AppParams.S_ID);
+
+			base = format(base);
+
+			List<Map> sizeList = mapSize.get(baseId);
+			if(sizeList != null) {
+				base.put(AppParams.SIZES, sizeList);
+			}else{
+				base.put(AppParams.SIZES, new ArrayList<>());
+			}
+
+			List<Map> colorList = mapColor.get(baseId);
+			if(colorList != null){
+			base.put(AppParams.COLORS, colorList);
+			}else{
+				base.put(AppParams.COLORS, new ArrayList<>());
+			}
+			if(resultGroup.containsKey(groupName)){
+				resultGroup.get(groupName).add(base);
+			}else{
+				List<Map> listBase = new LinkedList<>();
+				listBase.add(base);
+				resultGroup.put(groupName, listBase);
+			}
+		}
+		return resultGroup;
+	}
+
+	public static Map formatSize(Map mapSize){
+		Map result = new LinkedHashMap();
+		result.put(AppParams.ID, ParamUtil.getString(mapSize, "SIZE_ID"));
+		result.put(AppParams.NAME, ParamUtil.getString(mapSize, "SIZE_NAME"));
+		result.put(AppParams.PRICE, ParamUtil.getString(mapSize, AppParams.S_PRICE));
+		result.put(AppParams.STATE, ParamUtil.getString(mapSize, AppParams.S_STATE));
+		result.put(AppParams.DROPSHIP_PRICE, ParamUtil.getString(mapSize, AppParams.S_DROPSHIP_PRICE));
+		result.put(AppParams.SECOND_SIDE_PRICE, ParamUtil.getString(mapSize, AppParams.S_SECOND_SIDE_PRICE));
+		return result;
+	}
+
+	public static Map formatColor(Map mapColor){
+		Map result = new LinkedHashMap();
+		result.put(AppParams.ID, ParamUtil.getString(mapColor, AppParams.S_ID));
+		result.put(AppParams.NAME, ParamUtil.getString(mapColor, AppParams.S_NAME));
+		result.put(AppParams.VALUE, ParamUtil.getString(mapColor, AppParams.S_VALUE));
+		result.put(AppParams.POSITION, ParamUtil.getInt(mapColor, AppParams.N_POSITION));
+
+		return result;
+	}
 
 	public static List<Map> get10Base(int posStart, int posNumber) throws SQLException{
 		List<Map> result = excuteQuery(GET_10_BASE, new Object[]{posStart, posNumber});
