@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.User;
+package com.app.tts.server.handler.user;
 
 import com.app.tts.data.type.RedisKeyEnum;
 import com.app.tts.services.GetBaseService1;
