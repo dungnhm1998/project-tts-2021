@@ -102,7 +102,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 
                 Map shippingResultList = OrderService.updateShipping(shippingId, email, nameShipping, phone, line1, line2, city, stateShipping, postalCode, country, countryName);
 
-                data = OrderService.formatUpdateOrder(orderResultList, shippingResultList, productResultList);
+                data = OrderService.formatUpdateOrder1(orderResultList, shippingResultList, productResultList);
 
 
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());

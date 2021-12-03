@@ -350,6 +350,7 @@ public class OrderService extends MasterService {
         return orderMap;
     }
 
+    // update q
     private static final String UPDATE_ORDER = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String UPDATE_SHIPPINGG = "{call PKG_QUY.UPDATE_SHIPPING_SHIPPING(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String UPDATE_PRODUCT = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER_PRODUCT(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
@@ -450,7 +451,7 @@ public class OrderService extends MasterService {
     }
 
 
-    public static Map formatUpdateOrder(Map orderInput, Map shippingInput, List<Map> productList) {
+    public static Map formatUpdateOrder1(Map orderInput, Map shippingInput, List<Map> productList) {
         Map resultMap = new LinkedHashMap();
 
         resultMap.put(AppParams.ID, ParamUtil.getString(orderInput, AppParams.S_ID));
