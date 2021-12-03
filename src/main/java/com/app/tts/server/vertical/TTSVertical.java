@@ -6,7 +6,6 @@
 package com.app.tts.server.vertical;
 
 
-
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.Order.UpdateOrderHandler;
@@ -32,7 +31,12 @@ import io.vertx.rxjava.core.AbstractVerticle;
 import io.vertx.rxjava.core.http.HttpClient;
 import io.vertx.rxjava.core.http.HttpServer;
 import io.vertx.rxjava.ext.web.Router;
-import io.vertx.rxjava.ext.web.handler.*;
+
+import io.vertx.rxjava.ext.web.handler.BodyHandler;
+import io.vertx.rxjava.ext.web.handler.CookieHandler;
+import io.vertx.rxjava.ext.web.handler.ResponseTimeHandler;
+import io.vertx.rxjava.ext.web.handler.SessionHandler;
+import io.vertx.rxjava.ext.web.handler.TimeoutHandler;
 import io.vertx.rxjava.ext.web.sstore.LocalSessionStore;
 
 import java.util.logging.Logger;
