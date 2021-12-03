@@ -1,11 +1,14 @@
-<<<<<<< HEAD
 package com.app.tts.services;
 
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CampaignService extends MasterService {
     private static final String UPDATE_CAMPAIGN = "{call PKG_BQP.UPDATE_CAMPAIGN(?,?,?,?,?, ?,?,?)}";
@@ -185,7 +188,7 @@ public class CampaignService extends MasterService {
                                 String baseIdSub = ParamUtil.getString(dropShipPriceMap, AppParams.S_BASE_ID);
 
                                 String sizeSId = ParamUtil.getString(dropShipPriceMap, AppParams.S_ID);
-                                if(baseIdSub.equals(baseId) && sizeSId.equals(idSize)){
+                                if (baseIdSub.equals(baseId) && sizeSId.equals(idSize)) {
 
                                     dropshipPrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_DROPSHIP_PRICE);
                                     secondSidePrice = ParamUtil.getString(dropShipPriceMap, AppParams.S_SECOND_SIDE_PRICE);
@@ -224,24 +227,6 @@ public class CampaignService extends MasterService {
         return resultMap;
     }
 
-    public static List<Map> updateCampaign(String idCampaign, String title, String descIn,
-                                           String designFrontUrl, String designBackUrl) throws SQLException {
-        List<Map> resultMap = excuteQuery(UPDATE_CAMPAIGN, new Object[]{idCampaign, title, descIn,
-                designFrontUrl, designBackUrl});
-
-        return resultMap;
-    }
-}
-=======
-package com.app.tts.services;
-
-import com.app.tts.util.AppParams;
-import com.app.tts.util.ParamUtil;
-
-import java.sql.SQLException;
-import java.util.*;
-
-public class CampaignService extends MasterService {
     public static final String GET_CAMPAIGN = "{call PKG_QUY.GET_CAMPAIGN(?,?,?)}";
 
 
@@ -255,7 +240,17 @@ public class CampaignService extends MasterService {
         }
 
         return result;
+
     }
+
+    public static List<Map> updateCampaign(String idCampaign, String title, String descIn,
+                                           String designFrontUrl, String designBackUrl) throws SQLException {
+        List<Map> resultMap = excuteQuery(UPDATE_CAMPAIGN, new Object[]{idCampaign, title, descIn,
+                designFrontUrl, designBackUrl});
+
+        return resultMap;
+    }
+
 
     public static Map format(Map queryData) {
         Map resultData = new LinkedHashMap();
@@ -272,5 +267,6 @@ public class CampaignService extends MasterService {
         return resultData;
     }
 
+
 }
->>>>>>> dev_Get_All_Base
+

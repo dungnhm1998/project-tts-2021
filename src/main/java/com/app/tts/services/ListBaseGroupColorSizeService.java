@@ -13,7 +13,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.app.tts.services.ListBaseService.format;
 
 public class ListBaseGroupColorSizeService extends MasterService{
     public static final String GET_LIST_DATA = "{call PKG_QUY.getallbase1(?,?,?,?,?)}";
@@ -58,10 +57,10 @@ public class ListBaseGroupColorSizeService extends MasterService{
 
     public static List<Map> formatList(List<Map> inputList){
         List<Map> result = new ArrayList<>();
-        for(Map map : inputList){
-            map = format(map);
-            result.add(map);
-        }
+//        for(Map map : inputList){
+//            map = format(map);
+//            result.add(map);
+//        }
         return result;
     }
 }
