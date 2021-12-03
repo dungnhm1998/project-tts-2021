@@ -5,6 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
+import com.app.tts.server.handler.Order.UpdateOrderHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
@@ -171,6 +172,8 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
 
         router.route(HttpMethod.POST, "/add-product").handler(new CreateCamHandler());
+
+        router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
 //        router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 //		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
 //        router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());

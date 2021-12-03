@@ -31,11 +31,11 @@ public class DeleteUserHandler implements Handler<RoutingContext> {
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
 
-                List<Map> searchEmail = UserService.getUserByEmail(email);
-
+               Map searchEmail = UserService.getUserByEmail(email);
+                String rsPassword = ParamUtil.getString(searchEmail, "S_PASSWORD");
                 if(!searchEmail.isEmpty()){
-                    Map searchMap = searchEmail.get(0);
-                    String rsPassword = ParamUtil.getString(searchMap, "S_PASSWORD");
+//                    Map searchMap = searchEmail.get(0);
+
                     if(rsPassword.equals(password)){
                         Map resultDel = delete(email);
                         message = "Delete success";
