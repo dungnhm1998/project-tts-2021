@@ -360,7 +360,6 @@ public class OrderService extends MasterService {
         List<Map> result = new ArrayList<>();
         for (Map map : resultMap) {
             map = formatOrderProduct(map);
-            map = formatOrder(map);
             result.add(map);
         }
         return result;
