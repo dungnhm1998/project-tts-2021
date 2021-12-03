@@ -629,7 +629,7 @@ public class OrderService extends MasterService {
         //product
         Map orderProduct = new LinkedHashMap();
         orderProduct.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID));
-        orderProduct.put(AppParams.ORDER_ID, ParamUtil.getString(inputMap, AppParams.S_ORDER_ID));
+        orderProduct.put(AppParams.ORDER_ID, ParamUtil.getString(inputMap, "S_ORDER_ID"));
         orderProduct.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(inputMap, AppParams.S_CAMPAIGN_ID));
         orderProduct.put(AppParams.PRODUCT_ID, ParamUtil.getString(inputMap, AppParams.S_PRODUCT_ID));
         orderProduct.put(AppParams.VARIANT_ID, ParamUtil.getString(inputMap, AppParams.S_VARIANT_ID));

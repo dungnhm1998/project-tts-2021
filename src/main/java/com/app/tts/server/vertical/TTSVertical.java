@@ -5,7 +5,14 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.order.UpdateOrderHandler;
+import com.app.tts.server.handler.User2.ForgotPasswordHandler;
+import com.app.tts.server.handler.User2.LoginUserHandler2;
+import com.app.tts.server.handler.User2.RegisterUserHandler2;
+import com.app.tts.server.handler.campaign.AddProductHandler;
+import com.app.tts.server.handler.order.GetListOrderProductHandler;
+import com.app.tts.server.handler.order.GetOrderByIdHandler;
+import com.app.tts.server.handler.order.InsertOrderShippingProductHandler;
+import com.app.tts.server.handler.order.UpdateOrderShippingProductHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
@@ -20,6 +27,7 @@ import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
 import com.app.tts.server.handler.user.getBaseHandler1;
+import com.app.tts.server.handler.order.UpdateOrderHandler;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
@@ -146,15 +154,15 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
 //        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
-//        router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());//ok
-//        router.route(HttpMethod.GET, "/get_order_product2").handler(new GetListOrderProductHandler());//ok
-//        router.route(HttpMethod.GET, "/get_order_by_id2").handler(new GetOrderByIdHandler());//ok
-//        router.route(HttpMethod.POST, "/insert_order_product_shipping2").handler(new InsertOrderShippingProductHandler());//ok
-//        router.route(HttpMethod.PUT, "/update-order2").handler(new UpdateOrderShippingProductHandler());//ok
+        router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());//ok
+        router.route(HttpMethod.GET, "/get_order_product2").handler(new GetListOrderProductHandler());//ok
+        router.route(HttpMethod.GET, "/get_order_by_id2").handler(new GetOrderByIdHandler());//ok
+        router.route(HttpMethod.POST, "/insert_order_product_shipping2").handler(new InsertOrderShippingProductHandler());//ok
+        router.route(HttpMethod.PUT, "/update-order2").handler(new UpdateOrderShippingProductHandler());//ok
         router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());//ok
-//        router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());//ok
-//        router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());//ok
-//        router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
+        router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());//ok
+        router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());//ok
+        router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
         //api
         router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
         router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
