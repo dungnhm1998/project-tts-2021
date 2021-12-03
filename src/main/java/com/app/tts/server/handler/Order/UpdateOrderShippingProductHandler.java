@@ -22,10 +22,16 @@ public class UpdateOrderShippingProductHandler implements Handler<RoutingContext
                 JsonObject jsonRequest = routingContext.getBodyAsJson();
                 Map mapRequest = jsonRequest.getMap();
                 Map result = inputData(mapRequest);
-
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                routingContext.put(AppParams.RESPONSE_DATA, result);
+                String id = ParamUtil.getString(result, AppParams.ID);
+                if(id.isEmpty()){
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.NOT_FOUND.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.NOT_FOUND.reasonPhrase());
+                    routingContext.put(AppParams.RESPONSE_DATA, "{}");
+                }else {
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
+                    routingContext.put(AppParams.RESPONSE_DATA, result);
+                }
                 future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
@@ -103,47 +109,50 @@ public class UpdateOrderShippingProductHandler implements Handler<RoutingContext
         List<Map> productListInput = new LinkedList<>();
         List<String> listIdProduct = new LinkedList<>();
         List<String> listIdProductDB = getProductByOrderId(orderId);
-        for (Map productMap : listItems) {
-            String id = ParamUtil.getString(productMap, AppParams.ID);
-            String baseId = ParamUtil.getString(productMap, AppParams.BASE_ID);
-            String color = ParamUtil.getString(productMap, AppParams.COLOR);
-            String colorId = ParamUtil.getString(productMap, AppParams.COLOR_ID);
-            String colorName = ParamUtil.getString(productMap, AppParams.COLOR_NAME);
-            String sizeId = ParamUtil.getString(productMap, AppParams.SIZE_ID);
-            String sizeName = ParamUtil.getString(productMap, AppParams.SIZE_NAME);
-            String customData = ParamUtil.getString(productMap, AppParams.CUSTOM_DATA);
-            int quantity = ParamUtil.getInt(productMap, AppParams.QUANTITY);
-            String campaignId = ParamUtil.getString(productMap, AppParams.CAMPAIGN_ID);
-            String unitAmount = ParamUtil.getString(productMap, AppParams.UNIT_AMOUNT);
 
-            Map designsMap = ParamUtil.getMapData(productMap, AppParams.DESIGNS);
-            String designFrontUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_FRONT_URL);
-            String designBackUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_BACK_URL);
+//        if(!listItems.isEmpty()) {
+            for (Map productMap : listItems) {
+                String id = ParamUtil.getString(productMap, AppParams.ID);
+                String baseId = ParamUtil.getString(productMap, AppParams.BASE_ID);
+                String color = ParamUtil.getString(productMap, AppParams.COLOR);
+                String colorId = ParamUtil.getString(productMap, AppParams.COLOR_ID);
+                String colorName = ParamUtil.getString(productMap, AppParams.COLOR_NAME);
+                String sizeId = ParamUtil.getString(productMap, AppParams.SIZE_ID);
+                String sizeName = ParamUtil.getString(productMap, AppParams.SIZE_NAME);
+                String customData = ParamUtil.getString(productMap, AppParams.CUSTOM_DATA);
+                int quantity = ParamUtil.getInt(productMap, AppParams.QUANTITY);
+                String campaignId = ParamUtil.getString(productMap, AppParams.CAMPAIGN_ID);
+                String unitAmount = ParamUtil.getString(productMap, AppParams.UNIT_AMOUNT);
 
-            String variantId = ParamUtil.getString(productMap, AppParams.VARIANT_ID);
-            String productId = ParamUtil.getString(productMap, AppParams.PRODUCT_ID);
+                Map designsMap = ParamUtil.getMapData(productMap, AppParams.DESIGNS);
+                String designFrontUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_FRONT_URL);
+                String designBackUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_BACK_URL);
 
-            Map productMapInput ;
-            if (!id.isEmpty()) {
-                productMapInput = updateProduct(orderId,
-                        id, baseId,
-                        color, colorId, colorName, sizeId, sizeName,
-                        customData, quantity,
-                        campaignId, unitAmount,
-                        designFrontUrl, designBackUrl,
-                        variantId, productId);
+                String variantId = ParamUtil.getString(productMap, AppParams.VARIANT_ID);
+                String productId = ParamUtil.getString(productMap, AppParams.PRODUCT_ID);
 
-                listIdProduct.add(id);
-            } else {
-                id = String.valueOf(rand.nextInt(1000000000));
-                productMapInput = OrderService.insertProduct(orderId,
-                        id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, "",
-                        designFrontUrl, "", designBackUrl, "",
-                        "", unitAmount);
+                Map productMapInput;
+                if (!id.isEmpty()) {
+                    productMapInput = updateProduct(orderId,
+                            id, baseId,
+                            color, colorId, colorName, sizeId, sizeName,
+                            customData, quantity,
+                            campaignId, unitAmount,
+                            designFrontUrl, designBackUrl,
+                            variantId, productId);
+
+                    listIdProduct.add(id);
+                } else {
+                    id = String.valueOf(rand.nextInt(1000000000));
+                    productMapInput = OrderService.insertProduct(orderId,
+                            id, baseId, color, colorId, colorName, sizeId, sizeName, quantity, "",
+                            designFrontUrl, "", designBackUrl, "",
+                            "", unitAmount);
+                }
+
+                productListInput.add(productMapInput);
             }
-
-            productListInput.add(productMapInput);
-        }
+//        }
 
         //xoa product
         for (String idProduct : listIdProductDB) {

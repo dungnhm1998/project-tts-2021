@@ -22,8 +22,8 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.NOT_FOUND.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.NOT_FOUND.reasonPhrase());
                 String message = null;
                 Map data = new LinkedHashMap();
                 Boolean checkEmail = RegisterUserHandler2.checkEmail(email);

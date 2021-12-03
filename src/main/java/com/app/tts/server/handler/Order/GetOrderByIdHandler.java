@@ -19,8 +19,8 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
             try {
                 String id = routingContext.request().getParam("id");
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.NOT_FOUND.code());
+                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.NOT_FOUND.reasonPhrase());
                 Map data = new LinkedHashMap();
 
                 Map resultOrder = getOrder(id);
