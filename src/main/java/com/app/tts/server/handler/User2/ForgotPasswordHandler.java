@@ -22,8 +22,6 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
                 String email = ParamUtil.getString(jsonRequest, AppParams.EMAIL);
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.NOT_FOUND.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.NOT_FOUND.reasonPhrase());
                 String message = null;
                 Map data = new LinkedHashMap();
                 Boolean checkEmail = RegisterUserHandler2.checkEmail(email);
@@ -32,13 +30,17 @@ public class ForgotPasswordHandler implements Handler<RoutingContext> {
                     data.put(AppParams.MESSAGE, "recover password successfully");
                     data.put("recover_password", ParamUtil.getString(result, AppParams.S_PASSWORD));
 
-                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 } else {
                     message = "Incorrect email";
                 }
                 if (data.get(AppParams.MESSAGE) == null) {
                     data.put(AppParams.MESSAGE, message);
+
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                }else{
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 }
 
                 routingContext.put(AppParams.RESPONSE_DATA, data);

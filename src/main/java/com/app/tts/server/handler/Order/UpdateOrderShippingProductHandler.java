@@ -24,8 +24,8 @@ public class UpdateOrderShippingProductHandler implements Handler<RoutingContext
                 Map result = inputData(mapRequest);
                 String id = ParamUtil.getString(result, AppParams.ID);
                 if(id.isEmpty()){
-                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.NOT_FOUND.code());
-                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.NOT_FOUND.reasonPhrase());
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
                     routingContext.put(AppParams.RESPONSE_DATA, "{}");
                 }else {
                     routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());

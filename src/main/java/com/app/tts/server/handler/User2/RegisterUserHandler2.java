@@ -27,28 +27,18 @@ public class RegisterUserHandler2 implements Handler<RoutingContext> {
                 String confirmPassword = ParamUtil.getString(jsonRequest, AppParams.CONFIRM_PASSWORD);
                 String phone = ParamUtil.getString(jsonRequest, AppParams.PHONE);
 
-                routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
-                routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
-
                 String message = null;
                 Map data = new LinkedHashMap();
 
                 if (confirmPassword.equals(password)) {
                     if (FormatUtil.validateEmail(email)) {
                         if (!checkEmail(email)) {
-//                        if(validateEmail(email)){
                             String passwordMD5 = FormatUtil.getMd5(password);
                             Map result = registerUser(email, passwordMD5, phone);
                             data.put(AppParams.ID, ParamUtil.getString(result, AppParams.ID));
                             data.put("avatar", "");
                             data.put(AppParams.MESSAGE, "register successed");
                             data.put(AppParams.EMAIL, ParamUtil.getString(result, AppParams.EMAIL));
-
-                            routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
-                            routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-//                        }else{
-//                            message = "email do not validate";
-//                        }
                         } else {
                             message = "email existed";
                         }
@@ -61,6 +51,12 @@ public class RegisterUserHandler2 implements Handler<RoutingContext> {
 
                 if (ParamUtil.getString(data, AppParams.MESSAGE).isEmpty()) {
                     data.put(AppParams.MESSAGE, message);
+
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.BAD_REQUEST.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.BAD_REQUEST.reasonPhrase());
+                }else{
+                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
+                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 }
 
                 routingContext.put(AppParams.RESPONSE_DATA, data);
