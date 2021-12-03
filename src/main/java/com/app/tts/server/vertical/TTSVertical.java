@@ -5,19 +5,18 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.Order.GetListOrderProductHandler;
-import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-import com.app.tts.server.handler.ucant.CreateCamHandler;
-import com.app.tts.server.handler.ucant.RegisterHandler;
-import com.app.tts.server.handler.User2.ChangePasswordHandler;
+import com.app.tts.server.handler.base.GB;
+import com.app.tts.server.handler.base.GetAllBaseHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
-import com.app.tts.server.handler.user.CreateProductHandler;
+import com.app.tts.server.handler.order.GetListOrderProductHandler;
+import com.app.tts.server.handler.order.GetOrderByIdHandler;
+import com.app.tts.server.handler.ucant.CreateCamHandler;
+import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
-import com.app.tts.server.handler.user.UpdatePassHandler;
 import com.app.tts.util.LoggerInterface;
 import com.app.tts.util.StringPool;
 
@@ -136,6 +135,10 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         // xet uri de xem handler nao se bat login, handler nao khong bat login
         router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
 
+        //api base
+        router.route(HttpMethod.GET, "/list-base").handler(new GetAllBaseHandler());
+        router.route(HttpMethod.GET, "/list-base1/:baseId").handler(new GB());
+        
         //api
         router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
@@ -143,12 +146,10 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
         router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
         router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
-        router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
 
-        router.route(HttpMethod.POST, "/add-product").handler(new CreateProductHandler());
 
         return router;
     }
