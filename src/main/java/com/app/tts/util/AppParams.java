@@ -351,4 +351,20 @@ public class AppParams {
 	public static final String OLD_TAGS = "old_tags";
 	public static final String SIZE_ID = "size_id";
 	public static final String SIZE_NAME = "size_name";
+	public static final String SUB_AMOUNT = "sub_amount";
+	public static final String SHIPPING_FEE = "shipping_fee";
+	public static final String TAX_AMOUNT = "tax_amount";
+	public static final String QUANTITY = "quantity";
+	public static final String CREATE_DATE = "create_date";
+	public static final String UPDATE_DATE = "update_date";
+	public static final String TRACKING_CODE = "track_code";
+	public static final String ORDER_DATE = "order_date";
+	public static final String NOTE = "note";
+	public static final String CHANNEL = "channel";
+	public static final String STORE_ID = "store_id";
+	public static final String SHIPPING_ID = "shipping_id";
+	public static final String ORIGINAL_ID = "original_id";
+	public static final String SOURCE = "source";
+	public static final String SHIPPING_METHOD = "shipping_method";
+	public static final String IOSS_NUMBER = "ioss_number";
 }

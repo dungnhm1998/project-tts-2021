@@ -27,8 +27,8 @@ public class SubService extends MasterService{
 	public static final String GET_COLORS = "{call PKG_BQP.get_colors(?,?,?,?)}";
 	public static final String GET_SIZES = "{call PKG_BQP.get_sizes(?,?,?,?)}";
 	public static final String LIST_BASE_AND_GROUP = "{call PKG_BQP.get_base_and_group(?,?,?)}";
-	public static final String GET_LIST_SIZE = "{call PKG_BQP.get_list_size(?,?,?,?)}";
-	public static final String GET_LIST_COLOR = "{call PKG_BQP.get_list_color(?,?,?,?)}";
+	public static final String GET_LIST_SIZE = "{call PKG_BQP.get_list_size(?,?,?)}";
+	public static final String GET_LIST_COLOR = "{call PKG_BQP.get_list_color(?,?,?)}";
 	
 	public static List<Map> insertUser (String id, String email, String password, String phone) throws SQLException{
 		List<Map> result = excuteQuery(INSERT_USER, new Object[] {id, email, password, phone});
@@ -104,24 +104,24 @@ public class SubService extends MasterService{
 		return resultData;
 	}
 	
-	public static List<Map> getListSize(String sizeId) throws SQLException{
-		List<Map> result = excuteQuery(GET_LIST_SIZE, new Object[] {sizeId});
+	public static List<Map> getListSize() throws SQLException{
+		List<Map> result = excuteQuery(GET_LIST_SIZE, new Object[] {});
 		List<Map> resultData = new ArrayList<>();
 		for (Map b : result) {
 			b = formatSize(b);
 			resultData.add(b);
 		}
-		return resultData;
+		return result;
 	}
 	
-	public static List<Map> getListColor(String colorId) throws SQLException{
-		List<Map> result = excuteQuery(GET_LIST_COLOR, new Object[] {colorId});
+	public static List<Map> getListColor() throws SQLException{
+		List<Map> result = excuteQuery(GET_LIST_COLOR, new Object[] {});
 		List<Map> resultData = new ArrayList<>();
 		for (Map b : result) {
 			b = formatColor(b);
 			resultData.add(b);
 		}
-		return resultData;
+		return result;
 	}
 	
 	public static Map format1(List<Map> result) throws SQLException{
@@ -217,8 +217,8 @@ public class SubService extends MasterService{
 	public static Map formatBaseGroup(Map queryData) {
 
         Map resultMap = new LinkedHashMap<>();
-        Map size = new LinkedHashMap<>();
-        Map color = new LinkedHashMap<>();
+//        Map size = new LinkedHashMap<>();
+//        Map color = new LinkedHashMap<>();
         Map printTable = new LinkedHashMap<>();
         Map image = new LinkedHashMap<>();
         resultMap.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
@@ -227,9 +227,9 @@ public class SubService extends MasterService{
         resultMap.put(AppParams.GROUP_ID, ParamUtil.getString(queryData, AppParams.S_GROUP_ID));
         resultMap.put(AppParams.GROUP_NAME, ParamUtil.getString(queryData, AppParams.S_GROUP_NAME));
         
-        resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
-        resultMap.put(AppParams.COLORS, ParamUtil.getString(queryData, AppParams.S_COLORS));
-        
+//        resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
+//        resultMap.put(AppParams.COLORS, ParamUtil.getString(queryData, AppParams.S_COLORS));
+		
         //printable
         printTable.put("front_top", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_TOP));
         printTable.put("front_left", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_LEFT));
@@ -258,10 +258,11 @@ public class SubService extends MasterService{
 		Map listSize = new LinkedHashMap<>();
 		listSize.put("id", ParamUtil.getString(queryData, AppParams.S_ID));
 		listSize.put("name", ParamUtil.getString(queryData, AppParams.S_NAME));
-//		listSize.put("price", ParamUtil.getString(queryData, AppParams.S_PRICE));
+		listSize.put("price", ParamUtil.getString(queryData, AppParams.S_PRICE));
 		listSize.put("state", ParamUtil.getString(queryData, AppParams.S_STATE));
-//		listSize.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
-//		listSize.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
+		listSize.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
+		listSize.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
+//		listSize.put("baseId", ParamUtil.getString(queryData, AppParams.S_BASE_ID));
 		
 		return listSize;
 	} 
@@ -273,6 +274,7 @@ public class SubService extends MasterService{
 		listColor.put("name", ParamUtil.getString(queryData, AppParams.S_NAME));
 		listColor.put("value", ParamUtil.getString(queryData, AppParams.S_VALUE));
 		listColor.put("position", ParamUtil.getString(queryData, AppParams.N_POSITION));
+//		listColor.put("baseId", ParamUtil.getString(queryData, AppParams.S_BASE_ID));;
 		
 		return listColor;
 	}

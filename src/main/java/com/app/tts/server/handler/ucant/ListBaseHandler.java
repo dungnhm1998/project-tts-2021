@@ -16,6 +16,7 @@ import com.app.tts.services.RedisService;
 import com.app.tts.services.SubService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
+import com.maxmind.geoip2.record.Subdivision;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
@@ -29,21 +30,11 @@ public class ListBaseHandler implements Handler<RoutingContext>{
         		
         		Map listBaseDB = new HashMap();
                 List<Map> listBaseAndGroup = SubService.getListBaseGroup();
-                Set<String> listBaseGroupId = new HashSet();
-               
-                for (Map map: listBaseAndGroup) {
-//                	List<Map> listBaseSize = new ArrayList();
-//            		String sizes = ParamUtil.getString(map, "sizes");
-//                	listBaseSize = SubService.getListSize(sizes);
-//                	LOGGER.info("sizes: " + listBaseSize);
-//                	map.put("sizes", listBaseSize);
 
-                	List<Map> listBaseColor = new ArrayList();
-                	String colors = ParamUtil.getString(map, "colors");
-                	listBaseColor = SubService.getListColor(colors);
-                	LOGGER.info("colors: " + listBaseColor);
-                	map.put("colors", listBaseColor);
-    			}
+                List<Map> listBaseSize = SubService.getListSize();
+                List<Map> listBaseColor = SubService.getListColor();
+                Set<String> listBaseGroupId = new HashSet();
+
                 for (Map baseAndGroup : listBaseAndGroup) {
                     //get base id
                     String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
@@ -55,6 +46,28 @@ public class ListBaseHandler implements Handler<RoutingContext>{
                     List<Map> listBaseGroup = new ArrayList();
                     String baseGroupName = "";
                     for (Map baseAndGroup : listBaseAndGroup) {
+                    	String baseId = ParamUtil.getString(baseAndGroup, "id");
+                    	
+                    	List<Map> listSize = new ArrayList<>();
+                    	for (Map sizes : listBaseSize) {
+                    		String baseIdSize = ParamUtil.getString(sizes, AppParams.S_BASE_ID);
+                    		if (baseId.equals(baseIdSize)) {
+                    			Map size = SubService.formatSize(sizes);
+                    			listSize.add(size);
+                    		}
+                    	}
+                    	baseAndGroup.put("sizes", listSize);
+                    	
+                    	List<Map> listColor = new ArrayList<>();
+                    	for(Map colors : listBaseColor) {
+                    		String baseIdColor = ParamUtil.getString(colors, AppParams.S_BASE_ID);
+                    		if (baseId.equals(baseIdColor)) {
+                    			Map color = SubService.formatColor(colors);
+                    			listColor.add(color);
+                    		}
+                    	}
+                    	baseAndGroup.put("colors", listColor);
+                    	
         				String baseGroupId = ParamUtil.getString(baseAndGroup, AppParams.GROUP_ID);
         				if (groupId.equals(baseGroupId)) {
         					listBaseGroup.add(baseAndGroup);
