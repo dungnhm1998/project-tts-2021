@@ -5,7 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
-import com.app.tts.server.handler.Order.UpdateOrderHandler;
+import com.app.tts.server.handler.order.UpdateOrderHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
@@ -160,14 +160,10 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
 
 
-//        router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
-//		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
-//		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
         router.route(HttpMethod.GET, "/get-order").handler(new Get_OrderHandler());
         router.route(HttpMethod.GET, "/list-campaign").handler(new GetCampaignHandler());
         router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
-//        router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
@@ -175,11 +171,7 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/add-product").handler(new CreateCamHandler());
 
         router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
-//        router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-//        router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
-//        router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
-//        router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
+
 
 
         return router;
