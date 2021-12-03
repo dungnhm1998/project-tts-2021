@@ -430,7 +430,7 @@ public class OrderService extends MasterService {
     public static Map updateShipping(String shippingId,
                                      String email, String nameShipping, String phone,
                                      String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
-        Map result = searchOne(UPDATE_SHIPPING, new Object[]{shippingId,
+        Map result = searchOne(UPDATE_SHIPPINGG, new Object[]{shippingId,
                 email, nameShipping, phone,
                 line1, line2, city, state, postalCode, country, countryName});
 

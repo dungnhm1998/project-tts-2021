@@ -6,8 +6,6 @@
 package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
-import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
-import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
@@ -35,6 +33,8 @@ import io.vertx.rxjava.ext.web.handler.ResponseTimeHandler;
 import io.vertx.rxjava.ext.web.handler.SessionHandler;
 import io.vertx.rxjava.ext.web.handler.TimeoutHandler;
 import io.vertx.rxjava.ext.web.sstore.LocalSessionStore;
+
+import java.util.logging.Logger;
 
 /**
  * @author hungdt
@@ -84,7 +84,7 @@ public class TTSVertical extends AbstractVerticle {
         httpsClient = vertx.createHttpClient(new HttpClientOptions().setSsl(true).setTrustAll(true));
 
         super.start();
-		LOGGER.info("[INIT] STARTING UP ORDER API SERVER...");
+        LOGGER.info("[INIT] STARTING UP ORDER API SERVER...");
 
         Router router = Router.router(vertx);
         router.route().handler(CookieHandler.create());
@@ -125,26 +125,18 @@ public class TTSVertical extends AbstractVerticle {
 
         httpServer.listen(result -> {
             if (result.failed()) {
-                logger.error("[INIT] START TTS API ERROR " + result.cause());
+                LOGGER.info("[INIT] START TTS API ERROR " + result.cause());
             } else {
-                logger.info("[INIT] TTS SERVER STARTED AT " + StringPool.SPACE + serverHost + StringPool.COLON + serverPort);
+                LOGGER.info("[INIT] TTS SERVER STARTED AT " + StringPool.SPACE + serverHost + StringPool.COLON + serverPort);
             }
         });
     }
 
     private Router initAPI() {
-
         Router router = Router.router(vertx);
-		httpServer.listen(result -> {
-			if (result.failed()) {
-				LOGGER.info("Failed to[INIT] START TTS API ERROR " + result.cause() + "\uD83D\uDE02");
-			} else {
-				LOGGER.info("[INIT] TTS SERVER STARTED AT " + " \uD83D\uDE02" + StringPool.SPACE + serverHost + StringPool.COLON + serverPort + " \uD83D\uDE02 ");
-			}
-		});
-	}
 
-        // xet uri de xem handler nao se bat login, handler nao khong bat login
+
+// xet uri de xem handler nao se bat login, handler nao khong bat login
         router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
 
         //api
@@ -161,38 +153,38 @@ public class TTSVertical extends AbstractVerticle {
 //        router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());//ok
 //        router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());//ok
 //        router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
-		//api
-		router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
-		router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
+        //api
+        router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
+        router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
 
 
-
-
-		router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
+//        router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
 //		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 //		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-		router.route(HttpMethod.GET, "/get-order").handler(new Get_OrderHandler());
-		router.route(HttpMethod.GET, "/list-campaign").handler(new GetCampaignHandler());
-		router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
-		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+        router.route(HttpMethod.GET, "/get-order").handler(new Get_OrderHandler());
+        router.route(HttpMethod.GET, "/list-campaign").handler(new GetCampaignHandler());
+        router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
+//        router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
 
         router.route(HttpMethod.POST, "/add-product").handler(new CreateCamHandler());
+//        router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
+//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+//        router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
+//        router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
+//        router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
+
 
         return router;
+
+
     }
 
-//		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
-//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-		router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
-		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
-		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
+//
 
-		return router;
-	}
 
-	private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
 }
