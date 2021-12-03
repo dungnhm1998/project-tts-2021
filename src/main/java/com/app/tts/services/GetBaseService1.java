@@ -2,6 +2,7 @@ package com.app.tts.services;
 
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class GetBaseService1 extends MasterService {
     public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?)}";
     public static final String GET_LIST_COLOR = "{call PKG_QUY.get_color1(?,?,?)}";
     public static final String GET_LIST_SIZE = "{call PKG_QUY.get_size(?,?,?)}";
+
 
     public static List<Map> getBaseService() throws SQLException {
         List<Map> resultDataList = excuteQuery(GET_LIST_BASE, new Object[]{});
@@ -79,9 +81,6 @@ public class GetBaseService1 extends MasterService {
                     image.put("back_width", ParamUtil.getString(baseAndGroup, AppParams.S_BACK_IMG_WIDTH));
                     image.put("back_height", ParamUtil.getString(baseAndGroup, AppParams.S_BACK_IMG_HEIGHT));
 
-
-
-
                     baseGroupName = ParamUtil.getString(baseAndGroup, AppParams.S_GROUP_NAME);
                     listBaseGroup.add(baseAG);
                 }
@@ -101,6 +100,8 @@ public class GetBaseService1 extends MasterService {
                     }
                 }
                 baseAG.put("colors", lstc);
+
+                //sizes
                 List<Map> sizes = new ArrayList<>();
                 for (Map siz : sizein) {
                     Map sizs = new LinkedHashMap();
