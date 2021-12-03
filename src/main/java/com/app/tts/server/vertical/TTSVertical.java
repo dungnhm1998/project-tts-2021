@@ -18,6 +18,7 @@ import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.user.LoginUserHandler;
+import com.app.tts.server.handler.user.RecoverPasswordHandler;
 import com.app.tts.server.handler.user.getBaseHandler1;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
@@ -142,7 +143,7 @@ public class TTSVertical extends AbstractVerticle {
 
         //api
         router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
-//        router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
+        router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
 //        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
 //        router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());//ok

@@ -1,21 +1,18 @@
 package com.app.tts.server.handler.user;
 
 import com.app.tts.encode.Md5Code;
-import com.app.tts.services.SubService;
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import com.google.gson.Gson;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.Cookie;
 import io.vertx.rxjava.ext.web.RoutingContext;
 import io.vertx.rxjava.ext.web.Session;
 import redis.clients.jedis.params.SetParams;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -39,7 +36,7 @@ public class LoginUserHandler implements Handler<RoutingContext> {
                 String emailSu = ParamUtil.getString(user, AppParams.S_EMAIL);
                 String avatar = ParamUtil.getString(user, AppParams.S_AVATAR);
                 String user_password = ParamUtil.getString(user, AppParams.S_PASSWORD);
-                if (!emailSu.equals(email)) {
+                if (emailSu.equals(email)) {
                         if(user_password.equals(encodePassword)) {
                             if (session != null) {
                                 LOGGER.info("Connection to server sucessfully");
@@ -68,13 +65,13 @@ public class LoginUserHandler implements Handler<RoutingContext> {
                             data.put("message", "password is incorrect");
                             routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
                             routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
-                            routingContext.put(AppParams.RESPONSE_DATA, "{}");
+                            routingContext.put(AppParams.RESPONSE_DATA, data);
                         }
                 }else {
                     data.put("message", "email is invalid");
                     routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.UNAUTHORIZED.code());
                     routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.UNAUTHORIZED.reasonPhrase());
-                    routingContext.put(AppParams.RESPONSE_DATA, "{}");
+                    routingContext.put(AppParams.RESPONSE_DATA, data);
                 }
                 future.complete();
             }catch (Exception e){
