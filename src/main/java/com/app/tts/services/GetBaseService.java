@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 public class GetBaseService extends MasterService {
     public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?)}";
-    public static final String GET_LIST_COLOR = "{call PKG_QUY.get_color1(?,?,?,?)}";
-    public static final String GET_LIST_SIZE = "{call PKG_QUY.get_size(?,?,?,?)}";
+    public static final String GET_LIST_COLOR = "{call PKG_QUY.get_color1(?,?,?)}";
+    public static final String GET_LIST_SIZE = "{call PKG_QUY.get_size(?,?,?)}";
 
     public static List<Map> getBaseService() throws SQLException {
         List<Map> result = new ArrayList();
@@ -27,9 +27,9 @@ public class GetBaseService extends MasterService {
         return result;
     }
 
-    public static List<Map> getBaseColor(String id) throws SQLException {
+    public static List<Map> getBaseColor() throws SQLException {
         List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{id});
+        List<Map> resultDataList = excuteQuery(GET_LIST_COLOR, new Object[]{});
         LOGGER.info("resultcolor" + resultDataList);
         for (Map b : resultDataList) {
             b = format1(b);
@@ -39,9 +39,9 @@ public class GetBaseService extends MasterService {
         return result;
     }
 
-    public static List<Map> getBaseSize(String id ) throws SQLException {
+    public static List<Map> getBaseSize( ) throws SQLException {
         List<Map> result = new ArrayList();
-        List<Map> resultDataList = excuteQuery(GET_LIST_SIZE, new Object[]{id});
+        List<Map> resultDataList = excuteQuery(GET_LIST_SIZE, new Object[]{});
         LOGGER.info("resultSize" + resultDataList);
         for (Map b : resultDataList) {
             b = format2(b);
@@ -74,7 +74,7 @@ public class GetBaseService extends MasterService {
         resultMap.put("state", ParamUtil.getString(queryData, AppParams.S_STATE));
         resultMap.put("dropship_price", ParamUtil.getString(queryData, AppParams.S_DROPSHIP_PRICE));
         resultMap.put("second_side_price", ParamUtil.getString(queryData, AppParams.S_SECOND_SIDE_PRICE));
-
+        resultMap.put("base", ParamUtil.getString(queryData, "BASEID"));
 
         return resultMap;
 
