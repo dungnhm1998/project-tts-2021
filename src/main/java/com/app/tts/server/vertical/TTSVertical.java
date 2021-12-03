@@ -149,9 +149,10 @@ public class TTSVertical extends AbstractVerticle {
 // xet uri de xem handler nao se bat login, handler nao khong bat login
         router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
 
-        //api
+        //api user
         router.route(HttpMethod.POST, "/login").handler(new LoginUserHandler());
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
+
 //        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
         router.route(HttpMethod.POST, "/add-product2").handler(new AddProductHandler());//ok
@@ -159,11 +160,17 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.GET, "/get_order_by_id2").handler(new GetOrderByIdHandler());//ok
         router.route(HttpMethod.POST, "/insert_order_product_shipping2").handler(new InsertOrderShippingProductHandler());//ok
         router.route(HttpMethod.PUT, "/update-order2").handler(new UpdateOrderShippingProductHandler());//ok
-        router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());//ok
+        router.route(HttpMethod.PUT, "/change-pass2").handler(new ChangePasswordHandler());//ok
         router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());//ok
         router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());//ok
         router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
         //api
+
+        router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
+        router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePasswordHandler());
+        
+        //api base
+
         router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
         router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
 
@@ -173,7 +180,7 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
 
 
-        router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
+        
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
 
         router.route(HttpMethod.POST, "/add-product").handler(new CreateCamHandler());
@@ -186,9 +193,5 @@ public class TTSVertical extends AbstractVerticle {
 
 
     }
-
-//
-
-
     private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
 }
