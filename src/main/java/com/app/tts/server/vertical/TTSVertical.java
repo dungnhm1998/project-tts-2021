@@ -5,51 +5,22 @@
  */
 package com.app.tts.server.vertical;
 
-<<<<<<< HEAD
-import com.app.tts.server.handler.Order.GetListOrderProductHandler;
-import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-
-import com.app.tts.server.handler.User2.ForgotPasswordHandler;
-import com.app.tts.server.handler.User2.LoginUserHandler2;
-import com.app.tts.server.handler.User2.RegisterUserHandler2;
-import com.app.tts.server.handler.campaign.AddProductHandler;
-import com.app.tts.server.handler.user.LoginUserHandler;
-
-import com.app.tts.server.handler.Order.InsertOrderShippingProductHandler;
-import com.app.tts.server.handler.Order.UpdateOrderShippingProductHandler;
-
-import com.app.tts.server.handler.ucant.CreateCamHandler;
-import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
-import com.app.tts.server.handler.common.ExceptionHandler;
-import com.app.tts.server.handler.common.RequestLoggingHandler;
-import com.app.tts.server.handler.common.ResponseHandler;
-import com.app.tts.server.handler.option.OrderNotifyHandler;
-
-import com.app.tts.util.LoggerInterface;
-=======
-
-
-import com.app.tts.server.handler.Order.GetListOrderProductHandler;
-import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-import com.app.tts.server.handler.Order.UpdateOrderHandler;
-import com.app.tts.server.handler.user.GetAllUserHandler;
-import com.app.tts.server.handler.user.getBaseHandler1;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
-import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.leagen.CreateCampaignHandler;
 import com.app.tts.server.handler.leagen.GetCampaignHandler;
 import com.app.tts.server.handler.leagen.Get_OrderHandler;
-import com.app.tts.server.handler.leagen.CreateCampaignHandler;
 import com.app.tts.server.handler.leagen.getBaseHandler;
-import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
->>>>>>> dev_Get_All_Base
+import com.app.tts.server.handler.ucant.CreateCamHandler;
+import com.app.tts.server.handler.ucant.RegisterHandler;
+import com.app.tts.server.handler.user.LoginUserHandler;
+import com.app.tts.server.handler.user.getBaseHandler1;
 import com.app.tts.util.StringPool;
-
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.core.http.HttpServerOptions;
@@ -64,8 +35,6 @@ import io.vertx.rxjava.ext.web.handler.ResponseTimeHandler;
 import io.vertx.rxjava.ext.web.handler.SessionHandler;
 import io.vertx.rxjava.ext.web.handler.TimeoutHandler;
 import io.vertx.rxjava.ext.web.sstore.LocalSessionStore;
-
-import java.util.logging.Logger;
 
 /**
  * @author hungdt
@@ -109,7 +78,7 @@ public class TTSVertical extends AbstractVerticle {
     @Override
     public void start() throws Exception {
 
-        logger.info("[INIT] STARTING UP ORDER API SERVER...");
+        LOGGER.info("[INIT] STARTING UP ORDER API SERVER...");
 
         httpClient = vertx.createHttpClient();
         httpsClient = vertx.createHttpClient(new HttpClientOptions().setSsl(true).setTrustAll(true));

@@ -4,22 +4,17 @@ import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 
 import java.sql.SQLException;
-<<<<<<< HEAD
 import java.util.*;
-=======
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
->>>>>>> dev_Get_All_Base
 
 public class OrderService extends MasterService {
     private static final String GET_ORDER_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER_BY_ID(?,?,?,?)}";
     private static final String GET_ORDER_PRODUCT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER_PRODUCT(?,?,?)}";
     private static final String GET_ORDER = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER(?,?,?)}";
-
-<<<<<<< HEAD
     private static final String INSERT_DROPSHIP_ORDER = "{call PKG_DROPSHIP_ORDER_PHUONG.INSERT_DROPSHIP_ORDER" +
             "(?, ?,?,?,?,?,?,?, ?,?, ?,?, ?,?, ?,?,?)}";
     private static final String INSERT_SHIPPING = "{call PKG_DROPSHIP_ORDER_PHUONG.INSERT_SHIPPING" +
@@ -355,21 +350,16 @@ public class OrderService extends MasterService {
         return orderMap;
     }
 
-=======
     private static final String UPDATE_ORDER = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-    private static final String UPDATE_SHIPPING = "{call PKG_QUY.UPDATE_SHIPPING_SHIPPING(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String UPDATE_SHIPPINGG = "{call PKG_QUY.UPDATE_SHIPPING_SHIPPING(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String UPDATE_PRODUCT = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER_PRODUCT(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
->>>>>>> dev_Get_All_Base
 
     public static List<Map> getOrderProduct() throws SQLException {
         List<Map> resultMap = excuteQuery(GET_ORDER_PRODUCT, new Object[]{});
         List<Map> result = new ArrayList<>();
         for (Map map : resultMap) {
-<<<<<<< HEAD
             map = formatOrderProduct(map);
-=======
             map = formatOrder(map);
->>>>>>> dev_Get_All_Base
             result.add(map);
         }
         return result;
@@ -397,8 +387,6 @@ public class OrderService extends MasterService {
     }
 
 
-<<<<<<< HEAD
-=======
     public static List<Map> updateProduct(
             String id,
             String order_id,
@@ -589,7 +577,6 @@ public class OrderService extends MasterService {
     }
 
 
->>>>>>> dev_Get_All_Base
     public static Map formatOrder(Map inputMap) {
         Map resultMap = new LinkedHashMap();
 
