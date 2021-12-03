@@ -178,9 +178,5 @@ public class TTSVertical extends AbstractVerticle {
 
 
     }
-
-//
-
-
     private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
 }
