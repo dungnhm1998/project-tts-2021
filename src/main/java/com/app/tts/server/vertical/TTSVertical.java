@@ -166,8 +166,8 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());//ok
         router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());//ok
         router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
-        router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler2());
-        router.route(HttpMethod.GET, "/list-base2").handler(new ListBaseHandler2());
+        router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler2());//ok
+        router.route(HttpMethod.GET, "/list-base2").handler(new ListBaseHandler2());//ok
         //api
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
