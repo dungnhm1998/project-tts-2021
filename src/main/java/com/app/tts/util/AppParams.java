@@ -16,6 +16,7 @@ public class AppParams {
 	public static final String X_FORWARDED_FOR = "X-Forwarded-For";
 	public static final String X_REMOTE_ADDR = "X-Remote-Addr";
 	public static final String X_SHIPPING_ID = "X-Shipping-Id";
+	public static final String SHIPPING_ID = "shipping_id";
 	public static final String HOST = "Host";
 	public static final String X_REFERER = "X-Referer";
 	public static final String X_HOST = "X-Host";
@@ -39,6 +40,9 @@ public class AppParams {
 	 * Common Params
 	 */
 	public static final String ID = "id";
+	public static final String BASE_ID = "base_id";
+	public static final String BASE_NAME = "base_name";
+	public static final String S_BASE_ID = "S_BASE_ID";
 	public static final String DATA = "DATA";
 	public static final String FRAUD_DATA_ID = "FRAUD_DATA_ID";
 	public static final String STATUS = "status";
@@ -48,6 +52,7 @@ public class AppParams {
 	public static final String GROUP = "group";
 	public static final String GROUP_ID = "group_id";
 	public static final String GROUP_NAME = "group_name";
+	public static final String SHIPPING_NAME = "shipping_name";
 	public static final String USER = "user";
 	public static final String PROFILE = "profile";
 	public static final String USER_ID = "user_id";
@@ -78,6 +83,8 @@ public class AppParams {
 	public static final String RECEIVER = "receiver";
 	public static final String CONTENT = "content";
 	public static final String PHONE = "phone";
+	public static final String ORDER_ID = "order_id";
+	public static final String S_ORDER_ID = "S_ID";
 	public static final String AVATAR = "avatar";
 	public static final String DESCRIPTION = "description";
 	public static final String TAGS = "tags";
@@ -97,7 +104,11 @@ public class AppParams {
 	public static final String TIMEZONE = "timezone";
 	public static final String SORT = "sort";
 	public static final String SIZES = "sizes";
+<<<<<<< HEAD
 	public static final String SIZE = "size";
+=======
+	public static final String ORDER_DETAIL = "order_detail";
+>>>>>>> dev_Get_All_Base
 	public static final String COLORS = "colors";
 	public static final String VALUE = "value";
 	public static final String POSITION = "position";
@@ -156,12 +167,23 @@ public class AppParams {
 	/**
 	 * DB COLUMNS
 	 */
+<<<<<<< HEAD
 	public static final String S_ORDER_ID = "S_ORDER_ID";
+=======
+	public static final String S_RESOLUTION_REQUIRE = "RESOLUTION";
+	public static final String RESOLUTION_REQUIRE = "resolution";
+	public static final String S_ID = "S_ID";
+	public static final String SIZE_ID = "S_SIZES";
+	public static final String S_SIZE_NAME = "S_NAME_SIZE";
+	public static final String S_UNIT = "S_UNIT";
+
+	public static final String S_ID_2 = "S_ID";
+>>>>>>> dev_Get_All_Base
 	public static final String ORDER_PRODUCT = "order_product";
 	// order
 	public static final String AMOUNT = "amount";
 	public static final String S_AMOUNT = "S_AMOUNT";
-	public static final String SHIPPING_ID = "shipping_id";
+
 	public static final String S_SHIPPING_ID = "S_SHIPPING_ID";
 	public static final String TRACKING_CODE = "tracking_code";
 	public static final String S_TRACKING_CODE = "S_TRACKING_CODE";
@@ -229,7 +251,12 @@ public class AppParams {
 	public static final String S_IOSS_NUMBER = "S_IOSS_NUMBER";
 
 
+<<<<<<< HEAD
 	public static final String S_ID = "S_ID";
+=======
+//	public static final String S_ID = "TTS_ID";
+
+>>>>>>> dev_Get_All_Base
 	public static final String S_TIMEZONE = "S_TIMEZONE";
 	public static final String N_SEND_EMAIL = "N_SEND_EMAIL";
 	public static final String S_PARTNER_ID = "S_PARTNER_ID";
@@ -259,6 +286,8 @@ public class AppParams {
 	public static final String S_MD5 = "S_MD5";
 	public static final String MD5 = "md5";
 	public static final String S_NAME = "S_NAME";
+	public static final String S_BASE_NAME = "S_BASE_NAME";
+	public static final String S_NAME_COLOR = "S_NAME_COLOR";
 	public static final String N_QUANTITY = "N_QUANTITY";
 	public static final String S_AVATAR = "S_AVATAR";
 	public static final String S_USER_ID = "S_USER_ID";
@@ -269,10 +298,12 @@ public class AppParams {
 	public static final String S_COLORS = "S_COLORS";
 	public static final String S_COLORS_COUNT = "S_COLORS_COUNT";
 	public static final String S_DEFAULT_COLOR_ID = "S_DEFAULT_COLOR_ID";
+	public static final String S_DEFAULT_PROFIT = "S_DEFAULT_PROFIT";
 	public static final String S_COLOR_VALUE = "S_COLOR_VALUE";
 	public static final String S_VALUE = "S_VALUE";
 	public static final String N_POSITION = "N_POSITION";
 	public static final String S_SIZES = "S_SIZES";
+	public static final String S_SIZE_ID = "size_id";
 	public static final String S_PRICE = "S_PRICE";
 	public static final String S_PRICES = "S_PRICES";
 	public static final String S_DROPSHIP_PRICE = "S_DROPSHIP_PRICE";
@@ -328,9 +359,18 @@ public class AppParams {
 	public static final String ADDRESS = "address";
 	public static final String S_FIRST_NAME = "S_FIRST_NAME";
 	public static final String S_LAST_NAME = "S_LAST_NAME";
+<<<<<<< HEAD
 	public static final String S_ADDRESS = "S_ADDRESS";
 	public static final String D_CREATED_AT = "D_CREATED_AT";
 	public static final String D_UPDATED_AT = "D_UPDATED_AT";
+=======
+	public static final String S_ADDRESS = "TTS_ADDRESS";
+	public static final String S_ADD_LINE1 = "S_ADD_LINE1";
+
+
+	public static final String D_CREATED_AT = "D_CREATE";
+	public static final String D_UPDATED_AT = "UPDATED_AT";
+>>>>>>> dev_Get_All_Base
 	public static final String D_LAST_LOGGED_IN = "D_LAST_LOGGEDIN";
 	public static final String CREATE_AT = "created_at";
 	public static final String UPDATE_AT = "updated_at";
@@ -341,8 +381,13 @@ public class AppParams {
 	public static final String S_MEDIA = "S_MEDIA";
 	public static final String SENDER = "sender";
 	public static final String MEDIA = "media";
+<<<<<<< HEAD
 	public static final String S_PHONE = "TTS_PHONE";
 	public static final String S_PASSWORD = "S_PASSWORD";
+=======
+	public static final String S_PHONE = "S_PHONE";
+	public static final String S_PASSWORD = "TTS_PASSWORD";
+>>>>>>> dev_Get_All_Base
 	public static final String S_EMAIL = "S_EMAIL";
 	public static final String S_ADMIN = "S_ADMIN";
 	public static final String ADMIN = "admin";
@@ -350,8 +395,8 @@ public class AppParams {
 	public static final String MEMBER = "member";
 	public static final String S_CAMPAIGN_ID = "S_CAMPAIGN_ID";
 	public static final String CAMPAIGN_ID = "campaign_id";
-	public static final String BASE_ID = "base_id";
-	public static final String S_BASE_ID = "S_BASE_ID";
+
+
 	public static final String DESIGNS = "designs";
 	public static final String VERSION = "version";
 	public static final String DESIGN_FRONT_URL = "design_front_url";
@@ -389,8 +434,8 @@ public class AppParams {
 	public static final String END = "end";
 	public static final String S_FB_PIXEL = "S_FB_PIXEL";
 	public static final String S_GG_PIXEL = "S_GG_PIXEL";
-	public static final String CREATE = "create";
-	public static final String UPDATE = "update";
+	public static final String CREATE = "create_date";
+	public static final String UPDATE = "update_date";
 	public static final String LENGTH = "length";
 	public static final String N_LENGTH = "N_LENGTH";
 	public static final String FAVORITE = "favorite";
@@ -421,16 +466,42 @@ public class AppParams {
 	public static final String SUB_STATE = "sub_state";
 	public static final String MODIFIED_AT = "modified_at";
 	public static final String OLD_TAGS = "old_tags";
+	public static final String S_ADD_LINE2 = "S_ADD_LINE2";
+	public static final String S_ADD_CITY = "S_ADD_CITY";
+	public static final String S_ADD_STATE = "S_ADD_STATE";
+	public static final String S_POSTAL_CODE = "S_POSTAL_CODE";
+	public static final String S_COUNTRY_CODE = "S_COUNTRY_CODE";
+	public static final String S_COUNTRY_NAME = "S_COUNTRY_NAME";
+
+//	public static final String ORDER_PRODUCT = "address";
+//	public static final String SUB_AMOUNT = "sub_amount";
+//	public static final String S_SUB_AMOUNT = "S_SUB_AMOUNT";
+//	public static final String S_SHIPPING_FEE = "S_SHIPPING_FEE";
+//	public static final String SHIPPING_FEE = "shipping_fee";
+	public static final String SHIPPING = "shipping";
+//	public static final String SHIPPING_METHOD = "shipping_method";
+//	public static final String S_TAX_AMOUNT = "S_TAX_AMOUNT";
+//	public static final String TAX_AMOUNT = "tax_amount";
+	public static final String QUANTITY = "quantity";
+	public static final String D_CREATED = "D_CREATED";
+//	public static final String S_SHIPPING_METHOD = "S_SHIPPING_METHOD";
+//	public static final String D_ORDER = "D_ORDER";
+//	public static final String ORDER = "order_date";
+//	public static final String S_STORE_ID = "S_STORE_ID";
+//	public static final String STORE_ID = "store_id";
+	public static final String N_GIFT = "N_GIFT";
+    public static final String TRACKING_TAGS = "tracking_tags";
+	public static final String PRODUCTS = "products";
 
 	//product
-	public static final String ORDER_ID = "order_id";
+//	public static final String ORDER_ID = "order_id";
 	public static final String PRODUCT_ID = "product_id";
 	public static final String S_PRODUCT_ID = "S_PRODUCT_ID";
 	public static final String VARIANT_ID = "variant_id";
 	public static final String S_VARIANT_ID = "S_VARIANT_ID";
-	public static final String S_SIZE_ID = "S_SIZE_ID";
-	public static final String SIZE_ID = "size_id";
-	public static final String QUANTITY = "quantity";
+//	public static final String S_SIZE_ID = "S_SIZE_ID";
+//	public static final String SIZE_ID = "size_id";
+//	public static final String QUANTITY = "quantity";
 	public static final String S_VARIANT_NAME = "S_VARIANT_NAME";
 	public static final String VARIANT_NAME = "variant_name";
 	public static final String N_STATUS = "N_STATUS";
@@ -447,7 +518,7 @@ public class AppParams {
 	public static final String PARTNER_SKU = "partner_sku";
 	public static final String S_COLOR_NAME = "S_COLOR_NAME";
 	public static final String COLOR_NAME = "color_name";
-	public static final String S_SIZE_NAME = "S_SIZE_NAME";
+//	public static final String S_SIZE_NAME = "S_SIZE_NAME";
 	public static final String SIZE_NAME = "size_name";
 	public static final String S_UNIT_AMOUNT = "S_UNIT_AMOUNT";
 	public static final String UNIT_AMOUNT = "unit_amount";
@@ -463,6 +534,7 @@ public class AppParams {
 	public static final String PARTNER_PROPERTIES = "partner_properties";
 	public static final String PARTNER_OPTION = "partner_option";
 	public static final String CUSTOM_DATA = "custom_data";
+<<<<<<< HEAD
     public static final String PRODUCTS = "products";
 	public static final String PRODUCTSID = "PRODUCT_ID";
 	public static final String MOCKUPS = "mockups";
@@ -492,4 +564,17 @@ public class AppParams {
 	public static final String UPDATE_DATE = "update_date";
 	public static final String ORDER_DATE = "order_date";
 
+=======
+    public static final String REFERENCE_ID = "reference_id";
+	public static final String EXTRA_FEE_2 = "extra_fee_2";
+	public static final String ITEMS = "items";
+	public static final String LINE1 = "line1";
+	public static final String LINE2 = "lien2";
+	public static final String CITY = "city";
+	public static final String POSTAL_CODE = "postal_code";
+	public static final String COUNTRY = "coutry";
+	public static final String COUNTRY_NAME = "country_name";
+	public static final String COLOR = "color";
+    public static final String GIFT = "gift";
+>>>>>>> dev_Get_All_Base
 }

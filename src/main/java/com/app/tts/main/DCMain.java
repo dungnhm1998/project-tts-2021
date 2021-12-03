@@ -9,6 +9,8 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.UUID;
+
 /**
  *
  * @author hungdt
@@ -22,5 +24,6 @@ public class DCMain {
 
 	public static void main(String[] args) throws Exception {
 		appContext = new ClassPathXmlApplicationContext("app-context.xml");
+
 	}
 }

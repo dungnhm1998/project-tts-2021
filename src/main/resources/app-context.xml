@@ -129,5 +129,8 @@
     <bean id="baseService" class="com.app.tts.services.SubService">
         <property name="dataSource" ref="ttsDataSource"/>
     </bean>
+<!--    <bean id="baseService" class="com.app.tts.services.BaseService">-->
+<!--        <property name="dataSource" ref="ttsDataSource"/>-->
+<!--    </bean>-->
 
 </beans>

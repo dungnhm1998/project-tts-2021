@@ -11,6 +11,8 @@ import com.app.tts.util.LoggerInterface;
 import io.vertx.core.Vertx;
 import io.vertx.core.VertxOptions;
 
+import java.util.UUID;
+
 /**
  *
  * @author hungdt

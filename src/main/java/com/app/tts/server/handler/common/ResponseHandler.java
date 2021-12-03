@@ -97,7 +97,7 @@ public class ResponseHandler implements Handler<RoutingContext> {
 		LOGGER.log(Level.INFO, "[RESPONSE] BODY: " + loggingResponseBody);
 
 		LOGGER.log(Level.INFO,
-				"[RESPONSE] ****************************** DONE ******************************" + StringPool.NEW_LINE);
+				"[RESPONSE] ❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤ DONE ❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤" + StringPool.NEW_LINE);
 
 		httpServerResponse.end(new JsonObject(responseBody).encode());
 

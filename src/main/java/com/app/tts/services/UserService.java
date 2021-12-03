@@ -101,6 +101,13 @@ public class UserService  extends MasterService{
             result.add(b);
         }
 
+=======
+    public static final String DELETE_USER_BY_EMAIL = "{call PKG_PHUONG.DELETE_USER(?,?,?,?)}";
+
+
+
+    public static List<Map> deleteUser(String email) throws SQLException{
+        List<Map> result = excuteQuery(DELETE_USER_BY_EMAIL, new Object[]{email});
         return result;
     }
 
@@ -133,6 +140,7 @@ public class UserService  extends MasterService{
         List<Map> resultDataList = excuteQuery(GET_USER_BY_EMAIL, new Object[]{email});
 
         LOGGER.info("=> GET EMAIL  result: " + resultDataList);
+
 
         return resultDataList;
     }

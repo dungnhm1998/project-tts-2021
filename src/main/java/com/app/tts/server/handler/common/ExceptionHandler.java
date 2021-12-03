@@ -54,7 +54,7 @@ public class ExceptionHandler implements Handler<RoutingContext>, LoggerInterfac
         httpServerResponse.putHeader(HttpHeaders.CONTENT_LENGTH.toString(), AppUtil.getContentLength(responseBody));
         logger.info("[RESPONSE] " + statusCode + StringPool.DOUBLE_SPACE + statusMessage);
         logger.info("[RESPONSE] BODY: " + responseBody);
-        logger.info("[RESPONSE] ****************************** DONE ******************************" + StringPool.NEW_LINE);
+        logger.info("[RESPONSE] |❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤ DONE ❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤|" + StringPool.NEW_LINE);
         httpServerResponse.end(new JsonObject(responseBody).encode());
     }
 

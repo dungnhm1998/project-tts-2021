@@ -5,6 +5,7 @@
  */
 package com.app.tts.server.vertical;
 
+<<<<<<< HEAD
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 
@@ -26,6 +27,27 @@ import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 
 import com.app.tts.util.LoggerInterface;
+=======
+
+
+import com.app.tts.server.handler.Order.GetListOrderProductHandler;
+import com.app.tts.server.handler.Order.GetOrderByIdHandler;
+import com.app.tts.server.handler.Order.UpdateOrderHandler;
+import com.app.tts.server.handler.user.GetAllUserHandler;
+import com.app.tts.server.handler.user.getBaseHandler1;
+import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
+import com.app.tts.server.handler.base.ListBaseHandler;
+import com.app.tts.server.handler.base.ListBaseHandler2;
+import com.app.tts.server.handler.common.ExceptionHandler;
+import com.app.tts.server.handler.common.RequestLoggingHandler;
+import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.leagen.GetCampaignHandler;
+import com.app.tts.server.handler.leagen.Get_OrderHandler;
+import com.app.tts.server.handler.leagen.CreateCampaignHandler;
+import com.app.tts.server.handler.leagen.getBaseHandler;
+import com.app.tts.server.handler.option.OptionHandler;
+import com.app.tts.server.handler.option.OrderNotifyHandler;
+>>>>>>> dev_Get_All_Base
 import com.app.tts.util.StringPool;
 
 import io.vertx.core.http.HttpClientOptions;
@@ -43,10 +65,12 @@ import io.vertx.rxjava.ext.web.handler.SessionHandler;
 import io.vertx.rxjava.ext.web.handler.TimeoutHandler;
 import io.vertx.rxjava.ext.web.sstore.LocalSessionStore;
 
+import java.util.logging.Logger;
+
 /**
  * @author hungdt
  */
-public class TTSVertical extends AbstractVerticle implements LoggerInterface {
+public class TTSVertical extends AbstractVerticle {
 
     private String serverHost;
     private int serverPort;
@@ -91,6 +115,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         httpsClient = vertx.createHttpClient(new HttpClientOptions().setSsl(true).setTrustAll(true));
 
         super.start();
+		LOGGER.info("[INIT] STARTING UP ORDER API SERVER...");
 
         Router router = Router.router(vertx);
         router.route().handler(CookieHandler.create());
@@ -141,6 +166,14 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
     private Router initAPI() {
 
         Router router = Router.router(vertx);
+		httpServer.listen(result -> {
+			if (result.failed()) {
+				LOGGER.info("Failed to[INIT] START TTS API ERROR " + result.cause() + "\uD83D\uDE02");
+			} else {
+				LOGGER.info("[INIT] TTS SERVER STARTED AT " + " \uD83D\uDE02" + StringPool.SPACE + serverHost + StringPool.COLON + serverPort + " \uD83D\uDE02 ");
+			}
+		});
+	}
 
         // xet uri de xem handler nao se bat login, handler nao khong bat login
         router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
@@ -159,6 +192,21 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 //        router.route(HttpMethod.POST, "/recover2").handler(new ForgotPasswordHandler());//ok
 //        router.route(HttpMethod.POST, "/login2").handler(new LoginUserHandler2());//ok
 //        router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
+		//api
+		router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
+		router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
+
+
+
+
+		router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
+//		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
+//		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
+//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+		router.route(HttpMethod.GET, "/get-order").handler(new Get_OrderHandler());
+		router.route(HttpMethod.GET, "/list-campaign").handler(new GetCampaignHandler());
+		router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
+		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
@@ -168,4 +216,14 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         return router;
     }
 
+//		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
+//		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
+		router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
+		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
+		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
+
+		return router;
+	}
+
+	private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
 }

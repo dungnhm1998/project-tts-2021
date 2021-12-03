@@ -1,4 +1,5 @@
 package com.app.tts.server.handler.user;
+<<<<<<< HEAD:src/main/java/com/app/tts/server/handler/user/UpdateUserHandler.java
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,6 +7,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.apache.commons.validator.routines.EmailValidator;
+=======
+>>>>>>> dev_Get_All_Base:src/main/java/com/app/tts/server/handler/User/UpdateUserHandler.java
 
 import com.app.tts.services.UserService;
 import com.app.tts.util.AppParams;

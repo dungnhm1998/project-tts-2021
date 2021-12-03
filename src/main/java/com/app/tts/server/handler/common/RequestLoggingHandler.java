@@ -24,7 +24,7 @@ public class RequestLoggingHandler implements Handler<RoutingContext>, LoggerInt
         routingContext.vertx().executeBlocking(future -> {
             try {
                 HttpServerRequest httpServerRequest = routingContext.request();
-                logger.info("[REQUEST] ************* " + httpServerRequest.method() + StringPool.DOUBLE_SPACE + httpServerRequest.uri() + " *************");
+                logger.info("[REQUEST] ❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤ " + httpServerRequest.method() + StringPool.DOUBLE_SPACE + httpServerRequest.uri() + "❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤");
                 Set<String> headerNames = httpServerRequest.headers().names();
                 headerNames.stream().filter(header -> Arrays.asList(REQUIRED_HEADERS).contains(header)).forEach(header -> logger.info("[REQUEST] HEADER: " + header + StringPool.SPACE + StringPool.COLON + StringPool.SPACE + httpServerRequest.getHeader(header)));
                 if (routingContext.request().method().compareTo(HttpMethod.POST) == 0
