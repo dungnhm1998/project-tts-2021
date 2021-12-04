@@ -13,6 +13,7 @@ import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.order.GetListOrderProductHandler;
 import com.app.tts.server.handler.order.GetOrderByIdHandler;
+import com.app.tts.server.handler.order.UpdateOrderHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
 import com.app.tts.server.handler.user.LoginUserHandler;
@@ -149,6 +150,8 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
+        
+        router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
 
 
         return router;
