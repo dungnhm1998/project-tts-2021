@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.Ucant;
+package com.app.tts.server.handler.ucant;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +27,8 @@ public class ChangePassHandler implements Handler<RoutingContext>, SessionStore 
 					JsonObject jsonRequest = routingContext.getBodyAsJson();
 					String email = jsonRequest.getString("email");
 					String password = jsonRequest.getString("password");
-					String new_password = jsonRequest.getString("new_password");
-					String confirm_password = jsonRequest.getString("confirm_password");
+					String newPassword = jsonRequest.getString("new_Password");
+					String confirmPassword = jsonRequest.getString("confirm_Password");
 					
 					Map data = new HashMap();
 					List<Map> user = SubService.getUserByEmail(email); 
@@ -42,20 +42,20 @@ public class ChangePassHandler implements Handler<RoutingContext>, SessionStore 
 	                }
 	                if (!encodePassword.equals(Md5Code.md5(password))) {
 	                    data.put("message", "Login failed! , password is incorrect");
-	                } else if (!new_password.equals(confirm_password)) {
+	                } else if (!newPassword.equals(confirmPassword)) {
 	                    data.put("message", "New password and confirm password are not matched");
-	                } else if (18 < new_password.length() || new_password.length() < 6) {
+	                } else if (18 < newPassword.length() || newPassword.length() < 6) {
 	                    data.put("message", "password must be between 6 and 18 characters ");
-	                } else if (!new_password.matches(".*[A-Z].*+")) {
+	                } else if (!newPassword.matches(".*[A-Z].*+")) {
 	    				data.put("message", "password must contain at least one uppercase character");
-	    			} else if (!new_password.matches(".*[0-9].*+")) {	
+	    			} else if (!newPassword.matches(".*[0-9].*+")) {	
 	    				data.put("message", "password must contain at least one numeric character");
 	                } else if (!isValid(email)) {
 	                    data.put("message", "Email is not valid");
 	                } else if (!duplicate) {
 	                    data.put("message", "Email hasn't registered yet" + email);
 	                } else if (duplicate && isValid(email)) {
-	                    SubService.changePassword(email, Md5Code.md5(new_password));
+	                    SubService.changePassword(email, Md5Code.md5(newPassword));
 	                    data.put("message", "change password successfully");
 	                    routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 	                    routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());

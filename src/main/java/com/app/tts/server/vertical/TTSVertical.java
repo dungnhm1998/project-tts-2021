@@ -7,12 +7,14 @@ package com.app.tts.server.vertical;
 
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
-import com.app.tts.server.handler.Ucant.AddProductHandler;
-import com.app.tts.server.handler.Ucant.ChangePassHandler;
-import com.app.tts.server.handler.Ucant.CreateCamHandler;
-import com.app.tts.server.handler.Ucant.LoginHandler;
-import com.app.tts.server.handler.Ucant.RecoveryPassHandler;
-import com.app.tts.server.handler.Ucant.RegisterHandler;
+import com.app.tts.server.handler.ucant.AddProductHandler;
+import com.app.tts.server.handler.ucant.ChangePassHandler;
+import com.app.tts.server.handler.ucant.CreateCamHandler;
+import com.app.tts.server.handler.ucant.ListBaseHandler;
+import com.app.tts.server.handler.ucant.LoginHandler;
+import com.app.tts.server.handler.ucant.RecoveryPassHandler;
+import com.app.tts.server.handler.ucant.RegisterHandler;
+import com.app.tts.server.handler.ucant.UpdateOrderHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
@@ -137,12 +139,14 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
 		//api
-		router.route(HttpMethod.POST, "/register1").handler(new RegisterHandler());
-		router.route(HttpMethod.POST, "/login1").handler(new LoginHandler());
-		router.route(HttpMethod.POST, "/recover1").handler(new RecoveryPassHandler());
-		router.route(HttpMethod.PUT, "/change-pass1").handler(new ChangePassHandler());
-		router.route(HttpMethod.POST, "/create-camp1").handler(new CreateCamHandler());
-		router.route(HttpMethod.POST, "/add-product1").handler(new AddProductHandler());
+		router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
+		router.route(HttpMethod.POST, "/login").handler(new LoginHandler());
+		router.route(HttpMethod.POST, "/recover").handler(new RecoveryPassHandler());
+		router.route(HttpMethod.PUT, "/change-pass").handler(new ChangePassHandler());
+		router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
+		router.route(HttpMethod.POST, "/add-product").handler(new AddProductHandler());
+		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+		router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
 		return router;
 	}
 }

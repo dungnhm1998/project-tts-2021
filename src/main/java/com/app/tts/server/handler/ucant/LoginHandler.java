@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.Ucant;
+package com.app.tts.server.handler.ucant;
 
 import java.util.HashMap;
 import java.util.List;
@@ -41,9 +41,9 @@ public class LoginHandler implements Handler<RoutingContext>, SessionStore {
 			
 					if (!user.isEmpty()) {
 						for(Map map : user) {
-							String user_id = ParamUtil.getString(map, AppParams.S_ID);
-							String user_password = ParamUtil.getString(map, AppParams.S_PASSWORD);
-							if(user_password.equals(encodePassword)) {
+							String userId = ParamUtil.getString(map, AppParams.S_ID);
+							String userPassword = ParamUtil.getString(map, AppParams.S_PASSWORD);
+							if(userPassword.equals(encodePassword)) {
 								if (session != null) {
 									LOGGER.info("Connection to server sucessfully");
 									// Check server redis có chạy không
@@ -56,11 +56,11 @@ public class LoginHandler implements Handler<RoutingContext>, SessionStore {
 									// Lưu sessionId vào cookie
 									Cookie cookie = Cookie.cookie("sessionId", session.id());
 									routingContext.addCookie(cookie);
-									routingContext.put(AppParams.USER_ID, user_id);
+									routingContext.put(AppParams.USER_ID, userId);
 								} else {
 									LOGGER.info("session is null");
 								}
-								data.put("id", user_id);
+								data.put("id", userId);
 								data.put("message", "login successfully");
 								data.put("email", email);
 								routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());

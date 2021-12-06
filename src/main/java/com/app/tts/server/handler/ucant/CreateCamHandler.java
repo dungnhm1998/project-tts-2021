@@ -1,4 +1,4 @@
-package com.app.tts.server.handler.Ucant;
+package com.app.tts.server.handler.ucant;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +20,9 @@ public class CreateCamHandler implements Handler<RoutingContext> {
         rc.vertx().executeBlocking(future -> {
             try {
             	JsonObject json = rc.getBodyAsJson();
-            	String user_id = json.getString("user_id");
+            	String userId = json.getString("user_id");
             	
-            	List<Map> user = SubService.createCam(user_id);
+            	List<Map> user = SubService.createCam(userId);
             	Map data = new HashMap();
             	Map a = user.get(0);
             	String id = ParamUtil.getString(a, AppParams.S_ID);
