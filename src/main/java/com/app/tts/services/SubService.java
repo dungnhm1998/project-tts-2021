@@ -57,14 +57,15 @@ public class SubService extends MasterService{
 		List<Map> result = excuteQuery(CREATE_CAM, new Object[] {userId});
 		return result;
 	}
-//
-//	public static Map createProduct (String campaignResult_id, String baseId, String colorId,
-//			String sizeId, String design, String mockups, String price) throws SQLException{
-//		List<Map> result = excuteQuery(CREATE_PRODUCT, new Object[] {campaignResult_id, baseId, colorId,
-//				sizeId, design, mockups, price});
-////		Map resultData = format1(result);
-//	return
-//	}
+
+	public static Map createProduct (String campaignResult_id, String baseId, String colorId,
+			String sizeId, String design, String mockups, String price) throws SQLException{
+		List<Map> result = excuteQuery(CREATE_PRODUCT, new Object[] {campaignResult_id, baseId, colorId,
+				sizeId, design, mockups, price});
+		Map resultData = new LinkedHashMap<>();
+
+			return resultData;
+	}
 	
 	public static List<Map> getProduct (String campaignId) throws SQLException{
 		List<Map> result = excuteQuery(GET_PRODUCT, new Object[] {campaignId});
