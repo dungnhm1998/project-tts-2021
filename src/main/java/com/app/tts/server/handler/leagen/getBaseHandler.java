@@ -49,11 +49,8 @@ public class getBaseHandler implements Handler<RoutingContext> {
 
 
         List<Map> listBaseAndGroup = GetBaseService.getBaseService();
-        List<Map>  listBaseColor = GetBaseService.getBaseColor();
+        List<Map> listBaseColor = GetBaseService.getBaseColor();
         List<Map> listBaseSize = GetBaseService.getBaseSize();
-
-
-
 
 
         Set<String> listBaseGroupId = new HashSet();

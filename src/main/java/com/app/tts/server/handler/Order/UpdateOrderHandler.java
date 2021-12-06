@@ -8,7 +8,6 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 String currency = ParamUtil.getString(jsonRequest, AppParams.CURRENCY);
                 String note = ParamUtil.getString(jsonRequest, AppParams.NOTE);
                 String channel = ParamUtil.getString(jsonRequest, "channel");
-
+                String userId = ParamUtil.getString(jsonRequest, "user_id");
                 String shippingFree = ParamUtil.getString(jsonRequest, "shipping_fee");
                 String storeId = ParamUtil.getString(jsonRequest, AppParams.STORE_ID);
                 String referenceId = ParamUtil.getString(jsonRequest, AppParams.REFERENCE_ID);
@@ -58,6 +57,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 //            String shippingId = String.valueOf(rand.nextInt(1000000000));
 
                 String shippingId = ParamUtil.getString(shippingMap, "id");
+                String originalId = ParamUtil.getString(jsonRequest, "original_id");
                 String email = ParamUtil.getString(shippingMap, AppParams.EMAIL);
                 String nameShipping = ParamUtil.getString(shippingMap, AppParams.NAME);
                 String phone = ParamUtil.getString(shippingMap, AppParams.PHONE);
@@ -74,54 +74,46 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 addrVerifiedNote = ParamUtil.getString(addressMap, AppParams.ADDR_VERIFIED_NOTE);
 
                 // product
-                String orProductId = "";
-                String baseId = "";
-                String clValue = "";
-                String colorId = "";
-                String colorName = "";
-                String sizeId = "";
-                String sizeName = "";
-                String quantity = "";
-                String s_design_front_url = "";
-                String s_design_back_url = "";
-                String s_variant_front_url = "";
-                String s_variant_back_url = "";
-                String variantName = "";
-                String unitAmount = "";
-                for (Map mapProduct : itemsList) {
-                    orProductId = ParamUtil.getString(mapProduct, AppParams.ID);
-                    baseId = ParamUtil.getString(mapProduct, AppParams.BASE_ID);
-                    clValue = ParamUtil.getString(mapProduct, AppParams.COLOR);
-                    colorId = ParamUtil.getString(mapProduct, AppParams.COLOR_ID);
-                    colorName = ParamUtil.getString(mapProduct, AppParams.COLOR_NAME);
-                    sizeId = ParamUtil.getString(mapProduct, "size_id");
-                    sizeName = ParamUtil.getString(mapProduct, AppParams.SIZE_NAME);
-                    quantity = ParamUtil.getString(mapProduct, AppParams.QUANTITY);
 
+                for (Map mapProduct : itemsList) {
+                    String orProductId = ParamUtil.getString(mapProduct, AppParams.ID);
+                    String baseId = ParamUtil.getString(mapProduct, AppParams.BASE_ID);
+                    String clValue = ParamUtil.getString(mapProduct, AppParams.COLOR);
+                    String colorId = ParamUtil.getString(mapProduct, AppParams.COLOR_ID);
+                    String colorName = ParamUtil.getString(mapProduct, AppParams.COLOR_NAME);
+                    String sizeId = ParamUtil.getString(mapProduct, "size_id");
+                    String sizeName = ParamUtil.getString(mapProduct, AppParams.SIZE_NAME);
+                    String customData = ParamUtil.getString(mapProduct, "custom_data");
+                    int quantity = ParamUtil.getInt(mapProduct, AppParams.QUANTITY);
+                    String campaignId = ParamUtil.getString(mapProduct, "campaign_id");
 
                     Map designsMap = ParamUtil.getMapData(mapProduct, AppParams.DESIGNS);
-                    s_design_front_url = ParamUtil.getString(designsMap, "design_front_url");
-                    s_variant_back_url = ParamUtil.getString(designsMap, "mockup_back_url");
-                    s_variant_front_url = ParamUtil.getString(designsMap, "mockup_front_url");
-                    s_design_back_url = ParamUtil.getString(designsMap, "design_back_url");
+                    String s_design_front_url = ParamUtil.getString(designsMap, "design_front_url");
+                    String s_variant_back_url = ParamUtil.getString(designsMap, "mockup_back_url");
+                    String s_variant_front_url = ParamUtil.getString(designsMap, "mockup_front_url");
+                    String s_design_back_url = ParamUtil.getString(designsMap, "design_back_url");
+                    String productId = ParamUtil.getString(designsMap, "product_id");
 
+                    String variantName = ParamUtil.getString(mapProduct, "variant_id");
+                    String unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
 
-                    variantName = ParamUtil.getString(mapProduct, "variant_id");
-                    unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
-
-                    productResultList = OrderService.updateProduct(orProductId, orderId, baseId, clValue, colorId, colorName, sizeId, sizeName, quantity,
-                            s_design_front_url, s_variant_front_url, s_design_back_url, s_variant_back_url, variantName, unitAmount);
+                    productResultList = OrderService.updateProduct(
+                            orProductId, orderId, campaignId, productId, variantName,
+                            sizeId, quantity, baseId, s_variant_front_url, s_variant_back_url,
+                            colorId, clValue, colorName, sizeName, unitAmount,
+                            s_design_back_url, s_design_front_url, customData);
 
                 }
 
 
-                Map orderResultList = OrderService.updateOrder(orderId, currency, state, shippingId,
-                        tracking_code, note, channel, shippingFree,
-                        source, storeId, referenceId, quantity1, addrVerified,
+                Map orderResultList = OrderService.updateOrder(orderId, currency, state, shippingId, tracking_code,
+                        note, channel, shippingFree, source, originalId,
+                        storeId, userId, referenceId, quantity1, addrVerified,
                         addrVerifiedNote, extraFee, shippingMethod, taxAmount, iossNumber
                 );
 
-                Map shippingResultList = OrderService.updateShipping(shippingId, email, nameShipping, phone, line1, line2, city, stateShipping, postalCode, country, countryName);
+                Map shippingResultList = OrderService.updateShipping(shippingId, email, nameShipping, phone, line1,
+                        line2, city, stateShipping, postalCode, country, countryName);
 
                 data = OrderService.formatUpdateOrder(orderResultList, shippingResultList, productResultList);
 
@@ -184,5 +176,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 //        );
 //        return result;
 //    }
+
+
 }
 
