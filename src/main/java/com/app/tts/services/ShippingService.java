@@ -28,15 +28,6 @@ public class ShippingService extends MasterService {
 			String line1, String line2, String city, String state, String postal_code, String country_code,
 			String country_name) throws SQLException {
 
-//		List<Map> result = new ArrayList();
-//		List<Map> resultDataList = excuteQuery(UPDATE_SHIPPING, new Object[] { id, name, email, phone, gift, line1, line2,
-//				city, state, postal_code, country_code, country_name });
-//		LOGGER.info("=> UPDATE BY ID result: " + resultDataList);
-//		for (Map b : resultDataList) {
-//			b = format(b);
-//			result.add(b);
-//		}
-//		return result;
 		return searchOne(UPDATE_SHIPPING, new Object[] { id, name, email, phone, gift, line1, line2,
 				city, state, postal_code, country_code, country_name });
 	}
