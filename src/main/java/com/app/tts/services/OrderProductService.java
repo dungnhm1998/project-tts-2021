@@ -39,7 +39,7 @@ public class OrderProductService extends MasterService {
 				new Object[] { id, order_id, base_id, color_value, color_id, color_name, size_id, size_name, custom_data,
 						quantity, campaign_id, design_front_url, design_back_url, mockup_front_url, mockup_back_url,
 						variant_id, product_id });
-
+		System.out.println("id    "+id);
 		LOGGER.info("=> UPDATE BY ID result: " + resultDataList);
 
 		for (Map b : resultDataList) {
