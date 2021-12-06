@@ -46,7 +46,7 @@ public class OrderProductService extends MasterService {
 			b = format(b);
 			result.add(b);
 		}
-		return result;
+		return resultDataList;
 	}
 
 	private static Map format(Map queryData) {
