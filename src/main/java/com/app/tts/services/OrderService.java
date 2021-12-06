@@ -5,6 +5,7 @@ import com.app.tts.util.ParamUtil;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class OrderService extends MasterService {
     private static final String GET_ORDER_PRODUCT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER_PRODUCT(?,?,?)}";
     private static final String GET_ORDER = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_ORDER(?,?,?)}";
 
-    private static final String UPDATE_ORDER = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String UPDATE_ORDER = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String UPDATE_SHIPPING = "{call PKG_QUY.UPDATE_SHIPPING_SHIPPING(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String UPDATE_PRODUCT = "{call PKG_QUY.UPDATE_DROPSHIP_ORDER_PRODUCT(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
@@ -82,8 +83,8 @@ public class OrderService extends MasterService {
                 s_variant_back_url,
                 s_variant_name,
                 s_unit_amount
-              });
-        System.out.println("result" +  result);
+        });
+        System.out.println("result" + result);
         return result;
     }
 
@@ -98,14 +99,12 @@ public class OrderService extends MasterService {
         return result;
     }
 
-    public static Map updateOrder(String orderId, String source, String currency, String note,
-                                  String storeId, String referenceId, String state, String shippingMethod,
-                                  String shipping, String extraFee, String taxAmount, String iossNumber,
-                                  int addrVerified, String addrVerifiedNote) throws SQLException {
-        Map result = searchOne(UPDATE_ORDER, new Object[]{orderId, source, currency, note,
-                storeId, referenceId, state, shippingMethod,
-                shipping, extraFee, taxAmount, iossNumber,
-                addrVerified, addrVerifiedNote});
+    public static Map updateOrder(String orderId, String currency,  String state, String shippingId, String tracking_code,  String note, String channel, String shippingFree, String source, String storeId, String referenceId, int quantity, int addrVerified,
+                                  String addrVerifiedNote, String extraFee, String shippingMethod, String taxAmount, String iossNumber) throws SQLException {
+        Map result = searchOne(UPDATE_ORDER, new Object[]{orderId, currency, state, shippingId,
+                tracking_code, note, channel, shippingFree,
+                source, storeId, referenceId, quantity, addrVerified,
+                addrVerifiedNote, extraFee, shippingMethod, taxAmount, iossNumber});
 
         return result;
     }
@@ -120,11 +119,11 @@ public class OrderService extends MasterService {
         resultMap.put("shipping_fee", ParamUtil.getString(orderInput, AppParams.S_SHIPPING_FEE));
         resultMap.put("tax_amount", ParamUtil.getString(orderInput, AppParams.S_TAX_AMOUNT));
         resultMap.put(AppParams.STATE, ParamUtil.getString(orderInput, AppParams.S_STATE));
-        resultMap.put("quantity", ParamUtil.getString(orderInput, ""));
+        resultMap.put("quantity", ParamUtil.getString(orderInput, "N_TOTAL_ITEM"));
         resultMap.put("create_date", ParamUtil.getString(orderInput, AppParams.D_CREATE));
         resultMap.put("update_date", ParamUtil.getString(orderInput, AppParams.D_UPDATE));
         resultMap.put("tracking_code", ParamUtil.getString(orderInput, AppParams.S_TRACKING_CODE));
-        resultMap.put("order_date", ParamUtil.getString(orderInput, ""));
+        resultMap.put("order_date", ParamUtil.getString(orderInput, "D_ORDER    "));
         resultMap.put("note", ParamUtil.getString(orderInput, AppParams.S_NOTE));
         resultMap.put("chanel", ParamUtil.getString(orderInput, AppParams.S_CHANNEL));
         resultMap.put(AppParams.USER_ID, ParamUtil.getString(orderInput, AppParams.S_USER_ID));
@@ -135,7 +134,10 @@ public class OrderService extends MasterService {
         resultMap.put("original_id", ParamUtil.getString(orderInput, AppParams.S_ORIGINAL_ID));
         resultMap.put(AppParams.SOURCE, ParamUtil.getString(orderInput, AppParams.S_SOURCE));
         resultMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_METHOD));
-        resultMap.put("fulfill_state", ParamUtil.getString(orderInput, AppParams.N_FULFILLED_ITEM));
+        boolean Unfulfilled = true, fulfilled = false;
+
+        resultMap.put("fulfill_state", ParamUtil.getBoolean(orderInput, AppParams.N_FULFILLED_ITEM) ? Unfulfilled : fulfilled);
+
         resultMap.put("ioss_number", ParamUtil.getString(orderInput, AppParams.S_IOSS_NUMBER));
 
 //        Map getshipping = shippingInput.get(0);
@@ -148,11 +150,11 @@ public class OrderService extends MasterService {
 
         Map addressMap = new LinkedHashMap();
         addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
-        addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
+        addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, "S_ADD_LINE2"));
         addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
         addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE));
         addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
-        addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
+        addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, "S_COUNTRY_CODE"));
         addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
         addressMap.put(AppParams.ADDR_VERIFIED, ParamUtil.getString(orderInput, AppParams.N_ADDR_VERIFIED));
         addressMap.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(orderInput, AppParams.S_ADDR_VERIFIED_NOTE));

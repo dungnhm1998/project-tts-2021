@@ -8,6 +8,7 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +30,16 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 String source = ParamUtil.getString(jsonRequest, AppParams.SOURCE);
                 String currency = ParamUtil.getString(jsonRequest, AppParams.CURRENCY);
                 String note = ParamUtil.getString(jsonRequest, AppParams.NOTE);
+                String channel = ParamUtil.getString(jsonRequest, "channel");
 
+                String shippingFree = ParamUtil.getString(jsonRequest, "shipping_fee");
                 String storeId = ParamUtil.getString(jsonRequest, AppParams.STORE_ID);
                 String referenceId = ParamUtil.getString(jsonRequest, AppParams.REFERENCE_ID);
                 String state = ParamUtil.getString(jsonRequest, AppParams.STATE);
-
+                int quantity1 = ParamUtil.getInt(jsonRequest, AppParams.QUANTITY);
+                String dUpdate = ParamUtil.getString(jsonRequest, "update_date");
+                String tracking_code = ParamUtil.getString(jsonRequest, AppParams.TRACKING_CODE);
+                String dOrder = ParamUtil.getString(jsonRequest, "order_date");
                 String taxAmount = ParamUtil.getString(jsonRequest, AppParams.TAX_AMOUNT);
                 String iossNumber = ParamUtil.getString(jsonRequest, AppParams.IOSS_NUMBER);
                 String shippingMethod = ParamUtil.getString(jsonRequest, AppParams.SHIPPING_METHOD);
@@ -45,7 +51,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 List<Map> itemsList = ParamUtil.getListData(jsonRequest, AppParams.ITEMS);
 
 
-                int addrVerified;
+                int addrVerified = 0;
                 String addrVerifiedNote;
 
                 //shipping
@@ -68,9 +74,20 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 addrVerifiedNote = ParamUtil.getString(addressMap, AppParams.ADDR_VERIFIED_NOTE);
 
                 // product
-                String orProductId = "", baseId = "", clValue = "", colorId = "", colorName = "", sizeId = "", sizeName = "", quantity = "",
-                        s_design_front_url = "", s_design_back_url = "", s_variant_front_url = "",
-                        s_variant_back_url = "", variantName = "", unitAmount = "";
+                String orProductId = "";
+                String baseId = "";
+                String clValue = "";
+                String colorId = "";
+                String colorName = "";
+                String sizeId = "";
+                String sizeName = "";
+                String quantity = "";
+                String s_design_front_url = "";
+                String s_design_back_url = "";
+                String s_variant_front_url = "";
+                String s_variant_back_url = "";
+                String variantName = "";
+                String unitAmount = "";
                 for (Map mapProduct : itemsList) {
                     orProductId = ParamUtil.getString(mapProduct, AppParams.ID);
                     baseId = ParamUtil.getString(mapProduct, AppParams.BASE_ID);
@@ -93,12 +110,16 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                     unitAmount = ParamUtil.getString(mapProduct, AppParams.UNIT_AMOUNT);
 
                     productResultList = OrderService.updateProduct(orProductId, orderId, baseId, clValue, colorId, colorName, sizeId, sizeName, quantity,
-                            s_design_front_url, s_variant_front_url,s_design_back_url, s_variant_back_url, variantName, unitAmount);
+                            s_design_front_url, s_variant_front_url, s_design_back_url, s_variant_back_url, variantName, unitAmount);
 
                 }
 
 
-                Map orderResultList = OrderService.updateOrder(orderId, source, currency, note, storeId, referenceId, state, shippingMethod, shippingId, extraFee, taxAmount, iossNumber, addrVerified, addrVerifiedNote);
+                Map orderResultList = OrderService.updateOrder(orderId, currency, state, shippingId,
+                        tracking_code, note, channel, shippingFree,
+                        source, storeId, referenceId, quantity1, addrVerified,
+                        addrVerifiedNote, extraFee, shippingMethod, taxAmount, iossNumber
+                );
 
                 Map shippingResultList = OrderService.updateShipping(shippingId, email, nameShipping, phone, line1, line2, city, stateShipping, postalCode, country, countryName);
 
