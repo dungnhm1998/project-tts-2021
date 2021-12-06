@@ -8,7 +8,6 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +20,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
             try {
                 Map jsonRequest = routingContext.getBodyAsJson().getMap();
                 //order
-                Map data = new LinkedHashMap();
-//            Random rand = new Random();
-//            String orderId = String.valueOf(rand.nextInt(1000000000));
+
                 List<Map> productResultList = new ArrayList<>();
                 String orderId = ParamUtil.getString(jsonRequest, "id");
                 String source = ParamUtil.getString(jsonRequest, AppParams.SOURCE);
@@ -35,7 +32,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                 String storeId = ParamUtil.getString(jsonRequest, AppParams.STORE_ID);
                 String referenceId = ParamUtil.getString(jsonRequest, AppParams.REFERENCE_ID);
                 String state = ParamUtil.getString(jsonRequest, AppParams.STATE);
-                int quantity1 = ParamUtil.getInt(jsonRequest, AppParams.QUANTITY);
+                int quantityOrder = ParamUtil.getInt(jsonRequest, AppParams.QUANTITY);
                 String dUpdate = ParamUtil.getString(jsonRequest, "update_date");
                 String tracking_code = ParamUtil.getString(jsonRequest, AppParams.TRACKING_CODE);
                 String dOrder = ParamUtil.getString(jsonRequest, "order_date");
@@ -84,7 +81,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
                     String sizeId = ParamUtil.getString(mapProduct, "size_id");
                     String sizeName = ParamUtil.getString(mapProduct, AppParams.SIZE_NAME);
                     String customData = ParamUtil.getString(mapProduct, "custom_data");
-                    int quantity = ParamUtil.getInt(mapProduct, AppParams.QUANTITY);
+                    int quantityProduct = ParamUtil.getInt(mapProduct, AppParams.QUANTITY);
                     String campaignId = ParamUtil.getString(mapProduct, "campaign_id");
 
                     Map designsMap = ParamUtil.getMapData(mapProduct, AppParams.DESIGNS);
@@ -99,7 +96,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 
                     productResultList = OrderService.updateProduct(
                             orProductId, orderId, campaignId, productId, variantName,
-                            sizeId, quantity, baseId, s_variant_front_url, s_variant_back_url,
+                            sizeId, quantityProduct, baseId, s_variant_front_url, s_variant_back_url,
                             colorId, clValue, colorName, sizeName, unitAmount,
                             s_design_back_url, s_design_front_url, customData);
 
@@ -108,14 +105,14 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 
                 Map orderResultList = OrderService.updateOrder(orderId, currency, state, shippingId, tracking_code,
                         note, channel, shippingFree, source, originalId,
-                        storeId, userId, referenceId, quantity1, addrVerified,
+                        storeId, userId, referenceId, quantityOrder, addrVerified,
                         addrVerifiedNote, extraFee, shippingMethod, taxAmount, iossNumber
                 );
 
                 Map shippingResultList = OrderService.updateShipping(shippingId, email, nameShipping, phone, line1,
                         line2, city, stateShipping, postalCode, country, countryName);
 
-                data = OrderService.formatUpdateOrder(orderResultList, shippingResultList, productResultList);
+                Map data = OrderService.formatUpdateOrder(orderResultList, shippingResultList, productResultList);
 
 
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
@@ -133,49 +130,6 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
             }
         });
     }
-
-//    public static Map inputData(Map mapRequest) throws SQLException {
-//
-//
-//        return null;
-//    }
-//
-//    public static List<Map> updateProduct(
-//            String id, String baseId, String color, String colorId, String colorName, String sizeId, String size_name, String quantity, String price,
-//            String designFrontUrl, String designFrontUrlMd5, String designBackUrl, String designBackUrlMd5,
-//            String variantName, String unitAmount
-//    ) throws SQLException {
-//        List<Map> resultMap = OrderService.updateProduct(
-//                id, baseId, color, colorId, colorName, sizeId, size_name, quantity, price,
-//                designFrontUrl, designFrontUrlMd5, designBackUrl, designBackUrlMd5,
-//                variantName, unitAmount);
-//
-//        return resultMap;
-//    }
-//
-//    public static Map updateShipping(String shippingId,
-//                                     String email, String nameShipping, String phone,
-//                                     String line1, String line2, String city, String state, String postalCode, String country, String countryName) throws SQLException {
-//        Map resultMap = OrderService.updateShipping(shippingId,
-//                email, nameShipping, phone,
-//                line1, line2, city, state, postalCode, country, countryName);
-//
-//        return resultMap;
-//    }
-//
-//    public static Map updateOrder(
-//            String orderId, String source, String currency, String note,
-//            String storeId, String referenceId, String state, String shippingMethod,
-//            String shipping, String extraFee, String taxAmount, String iossNumber,
-//            int addrVerified, String addrVerifiedNote) throws SQLException {
-//        Map result = OrderService.updateOrder(
-//                orderId, source, currency, note,
-//                storeId, referenceId, state, shippingMethod,
-//                shipping, extraFee, taxAmount, iossNumber,
-//                addrVerified, addrVerifiedNote
-//        );
-//        return result;
-//    }
 
 
 }
