@@ -167,7 +167,7 @@ public class AppParams {
 	public static final String S_RESOLUTION_REQUIRE = "RESOLUTION";
 	public static final String RESOLUTION_REQUIRE = "resolution";
 	public static final String S_ID = "S_ID";
-	public static final String SIZE_ID = "S_SIZES";
+	public static final String SIZE_ID = "size_id";
 	public static final String S_SIZE_NAME = "S_SIZE_NAME";
 	public static final String S_UNIT = "S_UNIT";
 

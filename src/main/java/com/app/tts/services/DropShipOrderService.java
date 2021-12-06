@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -15,36 +16,41 @@ import com.app.tts.util.ParamUtil;
 
 public class DropShipOrderService extends MasterService {
 
-	public static final String GET_DSORDER_BY_ID = "{call PKG_TTS_TRUONG.findDSOrderById(?, ?, ?, ?)}";
-	public static final String GET_ALL_ORDER = "{call PKG_TTS_TRUONG.getAllOrder(?, ?, ?, ?)}";
-	public static final String UPDATE_DSORDER = "{call PKG_TTS_TRUONG.updateOrder(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+	public static final String GET_ALL_ORDER = "{call PKG_TTS_TRUONG.getAllOrder(?, ?, ?)}";
+	public static final String GET_ORDER_BY_ID = "{call PKG_TTS_TRUONG.getOrderById(?, ?, ?, ?)}";
+	public static final String UPDATE_DSORDER = "{call PKG_TTS_TRUONG.updateOrder(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
-	public static List<Map> getAllOrder(String id) throws SQLException{
-		return searchAll(GET_ALL_ORDER, new Object[] {id});
-	}
-	public static Map getOrderById(String s_id) throws SQLException {
-		return searchOne(GET_DSORDER_BY_ID, new Object[] { s_id });
+	public static List<Map> getAllOrder() throws SQLException {
+		return searchAll(GET_ALL_ORDER, new Object[] {});
 	}
 
-	public static List<Map> updateOrder(String id, String currency, String sub_amount, String shipping_fee,
-			String tax_amount, String state, String tracking_code, String note, String channel, String user_id,
+	public static List<Map> getOrderById(String id) throws SQLException {
+		List<Map> result = new ArrayList();
+		for (Map b : excuteQuery(GET_ORDER_BY_ID, new Object[] { id })) {
+			b = format(b);
+			result.add(b);
+		}
+		return result;
+	}
+
+	public static Map updateOrder(String id, String currency, String sub_amount, String shipping_fee, String tax_amount,
+			String state, Date update_date, String tracking_code, String note, String channel, String user_id,
 			String store_id, String shipping_id, String original_id, String source, String shipping_method,
 			String ioss_number, String extra_fee, String amount, int addr_verified, String addr_verified_note)
 			throws SQLException, OracleException {
 
 		Map resultMap = new HashMap<>();
-		List<Map> resultDataList = excuteQuery(UPDATE_DSORDER,
-				new Object[] { id, currency, sub_amount, shipping_fee, tax_amount, state, tracking_code, note, channel,
+		Map resultDataList = searchOne(UPDATE_DSORDER,
+				new Object[] { id, currency, sub_amount, shipping_fee, tax_amount, state, update_date, tracking_code, note, channel,
 						user_id, store_id, shipping_id, original_id, source, shipping_method, ioss_number, extra_fee,
 						amount, addr_verified, addr_verified_note });
-		System.out.println(" id    "+id);
-		LOGGER.info("=> UPDATE BY ID result: " + resultDataList);
-		List<Map> result = new ArrayList<>();
-        for (Map map : resultDataList) {
-            map = format(map);
-            result.add(map);
-        }
-        return result;
+//		System.out.println(" id    "+id);
+//		LOGGER.info("=> UPDATE BY ID result: " + resultDataList);
+        return resultDataList;
+//		return searchOne(UPDATE_DSORDER,
+//				new Object[] { id, currency, sub_amount, shipping_fee, tax_amount, state, update_date, tracking_code,
+//						note, channel, user_id, store_id, shipping_id, original_id, source, shipping_method,
+//						ioss_number, extra_fee, amount, addr_verified, addr_verified_note });
 
 	}
 
@@ -57,8 +63,7 @@ public class DropShipOrderService extends MasterService {
 		resultMap.put(AppParams.SHIPPING_FEE, ParamUtil.getString(queryData, AppParams.S_SHIPPING_FEE));
 		resultMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(queryData, AppParams.S_TAX_AMOUNT));
 		resultMap.put(AppParams.STATE, ParamUtil.getString(queryData, AppParams.S_STATE));
-		// resultMap.put(AppParams.UPDATE, ParamUtil.getString(queryData,
-		// AppParams.D_UPDATE));
+		resultMap.put(AppParams.UPDATE, ParamUtil.getString(queryData, AppParams.D_UPDATE));
 		resultMap.put(AppParams.TRACKING_CODE, ParamUtil.getString(queryData, AppParams.S_TRACKING_CODE));
 		resultMap.put(AppParams.ORDER, ParamUtil.getString(queryData, AppParams.D_ORDER));
 		resultMap.put(AppParams.NOTE, ParamUtil.getString(queryData, AppParams.S_NOTE));
@@ -76,6 +81,92 @@ public class DropShipOrderService extends MasterService {
 		resultMap.put(AppParams.ADDR_VERIFIED, ParamUtil.getInt(queryData, AppParams.N_ADDR_VERIFIED));
 		resultMap.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(queryData, AppParams.S_ADDR_VERIFIED_NOTE));
 		resultMap.put(AppParams.ITEMS, ParamUtil.getString(queryData, "item"));
+
+		return resultMap;
+	}
+
+	public static Map formatUpdateOrder(Map orderInput, Map shippingInput, List<Map> productList) {
+		Map resultMap = new LinkedHashMap();
+
+		resultMap.put(AppParams.ID, ParamUtil.getString(orderInput, AppParams.S_ID));
+		resultMap.put(AppParams.CURRENCY, ParamUtil.getString(orderInput, AppParams.S_CURRENCY));
+		resultMap.put("sub_amount", ParamUtil.getString(orderInput, AppParams.S_SUB_AMOUNT));
+		resultMap.put("shipping_fee", ParamUtil.getString(orderInput, AppParams.S_SHIPPING_FEE));
+		resultMap.put("tax_amount", ParamUtil.getString(orderInput, AppParams.S_TAX_AMOUNT));
+		resultMap.put(AppParams.STATE, ParamUtil.getString(orderInput, AppParams.S_STATE));
+		resultMap.put("quantity", ParamUtil.getString(orderInput, "N_TOTAL_ITEM"));
+		resultMap.put("create_date", ParamUtil.getString(orderInput, AppParams.D_CREATE));
+		resultMap.put("update_date", ParamUtil.getString(orderInput, AppParams.D_UPDATE));
+		resultMap.put("tracking_code", ParamUtil.getString(orderInput, AppParams.S_TRACKING_CODE));
+		resultMap.put("order_date", ParamUtil.getString(orderInput, "D_ORDER    "));
+		resultMap.put("note", ParamUtil.getString(orderInput, AppParams.S_NOTE));
+		resultMap.put("chanel", ParamUtil.getString(orderInput, AppParams.S_CHANNEL));
+		resultMap.put(AppParams.USER_ID, ParamUtil.getString(orderInput, AppParams.S_USER_ID));
+
+		resultMap.put(AppParams.STORE_ID, ParamUtil.getString(orderInput, AppParams.S_STORE_ID));
+		resultMap.put("store_name", ParamUtil.getString(orderInput, ""));
+		resultMap.put(AppParams.SHIPPING_ID, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_ID));
+		resultMap.put("original_id", ParamUtil.getString(orderInput, AppParams.S_ORIGINAL_ID));
+		resultMap.put(AppParams.SOURCE, ParamUtil.getString(orderInput, AppParams.S_SOURCE));
+		resultMap.put(AppParams.SHIPPING_METHOD, ParamUtil.getString(orderInput, AppParams.S_SHIPPING_METHOD));
+		boolean Unfulfilled = true, fulfilled = false;
+
+		resultMap.put("fulfill_state",
+				ParamUtil.getBoolean(orderInput, AppParams.N_FULFILLED_ITEM) ? Unfulfilled : fulfilled);
+
+		resultMap.put("ioss_number", ParamUtil.getString(orderInput, AppParams.S_IOSS_NUMBER));
+
+//        Map getshipping = shippingInput.get(0);
+		Map shippingMap = new LinkedHashMap();
+		Map addressMap = new LinkedHashMap<>();
+		shippingMap.put(AppParams.ID, ParamUtil.getString(shippingInput, AppParams.S_ID));
+		shippingMap.put(AppParams.NAME, ParamUtil.getString(shippingInput, AppParams.S_NAME));
+		shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL));
+		shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, AppParams.S_PHONE));
+		shippingMap.put(AppParams.GIFT, ParamUtil.getString(shippingInput, AppParams.N_GIFT));
+		
+		addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
+		addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
+		addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
+		addressMap.put(AppParams.STATE, ParamUtil.getString(shippingInput, AppParams.S_STATE));
+		addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
+		addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
+		addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
+
+		shippingMap.put(AppParams.ADDRESS, addressMap);
+		resultMap.put(AppParams.SHIPPING, shippingMap);
+		resultMap.put(AppParams.EXTRA_FEE_2, ParamUtil.getString(orderInput, AppParams.S_EXTRA_FEE));
+		resultMap.put(AppParams.UNIT_AMOUNT, ParamUtil.getString(orderInput, AppParams.S_AMOUNT));
+
+		List<Map> itemsList = new LinkedList<>();
+		for (Map productInput : productList) {
+			Map productMap = new LinkedHashMap();
+			productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID));
+			productMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
+			productMap.put(AppParams.COLOR_VALUE, ParamUtil.getString(productInput, AppParams.S_COLOR_VALUE));
+			productMap.put(AppParams.COLOR_ID, ParamUtil.getString(productInput, AppParams.S_COLOR_ID));
+			productMap.put(AppParams.COLOR_NAME, ParamUtil.getString(productInput, AppParams.S_COLOR_NAME));
+			productMap.put(AppParams.SIZE_ID, ParamUtil.getString(productInput, AppParams.S_SIZE_ID));
+			productMap.put(AppParams.SIZE_NAME, ParamUtil.getString(productInput, AppParams.S_SIZE_NAME));
+			productMap.put(AppParams.CUSTOM_DATA, ParamUtil.getString(productInput, AppParams.S_CUSTOM_DATA));
+			productMap.put(AppParams.QUANTITY, ParamUtil.getString(productInput, AppParams.N_QUANTITY));
+			productMap.put(AppParams.CAMPAIGN_ID, ParamUtil.getString(productInput, AppParams.S_CAMPAIGN_ID));
+
+			Map designsMap = new LinkedHashMap();
+			designsMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_FRONT_URL));
+			designsMap.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_BACK_URL));
+			designsMap.put(AppParams.VARIANT_FRONT_URL, ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
+			designsMap.put(AppParams.VARIANT_BACK_URL, ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
+
+			productMap.put(AppParams.DESIGNS, designsMap);
+
+			itemsList.add(productMap);
+		}
+
+		resultMap.put(AppParams.ITEMS, itemsList);
+
+		resultMap.put(AppParams.TAX_AMOUNT, ParamUtil.getString(orderInput, AppParams.S_TAX_AMOUNT));
+		resultMap.put(AppParams.IOSS_NUMBER, ParamUtil.getString(orderInput, AppParams.S_IOSS_NUMBER));
 
 		return resultMap;
 	}

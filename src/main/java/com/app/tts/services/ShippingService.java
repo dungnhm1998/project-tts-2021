@@ -12,26 +12,33 @@ import com.app.tts.util.ParamUtil;
 
 public class ShippingService extends MasterService {
 
-	public static final String GET_ALL_SHIPPING = "{call PKG_TTS_TRUONG.getAllShipping(?,?,?,?)}";
+	public static final String GET_ALL_SHIPPING = "{call PKG_TTS_TRUONG.getAllShipping(?,?,?)}";
+	public static final String GET_SHIPPING_BY_ID = "{call PKG_TTS_TRUONG.getShippingById(?,?,?,?)}";
 	public static final String UPDATE_SHIPPING = "{call PKG_TTS_TRUONG.updateShipping(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	
-	public static List<Map> getAllShipping(String id) throws SQLException{
-		return searchAll(GET_ALL_SHIPPING, new Object[] {id});
+	public static List<Map> getAllShipping() throws SQLException{
+		return searchAll(GET_SHIPPING_BY_ID, new Object[] {});
+	}
+	
+	public static Map getShippingById(String id) throws SQLException{
+		return excuteQuery1(GET_SHIPPING_BY_ID, new Object[] {id});
 	}
 
-	public static List<Map> updateShipping(String id, String name, String email, String phone, int gift,
+	public static Map updateShipping(String id, String name, String email, String phone, int gift,
 			String line1, String line2, String city, String state, String postal_code, String country_code,
 			String country_name) throws SQLException {
 
-		List<Map> result = new ArrayList();
-		List<Map> resultDataList = excuteQuery(UPDATE_SHIPPING, new Object[] { id, name, email, phone, gift, line1, line2,
+//		List<Map> result = new ArrayList();
+//		List<Map> resultDataList = excuteQuery(UPDATE_SHIPPING, new Object[] { id, name, email, phone, gift, line1, line2,
+//				city, state, postal_code, country_code, country_name });
+//		LOGGER.info("=> UPDATE BY ID result: " + resultDataList);
+//		for (Map b : resultDataList) {
+//			b = format(b);
+//			result.add(b);
+//		}
+//		return result;
+		return searchOne(UPDATE_SHIPPING, new Object[] { id, name, email, phone, gift, line1, line2,
 				city, state, postal_code, country_code, country_name });
-		LOGGER.info("=> UPDATE BY ID result: " + resultDataList);
-		for (Map b : resultDataList) {
-			b = format(b);
-			result.add(b);
-		}
-		return result;
 	}
 
 	private static Map format(Map queryData) {

@@ -12,20 +12,31 @@ import com.app.tts.util.ParamUtil;
 
 public class OrderProductService extends MasterService {
 
-	public static final String GET_ALL_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.getAllOrderProduct(?,?,?,?)}";
-	public static final String UPDATE_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.updateOrderProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+	public static final String GET_ALL_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.getAllOrderProduct(?,?,?)}";
+	public static final String GET_ORDER_PRODUCT_BY_ID = "{call PKG_TTS_TRUONG.getOrderProductById(?,?,?,?)}";
+	public static final String UPDATE_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.updateOrderProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
-	public static List<Map> getAllOrderProduct(String id) throws SQLException {
-		return searchAll(GET_ALL_ORDER_PRODUCT, new Object[] {id});
+	public static List<Map> getAllOrderProduct() throws SQLException {
+		return searchAll(GET_ALL_ORDER_PRODUCT, new Object[] {});
 	}
-	public static List<Map> updateOrderProduc(String id, String base_id, String color_value, String color_id,
+	
+	public static List<Map> getOrderProductById(String id) throws SQLException {
+		List<Map> result = new ArrayList();
+		for (Map b : excuteQuery(GET_ORDER_PRODUCT_BY_ID, new Object[] {id})) {
+			b = format(b);
+			result.add(b);
+		}
+		return result;
+	}
+	
+	public static List<Map> updateOrderProduc(String id, String order_id, String base_id, String color_value, String color_id,
 			String color_name, String size_id, String size_name, String custom_data, Integer quantity,
 			String campaign_id, String design_front_url, String design_back_url, String mockup_front_url,
 			String mockup_back_url, String variant_id, String product_id) throws SQLException {
 
 		List<Map> result = new ArrayList();
 		List<Map> resultDataList = update(UPDATE_ORDER_PRODUCT,
-				new Object[] { id, base_id, color_value, color_id, color_name, size_id, size_name, custom_data,
+				new Object[] { id, order_id, base_id, color_value, color_id, color_name, size_id, size_name, custom_data,
 						quantity, campaign_id, design_front_url, design_back_url, mockup_front_url, mockup_back_url,
 						variant_id, product_id });
 
