@@ -74,6 +74,7 @@ public class ParamUtil {
 		if (paramMap.get(paramName) instanceof java.sql.Timestamp) {
 
 			SimpleDateFormat dateFormat = new SimpleDateFormat(AppConstants.DEFAULT_DATE_TIME_FORMAT_PATTERN);
+			//SimpleDateFormat dateFormat = new SimpleDateFormat(AppConstants.GODADDY_DATE_TIME_FORMAT1);
 
 //            dateFormat.setTimeZone(TimeZone.getTimeZone(AppConstants.DEFAULT_TIME_ZONE));
 

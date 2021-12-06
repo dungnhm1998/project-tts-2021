@@ -62,6 +62,7 @@ public class AppParams {
 	public static final String CHECK = "check";
 	public static final String TYPE = "type";
 	public static final String TYPES = "types";
+	public static final String TYPE_NAME = "type_name";
 	public static final String TYPE_ID = "type_id";
 	public static final String TITLE = "title";
 	public static final String URL = "url";
@@ -476,7 +477,7 @@ public class AppParams {
 //	public static final String ORDER_ID = "order_id";
 	public static final String PRODUCT_ID = "product_id";
 	public static final String S_PRODUCT_ID = "S_PRODUCT_ID";
-	public static final String VARIANT_ID = "variant_to";
+	public static final String VARIANT_ID = "variant_id";
 	public static final String S_VARIANT_ID = "S_VARIANT_ID";
 //	public static final String S_SIZE_ID = "S_SIZE_ID";
 //	public static final String SIZE_ID = "size_id";

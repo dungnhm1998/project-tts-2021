@@ -121,6 +121,7 @@ public class AppConstants {
 	public static final String CUSTOM_DOMAIN_DEFAULT_CURRENCY_USD = "USD";
 	public static final String DEFAULT_GODADDY_AGREEMENTKEYS = "DNRA";
 	public static final String GODADDY_DATE_TIME_FORMAT = "yyyy-MM-dd\'T\'hh:mm:ss\'Z\'";
+	public static final String GODADDY_DATE_TIME_FORMAT1 = "yyyy-MM-dd\'  'hh:mm:ss\'s'";
 
 	public static final String DEFAULT_TEE_BASE_GROUP_ID = "bokuCHNsIDVH3ubu";
 	public static final String DEFAULT_CANVAS_BASE_GROUP_ID = "xi96DPRhJKosNBnA";
