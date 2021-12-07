@@ -57,13 +57,14 @@ public class SubService extends MasterService{
 		List<Map> result = excuteQuery(CREATE_CAM, new Object[] {userId});
 		return result;
 	}
-	
-	public static Map createProduct (String campaignResult_id, String baseId, String colorId, 
+
+	public static Map createProduct (String campaignResult_id, String baseId, String colorId,
 			String sizeId, String design, String mockups, String price) throws SQLException{
-		List<Map> result = excuteQuery(CREATE_PRODUCT, new Object[] {campaignResult_id, baseId, colorId, 
+		List<Map> result = excuteQuery(CREATE_PRODUCT, new Object[] {campaignResult_id, baseId, colorId,
 				sizeId, design, mockups, price});
-		Map resultData = format1(result);
-		return resultData;
+		Map resultData = new LinkedHashMap<>();
+
+			return resultData;
 	}
 	
 	public static List<Map> getProduct (String campaignId) throws SQLException{
@@ -155,49 +156,90 @@ public class SubService extends MasterService{
 		return result;
 	}
 	
-	public static Map format1(List<Map> result) throws SQLException{
-		Map campaignResult = new LinkedHashMap<>();
-		Map campaign = result.get(0);
-		campaignResult.put(AppParams.ID, ParamUtil.getString(campaign , AppParams.S_ID));
-		campaignResult.put(AppParams.USER_ID, ParamUtil.getString(campaign , AppParams.S_USER_ID));
-		campaignResult.put(AppParams.TITLE, ParamUtil.getString(campaign , AppParams.S_TITLE));
-		campaignResult.put(AppParams.DESC, ParamUtil.getString(campaign , AppParams.S_DESC));
-		campaignResult.put(AppParams.CATEGORY_IDS, ParamUtil.getString(campaign , AppParams.S_CATEGORY_IDS));
-		campaignResult.put(AppParams.TAGS, ParamUtil.getString(campaign , AppParams.S_TAGS));
-		campaignResult.put(AppParams.START, ParamUtil.getString(campaign , AppParams.D_START));
-		campaignResult.put(AppParams.END, ParamUtil.getString(campaign , AppParams.D_END));
-		campaignResult.put(AppParams.RELAUNCH, ParamUtil.getString(campaign , AppParams.N_AUTO_RELAUNCH));
-		campaignResult.put(AppParams.PRIVATE, ParamUtil.getString(campaign , AppParams.N_PRIVATE));
-		campaignResult.put(AppParams.FB_PIXEL, ParamUtil.getString(campaign , AppParams.S_FB_PIXEL));
-		campaignResult.put(AppParams.GG_PIXEL, ParamUtil.getString(campaign , AppParams.S_GG_PIXEL));
-		campaignResult.put(AppParams.CREATE, ParamUtil.getString(campaign , AppParams.D_CREATE));
-		campaignResult.put(AppParams.UPDATE, ParamUtil.getString(campaign , AppParams.D_UPDATE));
-		campaignResult.put(AppParams.STATE, ParamUtil.getString(campaign , AppParams.S_STATE));
-		campaignResult.put(AppParams.LENGTH, ParamUtil.getString(campaign , AppParams.N_LENGTH));
-		campaignResult.put(AppParams.SALE_PRICE, ParamUtil.getString(campaign , AppParams.S_SALE_PRICE));
-		campaignResult.put(AppParams.FAVORITE, ParamUtil.getString(campaign , AppParams.N_FAVORITE));
-		campaignResult.put(AppParams.ARCHIVED, ParamUtil.getString(campaign , AppParams.N_ARCHIVED));
-		campaignResult.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(campaign , AppParams.S_DESIGN_FRONT_URL));
-		campaignResult.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(campaign , AppParams.S_DESIGN_BACK_URL));
-		campaignResult.put(AppParams.DOMAIN_ID, ParamUtil.getString(campaign , AppParams.S_DOMAIN_ID));
-		campaignResult.put(AppParams.DOMAIN, ParamUtil.getString(campaign , AppParams.S_DOMAIN));
-		campaignResult.put(AppParams.ART_IDS, ParamUtil.getString(campaign , AppParams.S_ART_IDS));
-		campaignResult.put(AppParams.BASE_GROUP_ID, ParamUtil.getString(campaign , AppParams.S_BASE_GROUP_ID));
-		campaignResult.put(AppParams.BACK_VIEW, ParamUtil.getString(campaign , AppParams.N_BACK_VIEW));
-		campaignResult.put(AppParams.AS_TM, ParamUtil.getString(campaign , AppParams.N_AS_TM));
-		campaignResult.put(AppParams.AD_TAGS, ParamUtil.getString(campaign , AppParams.S_AD_TAGS));
-		campaignResult.put(AppParams.SEO_TITLE, ParamUtil.getString(campaign , AppParams.S_SEO_TITLE));
-		campaignResult.put(AppParams.SEO_DESC, ParamUtil.getString(campaign , AppParams.S_SEO_DESC));
-		campaignResult.put(AppParams.SEO_IMAGE_COVER, ParamUtil.getString(campaign , AppParams.S_SEO_IMAGE_COVER));
-		campaignResult.put(AppParams.DESIGN_CHECK, ParamUtil.getString(campaign , AppParams.N_DESIGN_CHECK));
-		campaignResult.put(AppParams.DESIGN_VERSION, ParamUtil.getString(campaign , AppParams.S_DESIGN_VERSION));
-		campaignResult.put(AppParams.LEFT_CHEST, ParamUtil.getString(campaign , AppParams.N_LEFT_CHEST));
-		campaignResult.put(AppParams.SUB_STATE, ParamUtil.getString(campaign , AppParams.S_SUB_STATE));
-		campaignResult.put(AppParams.MODIFIED_AT, ParamUtil.getString(campaign , "MODIFIED_AT"));
-		campaignResult.put(AppParams.OLD_TAGS, ParamUtil.getString(campaign , AppParams.OLD_TAGS));
-		
-		return campaignResult;
-	}
+//	public static Map format1(List<Map> result) throws SQLException{
+//		Map campaignResult = new LinkedHashMap<>();
+//
+//		//campaignResult
+////		campaignResult.put(AppParams.ID, ParamUtil.getString(Cam , AppParams.S_campaignResult_ID));
+//		campaignResult.put(AppParams.USER_ID, ParamUtil.getString(Cam , AppParams.S_USER_ID));
+//		campaignResult.put(AppParams.TITLE, ParamUtil.getString(Cam , AppParams.S_TITLE));
+//		campaignResult.put(AppParams.DESC, ParamUtil.getString(Cam , AppParams.S_DESC));
+//		campaignResult.put(AppParams.CATEGORY_IDS, ParamUtil.getString(Cam , AppParams.S_CATEGORY_IDS));
+//		campaignResult.put(AppParams.TAGS, ParamUtil.getString(Cam , AppParams.S_TAGS));
+//		campaignResult.put(AppParams.START, ParamUtil.getString(Cam , AppParams.D_START));
+//		campaignResult.put(AppParams.END, ParamUtil.getString(Cam , AppParams.D_END));
+//		campaignResult.put(AppParams.RELAUNCH, ParamUtil.getString(Cam , AppParams.N_AUTO_RELAUNCH));
+//		campaignResult.put(AppParams.PRIVATE, ParamUtil.getString(Cam , AppParams.N_PRIVATE));
+//		campaignResult.put(AppParams.FB_PIXEL, ParamUtil.getString(Cam , AppParams.S_FB_PIXEL));
+//		campaignResult.put(AppParams.GG_PIXEL, ParamUtil.getString(Cam , AppParams.S_GG_PIXEL));
+//		campaignResult.put(AppParams.CREATE, ParamUtil.getString(Cam , AppParams.D_CREATE));
+//		campaignResult.put(AppParams.UPDATE, ParamUtil.getString(Cam , AppParams.D_UPDATE));
+//		campaignResult.put(AppParams.STATE, ParamUtil.getString(Cam , AppParams.S_STATE));
+//		campaignResult.put(AppParams.LENGTH, ParamUtil.getString(Cam , AppParams.N_LENGTH));
+//		campaignResult.put(AppParams.SALE_PRICE, ParamUtil.getString(Cam , AppParams.S_SALE_PRICE));
+//		campaignResult.put(AppParams.FAVORITE, ParamUtil.getString(Cam , AppParams.N_FAVORITE));
+//		campaignResult.put(AppParams.ARCHIVED, ParamUtil.getString(Cam , AppParams.N_ARCHIVED));
+//		campaignResult.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(Cam , AppParams.S_DESIGN_FRONT_URL));
+//		campaignResult.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(Cam , AppParams.S_DESIGN_BACK_URL));
+//		campaignResult.put(AppParams.DOMAIN_ID, ParamUtil.getString(Cam , AppParams.S_DOMAIN_ID));
+//		campaignResult.put(AppParams.DOMAIN, ParamUtil.getString(Cam , AppParams.S_DOMAIN));
+//		campaignResult.put(AppParams.ART_IDS, ParamUtil.getString(Cam , AppParams.S_ART_IDS));
+//		campaignResult.put(AppParams.BASE_GROUP_ID, ParamUtil.getString(Cam , AppParams.S_BASE_GROUP_ID));
+//		campaignResult.put(AppParams.BACK_VIEW, ParamUtil.getString(Cam , AppParams.N_BACK_VIEW));
+//		campaignResult.put(AppParams.AS_TM, ParamUtil.getString(Cam , AppParams.N_AS_TM));
+//		campaignResult.put(AppParams.AD_TAGS, ParamUtil.getString(Cam , AppParams.S_AD_TAGS));
+//		campaignResult.put(AppParams.SEO_TITLE, ParamUtil.getString(Cam , AppParams.S_SEO_TITLE));
+//		campaignResult.put(AppParams.SEO_DESC, ParamUtil.getString(Cam , AppParams.S_SEO_DESC));
+//		campaignResult.put(AppParams.SEO_IMAGE_COVER, ParamUtil.getString(Cam , AppParams.S_SEO_IMAGE_COVER));
+//		campaignResult.put(AppParams.DESIGN_CHECK, ParamUtil.getString(Cam , AppParams.N_DESIGN_CHECK));
+//		campaignResult.put(AppParams.DESIGN_VERSION, ParamUtil.getString(Cam , AppParams.S_DESIGN_VERSION));
+//		campaignResult.put(AppParams.LEFT_CHEST, ParamUtil.getString(Cam , AppParams.N_LEFT_CHEST));
+//		campaignResult.put(AppParams.SUB_STATE, ParamUtil.getString(Cam , AppParams.S_SUB_STATE));
+//		campaignResult.put(AppParams.MODIFIED_AT, ParamUtil.getString(Cam , AppParams.MODIFIED_AT));
+//		campaignResult.put(AppParams.OLD_TAGS, ParamUtil.getString(Cam , AppParams.OLD_TAGS));
+//=======
+//		Map campaign = result.get(0);
+//		campaignResult.put(AppParams.ID, ParamUtil.getString(campaign , AppParams.S_ID));
+//		campaignResult.put(AppParams.USER_ID, ParamUtil.getString(campaign , AppParams.S_USER_ID));
+//		campaignResult.put(AppParams.TITLE, ParamUtil.getString(campaign , AppParams.S_TITLE));
+//		campaignResult.put(AppParams.DESC, ParamUtil.getString(campaign , AppParams.S_DESC));
+//		campaignResult.put(AppParams.CATEGORY_IDS, ParamUtil.getString(campaign , AppParams.S_CATEGORY_IDS));
+//		campaignResult.put(AppParams.TAGS, ParamUtil.getString(campaign , AppParams.S_TAGS));
+//		campaignResult.put(AppParams.START, ParamUtil.getString(campaign , AppParams.D_START));
+//		campaignResult.put(AppParams.END, ParamUtil.getString(campaign , AppParams.D_END));
+//		campaignResult.put(AppParams.RELAUNCH, ParamUtil.getString(campaign , AppParams.N_AUTO_RELAUNCH));
+//		campaignResult.put(AppParams.PRIVATE, ParamUtil.getString(campaign , AppParams.N_PRIVATE));
+//		campaignResult.put(AppParams.FB_PIXEL, ParamUtil.getString(campaign , AppParams.S_FB_PIXEL));
+//		campaignResult.put(AppParams.GG_PIXEL, ParamUtil.getString(campaign , AppParams.S_GG_PIXEL));
+//		campaignResult.put(AppParams.CREATE, ParamUtil.getString(campaign , AppParams.D_CREATE));
+//		campaignResult.put(AppParams.UPDATE, ParamUtil.getString(campaign , AppParams.D_UPDATE));
+//		campaignResult.put(AppParams.STATE, ParamUtil.getString(campaign , AppParams.S_STATE));
+//		campaignResult.put(AppParams.LENGTH, ParamUtil.getString(campaign , AppParams.N_LENGTH));
+//		campaignResult.put(AppParams.SALE_PRICE, ParamUtil.getString(campaign , AppParams.S_SALE_PRICE));
+//		campaignResult.put(AppParams.FAVORITE, ParamUtil.getString(campaign , AppParams.N_FAVORITE));
+//		campaignResult.put(AppParams.ARCHIVED, ParamUtil.getString(campaign , AppParams.N_ARCHIVED));
+//		campaignResult.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(campaign , AppParams.S_DESIGN_FRONT_URL));
+//		campaignResult.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(campaign , AppParams.S_DESIGN_BACK_URL));
+//		campaignResult.put(AppParams.DOMAIN_ID, ParamUtil.getString(campaign , AppParams.S_DOMAIN_ID));
+//		campaignResult.put(AppParams.DOMAIN, ParamUtil.getString(campaign , AppParams.S_DOMAIN));
+//		campaignResult.put(AppParams.ART_IDS, ParamUtil.getString(campaign , AppParams.S_ART_IDS));
+//		campaignResult.put(AppParams.BASE_GROUP_ID, ParamUtil.getString(campaign , AppParams.S_BASE_GROUP_ID));
+//		campaignResult.put(AppParams.BACK_VIEW, ParamUtil.getString(campaign , AppParams.N_BACK_VIEW));
+//		campaignResult.put(AppParams.AS_TM, ParamUtil.getString(campaign , AppParams.N_AS_TM));
+//		campaignResult.put(AppParams.AD_TAGS, ParamUtil.getString(campaign , AppParams.S_AD_TAGS));
+//		campaignResult.put(AppParams.SEO_TITLE, ParamUtil.getString(campaign , AppParams.S_SEO_TITLE));
+//		campaignResult.put(AppParams.SEO_DESC, ParamUtil.getString(campaign , AppParams.S_SEO_DESC));
+//		campaignResult.put(AppParams.SEO_IMAGE_COVER, ParamUtil.getString(campaign , AppParams.S_SEO_IMAGE_COVER));
+//		campaignResult.put(AppParams.DESIGN_CHECK, ParamUtil.getString(campaign , AppParams.N_DESIGN_CHECK));
+//		campaignResult.put(AppParams.DESIGN_VERSION, ParamUtil.getString(campaign , AppParams.S_DESIGN_VERSION));
+//		campaignResult.put(AppParams.LEFT_CHEST, ParamUtil.getString(campaign , AppParams.N_LEFT_CHEST));
+//		campaignResult.put(AppParams.SUB_STATE, ParamUtil.getString(campaign , AppParams.S_SUB_STATE));
+//		campaignResult.put(AppParams.MODIFIED_AT, ParamUtil.getString(campaign , "MODIFIED_AT"));
+//		campaignResult.put(AppParams.OLD_TAGS, ParamUtil.getString(campaign , AppParams.OLD_TAGS));
+//>>>>>>> 00b42618fa9596f4aedc41d385fc3abfaf36639f
+//
+//		return campaignResult;
+//	}
 	
 	public static Map format2(Map product ) throws SQLException{
 		Map productResult = new LinkedHashMap<>();
