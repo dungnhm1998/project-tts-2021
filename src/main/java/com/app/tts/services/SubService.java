@@ -365,7 +365,7 @@ public class SubService extends MasterService{
         resultMap.put("create_date", ParamUtil.getString(orderInput, AppParams.D_CREATE));
         resultMap.put("update_date", ParamUtil.getString(orderInput, AppParams.D_UPDATE));
         resultMap.put("tracking_code", ParamUtil.getString(orderInput, AppParams.S_TRACKING_CODE));
-        resultMap.put("order_date", ParamUtil.getString(orderInput, "D_ORDER    "));
+        resultMap.put("order_date", ParamUtil.getString(orderInput, "D_ORDER"));
         resultMap.put("note", ParamUtil.getString(orderInput, AppParams.S_NOTE));
         resultMap.put("chanel", ParamUtil.getString(orderInput, AppParams.S_CHANNEL));
         resultMap.put(AppParams.USER_ID, ParamUtil.getString(orderInput, AppParams.S_USER_ID));

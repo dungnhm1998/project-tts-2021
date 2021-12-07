@@ -85,7 +85,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext>{
             	}
             	
             	Map order = SubService.updateOrder(orderId, subAmount, shippingFee, taxAmount, state2, trackingCode, 
-            			shippingMethod, requireRefund, referenceId, iossNumber, extraFee, unitAmount, addrVerified, 
+            			shippingMethod, requireRefund, referenceId, iossNumber, extraFee, amount, addrVerified, 
             			addrVerifiedNote, fulfill);
             	Map shipping = SubService.updateShipping(shippingId, name, email, phone, gift, line1, line2,
             			city, state2, postalCode, country, coutryName);
