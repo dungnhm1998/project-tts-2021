@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 public class GetBaseService1 extends MasterService {
-    public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?,?)}";
+    public static final String GET_LIST_BASE = "{call PKG_QUY.getallbase(?,?,?)}";
     public static final String GET_LIST_COLOR = "{call PKG_QUY.get_color1(?,?,?)}";
     public static final String GET_LIST_SIZE = "{call PKG_QUY.get_size(?,?,?)}";
 
