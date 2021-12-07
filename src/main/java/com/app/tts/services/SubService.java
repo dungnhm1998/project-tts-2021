@@ -30,7 +30,7 @@ public class SubService extends MasterService{
 	public static final String LIST_BASE_AND_GROUP = "{call PKG_BQP.get_base_and_group(?,?,?)}";
 	public static final String GET_LIST_SIZE = "{call PKG_BQP.get_list_size(?,?,?)}";
 	public static final String GET_LIST_COLOR = "{call PKG_BQP.get_list_color(?,?,?)}";
-	public static final String UPDATE_DROPSHIP_ORDER = "{call PKG_BQP.update_dropship_order(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+	public static final String UPDATE_DROPSHIP_ORDER = "{call PKG_BQP.update_dropship_order(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	public static final String UPDATE_SHIPPING = "{call PKG_BQP.update_shipping(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	public static final String UPDATE_ORDER_PRODUCT = "{call PKG_BQP.update_order_product(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	public static List<Map> insertUser (String id, String email, String password, String phone) throws SQLException{
@@ -130,10 +130,10 @@ public class SubService extends MasterService{
 	public static Map updateOrder(String orderId, String subAmount, String shippingFee, String taxAmount, 
 			String state, String trackingCode, String shippingMethod, String requireRefund,
 			String referenceId, String iossNumber, String extraFee, String amount,
-			int addrVerified, String addrVerifiedNote) throws SQLException{
+			int addrVerified, String addrVerifiedNote, int fulfill) throws SQLException{
 		Map result = searchOne(UPDATE_DROPSHIP_ORDER, new Object[] {orderId, subAmount, shippingFee, taxAmount, state, 
 				trackingCode, shippingMethod, requireRefund, referenceId, iossNumber, extraFee, amount,
-				addrVerified, addrVerifiedNote});
+				addrVerified, addrVerifiedNote, fulfill});
 		return result;
 	}
 	
@@ -142,7 +142,6 @@ public class SubService extends MasterService{
 			String coutryName) throws SQLException{
 		Map result = searchOne(UPDATE_SHIPPING, new Object[] {shippingId, name, email, phone, gift, 
 				line1, line2, city, state2, postalCode, country, coutryName});
-		LOGGER.info("Shipping: " + result);
 		return result;
 	}
 	
@@ -335,9 +334,10 @@ public class SubService extends MasterService{
         resultMap.put("original_id", ParamUtil.getString(orderInput, AppParams.S_ORIGINAL_ID));
         resultMap.put("source", ParamUtil.getString(orderInput, AppParams.S_SOURCE));
         resultMap.put("shipping_method", ParamUtil.getString(orderInput, AppParams.S_SHIPPING_METHOD));
-        boolean Unfulfilled = true, fulfilled = false;
+        
+        String fulfill = (ParamUtil.getInt(orderInput, AppParams.N_FULFILLED_ITEM) == 0)?"Unfulfilled" : "fulfilled";
 
-        resultMap.put("fulfill_state", ParamUtil.getBoolean(orderInput, AppParams.N_FULFILLED_ITEM) ? Unfulfilled : fulfilled);
+        resultMap.put("fulfill_state", fulfill);
 
         resultMap.put("ioss_number", ParamUtil.getString(orderInput, AppParams.S_IOSS_NUMBER));
 
@@ -346,7 +346,7 @@ public class SubService extends MasterService{
         shippingMap.put(AppParams.NAME, ParamUtil.getString(shippingInput, AppParams.S_NAME));
         shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL));
         shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, AppParams.S_PHONE));
-        shippingMap.put("gift", ParamUtil.getString(shippingInput, AppParams.N_GIFT));
+        shippingMap.put("gift", ParamUtil.getBoolean(shippingInput, AppParams.N_GIFT));
 
         Map addressMap = new LinkedHashMap();
         addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
@@ -356,7 +356,7 @@ public class SubService extends MasterService{
         addressMap.put(AppParams.POSTAL_CODE, ParamUtil.getString(shippingInput, AppParams.S_POSTAL_CODE));
         addressMap.put(AppParams.COUNTRY, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_CODE));
         addressMap.put(AppParams.COUNTRY_NAME, ParamUtil.getString(shippingInput, AppParams.S_COUNTRY_NAME));
-        addressMap.put(AppParams.ADDR_VERIFIED, ParamUtil.getString(orderInput, AppParams.N_ADDR_VERIFIED));
+        addressMap.put(AppParams.ADDR_VERIFIED, ParamUtil.getBoolean(orderInput, AppParams.N_ADDR_VERIFIED));
         addressMap.put(AppParams.ADDR_VERIFIED_NOTE, ParamUtil.getString(orderInput, AppParams.S_ADDR_VERIFIED_NOTE));
 
         shippingMap.put(AppParams.ADDRESS, addressMap);
@@ -386,8 +386,10 @@ public class SubService extends MasterService{
             productMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
             productMap.put("variant_id", ParamUtil.getString(productInput, AppParams.S_VARIANT_ID));
             productMap.put("variant_name", ParamUtil.getString(productInput, AppParams.S_VARIANT_NAME));
-            productMap.put(AppParams.SIZES, ParamUtil.getString(productInput, "S_SIZE_ID"));
-            productMap.put(AppParams.SIZE_NAME, ParamUtil.getString(productInput, "S_SIZE_NAME"));
+            productMap.put("size_id", ParamUtil.getString(productInput, "S_SIZE_ID"));
+            productMap.put("size_name", ParamUtil.getString(productInput, "S_SIZE_NAME"));
+            productMap.put("variant_image", ParamUtil.getString(productInput, AppParams.S_VARIANT_NAME));
+            productMap.put(AppParams.PRICE, ParamUtil.getString(productInput, AppParams.S_PRICE));
             productMap.put(AppParams.COLOR, ParamUtil.getString(productInput, AppParams.S_COLOR_VALUE));
             productMap.put(AppParams.COLOR_ID, ParamUtil.getString(productInput, AppParams.S_COLOR_ID));
             productMap.put(AppParams.COLOR_NAME, ParamUtil.getString(productInput, AppParams.S_COLOR_NAME));

@@ -30,6 +30,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext>{
             	String state = ParamUtil.getString(json, AppParams.STATE);
             	String trackingCode = ParamUtil.getString(json, "tracking_code");
             	String shippingMethod = ParamUtil.getString(json, "shipping_method");
+            	int fulfill = (ParamUtil.getString(json, "fulfill_state").equals("fulfilled")) ? 1 : 0;
             	String iossNumber = ParamUtil.getString(json, "ioss_number");
             	
             	Map ship = ParamUtil.getMapData(json, "shipping");
@@ -38,7 +39,6 @@ public class UpdateOrderHandler implements Handler<RoutingContext>{
             	String email = ParamUtil.getString(ship, AppParams.EMAIL);
             	String phone = ParamUtil.getString(ship, AppParams.PHONE);
             	int gift = ParamUtil.getBoolean(ship, "gift")? 1 : 0;
-            	LOGGER.info("shippingId: " + shippingId);
             	Map address = ParamUtil.getMapData(ship, "address");
             	String line1 = ParamUtil.getString(address, "line1");
     			String line2 = ParamUtil.getString(address, "line2");
@@ -46,7 +46,7 @@ public class UpdateOrderHandler implements Handler<RoutingContext>{
     			String state2 = ParamUtil.getString(address, "state");
     			String postalCode = ParamUtil.getString(address, "postal_code");
     			String country = ParamUtil.getString(address, "country");
-    			String coutryName = ParamUtil.getString(address, "countryName");
+    			String coutryName = ParamUtil.getString(address, "country_name");
     			int addrVerified = ParamUtil.getBoolean(address, "addr_verified")? 1 : 0;
     			String addrVerifiedNote = ParamUtil.getString(address, "addr_verified_note");
             	
@@ -86,8 +86,8 @@ public class UpdateOrderHandler implements Handler<RoutingContext>{
             	
             	Map order = SubService.updateOrder(orderId, subAmount, shippingFee, taxAmount, state2, trackingCode, 
             			shippingMethod, requireRefund, referenceId, iossNumber, extraFee, unitAmount, addrVerified, 
-            			addrVerifiedNote);
-            	Map shipping = SubService.updateShipping(shippingId, variantName, email, phone, gift, line1, line2,
+            			addrVerifiedNote, fulfill);
+            	Map shipping = SubService.updateShipping(shippingId, name, email, phone, gift, line1, line2,
             			city, state2, postalCode, country, coutryName);
             	data = SubService.formatUpdateOrder(order, shipping, product);
             	
