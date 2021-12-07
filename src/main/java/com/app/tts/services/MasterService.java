@@ -9,6 +9,7 @@ import oracle.jdbc.OracleTypes;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -78,6 +79,44 @@ public class MasterService {
 
         return queryDataList;
     }
+
+
+
+    public static List<Map> excuteQuery2(String query, Object[] args) throws SQLException {
+        int beginIdx = 0;
+        Map inArgs = new LinkedHashMap<>();
+        if (args != null && args.length > 0) {
+            for (int i = 1; i <= args.length; i++) {
+                inArgs.put(i, args[i - 1]);
+            }
+            beginIdx = args.length;
+        }
+
+        Map<Integer, Integer> outTypes = new LinkedHashMap<>();
+        outTypes.put(beginIdx + 1, OracleTypes.NUMBER);
+        outTypes.put(beginIdx + 2, OracleTypes.VARCHAR);
+        outTypes.put(beginIdx + 3, OracleTypes.NUMBER);
+        outTypes.put(beginIdx + 4, OracleTypes.CURSOR);
+
+        Map<Integer, String> outNames = new LinkedHashMap<>();
+        outNames.put(beginIdx + 1, AppParams.RESULT_CODE);
+        outNames.put(beginIdx + 2, AppParams.RESULT_MSG);
+        outNames.put(beginIdx + 3, AppParams.RESULT_CODE);
+        outNames.put(beginIdx + 4, AppParams.RESULT_DATA);
+
+        Map queryResult = DBProcedureUtil.execute(dataSource, query, inArgs, outTypes, outNames);
+
+        int resultCode = ParamUtil.getInt(queryResult, AppParams.RESULT_CODE);
+
+        if (resultCode != HttpResponseStatus.OK.code() && resultCode != HttpResponseStatus.CREATED.code()) {
+            throw new OracleException(ParamUtil.getString(queryResult, AppParams.RESULT_MSG));
+        }
+
+        List<Map> queryDataList = ParamUtil.getListData(queryResult, AppParams.RESULT_DATA);
+
+        return queryDataList;
+    }
+
 
 
     public static Map excuteQuery1(String query, Object[] args) throws SQLException {

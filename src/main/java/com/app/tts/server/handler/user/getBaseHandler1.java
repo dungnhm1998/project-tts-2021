@@ -41,7 +41,9 @@ public class getBaseHandler1 implements Handler<RoutingContext> {
 
     public static Map getListBaseFromDB() throws SQLException {
         List<Map> listBaseAndGroup = GetBaseService1.getBaseService();
+
         List<Map> listBaseColor = GetBaseService1.getBaseColor();
+
         List<Map> listBaseSize = GetBaseService1.getBaseSize();
 
 
