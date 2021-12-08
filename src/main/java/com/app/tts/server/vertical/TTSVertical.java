@@ -15,6 +15,7 @@ import com.app.tts.server.handler.ucant.ListBaseHandler;
 import com.app.tts.server.handler.ucant.LoginHandler;
 import com.app.tts.server.handler.ucant.RecoveryPassHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
+import com.app.tts.server.handler.ucant.UnirestPostHandler;
 import com.app.tts.server.handler.ucant.UpdateOrderHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
@@ -149,6 +150,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
 		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 		router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
 		router.route(HttpMethod.POST, "/create-order").handler(new CreateOrderHandler());
+		router.route(HttpMethod.POST, "/add-order").handler(new UnirestPostHandler());
 		return router;
 	}
 }

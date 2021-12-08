@@ -248,8 +248,6 @@ public class SubService extends MasterService{
 	public static Map formatBaseGroup(Map queryData) {
 
         Map resultMap = new LinkedHashMap<>();
-//        Map size = new LinkedHashMap<>();
-//        Map color = new LinkedHashMap<>();
         Map printTable = new LinkedHashMap<>();
         Map image = new LinkedHashMap<>();
         resultMap.put(AppParams.ID, ParamUtil.getString(queryData, AppParams.S_ID));
@@ -258,9 +256,6 @@ public class SubService extends MasterService{
         resultMap.put(AppParams.GROUP_ID, ParamUtil.getString(queryData, AppParams.S_GROUP_ID));
         resultMap.put(AppParams.GROUP_NAME, ParamUtil.getString(queryData, AppParams.S_GROUP_NAME));
         
-//        resultMap.put(AppParams.SIZES, ParamUtil.getString(queryData, AppParams.S_SIZES));
-//        resultMap.put(AppParams.COLORS, ParamUtil.getString(queryData, AppParams.S_COLORS));
-		
         //printable
         printTable.put("front_top", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_TOP));
         printTable.put("front_left", ParamUtil.getString(queryData, AppParams.S_PRINTABLE_FRONT_LEFT));

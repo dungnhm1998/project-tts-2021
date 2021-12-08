@@ -94,6 +94,7 @@ public class AddProductHandler implements Handler<RoutingContext>{
             	data.put("", camp);
             	data.put("products", product);
             	LOGGER.info("data: " + data);
+            	
             	rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 rc.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
                 rc.put(AppParams.RESPONSE_DATA, data);
