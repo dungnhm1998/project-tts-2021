@@ -80,7 +80,7 @@ public class MasterService {
     }
 
 
-    /*public static Map excuteQuery1(String query, Object[] args) throws SQLException {
+    public static Map excuteQuery3(String query, Object[] args) throws SQLException {
         int beginIdx = 0;
         Map inArgs = new LinkedHashMap<>();
         if (args != null && args.length > 0) {
@@ -121,7 +121,7 @@ public class MasterService {
         result.put(AppParams.RESULT_DATA_3, resultDataList3);
 
         return result;
-    }*/
+    }
     
     public static Map excuteQuery1(String query, Object[] args) throws SQLException {
         int beginIdx = 0;

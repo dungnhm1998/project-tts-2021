@@ -84,9 +84,6 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 
 					for (Map mapProduct : items) {
 						pId = ParamUtil.getString(mapProduct, AppParams.ID);
-						if(OrderProductService.getOrderProductById(pId).isEmpty()) {
-							data.put(pId, "order product not found");
-						}else {
 							baseId = ParamUtil.getString(mapProduct, AppParams.BASE_ID);
 							colorName = ParamUtil.getString(mapProduct, AppParams.COLOR_NAME);
 							colorValue = ParamUtil.getString(mapProduct, AppParams.COLOR);
@@ -99,8 +96,8 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 							Map designsMap = ParamUtil.getMapData(mapProduct, AppParams.DESIGNS);
 							dsFUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_FRONT_URL);
 							dsBUrl = ParamUtil.getString(designsMap, AppParams.DESIGN_BACK_URL);
-							mFUrl = ParamUtil.getString(designsMap, AppParams.VARIANT_FRONT_URL);
-							mBUrl = ParamUtil.getString(designsMap, AppParams.VARIANT_BACK_URL);
+							mFUrl = ParamUtil.getString(designsMap, "mockup_front_url");
+							mBUrl = ParamUtil.getString(designsMap, "mockup_back_url");
 							variantId = ParamUtil.getString(mapProduct, AppParams.VARIANT_ID);
 							productId = ParamUtil.getString(mapProduct, AppParams.PRODUCT_ID);
 							quantity = ParamUtil.getInt(mapProduct, AppParams.QUANTITY);
@@ -111,7 +108,6 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 						}
 
 						
-						}
 					rOrdertList = DropShipOrderService.updateOrder(id, currency, sub_amount, shipping_fee, tax_amount,
 							state, date_update, tracking_code, note, channel, user_id, store_id, shipping_id,
 							original_id, source, shipping_method, ioss_number, extra_fee, amount, a_verified,

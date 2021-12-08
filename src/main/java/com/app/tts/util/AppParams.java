@@ -525,4 +525,18 @@ public class AppParams {
 	public static final String COUNTRY_NAME = "country_name";
 	public static final String COLOR = "color";
     public static final String GIFT = "gift";
+	public static final Object DESIGN_GROUP = "design_group";
+	public static final String S_DESIGN_GROUP = "S_DESIGN_GROUP";
+	public static final Object DESIGN_TYPE = "design_type";
+	public static final String S_DESIGN_TYPE = "S_DESIGN_TYPE";
+	public static final Object SHIPPING_COST_US = "shipping_cost_us";
+	public static final Object SHIPPING_COST_WW = "shipping_cost_ww";
+	public static final String S_SHIPPING_COST_US = "S_SHIPPING_COST_US";
+	public static final String S_SHIPPING_COST_WW = "S_SHIPPING_COST_WW";
+	public static final Object SHIPPING_LINES = "shipping_lines";
+	public static final String S_SHIPPING_LINES = "S_SHIPPING_LINES";
+	public static final Object SHIPPING_TIME_US = "shipping_time_us";
+	public static final Object SHIPPING_TIME_WW = "shipping_time_ww";
+	public static final String S_SHIPPING_TIME_US = "S_SHIPPING_TIME_US";
+	public static final String S_SHIPPING_TIME_WW = "S_SHIPPING_TIME_WW";
 }

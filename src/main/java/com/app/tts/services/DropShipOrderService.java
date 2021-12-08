@@ -168,8 +168,8 @@ public class DropShipOrderService extends MasterService {
 			Map designsMap = new LinkedHashMap();
 			designsMap.put(AppParams.DESIGN_FRONT_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_FRONT_URL));
 			designsMap.put(AppParams.DESIGN_BACK_URL, ParamUtil.getString(productInput, AppParams.S_DESIGN_BACK_URL));
-			designsMap.put(AppParams.VARIANT_FRONT_URL, ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
-			designsMap.put(AppParams.VARIANT_BACK_URL, ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
+			designsMap.put("mockup_front_url", ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
+			designsMap.put("mockup_back_url", ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
 			productMap.put(AppParams.DESIGNS, designsMap);
 			
 			productMap.put(AppParams.VARIANT_ID, ParamUtil.getString(productInput, AppParams.S_VARIANT_ID));
