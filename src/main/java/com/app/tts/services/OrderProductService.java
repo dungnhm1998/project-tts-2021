@@ -13,12 +13,12 @@ import com.app.tts.util.ParamUtil;
 
 public class OrderProductService extends MasterService {
 
-	public static final String GET_ALL_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.getAllOrderProduct(?,?,?)}";
+	public static final String GET_ALL_PRODUCT = "{call PKG_TTS_TRUONG.getAllProduct(?,?,?)}";
 	public static final String GET_ORDER_PRODUCT_BY_ID = "{call PKG_TTS_TRUONG.getOrderProductById(?,?,?,?)}";
 	public static final String UPDATE_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.updateOrderProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
 	public static List<Map> getAllOrderProduct() throws SQLException {
-		return searchAll(GET_ALL_ORDER_PRODUCT, new Object[] {});
+		return excuteQuery(GET_ALL_PRODUCT, new Object[] {});
 	}
 	
 	public static List<Map> getOrderProductById(String id) throws SQLException {

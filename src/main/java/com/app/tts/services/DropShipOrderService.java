@@ -20,8 +20,8 @@ public class DropShipOrderService extends MasterService {
 	public static final String GET_ORDER_BY_ID = "{call PKG_TTS_TRUONG.getOrderById(?, ?, ?, ?)}";
 	public static final String UPDATE_DSORDER = "{call PKG_TTS_TRUONG.updateOrder(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
-	public static List<Map> getAllOrder() throws SQLException {
-		return searchAll(GET_ALL_ORDER, new Object[] {});
+	public static Map getAllOrder() throws SQLException {
+		return excuteQuery1(GET_ALL_ORDER, new Object[] {});
 	}
 
 	public static List<Map> getOrderById(String id) throws SQLException {

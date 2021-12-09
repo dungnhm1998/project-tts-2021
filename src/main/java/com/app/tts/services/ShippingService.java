@@ -16,8 +16,8 @@ public class ShippingService extends MasterService {
 	public static final String GET_SHIPPING_BY_ID = "{call PKG_TTS_TRUONG.getShippingById(?,?,?,?)}";
 	public static final String UPDATE_SHIPPING = "{call PKG_TTS_TRUONG.updateShipping(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	
-	public static List<Map> getAllShipping() throws SQLException{
-		return searchAll(GET_SHIPPING_BY_ID, new Object[] {});
+	public static Map getAllShipping() throws SQLException{
+		return excuteQuery1(GET_ALL_SHIPPING, new Object[] {});
 	}
 	
 	public static Map getShippingById(String id) throws SQLException{

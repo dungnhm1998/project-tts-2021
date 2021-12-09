@@ -36,6 +36,12 @@ public class MasterService {
         List<Map> queryDataList = excuteQuery(query, args);
         return queryDataList;
     }
+    
+    protected static Map searchAll1(String query, Object[] args) throws SQLException {
+        List<Map> queryDataList = excuteQuery(query, args);
+        return (queryDataList != null && queryDataList.isEmpty() == false) ? queryDataList.get(0) : null;
+    }
+
 
     protected static List<Map> update(String query, Object[] args) throws SQLException {
         return excuteQuery(query, args);

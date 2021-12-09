@@ -160,5 +160,8 @@ public class AppConstants {
 	public static final String SHOPBASE_AUTHENTICATION_URL = "onshopbase.com/admin/oauth/access_token.json";
 	public static final String SHOPBASE_STORE_LOCATION = "https://%s/admin/locations.json";
 	public static final String CREATE_WEBHOOK = "https://%s/admin/webhooks.json";
+	
+	public static final String URLSERVER = "https://pro.30usd.com";
+	public static final String URLAPIDRS = URLSERVER + "/pspfulfill/api/v1/dropship-api/order/v2";
 
 }

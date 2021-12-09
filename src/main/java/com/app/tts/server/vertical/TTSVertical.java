@@ -12,11 +12,14 @@ import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.order.DropShipHandler;
 import com.app.tts.server.handler.order.GetListOrderProductHandler;
 import com.app.tts.server.handler.order.GetOrderByIdHandler;
+import com.app.tts.server.handler.order.GetOrderHandler;
 import com.app.tts.server.handler.order.UpdateOrderHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
+import com.app.tts.server.handler.unirest.CallDropshipAPI;
 import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
 import com.app.tts.util.LoggerInterface;
@@ -147,6 +150,7 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/recover").handler(new RecoverPasswordHandler());
 //        router.route(HttpMethod.PUT, "/change-pass").handler(new UpdatePassHandler());
 
+        router.route(HttpMethod.GET, "/order").handler(new GetOrderHandler());
         router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
         router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
 
@@ -154,6 +158,10 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.POST, "/create-camp").handler(new CreateCamHandler());
         
         router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
+        
+        //api call api
+        router.route(HttpMethod.GET, "/test-call/:id").handler(new CallDropshipAPI());
+        router.route(HttpMethod.POST, "/insert-dropship").handler(new DropShipHandler());
 
 
         return router;
