@@ -27,8 +27,8 @@ public class ChangePassHandler implements Handler<RoutingContext>, SessionStore 
 					JsonObject jsonRequest = routingContext.getBodyAsJson();
 					String email = jsonRequest.getString("email");
 					String password = jsonRequest.getString("password");
-					String newPassword = jsonRequest.getString("new_Password");
-					String confirmPassword = jsonRequest.getString("confirm_Password");
+					String newPassword = jsonRequest.getString("new_password");
+					String confirmPassword = jsonRequest.getString("confirm_password");
 					
 					Map data = new HashMap();
 					List<Map> user = SubService.getUserByEmail(email); 

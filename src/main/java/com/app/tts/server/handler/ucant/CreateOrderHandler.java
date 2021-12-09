@@ -2,6 +2,7 @@ package com.app.tts.server.handler.ucant;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import com.app.tts.util.AppParams;
@@ -75,8 +76,11 @@ public class CreateOrderHandler implements Handler<RoutingContext>{
  				String taxAmount = ParamUtil.getString(json, "tax_amount");
 				String iossNumber = ParamUtil.getString(json, "ioss_number");
 				
+				String userId = "A2955";
+				Random random = new Random();
+				String orderId = userId + "-CT-" + random.nextInt();
  				String shippingId = UUID.randomUUID().toString().replace("-", "").substring(0,16);
- 				
+ 				future.complete();
 			}catch (Exception e) {
 				rc.fail(e);
 		    }
