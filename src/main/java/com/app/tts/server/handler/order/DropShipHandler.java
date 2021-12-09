@@ -1,5 +1,6 @@
 package com.app.tts.server.handler.order;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
 import org.json.JSONObject;
@@ -24,9 +25,9 @@ public class DropShipHandler implements Handler<RoutingContext> {
 		routingContext.vertx().executeBlocking(future -> {
 			try {
 
-				JsonObject jsonRequest = routingContext.getBodyAsJson();
+				Map	mapRequest = routingContext.getBodyAsJson().getMap();
 
-				JSONObject jsonData = new JSONObject(jsonRequest.toString());
+				JSONObject jsonData = new JSONObject(mapRequest);
 
 				HttpResponse<JsonNode> jsonResponse = Unirest.post(url)
 						.header("Content-Type", "application/json")
