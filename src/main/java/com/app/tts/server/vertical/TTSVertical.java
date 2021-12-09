@@ -6,10 +6,14 @@
 package com.app.tts.server.vertical;
 
 
+import com.app.tts.server.handler.Order.AddOrderHandler;
 import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.Order.UpdateOrderHandler;
 import com.app.tts.server.handler.user.GetAllUserHandler;
+import com.app.tts.server.handler.user.PostOrderHandler;
+import com.app.tts.server.handler.user.PutOrderHandler;
+import com.app.tts.server.handler.user.UsHandler;
 import com.app.tts.server.handler.user.getBaseHandler1;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
@@ -168,7 +172,11 @@ public class TTSVertical extends AbstractVerticle {
 		router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
 		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
 		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
+		router.route(HttpMethod.POST, "/addOrder").handler(new AddOrderHandler());
 
+		router.route(HttpMethod.GET, "/test/:id").handler(new UsHandler());
+		router.route(HttpMethod.POST, "/test").handler(new PostOrderHandler());
+		router.route(HttpMethod.PUT, "/test1").handler(new PutOrderHandler());
 		return router;
 	}
 

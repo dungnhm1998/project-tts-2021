@@ -23,6 +23,7 @@
 		<common.lang.version>2.6</common.lang.version>
 		<htmlcompressor.version>1.5.2</htmlcompressor.version>
 		<thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+		<jackson.version>2.5.2</jackson.version>
 	</properties>
 	<dependencies>
 
@@ -57,11 +58,36 @@
 			<artifactId>spring-context-support</artifactId>
 			<version>5.1.5.RELEASE</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>5.1.5.RELEASE</version>
 		</dependency>
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.9</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+
+
+
 
 		<dependency>
 			<groupId>org.springframework</groupId>
