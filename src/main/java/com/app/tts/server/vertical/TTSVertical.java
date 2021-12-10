@@ -26,6 +26,8 @@ import com.app.tts.server.handler.leagen.getBaseHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
+import com.app.tts.server.handler.unirest2.UnirestGetHandler2;
+import com.app.tts.server.handler.unirest2.UnirestPostHandler2;
 import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
 import com.app.tts.server.handler.user.getBaseHandler1;
@@ -168,6 +170,8 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/register2").handler(new RegisterUserHandler2());//ok
         router.route(HttpMethod.POST, "/create-camp2").handler(new CreateCampaignHandler2());
         router.route(HttpMethod.GET, "/list-base2").handler(new ListBaseHandler2());
+        router.route(HttpMethod.POST, "/unirest-post2").handler(new UnirestPostHandler2());
+        router.route(HttpMethod.GET, "/unirest-get2/:id").handler(new UnirestGetHandler2());
         //api
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());
