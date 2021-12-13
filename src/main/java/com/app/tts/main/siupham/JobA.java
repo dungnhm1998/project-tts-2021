@@ -13,7 +13,7 @@ public class JobA implements Job {
     @SneakyThrows
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("*******************loading=>>>>>>>");
+        System.out.println("*******************LOADING=>>>>>>>");
         LOGGER.info("=> "+readOneLine());
     }
     // lấy từng order 1
