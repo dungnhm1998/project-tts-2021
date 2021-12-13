@@ -1,4 +1,4 @@
-package com.app.tts.main;
+package com.app.tts.main.siupham;
 
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -8,9 +8,6 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 public class mainQuazt {
 
