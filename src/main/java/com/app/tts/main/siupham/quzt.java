@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class quzt {
     public static final int COLUMN_INDEX_ID = 0;
@@ -30,14 +31,8 @@ public class quzt {
     static List<Order> orders = new LinkedList<>();
 
     public static void quaz() {
-
         String excelFilePath = "D:/react/Book1.xlsx";
         orders = readExcel(excelFilePath);
-
-        for (Order oder : orders) {
-            System.out.println(oder);
-        }
-
     }
 
 
@@ -155,4 +150,6 @@ public class quzt {
 
         return workbook;
     }
+    private static final Logger LOGGER = Logger.getLogger(quzt.class.getName());
+
 }

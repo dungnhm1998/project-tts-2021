@@ -13,15 +13,15 @@ public class JobA implements Job {
     @SneakyThrows
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("*******************loading---->>");
+        LOGGER.info("*******************loading---->>");
         System.out.println(readOneLine());
     }
-
-    public Order readOneLine()  {
+    // lấy từng order 1
+    public Order readOneLine() {
         Order line = null;
         int countQuartz = quzt.count;
         List<Order> listQuartz = quzt.orders;
-        if(countQuartz < listQuartz.size()){
+        if (countQuartz < listQuartz.size()) {
             line = listQuartz.get(countQuartz);
             quzt.count++;
         }
