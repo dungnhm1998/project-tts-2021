@@ -1,6 +1,7 @@
 package com.app.tts.main;
 
 public class Order {
+    public int count;
     private Integer id;
     private String name;
     private Integer quantity;
