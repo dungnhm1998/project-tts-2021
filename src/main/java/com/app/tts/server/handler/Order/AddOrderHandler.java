@@ -8,6 +8,7 @@ import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,13 @@ public class AddOrderHandler implements Handler<RoutingContext> {
                 String addrVerifiedNote = ParamUtil.getString(address, "addr_verified_note");
                 String extra_fee = ParamUtil.getString(jsonObject, "extra_fee");
                 List<Map> items = ParamUtil.getListData(jsonObject, "items");
+
+                String taxAmount = ParamUtil.getString(jsonObject, "tax_amount");
+                String iossNumber = ParamUtil.getString(jsonObject, "ioss_number");
+
+                Map  insertOrder = AddOrderServices.insertOrder(orderId, currency, state, note, source, storeId, reference_id, addrVerified,
+                        addrVerifiedNote, shippingMethod, taxAmount, iossNumber);
+
                 for (Map item : items) {
                     String orProduct = ParamUtil.getString(item, "id");
                     int isEdit = ParamUtil.getBoolean(item, "isEdit") ? 1 : 0;
@@ -81,21 +89,18 @@ public class AddOrderHandler implements Handler<RoutingContext> {
                     String unitAmount = ParamUtil.getString(item, "unit_amount");
                     int shippingExpress = ParamUtil.getBoolean(item, "shippingExpress") ? 1 : 0;
 
-                    insertOrderProduct = AddOrderServices.insertOrderProduct(orProduct, sizeId, price, quantity, variantName, baseId,
-                            mockupFrontUrl, mockupBackUrl, colorId, value, colorName, sizeName, unitAmount, designBackUrl, designFrontUrl);
-
+                    insertOrderProduct = AddOrderServices.insertOrderProduct(orProduct, orderId, sizeId, price, quantity,
+                            variantName, baseId, mockupFrontUrl, mockupBackUrl, colorId,
+                            value, colorName, sizeName, unitAmount, designBackUrl,
+                            designFrontUrl);
                 }
-                String taxAmount = ParamUtil.getString(jsonObject, "tax_amount");
-                String iossNumber = ParamUtil.getString(jsonObject, "ioss_number");
 
-                Map insertOrder = AddOrderServices.insertOrder(orderId, currency, state, note, source, storeId, reference_id, addrVerified,
-                        addrVerifiedNote, shippingMethod, taxAmount, iossNumber);
 
-                Map insertShipping = AddOrderServices.insertShipping(shippingId, email, name, phone, line1, line2, city, state,
+                Map insertShipping = AddOrderServices.insertShipping(shippingId, email, name, phone, line1, line2, city, states,
                         postal_code, country, country_name);
 
-                Map data = new LinkedHashMap();
-//                Map data = AddOrderServices.formatInsertOr();
+//                Map data = new HashMap();
+                Map data = AddOrderServices.formatInsertOrder(insertOrder, insertShipping, insertOrderProduct);
 
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());

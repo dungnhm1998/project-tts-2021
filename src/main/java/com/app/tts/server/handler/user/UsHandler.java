@@ -43,6 +43,4 @@ public class UsHandler implements Handler<RoutingContext> {
         });
     }
     private static final Logger LOGGER = Logger.getLogger(UsHandler.class.getName());
-
-
 }

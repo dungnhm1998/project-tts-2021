@@ -5,11 +5,15 @@
  */
 package com.app.tts.main;
 
-import org.apache.commons.validator.routines.EmailValidator;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.util.UUID;
 
 /**
  *
@@ -23,7 +27,30 @@ public class DCMain {
 	}
 
 	public static void main(String[] args) throws Exception {
-		appContext = new ClassPathXmlApplicationContext("app-context.xml");
+//		appContext = new ClassPathXmlApplicationContext("app-context.xml");
+		Trigger trigger = TriggerBuilder.newTrigger()
+				.withIdentity("huongdanjavaTrigger", "group")
+				.withSchedule(
+						SimpleScheduleBuilder.simpleSchedule()
+								.withIntervalInSeconds(10)
+								.repeatForever()
+				)
 
+				.build();
+
+		JobDetail job = JobBuilder.newJob(JobA.class)
+				.withIdentity("huongdanjavaJob", "group")
+				.build();
+
+
+
+		Scheduler scheduler = new StdSchedulerFactory().getScheduler();
+
+
+		scheduler.start();
+		scheduler.scheduleJob(job, trigger);
+		System.out.println("=======================");
+		Thread.sleep(30000);
+		scheduler.shutdown();
 	}
 }
