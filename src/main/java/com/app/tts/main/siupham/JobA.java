@@ -29,5 +29,4 @@ public class JobA implements Job {
     }
 
     private static final Logger LOGGER = Logger.getLogger(JobA.class.getName());
-
 }
