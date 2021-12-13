@@ -1,6 +1,5 @@
 package com.app.tts.main;
 
-import com.google.common.io.ByteArrayDataInput;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -10,13 +9,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,48 +26,22 @@ public class quzt {
     public static final int COLUMN_INDEX_PRICE = 2;
     public static final int COLUMN_INDEX_QUANTITY = 3;
     public static final int COLUMN_INDEX_STATUS = 4;
+    public static int count = 0;
+    static List<Order> orders = new LinkedList<>();
 
-    public static int count;
-    public static List<Order> orders;
+    public static void quaz() {
 
-    //    Order lastValue = orders.get(orders.size() );
-//        System.out.println(lastValue);
-//       for ( int i = 0 ; i  < orders.size()  ; i++ ) {
-//           System.out.println(orders.get(i));
-//           break;
-//       }
-    public void quaz(){
-        FileInputStream fileInputStream = null;
-        BufferedReader bufferedReader = null;
-        final String excelFilePath = "D://react/Book1.xlsx";
-         orders = readExcel(excelFilePath);
+        String excelFilePath = "D:/react/Book1.xlsx";
+        orders = readExcel(excelFilePath);
 
-        try {
-            fileInputStream = new FileInputStream(excelFilePath);
-            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            // line = dong dau tien
-            String line = bufferedReader.readLine();
-            while (line != null) {
-                orders.size();
-                line = bufferedReader.readLine();
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                bufferedReader.close();
-                fileInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        for (Order oder : orders) {
+            System.out.println(oder);
         }
 
     }
 
-    private List<Order> readExcel(String excelFilePath) {
+
+    private static List<Order> readExcel(String excelFilePath) {
         List<Order> listBooks = new ArrayList<>();
         try {
             // Get file
@@ -141,7 +112,7 @@ public class quzt {
         return listBooks;
     }
 
-    private Object getCellValue(Cell cell) {
+    private static Object getCellValue(Cell cell) {
 
         CellType cellType = cell.getCellTypeEnum();
         Object cellValue = null;
@@ -172,7 +143,7 @@ public class quzt {
     }
 
 
-    private Workbook getWorkbook(InputStream inputStream, String excelFilePath) throws IOException {
+    private static Workbook getWorkbook(InputStream inputStream, String excelFilePath) throws IOException {
         Workbook workbook = null;
         if (excelFilePath.endsWith("xlsx")) {
             workbook = new XSSFWorkbook(inputStream);

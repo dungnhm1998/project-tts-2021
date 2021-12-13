@@ -9,13 +9,18 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class mainQuazt {
+
     public static void main(String[] args) throws SchedulerException, InterruptedException {
+        quzt.quaz();
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity("huongdanjavaTrigger", "group")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(10)
+                                .withIntervalInSeconds(5)
                                 .repeatForever()
                 )
 
