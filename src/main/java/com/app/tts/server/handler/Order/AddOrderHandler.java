@@ -99,12 +99,13 @@ public class AddOrderHandler implements Handler<RoutingContext> {
                 Map insertShipping = AddOrderServices.insertShipping(shippingId, email, name, phone, line1, line2, city, states,
                         postal_code, country, country_name);
 
-//                Map data = new HashMap();
+
                 Map data = AddOrderServices.formatInsertOrder(insertOrder, insertShipping, insertOrderProduct);
 
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
                 routingContext.put(AppParams.RESPONSE_DATA, data);
+                future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
             }

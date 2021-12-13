@@ -14,17 +14,17 @@ public class mainQuazt {
     public static void main(String[] args) throws SchedulerException, InterruptedException {
         quzt.quaz();
         Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity("huongdanjavaTrigger", "group")
+                .withIdentity("orderProductTrigger", "group")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(5)
+                                .withIntervalInSeconds(2)
                                 .repeatForever()
                 )
 
                 .build();
 
         JobDetail job = JobBuilder.newJob(JobA.class)
-                .withIdentity("huongdanjavaJob", "group")
+                .withIdentity("orderProductJob", "group")
                 .build();
 
 
@@ -33,7 +33,7 @@ public class mainQuazt {
 
         scheduler.start();
         scheduler.scheduleJob(job, trigger);
-        System.out.println("=======================");
+        System.out.println("************************");
         Thread.sleep(30000);
         scheduler.shutdown();
     }
