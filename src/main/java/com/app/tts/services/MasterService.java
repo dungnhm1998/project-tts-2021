@@ -158,8 +158,6 @@ public class MasterService {
         }
         Map result = new LinkedHashMap();
         List<Map> resultDataList = ParamUtil.getListData(queryResult, AppParams.RESULT_DATA);
-        List<Map> resultDataList2 = ParamUtil.getListData(queryResult, AppParams.RESULT_DATA_2);
-        List<Map> resultDataList3 = ParamUtil.getListData(queryResult, AppParams.RESULT_DATA_3);
 
         result.put(AppParams.RESULT_DATA, resultDataList);
 

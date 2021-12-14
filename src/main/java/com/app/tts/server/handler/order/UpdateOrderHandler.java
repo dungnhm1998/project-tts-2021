@@ -1,16 +1,7 @@
 package com.app.tts.server.handler.order;
 
-import com.app.tts.services.DropShipOrderService;
-import com.app.tts.services.OrderProductService;
-import com.app.tts.services.ShippingService;
-import com.app.tts.util.AppParams;
-import com.app.tts.util.ParamUtil;
-import io.netty.handler.codec.http.HttpResponseStatus;
-import io.vertx.core.Handler;
-import io.vertx.rxjava.core.http.HttpServerResponse;
-import io.vertx.rxjava.ext.web.RoutingContext;
-import io.vertx.rxjava.ext.web.client.HttpResponse;
-
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +10,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import com.app.tts.services.DropShipOrderService;
+import com.app.tts.services.OrderProductService;
+import com.app.tts.services.ShippingService;
+import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
+
+import io.netty.handler.codec.http.HttpResponseStatus;
+import io.vertx.core.Handler;
+import io.vertx.rxjava.ext.web.RoutingContext;
 
 public class UpdateOrderHandler implements Handler<RoutingContext> {
 
@@ -30,6 +31,17 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 				String MESSAGE = "message";
 				Date date_update = new Date(System.currentTimeMillis());
 				Map jsonRequest = routingContext.getBodyAsJson().getMap();
+				
+				try {
+				      FileWriter myWriter = new FileWriter("D:\\filename.txt");
+				      myWriter.write(jsonRequest.toString());
+				      myWriter.close();
+				      System.out.println("Successfully wrote to the file.");
+				    } catch (IOException e) {
+				      System.out.println("An error occurred.");
+				      e.printStackTrace();
+				    }
+				
 				Map rOrdertList = new HashMap();
 				Map rShippingList = new HashMap();
 				List<Map> rProductList = new ArrayList<Map>();

@@ -2,6 +2,7 @@ package com.app.tts.services;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,9 @@ public class ShippingService extends MasterService {
 	public static final String UPDATE_SHIPPING = "{call PKG_TTS_TRUONG.updateShipping(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 	
 	public static Map getAllShipping() throws SQLException{
+		List<Map> mapData = excuteQuery(GET_ALL_SHIPPING, new Object[] {});
+//		System.out.println(mapData);
+//		LOGGER.info("sss"+mapData);
 		return excuteQuery1(GET_ALL_SHIPPING, new Object[] {});
 	}
 	

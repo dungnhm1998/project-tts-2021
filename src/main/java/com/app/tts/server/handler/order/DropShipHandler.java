@@ -4,6 +4,13 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.json.JSONObject;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SimpleScheduleBuilder;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.impl.StdSchedulerFactory;
 
 import com.app.tts.util.AppConstants;
 import com.app.tts.util.AppParams;
@@ -13,7 +20,6 @@ import com.mashape.unirest.http.Unirest;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
-import io.vertx.core.json.JsonObject;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
 public class DropShipHandler implements Handler<RoutingContext> {
@@ -33,6 +39,7 @@ public class DropShipHandler implements Handler<RoutingContext> {
 						.header("Content-Type", "application/json")
 						.body(jsonData)
 						.asJson();
+				
 
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());

@@ -18,6 +18,8 @@ public class OrderProductService extends MasterService {
 	public static final String UPDATE_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.updateOrderProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
 	public static List<Map> getAllOrderProduct() throws SQLException {
+		LOGGER.info("0 : "+excuteQuery(GET_ALL_PRODUCT, new Object[] {}));
+		LOGGER.info("1 : "+excuteQuery1(GET_ALL_PRODUCT, new Object[] {}));
 		return excuteQuery(GET_ALL_PRODUCT, new Object[] {});
 	}
 	
