@@ -9,6 +9,7 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.app.tts.server.job.ReadCSV;
 import com.app.tts.server.job.ReadFileTXT;
 
 /**
@@ -24,6 +25,7 @@ public class DCMain {
 
 	public static void main(String[] args) throws Exception {
 		ReadFileTXT.readFile();
+		ReadCSV.readCSV();
 		appContext = new ClassPathXmlApplicationContext("app-context.xml");
 	}
 }

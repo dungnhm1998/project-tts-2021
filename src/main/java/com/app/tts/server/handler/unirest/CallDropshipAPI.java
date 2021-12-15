@@ -3,19 +3,10 @@ package com.app.tts.server.handler.unirest;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.quartz.Job;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.impl.StdSchedulerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import com.app.tts.server.job.ReadFileQuatz;
 import com.app.tts.server.job.ReadFileTXT;
 import com.app.tts.util.AppConstants;
 import com.app.tts.util.AppParams;

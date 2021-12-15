@@ -46,6 +46,7 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 				Object jsonObject = routingContext.getBodyAsJson();
 				File file = new File("D:\\demofile.csv");
 				WriteFile.writeFile(file, jsonObject);
+				
 		        
 //		        Trigger trigger = TriggerBuilder.newTrigger()
 //						.withIdentity("demoTrigger", "group")
