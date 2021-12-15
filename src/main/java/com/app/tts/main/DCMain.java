@@ -5,6 +5,7 @@
  */
 package com.app.tts.main;
 
+import com.app.tts.main.quartz.ReadFile;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -25,5 +26,6 @@ public class DCMain {
 	public static void main(String[] args) throws Exception {
 		appContext = new ClassPathXmlApplicationContext("app-context.xml");
 
+		ReadFile.readFile();
 	}
 }

@@ -11,10 +11,7 @@ import com.app.tts.server.handler.User2.RegisterUserHandler2;
 import com.app.tts.server.handler.campaign.AddProductHandler;
 import com.app.tts.server.handler.campaign.CreateCampaignHandler2;
 import com.app.tts.server.handler.campaign.ListBaseHandler2;
-import com.app.tts.server.handler.order.GetListOrderProductHandler;
-import com.app.tts.server.handler.order.GetOrderByIdHandler;
-import com.app.tts.server.handler.order.InsertOrderShippingProductHandler;
-import com.app.tts.server.handler.order.UpdateOrderShippingProductHandler;
+import com.app.tts.server.handler.order.*;
 import com.app.tts.server.handler.User2.ChangePasswordHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
@@ -31,7 +28,6 @@ import com.app.tts.server.handler.unirest2.UnirestPostHandler2;
 import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
 import com.app.tts.server.handler.user.getBaseHandler1;
-import com.app.tts.server.handler.order.UpdateOrderHandler;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
@@ -172,6 +168,7 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.GET, "/list-base2").handler(new ListBaseHandler2());
         router.route(HttpMethod.POST, "/unirest-post2").handler(new UnirestPostHandler2());
         router.route(HttpMethod.GET, "/unirest-get2/:id").handler(new UnirestGetHandler2());
+        router.route(HttpMethod.POST, "/quartz2").handler(new InsertOrderHandler2());
         //api
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());

@@ -8,11 +8,15 @@ import org.quartz.SimpleScheduleBuilder;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 
 public class QuartzExample {
+    public static ApplicationContext appContext;
 
     public static void main(String[] args) throws SchedulerException {
+        appContext = new ClassPathXmlApplicationContext("app-context.xml");
         ReadFile.readFile();
 
         Trigger trigger = TriggerBuilder.newTrigger()
@@ -28,9 +32,24 @@ public class QuartzExample {
                 .withIdentity("huongdanjavaJob", "group")
                 .build();
 
+
+        Trigger trigger2 = TriggerBuilder.newTrigger()
+                .withIdentity("huongdanjavaTrigger2", "group1")
+                .withSchedule(
+                        SimpleScheduleBuilder.simpleSchedule()
+                                .withIntervalInSeconds(10)
+                                .repeatForever()
+                )
+                .build();
+
+        JobDetail job2 = JobBuilder.newJob(QuartzJob2.class)
+                .withIdentity("huongdanjavaJob2", "group1")
+                .build();
+
         Scheduler scheduler = new StdSchedulerFactory().getScheduler();
         scheduler.start();
         scheduler.scheduleJob(job, trigger);
+        scheduler.scheduleJob(job2, trigger2);
 
     }
 }
