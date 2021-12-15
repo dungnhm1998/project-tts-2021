@@ -9,10 +9,14 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.sql.SQLException;
+
 public class mainQuazt {
 
-    public static void main(String[] args) throws SchedulerException, InterruptedException {
+    public static void main(String[] args) throws SchedulerException, InterruptedException, SQLException {
+
         quzt.quaz();
+
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity("orderProductTrigger", "group")
                 .withSchedule(
@@ -34,7 +38,7 @@ public class mainQuazt {
         scheduler.start();
         scheduler.scheduleJob(job, trigger);
         System.out.println("************************");
-        Thread.sleep(30000);
-        scheduler.shutdown();
+//        Thread.sleep(30000);
+//        scheduler.shutdown();
     }
 }
