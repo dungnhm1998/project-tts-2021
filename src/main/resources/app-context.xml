@@ -162,7 +162,7 @@
         <property name="triggers">
             <list>
                 <ref bean="cronTriggerQuartzJob" />
-                <ref bean="cronTriggerQuartzJob2" />
+<!--                <ref bean="cronTriggerQuartzJob2" />-->
             </list>
         </property>
     </bean>

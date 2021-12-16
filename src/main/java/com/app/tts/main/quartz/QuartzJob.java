@@ -9,6 +9,7 @@ import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.FileNotFoundException;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -94,31 +95,54 @@ public class QuartzJob implements Job {// extends QuartzJobBean {
 
 
         //  in ra : 2.2
-        CSVRecord line1 = readOneLine();
+//        CSVRecord line1 = readOneLine();
+//
+//        if(line1 != null) {
+//            Map<String , String> line = line1.toMap();
 
-        if(line1 != null) {
-            Map<String , String> line = line1.toMap();
-                System.out.println("order" + " = " + line.get("ORDER") + "; " +
-                        "ref" + " = " + line.get("REF") + "; " +
-                        "createDate" + " = " + line.get("CREATE DATE") + "; " +
-                        "paymentDate" + " = " + line.get("PAYMENT DATE") + "; " +
-                        "productName" + " = " + line.get("PRODUCT NAME") + "; " +
-                        "customers" + " = " + line.get("CUSTOMERS") + "; " +
-                        "quantity" + " = " + line.get("QUANTITY") + "; " +
-                        "amount" + " = " + line.get("AMOUNT") + "; " +
-                        "shippingMethod" + " = " + line.get("SHIPPING METHOD") + "; " +
-                        "state" + " = " + line.get("STATE") + "; " +
-                        "fullFillState" + " = " + line.get("FULFILL STATE") + "; " +
-                        "tracking" + " = " + line.get("TRACKING") + "; " +
-                        "country" + " = " + line.get("COUNTRY") + "; " +
-                        "zipcode" + " = " + line.get("ZIPCODE") + "; "
-                );
+        // in ra 2.3
+        Map line = readOneLine2();
+        if(!line.isEmpty()){
+            //file A2075
+            for(String columnName : ReadFile.nameColumnList){
+                System.out.print(columnName + " = " + line.get(columnName) + "; ");
+            }
+
+            //file createOrder
+//                System.out.println("order" + " = " + line.get("ORDER") + "; " +
+//                        "ref" + " = " + line.get("REF") + "; " +
+//                        "createDate" + " = " + line.get("CREATE DATE") + "; " +
+//                        "paymentDate" + " = " + line.get("PAYMENT DATE") + "; " +
+//                        "productName" + " = " + line.get("PRODUCT NAME") + "; " +
+//                        "customers" + " = " + line.get("CUSTOMERS") + "; " +
+//                        "quantity" + " = " + line.get("QUANTITY") + "; " +
+//                        "amount" + " = " + line.get("AMOUNT") + "; " +
+//                        "shippingMethod" + " = " + line.get("SHIPPING METHOD") + "; " +
+//                        "state" + " = " + line.get("STATE") + "; " +
+//                        "fullFillState" + " = " + line.get("FULFILL STATE") + "; " +
+//                        "tracking" + " = " + line.get("TRACKING") + "; " +
+//                        "country" + " = " + line.get("COUNTRY") + "; " +
+//                        "zipcode" + " = " + line.get("ZIPCODE") + "; "
+//                );
 
         }
 
         System.out.println("----------------------------------------------------------");
 
     }
+
+    // c2.3
+    public static Map readOneLine2(){
+        int countRecord = ReadFile.count;
+        List<Map> listRecords = ReadFile.listMapData;
+        Map record = new LinkedHashMap();
+        if(countRecord < listRecords.size()){
+            record = listRecords.get(countRecord);
+            ReadFile.count++;
+        }
+        return record;
+    }
+
 //c2
     public static CSVRecord readOneLine()  {
         CSVRecord line = null;
