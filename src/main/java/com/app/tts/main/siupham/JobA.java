@@ -15,12 +15,13 @@ public class JobA implements Job{
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
         Map line1 = readOneLine();
-        if(!line1.isEmpty()) {
-            //file A2075
-            for (String columnName : quzt.nameColumnList) {
-                System.out.print(columnName + " = " + line1.get(columnName) + ", ");
-            }
-        }
+//        if(!line1.isEmpty()) {
+//            //file A2075
+//            for (String columnName : quzt.nameColumnList) {
+//                System.out.print(columnName + " = " + line1.get(columnName) + ", ");
+//            }
+//        }
+        System.out.println(line1);
     }
     // lấy từng order 1
     public Map readOneLine() {
