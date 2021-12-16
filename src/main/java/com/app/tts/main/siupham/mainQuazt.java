@@ -16,7 +16,7 @@ public class mainQuazt {
 
     public static void main(String[] args) throws SchedulerException, InterruptedException, SQLException, IOException {
 
-        quzt.convertCSVRecordToList();
+        quzt.readFile();
 
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity("orderProductTrigger", "group")

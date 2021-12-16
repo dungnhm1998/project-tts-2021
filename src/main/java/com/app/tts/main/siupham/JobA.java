@@ -14,17 +14,19 @@ public class JobA implements Job{
     @SneakyThrows
     @Override
     public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("-----------------------------------------------");
-        LOGGER.info("=> "+readOneLine());
-        System.out.println("-----------------------------------------------");
-
-
+        Map line1 = readOneLine();
+        if(!line1.isEmpty()) {
+            //file A2075
+            for (String columnName : quzt.nameColumnList) {
+                System.out.print(columnName + " = " + line1.get(columnName) + ", ");
+            }
+        }
     }
     // lấy từng order 1
     public Map readOneLine() {
         Map line = null;
         int countQuartz = quzt.count;
-        List<Map> listQuartz = quzt.convertCSVRecordToList();
+        List<Map> listQuartz = quzt.listMapData;
         if (countQuartz < listQuartz.size()) {
             line = listQuartz.get(countQuartz);
             quzt.count++;
