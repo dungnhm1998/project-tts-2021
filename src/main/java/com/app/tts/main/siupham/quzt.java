@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class quzt {
@@ -18,7 +19,7 @@ public class quzt {
 
     public static List<Order> orders = new LinkedList<>();
     public static int count = 0;
-
+    public static List<Map> od = new LinkedList<>();
 
     public static void quaz() throws SQLException {
         String fileName = "D:/react/Orders_export_1639447990953.csv";
@@ -29,55 +30,57 @@ public class quzt {
                     .withSkipLines(0)
                     .build()
                     .parse();
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (IOException e) {
+
         }
 
 
     }
 
 
-    public static List<HashMap<String, Object>> convertCSVRecordToList() {
+    public static List<Map> convertCSVRecordToList() {
 
         String csvFile = "D:/react/Orders_export_1639447990953.csv";
         BufferedReader br = null;
         String line = "";
         String cvsSplitBy = ",";
-        HashMap<String, Object> Map = new HashMap<String, Object>();
+        Map Map = new HashMap<>();
 
-        List<HashMap<String, Object>> MapList = new ArrayList<HashMap<String, Object>>();
+        List<Map> MapList = new ArrayList<>();
 
         try {
 
             br = new BufferedReader(new FileReader(csvFile));
 
+
             while ((line = br.readLine()) != null) {
 
-//                System.out.println(line);
 
                 String[] data = line.split(cvsSplitBy);
 
-                Map.put("ORDER", data[0]);
-                Map.put("REF", data[1]);
-                Map.put("CREATE DATE", data[2]);
+                Map.put("order", data[0]);
+                Map.put("ref", data[1]);
+                Map.put("create date", data[2]);
                 Map.put("PAYMENT DATE", data[3]);
                 Map.put("PRODUCT NAME", data[4]);
                 Map.put("CUSTOMERS", data[5]);
-                Map.put("QUANTITY", data[6]);
-                Map.put("AMOUNT", data[7]);
+                Map.put("quantity", data[6]);
+                Map.put("amount", data[7]);
                 Map.put("SHIPPING METHOD", data[8]);
                 Map.put("STATE", data[9]);
                 Map.put("FULFILL STATE", data[10]);
-                Map.put("TRACKING", data[11]);
+                Map.put("tracking", data[11]);
                 Map.put("COUNTRY", data[12]);
                 Map.put("ZIPCODE", data[13]);
 
 
                 MapList.add(Map);
-     
+
 //                System.out.println(MapList);
+
+
             }
 
         } catch (FileNotFoundException e) {

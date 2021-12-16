@@ -9,19 +9,20 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class mainQuazt {
 
-    public static void main(String[] args) throws SchedulerException, InterruptedException, SQLException {
+    public static void main(String[] args) throws SchedulerException, InterruptedException, SQLException, IOException {
 
-        quzt.quaz();
+        quzt.convertCSVRecordToList();
 
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity("orderProductTrigger", "group")
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(2)
+                                .withIntervalInSeconds(1)
                                 .repeatForever()
                 )
 

@@ -1,167 +1,167 @@
 package com.app.tts.main.siupham;
 
-import com.opencsv.bean.CsvBindByPosition;
+import com.opencsv.bean.CsvBindByName;
 
 
 public class Order {
-    @CsvBindByPosition(position = 0)
-     String ORDER;
-    @CsvBindByPosition(position = 1)
-     String REF;
-    @CsvBindByPosition(position = 2)
-     String CREATEDATE;
-    @CsvBindByPosition(position = 3)
-     String PAYMENTDATE;
-    @CsvBindByPosition(position = 4)
-     String PRODUCTNAME;
-    @CsvBindByPosition(position = 5)
-     String CUSTOMERS;
-    @CsvBindByPosition(position = 6)
-     String QUANTITY;
-    @CsvBindByPosition(position = 7)
-     String AMOUNT;
-    @CsvBindByPosition(position = 8)
-     String SHIPPINGMETHOD;
-    @CsvBindByPosition(position = 9)
-     String STATE;
-    @CsvBindByPosition(position = 10)
-     String FULFILLSTATE;
-    @CsvBindByPosition(position = 11)
-     String TRACKING;
-    @CsvBindByPosition(position = 12)
-     String COUNTRY;
-    @CsvBindByPosition(position = 13)
-     String ZIPCODE;
+    @CsvBindByName(column = "ORDER", required = true)
+    private String order;
+    @CsvBindByName(column = "REF")
+    private String ref;
+    @CsvBindByName(column = "PAYMENT DATE")
+    private String createDate;
+    @CsvBindByName(column = "PAYMENT DATE")
+    private String paymentDate;
+    @CsvBindByName(column = "PRODUCT NAME")
+    private String productName;
+    @CsvBindByName(column = "CUSTOMERS")
+    private String customers;
+    @CsvBindByName(column = "QUANTITY")
+    private String quantity;
+    @CsvBindByName(column = "AMOUNT")
+    private String amount;
+    @CsvBindByName(column = "SHIPPING METHOD")
+    private String shippingMethod;
+    @CsvBindByName(column = "STATE")
+    private String state;
+    @CsvBindByName(column = "FULFILL STATE")
+    private String fulfillState;
+    @CsvBindByName(column = "TRACKING")
+    private String tracking;
+    @CsvBindByName(column = "COUNTRY")
+    private String country;
+    @CsvBindByName()
+    private String zipcode;
 
-    public String getORDER() {
-        return ORDER;
+    public String getOrder() {
+        return order;
     }
 
-    public void setORDER(String ORDER) {
-        this.ORDER = ORDER;
+    public void setOrder(String order) {
+        this.order = order;
     }
 
-    public String getREF() {
-        return REF;
+    public String getRef() {
+        return ref;
     }
 
-    public void setREF(String REF) {
-        this.REF = REF;
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 
-    public String getCREATEDATE() {
-        return CREATEDATE;
+    public String getCreateDate() {
+        return createDate;
     }
 
-    public void setCREATEDATE(String CREATEDATE) {
-        this.CREATEDATE = CREATEDATE;
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
-    public String getPAYMENTDATE() {
-        return PAYMENTDATE;
+    public String getPaymentDate() {
+        return paymentDate;
     }
 
-    public void setPAYMENTDATE(String PAYMENTDATE) {
-        this.PAYMENTDATE = PAYMENTDATE;
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
     }
 
-    public String getPRODUCTNAME() {
-        return PRODUCTNAME;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setPRODUCTNAME(String PRODUCTNAME) {
-        this.PRODUCTNAME = PRODUCTNAME;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getCUSTOMERS() {
-        return CUSTOMERS;
+    public String getCustomers() {
+        return customers;
     }
 
-    public void setCUSTOMERS(String CUSTOMERS) {
-        this.CUSTOMERS = CUSTOMERS;
+    public void setCustomers(String customers) {
+        this.customers = customers;
     }
 
-    public String getQUANTITY() {
-        return QUANTITY;
+    public String getQuantity() {
+        return quantity;
     }
 
-    public void setQUANTITY(String QUANTITY) {
-        this.QUANTITY = QUANTITY;
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
     }
 
-    public String getAMOUNT() {
-        return AMOUNT;
+    public String getAmount() {
+        return amount;
     }
 
-    public void setAMOUNT(String AMOUNT) {
-        this.AMOUNT = AMOUNT;
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 
-    public String getSHIPPINGMETHOD() {
-        return SHIPPINGMETHOD;
+    public String getShippingMethod() {
+        return shippingMethod;
     }
 
-    public void setSHIPPINGMETHOD(String SHIPPINGMETHOD) {
-        this.SHIPPINGMETHOD = SHIPPINGMETHOD;
+    public void setShippingMethod(String shippingMethod) {
+        this.shippingMethod = shippingMethod;
     }
 
-    public String getSTATE() {
-        return STATE;
+    public String getState() {
+        return state;
     }
 
-    public void setSTATE(String STATE) {
-        this.STATE = STATE;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getFULFILLSTATE() {
-        return FULFILLSTATE;
+    public String getFulfillState() {
+        return fulfillState;
     }
 
-    public void setFULFILLSTATE(String FULFILLSTATE) {
-        this.FULFILLSTATE = FULFILLSTATE;
+    public void setFulfillState(String fulfillState) {
+        this.fulfillState = fulfillState;
     }
 
-    public String getTRACKING() {
-        return TRACKING;
+    public String getTracking() {
+        return tracking;
     }
 
-    public void setTRACKING(String TRACKING) {
-        this.TRACKING = TRACKING;
+    public void setTracking(String tracking) {
+        this.tracking = tracking;
     }
 
-    public String getCOUNTRY() {
-        return COUNTRY;
+    public String getCountry() {
+        return country;
     }
 
-    public void setCOUNTRY(String COUNTRY) {
-        this.COUNTRY = COUNTRY;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
-    public String getZIPCODE() {
-        return ZIPCODE;
+    public String getZipcode() {
+        return zipcode;
     }
 
-    public void setZIPCODE(String ZIPCODE) {
-        this.ZIPCODE = ZIPCODE;
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     @Override
     public String toString() {
         return "Order{" +
-                "ORDER='" + ORDER + '\'' +
-                ", REF='" + REF + '\'' +
-                ", CREATEDATE='" + CREATEDATE + '\'' +
-                ", PAYMENTDATE='" + PAYMENTDATE + '\'' +
-                ", PRODUCTNAME='" + PRODUCTNAME + '\'' +
-                ", CUSTOMERS='" + CUSTOMERS + '\'' +
-                ", QUANTITY='" + QUANTITY + '\'' +
-                ", AMOUNT='" + AMOUNT + '\'' +
-                ", SHIPPINGMETHOD='" + SHIPPINGMETHOD + '\'' +
-                ", STATE='" + STATE + '\'' +
-                ", FULFILLSTATE='" + FULFILLSTATE + '\'' +
-                ", TRACKING='" + TRACKING + '\'' +
-                ", COUNTRY='" + COUNTRY + '\'' +
-                ", ZIPCODE='" + ZIPCODE + '\'' +
+                "order='" + order + '\'' +
+                ", ref='" + ref + '\'' +
+                ", createDate='" + createDate + '\'' +
+                ", paymentDate='" + paymentDate + '\'' +
+                ", productName='" + productName + '\'' +
+                ", customers='" + customers + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", amount='" + amount + '\'' +
+                ", shippingMethod='" + shippingMethod + '\'' +
+                ", state='" + state + '\'' +
+                ", fulfillState='" + fulfillState + '\'' +
+                ", tracking='" + tracking + '\'' +
+                ", country='" + country + '\'' +
+                ", zipcode='" + zipcode + '\'' +
                 '}';
     }
 }
