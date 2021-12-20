@@ -95,9 +95,8 @@ public class quzt {
                     listMapData.add(mapOneLine);
                 }
             }
-            System.out.println("---------------start-----------");
-            System.out.println("------------------------------------------");
-            System.out.println("----------------------------------------------");
+            System.out.println("---------------loading...");
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -107,21 +106,20 @@ public class quzt {
     }
     public static List<String> nameColumnOutputA2075(){
         List<String> nameColumnOutput = new LinkedList<>();
-        nameColumnOutput.add("Name");
-        nameColumnOutput.add("Lineitem quantity");
-        nameColumnOutput.add("Lineitem sku");
-        nameColumnOutput.add("Shipping Name");
-        nameColumnOutput.add("Shipping Address1");
-        nameColumnOutput.add("Shipping Address2");
-        nameColumnOutput.add("Shipping City");
-        nameColumnOutput.add("Shipping Zip");
-        nameColumnOutput.add("Shipping Province");
-        nameColumnOutput.add("Shipping Country");
-        nameColumnOutput.add("Design front url");
-        nameColumnOutput.add("Design back url");
-        nameColumnOutput.add("Mockup front url");
-        nameColumnOutput.add("Mockup back url");
-        nameColumnOutput.add("Check vaild adress");
+        nameColumnOutput.add("order");
+        nameColumnOutput.add("fulfill state");
+        nameColumnOutput.add("create date");
+        nameColumnOutput.add("payment date");
+        nameColumnOutput.add("product name");
+        nameColumnOutput.add("ref");
+        nameColumnOutput.add("customers");
+        nameColumnOutput.add("quantity");
+        nameColumnOutput.add("amount");
+        nameColumnOutput.add("shipping method");
+        nameColumnOutput.add("state");
+        nameColumnOutput.add("tracking");
+        nameColumnOutput.add("country");
+        nameColumnOutput.add("zipcode");
         return nameColumnOutput;
     }
 
