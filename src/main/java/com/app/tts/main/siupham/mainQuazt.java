@@ -23,6 +23,7 @@ public class mainQuazt {
                 .withSchedule(
                         SimpleScheduleBuilder.simpleSchedule()
                                 .withIntervalInSeconds(1)
+
                                 .repeatForever()
                 )
 

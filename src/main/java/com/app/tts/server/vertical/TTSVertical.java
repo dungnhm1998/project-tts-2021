@@ -11,6 +11,7 @@ import com.app.tts.server.handler.Order.GetListOrderProductHandler;
 import com.app.tts.server.handler.Order.GetOrderByIdHandler;
 import com.app.tts.server.handler.Order.UpdateOrderHandler;
 import com.app.tts.server.handler.Order.updateDemoHanler;
+import com.app.tts.server.handler.importFile.importFileOrderHandler;
 import com.app.tts.server.handler.user.GetAllUserHandler;
 import com.app.tts.server.handler.user.PostOrderHandler;
 import com.app.tts.server.handler.user.PutOrderHandler;
@@ -176,6 +177,8 @@ public class TTSVertical extends AbstractVerticle {
 		router.route(HttpMethod.POST, "/addOrder").handler(new AddOrderHandler());
 
 		router.route(HttpMethod.POST, "/addOrders").handler(new updateDemoHanler());
+
+		router.route(HttpMethod.POST, "/import-file").handler(new importFileOrderHandler());
 
 		router.route(HttpMethod.GET, "/test/:id").handler(new UsHandler());
 		router.route(HttpMethod.POST, "/test").handler(new PostOrderHandler());
