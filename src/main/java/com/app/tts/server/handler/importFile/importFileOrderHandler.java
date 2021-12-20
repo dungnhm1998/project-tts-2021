@@ -29,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -101,8 +102,10 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                 }
                 Map data = new HashMap();
                 List<Map> importFile = new LinkedList<>();
-                String id = UUID.randomUUID().toString().substring(0, 6);
+
                 for (Map s : listMapData) {
+                    Random rand = new Random();
+                    String ord = String.valueOf(rand.nextInt(100000));
                     String name = ParamUtil.getString(s, "Name");
                     String email = ParamUtil.getString(s, "Email");
                     String financialStatus = ParamUtil.getString(s, "Financial Status");
@@ -135,7 +138,7 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                     importFile = importFileServices.importFileRows(name, userId, file_name, email,financialStatus,
                             store, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress2, shippingCompany, shippingCity,
                             shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
-                            id, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
+                            ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
                             checkValidAddress, currency, unitAmount, location);
                     System.out.println( "map"+s);
                 }
@@ -143,8 +146,8 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                 data.put("import file rows", importFile);
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
-                routingContext.put(AppParams.RESPONSE_DATA, importFile);
-
+                routingContext.put(AppParams.RESPONSE_DATA, data);
+                future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
             }
