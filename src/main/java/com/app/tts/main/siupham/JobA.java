@@ -38,11 +38,7 @@ public class JobA implements Job{
 
 
 
-    public List<Map> importFileRows() {
 
-
-
-    }
 
 
     private static final Logger LOGGER = Logger.getLogger(JobA.class.getName());
