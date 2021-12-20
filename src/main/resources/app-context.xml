@@ -122,12 +122,12 @@
     <!--        <property name="dataSource" ref="ttsDataSource"/>-->
     <!--    </bean>-->
 
-    <bean id="quartzJob" class="com.app.tts.main.quartz.QuartzJob"/>
+    <bean id="quartzJob" class="com.app.tts.server.handler.importFile.importFileOrderHandler"/>
 
 
     <!-- Quartz Job -->
     <bean name="QuartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="com.app.tts.main.quartz.QuartzJob"/>
+        <property name="jobClass" value="com.app.tts.server.handler.importFile.importFileOrderHandler"/>
     </bean>
 
     <!--trigger-->
