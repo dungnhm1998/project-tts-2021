@@ -1,7 +1,9 @@
 package com.app.tts.server.handler.unirest;
 
+import java.util.Map;
 import java.util.logging.Logger;
 
+import org.json.JSONObject;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -16,63 +18,50 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
-public class CallDropshipAPI extends QuartzJobBean implements Handler<RoutingContext> {
+public class CallAPI extends QuartzJobBean implements Handler<RoutingContext> {
 
-	private String Path = "/check-log/";
-	private String url = AppConstants.URLAPIDRS + Path;
+	private String url = "https://accounts.google.com/o/oauth2/auth?scope=email&redirect_uri=http://localhost:8080/AccessGoogle/login-google&response_type=code\r\n"
+			+ "    &client_id=352140522561-vpmetjr6bjce1vod9b0cppihhbcgdesh.apps.googleusercontent.com&approval_prompt=force";
 
 	@Override
 	public void handle(RoutingContext routingContext) {
 		routingContext.vertx().executeBlocking(future -> {
 			try {
-//				ReadFileTXT.readFile();
-				String id = routingContext.request().getParam("id");
-				HttpResponse<JsonNode> response = Unirest.get(url + id).asJson();
+				Map	mapRequest = routingContext.getBodyAsJson().getMap();
 
-//				Trigger trigger = TriggerBuilder.newTrigger()
-//						.withIdentity("demoTrigger", "group")
-//						.withSchedule(SimpleScheduleBuilder.simpleSchedule()
-//								.withIntervalInSeconds(5)
-//								.repeatForever())
-//						.build();
-//
-//				JobDetail job = JobBuilder.newJob(CallDropshipAPI.class)
-//						.withIdentity("demoJob", "group")
-//						.build();
-//
-//				Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-//				scheduler.start();
-//				scheduler.scheduleJob(job, trigger);
-				
-				
-				
-				 
+				JSONObject jsonData = new JSONObject(mapRequest);
+
+				HttpResponse<JsonNode> jsonResponse = Unirest.post(url)
+						.header("Content-Type", "application/json")
+						.body(jsonData)
+						.asJson();
 
 				routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
 				routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-				routingContext.put(AppParams.RESPONSE_DATA, response.getBody().toString());
+				routingContext.put(AppParams.RESPONSE_DATA, jsonResponse.getBody().toString());
 				future.complete();
 			} catch (Exception e) {
 				routingContext.fail(e);
 			}
-		},asyncResult->
+		}, asyncResult ->
 
-	{
+		{
 			if (asyncResult.succeeded()) {
 				routingContext.next();
 			} else {
 				routingContext.fail(asyncResult.cause());
 			}
-		});}
+		});
+	}
 
-	private static final Logger LOGGER = Logger.getLogger(CallDropshipAPI.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CallAPI.class.getName());
 
 //	@Override
 //	public void execute(JobExecutionContext context) throws JobExecutionException {
 //		System.out.println(oneLine());
 //		
 //	}
-	
+
 //	public String oneLine() {
 //		String line = null;
 //        int countQuartz = ReadFileTXT.count;
@@ -87,6 +76,6 @@ public class CallDropshipAPI extends QuartzJobBean implements Handler<RoutingCon
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -11,6 +11,7 @@ import com.app.tts.server.handler.base.GetBaseHandler;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.file.ImportFileHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
 import com.app.tts.server.handler.order.DropShipHandler;
 import com.app.tts.server.handler.order.GetListOrderProductHandler;
@@ -19,6 +20,7 @@ import com.app.tts.server.handler.order.GetOrderHandler;
 import com.app.tts.server.handler.order.UpdateOrderHandler;
 import com.app.tts.server.handler.ucant.CreateCamHandler;
 import com.app.tts.server.handler.ucant.RegisterHandler;
+import com.app.tts.server.handler.unirest.CallAPI;
 import com.app.tts.server.handler.unirest.CallDropshipAPI;
 import com.app.tts.server.handler.user.LoginUserHandler;
 import com.app.tts.server.handler.user.RecoverPasswordHandler;
@@ -163,6 +165,10 @@ public class TTSVertical extends AbstractVerticle implements LoggerInterface {
         router.route(HttpMethod.GET, "/test-call/:id").handler(new CallDropshipAPI());
         router.route(HttpMethod.POST, "/insert-dropship").handler(new DropShipHandler());
 
+        router.route(HttpMethod.POST, "/login-google").handler(new CallAPI());
+        
+        //api import csv file
+        router.route(HttpMethod.POST, "/import").handler(new ImportFileHandler());
 
         return router;
     }

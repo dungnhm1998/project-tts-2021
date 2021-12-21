@@ -1,37 +1,17 @@
 package com.app.tts.server.handler.ucant;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.apache.commons.validator.routines.EmailValidator;
-import org.quartz.Job;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.impl.StdSchedulerFactory;
 
-import com.app.tts.encode.Md5Code;
-import com.app.tts.server.job.ReadFileQuatz;
-import com.app.tts.server.job.ReadFileTXT;
 import com.app.tts.server.job.WriteFile;
 import com.app.tts.services.SubService;
 import com.app.tts.session.redis.SessionStore;
-import com.app.tts.util.AppParams;
-import com.app.tts.util.ParamUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
 
