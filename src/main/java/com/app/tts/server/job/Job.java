@@ -21,8 +21,6 @@ import com.app.tts.services.FileService;
 import com.app.tts.util.ParamUtil;
 
 public class Job extends QuartzJobBean {
-	
-	public static Map lineMap = new HashMap();
 
 	public static Map readOnelineMapCSV() {
 		int countRecord = ReadFile.count;
@@ -37,7 +35,7 @@ public class Job extends QuartzJobBean {
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		lineMap = readOnelineMapCSV();
+		Map lineMap = readOnelineMapCSV();
 		Map mapRequest = ImportFileHandler.jsonRequest;
 		String id = UUID.randomUUID().toString().substring(5, 20);
 		String user_id = ParamUtil.getString(mapRequest, "user_id");

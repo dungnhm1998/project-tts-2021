@@ -16,6 +16,7 @@ public class OrderProductService extends MasterService {
 	public static final String GET_ALL_PRODUCT = "{call PKG_TTS_TRUONG.getAllProduct(?,?,?)}";
 	public static final String GET_ORDER_PRODUCT_BY_ID = "{call PKG_TTS_TRUONG.getOrderProductById(?,?,?,?)}";
 	public static final String UPDATE_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.updateOrderProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+	public static final String INSERT_ORDER_PRODUCT = "{call PKG_TTS_TRUONG.insertOrderProduct(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
 	public static List<Map> getAllOrderProduct() throws SQLException {
 		LOGGER.info("0 : "+excuteQuery(GET_ALL_PRODUCT, new Object[] {}));

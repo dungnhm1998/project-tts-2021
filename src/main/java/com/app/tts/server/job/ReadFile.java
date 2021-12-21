@@ -47,11 +47,6 @@ public class ReadFile {
 					checkFullColumn = false;
 				}else {
 					key = key.replaceAll("\\s\\s+", "");
-					String firstLetter = key.substring(0, 1);
-					String remainingLetters = key.substring(1, key.length());
-					firstLetter = firstLetter.toUpperCase();
-					remainingLetters = remainingLetters.toLowerCase();
-					key = firstLetter + remainingLetters;
 					nameColumnList.add(key);
 				}
 			}
