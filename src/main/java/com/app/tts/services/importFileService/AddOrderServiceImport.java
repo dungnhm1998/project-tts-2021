@@ -21,13 +21,21 @@ public class AddOrderServiceImport extends MasterService {
     private static final String GET_ID_VARIANT = "{call PKG_IMPORT_FILE.get_id_variant(?,?,?,?)}";
     private static final String UPDATE_ROWS = "{call PKG_IMPORT_FILE.update_rows(?,?,?,?,?)}";
 
-    private static final String GET_SKU = "{call PKG_IMPORT_FILE.get_sku_by_file_id(?,?,?)}";
+    private static final String GET_SKU = "{call PKG_IMPORT_FILE.get_sku_by_file_id(?,?,?,?)}";
     private static final String GET_URL_IMAGE = "{call PKG_IMPORT_FILE.get_url_image_by_id(?,?,?,?)}";
     private static final String GET_VARIANT = "{call PKG_IMPORT_FILE.get_variant_id(?,?,?)}";
     private static final String GET_VAR_BY_ID = "{call PKG_IMPORT_FILE.get_variant_by_id(?,?,?,?)}";
     private static final String GET_COLOR_BY_ID = "{call PKG_IMPORT_FILE.get_name_color_by_id(?,?,?,?)}";
     private static final String GET_SIZE = "{call PKG_IMPORT_FILE.get_size(?,?,?,?)}";
     private static final String GET_SKU1 = "{call PKG_IMPORT_FILE.get_sku(?,?,?,?)}";
+    private static final String GET_FILE = "{call PKG_IMPORT_FILE.get_file(?,?,?)}";
+
+    public static Map getFile() throws SQLException {
+
+        Map resultMap = searchOne(GET_FILE, new Object[]{});
+
+        return resultMap;
+    }
 
     public static Map getSkuBySku(String Sku) throws SQLException {
 
@@ -76,9 +84,9 @@ public class AddOrderServiceImport extends MasterService {
     }
 
 
-    public static List<Map> getSkuByFileId() throws SQLException {
+    public static List<Map> getSkuByFileId(String fileId) throws SQLException {
 
-        List<Map> resultMap = excuteQuery(GET_SKU, new Object[]{});
+        List<Map> resultMap = excuteQuery(GET_SKU, new Object[]{fileId});
 
         return resultMap;
     }
