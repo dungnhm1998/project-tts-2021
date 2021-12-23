@@ -25,10 +25,6 @@ public class JobB extends QuartzJobBean {
             Random rand = new Random();
             Set<String> Var = new HashSet();
 
-            Map getfile = AddOrderServiceImport.getFile();
-            String fileId = ParamUtil.getString(getfile, "S_FILE_ID");
-            Var.add(fileId);
-
 
             String ord = "";
             String name = "";
@@ -83,27 +79,56 @@ public class JobB extends QuartzJobBean {
             String postalCode = "";
             String pState = "approved";
             String redex = "^(.*[a-zA-Z0-9].*)[|](.*[a-zA-Z0-9].*)$";
+            List<Map> getfile = AddOrderServiceImport.getFile();
+            for (Map m : getfile) {
+                String sku1 = ParamUtil.getString(m, "S_LINEITEM_SKU");
+                Var.add(sku1);
+            }
+            Map m1 = getfile.get(0);
+            currency = ParamUtil.getString(m1, "S_CURRENCY");
+            notes = ParamUtil.getString(m1, "S_NOTES");
+            source = ParamUtil.getString(m1, "S_SOURCE");
+            checkValidAddress = ParamUtil.getBoolean(m1, "S_BY_PASS_CHECK_ADRESS") ? 0 : 1;
+            note = ParamUtil.getString(m1, "S_NOTES");
+            shippingMethod = ParamUtil.getString(m1, "S_SHIPPING_METHOD");
+            unitAmount = ParamUtil.getString(m1, "S_UNIT_AMOUNT");
+            email = ParamUtil.getString(m1, "S_EMAIL");
+            shippingName = ParamUtil.getString(m1, "S_SHIPPING_NAME");
+            shippingPhone = ParamUtil.getString(m1, "S_SHIPPING_PHONE");
+            shippingAddress1 = ParamUtil.getString(m1, "S_SHIPPING_ADDRESS1");
+            shippingAddress2 = ParamUtil.getString(m1, "S_SHIPPING_ADDRESS2");
+            shippingCity = ParamUtil.getString(m1, "S_SHIPPING_CITY");
+            country = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
+            userId = ParamUtil.getString(m1, "S_USER_ID");
+
+
+            String order = String.valueOf(rand.nextInt(100000));
+            String orderId = userId + "-" + "CT" + "-" + order;
+            String sipId = String.valueOf(rand.nextInt(100000));
+            String shippingId = userId + "-" + "CT" + "-" + sipId;
+
+
+            Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
+                    checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
+
+            Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
+                    shippingAddress2, shippingCity, stateOr, postalCode, country, country_name);
+
+
             for (String groupfile : Var) {
-                List<Map> listVariant = AddOrderServiceImport.getSkuByFileId(groupfile);
-                for (Map s : listVariant) {
-                    String sku = ParamUtil.getString(s, "SKU");
-                    if (sku.matches(redex)) {
-                        String[] parts = sku.split("\\|");
+                for (Map s : getfile) {
+                    if (groupfile.matches(redex)) {
+                        String[] parts = groupfile.split("\\|");
                         variantId = parts[0];
                         sizeId = parts[1];
-                        userId = ParamUtil.getString(s, "S_USER_ID");
 
-                        String order = String.valueOf(rand.nextInt(100000));
-                        String orderId = userId + "-" + "CT" + "-" + order;
-                        String sipId = String.valueOf(rand.nextInt(100000));
-                        String shippingId = userId + "-" + "CT" + "-" + sipId;
+
                         String orDrId = String.valueOf(rand.nextInt(100000));
                         String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
 
                         ord = ParamUtil.getString(s, "S_ID");
                         name = ParamUtil.getString(s, "S_REFERENCE_ORDER");
-                        email = ParamUtil.getString(s, "S_EMAIL");
                         financialStatus = ParamUtil.getString(s, "S_FINANCIAL_STATUS");
                         dateAt = ParamUtil.getString(s, "D_CREATE");
 //
@@ -112,39 +137,25 @@ public class JobB extends QuartzJobBean {
                         quantity = Integer.parseInt(lineitemQuantity);
                         lineitemName = ParamUtil.getString(s, "S_LINEITEM_NAME");
 
-                        shippingName = ParamUtil.getString(s, "S_SHIPPING_NAME");
                         shippingStreet = ParamUtil.getString(s, "S_SHIPPING_STREET");
-                        shippingAddress1 = ParamUtil.getString(s, "S_SHIPPING_ADDRESS1");
-                        shippingAddress2 = ParamUtil.getString(s, "S_SHIPPING_ADDRESS2");
                         shippingCompany = ParamUtil.getString(s, "S_SHIPPING_COMPANY");
-                        shippingCity = ParamUtil.getString(s, "S_SHIPPING_CITY");
                         shippingZip = ParamUtil.getString(s, "S_SHIPPING_ZIP");
                         shippingProvince = ParamUtil.getString(s, "S_SHIPPING_PROVINCE");
                         shippingCountry = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
-                        shippingPhone = ParamUtil.getString(s, "S_SHIPPING_PHONE");
-                        shippingMethod = ParamUtil.getString(s, "S_SHIPPING_METHOD");
-                        notes = ParamUtil.getString(s, "S_NOTES");
                         designFrontUrl = ParamUtil.getString(s, "S_DESIGN_FRONT_URL");
                         designBackUrl = ParamUtil.getString(s, "S_DESIGN_BACK_URL");
                         mockupFrontUrl = ParamUtil.getString(s, "S_MOCKUP_FRONT_URL");
                         mockupBackUrl = ParamUtil.getString(s, "S_MOCKUP_BACK_URL");
-                        checkValidAddress = ParamUtil.getBoolean(s, "S_BY_PASS_CHECK_ADRESS") ? 0 : 1;
-                        currency = ParamUtil.getString(s, "S_CURRENCY");
-                        unitAmount = ParamUtil.getString(s, "S_UNIT_AMOUNT");
                         location = ParamUtil.getString(s, "S_FULFILLMENT_LOCATION");
                         store = ParamUtil.getString(s, "S_STORE_ID");
-                        source = ParamUtil.getString(s, "S_SOURCE");
-                        note = ParamUtil.getString(s, "S_NOTES");
-                        country = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
 
 
                         Map get2 = AddOrderServiceImport.getVarById(variantId);
                         String idm = ParamUtil.getString(get2, "S_VAR_ID");
                         boolean dup = false;
 
-                        if (!get2.isEmpty()) {
-                            dup = true;
-                        } else if (!dup) {
+                        if (idm.equals(variantId)) {
+
                             Map get1 = AddOrderServiceImport.getVariantId(idm);
 
                             String imageId = ParamUtil.getString(get1, "S_IMAGE_ID");
@@ -163,13 +174,6 @@ public class JobB extends QuartzJobBean {
                             Map get = AddOrderServiceImport.getUrlImage(imageId);
 
 
-                            Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
-                                    checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
-
-                            Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
-                                    shippingAddress2, shippingCity, stateOr, postalCode, country, country_name);
-
-
                             List<Map> orderProduct = AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, lineitemName,
                                     baseId, FRONT_IMG_URL, BACK_IMG_URL, color, colorValue, nameColor, nameSize, unitAmount, designBackUrl, designFrontUrl);
 
@@ -177,14 +181,14 @@ public class JobB extends QuartzJobBean {
 
                             data.put("Order", updateRows);
 
-                        }else {
-                            LOGGER.info("không tồn tại" + variantId);
-
+                        } else  {
+                            LOGGER.info("khoong co variant" + variantId);
+                            AddOrderServiceImport.deleteOr(orderId);
+                            AddOrderServiceImport.deleteShipping(shippingId);
                         }
 
-
                     } else {
-                        Map getSku = AddOrderServiceImport.getSkuBySku(sku);
+                        Map getSku = AddOrderServiceImport.getSkuBySku(groupfile);
 
                         String sizeId1 = ParamUtil.getString(getSku, "S_SIZE_ID");
                         String sizeName1 = ParamUtil.getString(getSku, "S_SIZE_NAME");
@@ -195,14 +199,6 @@ public class JobB extends QuartzJobBean {
                         String baseID1 = ParamUtil.getString(getSku, "S_BASE_ID");
 
                         userId = ParamUtil.getString(s, "S_USER_ID");
-
-
-                        String order = String.valueOf(rand.nextInt(100000));
-                        String orderId = userId + "-" + "CT" + "-" + order;
-                        String sipId = String.valueOf(rand.nextInt(100000));
-                        String shippingId = userId + "-" + "CT" + "-" + sipId;
-                        String orDrId = String.valueOf(rand.nextInt(100000));
-                        String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
 
                         ord = ParamUtil.getString(s, "S_ID");
@@ -241,12 +237,13 @@ public class JobB extends QuartzJobBean {
                         note = ParamUtil.getString(s, "S_NOTES");
                         country = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
 
-                        Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
-                                checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
-
-                        Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
-                                shippingAddress2, shippingCity, stateOr, postalCode, country, country_name);
-
+//                            Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
+//                                    checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
+//
+//                            Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
+//                                    shippingAddress2, shippingCity, stateOr, postalCode, country, country_name);
+                        String orDrId = String.valueOf(rand.nextInt(100000));
+                        String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
                         List<Map> orderProduct = AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId1, price1, quantity, lineitemName,
                                 baseID1, designFrontUrl, designBackUrl, colorId1, colorValue1, colorName1, sizeName1, unitAmount, designBackUrl, designFrontUrl);
@@ -259,6 +256,7 @@ public class JobB extends QuartzJobBean {
 
                 }
             }
+
 
         } catch (SQLException e) {
             e.printStackTrace();
