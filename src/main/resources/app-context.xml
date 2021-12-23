@@ -122,18 +122,34 @@
     <!--        <property name="dataSource" ref="ttsDataSource"/>-->
     <!--    </bean>-->
 
-    <bean id="quartzJob" class="com.app.tts.server.handler.importFile.importFileOrderHandler"/>
+
+    <bean id="quartzJob" class="com.app.tts.server.handler.importFile.JobB"/>
 
 
     <!-- Quartz Job -->
     <bean name="QuartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-        <property name="jobClass" value="com.app.tts.server.handler.importFile.importFileOrderHandler"/>
+        <property name="jobClass" value="com.app.tts.server.handler.importFile.JobB"/>
     </bean>
 
     <!--trigger-->
     <bean id="cronTriggerQuartzJob"
           class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="QuartzJob"/>
-        <property name="cronExpression" value="0/5 * * * * ?"/>
+        <property name="cronExpression" value="0/30 * * * * ?"/>
     </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTriggerQuartzJob"/>
+            </list>
+        </property>
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+            </props>
+        </property>
+    </bean>
+
+
 </beans>

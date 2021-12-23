@@ -1,6 +1,6 @@
 package com.app.tts.server.handler.importFile;
 
-import com.app.tts.services.importFileService.importFileServices;
+import com.app.tts.services.importFileService.AddOrderServiceImport;
 import com.app.tts.util.AppParams;
 import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -10,30 +10,26 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.quartz.Job;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleScheduleBuilder;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
-import org.quartz.impl.StdSchedulerFactory;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.Reader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 import java.util.logging.Logger;
 
-public class importFileOrderHandler implements Handler<RoutingContext>, Job {
+public class importFileOrderHandler implements Handler<RoutingContext> {
 
     private static int count = 0;
     private static List<CSVRecord> listData = new LinkedList();
@@ -51,14 +47,16 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                 String url = ParamUtil.getString(json, "url");
                 String userId = ParamUtil.getString(json, "user_id");
 
-                try (Reader reader = new FileReader(file_name);
 
-                     CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+                try (
+                        Reader reader = new FileReader(file_name);
+
+                        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
+
                 ) {
                     Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
                     for (CSVRecord csvRecord : csvRecords) {
-
                         listData.add(csvRecord);
                     }
 
@@ -84,7 +82,7 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                             checkFullColumn = false;
                         }
                     }
-                    if (checkFullColumn) {
+                    if(checkFullColumn) {
                         for (int number = 1; number < listData.size(); number++) {
                             CSVRecord csvRecord = listData.get(number);
                             Map<String, String> mapOneLine = new LinkedHashMap<>();
@@ -99,20 +97,31 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                     }
                     System.out.println("---------------loading...");
 
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+
                 Map data = new HashMap();
                 List<Map> importFile = new LinkedList<>();
+                Random rand = new Random();
+                String idFile = String.valueOf(rand.nextInt(100000));
 
                 for (Map s : listMapData) {
-                    Random rand = new Random();
                     String ord = String.valueOf(rand.nextInt(100000));
                     String name = ParamUtil.getString(s, "Name");
                     String email = ParamUtil.getString(s, "Email");
                     String financialStatus = ParamUtil.getString(s, "Financial Status");
-//                    Date create_at =;
+                    String dateAt = ParamUtil.getString(s, "Created at");
+                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                    Date strDate = dateFormat.parse(dateAt);
+                    String state = "created";
                     String lineitemQuantity = ParamUtil.getString(s, "Lineitem quantity");
                     String lineitemName = ParamUtil.getString(s, "Lineitem name");
-                    String lineitemSku = ParamUtil.getString(s, "Lineitem quantity");
+                    String lineitemSku = ParamUtil.getString(s, "Lineitem sku");
                     String shippingName = ParamUtil.getString(s, "Shipping Name");
                     String shippingStreet = ParamUtil.getString(s, "Shipping Street");
                     String shippingAddress1 = ParamUtil.getString(s, "Shipping Address1");
@@ -131,19 +140,20 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                     String mockupFrontUrl = ParamUtil.getString(s, "Mockup front url");
                     String mockupBackUrl = ParamUtil.getString(s, "Design back url");
                     String checkValidAddress = ParamUtil.getString(s, "Check vaild adress");
-                    String currency = ParamUtil.getString(s, "currency");
+                    String currency = ParamUtil.getString(s, "Currency");
                     String unitAmount = ParamUtil.getString(s, "Unit amount");
                     String location = ParamUtil.getString(s, "Location");
                     String store = "id";
-                    importFile = importFileServices.importFileRows(name, userId, file_name, email,financialStatus,
-                            store, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress2, shippingCompany, shippingCity,
+                    importFile = AddOrderServiceImport.importFileRows(name, idFile, userId, file_name, email, financialStatus, strDate,state,
+                            store, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
                             shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
                             ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
                             checkValidAddress, currency, unitAmount, location);
-                    System.out.println( "map"+s);
+                    System.out.println("map" + s);
                 }
 
-                data.put("import file rows", importFile);
+
+                data.put("import file rows", "success");
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.CREATED.reasonPhrase());
                 routingContext.put(AppParams.RESPONSE_DATA, data);
@@ -158,37 +168,6 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
                 routingContext.fail(asyncResult.cause());
             }
         });
-    }
-
-
-    @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
-        Trigger trigger = TriggerBuilder.newTrigger()
-                .withIdentity("orderProductTrigger", "group")
-                .withSchedule(
-                        SimpleScheduleBuilder.simpleSchedule()
-                                .withIntervalInSeconds(1)
-
-                                .repeatForever()
-                )
-
-                .build();
-
-        JobDetail job = JobBuilder.newJob(importFileOrderHandler.class)
-                .withIdentity("orderProductJob", "group")
-                .build();
-
-
-        try {
-            Scheduler scheduler = new StdSchedulerFactory().getScheduler();
-            scheduler.start();
-            scheduler.scheduleJob(job, trigger);
-            System.out.println("************************");
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
-
-
     }
 
 
@@ -226,6 +205,8 @@ public class importFileOrderHandler implements Handler<RoutingContext>, Job {
     }
 
     private static final Logger LOGGER = Logger.getLogger(importFileOrderHandler.class.getName());
+
+
 }
 
 
