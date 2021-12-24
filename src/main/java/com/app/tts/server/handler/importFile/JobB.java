@@ -56,7 +56,7 @@ public class JobB extends QuartzJobBean {
                 Var1.add(rowsId);
             }
 
-            LOGGER.info("getRows" + " : " + getRows.size() + " | " + "file_id" + " : " + file_id + " | " + " " + Var1+ " ");
+            LOGGER.info("getRows" + " : " + getRows.size() + " | " + "file_id" + " : " + file_id + " | " + " " + Var1 + " ");
             // order and shipping
             Map m1 = getRows.get(0);
             currency = ParamUtil.getString(m1, "S_CURRENCY");
@@ -84,27 +84,25 @@ public class JobB extends QuartzJobBean {
             String shippingId = userId + "-" + "CT" + "-" + sipId;
 
             if (currency.isEmpty()) {
-                LOGGER.info("rows id" + ": " + ord + " | "+ " không có currency");
+                LOGGER.info("rows id" + ": " + ord + " | " + " không có currency");
                 List<Map> updateRows = AddOrderServiceImport.updateRows(pState1, ord);
             } else {
+
                 Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
                         checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
-
                 Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
                         shippingAddress2, shippingCity, stateOr, postalCode, shippingCountry, country);
 
-
                 for (String groupfile : Var) {
-                    for (Map s : getRows) {
-                        if (groupfile.matches(redex)) {
-                            String[] lineSku = groupfile.split("\\|");
-                            if (lineSku.length >= 2) {
-                                variantId = lineSku[0];
-                                sizeId = lineSku[1];
+                    if (groupfile.matches(redex)) {
+                        String[] lineSku = groupfile.split("\\|");
+                        variantId = lineSku[0];
+                        sizeId = lineSku[1];
 
+                        if (lineSku.length >= 2) {
+                            for (Map s : getRows) {
                                 String orDrId = String.valueOf(rand.nextInt(100000));
                                 String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
-
 
                                 name = ParamUtil.getString(s, "S_REFERENCE_ORDER");
                                 financialStatus = ParamUtil.getString(s, "S_FINANCIAL_STATUS");
@@ -129,8 +127,6 @@ public class JobB extends QuartzJobBean {
 
                                 Map get2 = AddOrderServiceImport.getVarById(variantId);
                                 String idm = ParamUtil.getString(get2, "S_VAR_ID");
-                                boolean dup = false;
-
                                 if (variantId.equals(idm)) {
 
                                     Map get1 = AddOrderServiceImport.getVariantId(idm);
@@ -160,16 +156,22 @@ public class JobB extends QuartzJobBean {
 
                                 } else {
                                     List<Map> updateRows = AddOrderServiceImport.updateRows(pState1, rowsId);
-                                    LOGGER.info("{" +rowsId+ "}" + " | " +"variant in valid"+ ": " + variantId );
+                                    LOGGER.info("{" + rowsId + "}" + " | " + "variant in valid" + ": " + variantId);
                                     //do tạo order trước nhưng do variant k có lên delete or and shipping
                                     AddOrderServiceImport.deleteOr(orderId);
                                     AddOrderServiceImport.deleteShipping(shippingId);
 
                                 }
                             }
-                        } else {
-                            List<Map> sku1 = AddOrderServiceImport.get_sku1(variantId);
-                            if (!sku1.isEmpty() && groupfile.matches(redex1)) {
+                        }
+                    } else {
+                        List<Map> sku1 = AddOrderServiceImport.get_sku1(groupfile);
+
+                        if (!sku1.isEmpty() && groupfile.matches(redex1)) {
+
+                            for (Map s : getRows) {
+
+
                                 Map getSku = AddOrderServiceImport.getSkuBySku(groupfile);
 
                                 String sizeId1 = ParamUtil.getString(getSku, "S_SIZE_ID");
@@ -230,28 +232,24 @@ public class JobB extends QuartzJobBean {
                                 Map map = updateRows.get(0);
                                 String idrow = ParamUtil.getString(map, "S_ID");
                                 String state2 = ParamUtil.getString(map, "S_STATE");
-                                data.put("update Rows" + " | " , idrow + " ; "+"State"+ ": " + state2 + "|");
+                                data.put("update Rows" + " | ", idrow + " ; " + "State" + ": " + state2 + "|");
 
-                            } else {
-                                List<Map> updateRows = AddOrderServiceImport.updateRows(pState1, rowsId);
-
-                                LOGGER.info("{" +rowsId+ "}" + " | " +"variant in valid"+ ": " + variantId );
-                                //do tạo order trước nhưng do variant k có lên delete or and shipping
-                                AddOrderServiceImport.deleteOr(orderId);
-                                AddOrderServiceImport.deleteShipping(shippingId);
                             }
+                        } else {
+                            List<Map> updateRows = AddOrderServiceImport.updateRows(pState1, rowsId);
 
+                            LOGGER.info("{" + rowsId + "}" + " | " + "variant in valid" + ": " + variantId);
+                            //do tạo order trước nhưng do variant k có lên delete or and shipping
+                            AddOrderServiceImport.deleteOr(orderId);
+                            AddOrderServiceImport.deleteShipping(shippingId);
                         }
-
                     }
                 }
             }
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e2) {
-            LOGGER.info("=> e2"+": " + e2.getMessage());
+            LOGGER.info("=> e2" + ": " + e2.getMessage());
             e2.printStackTrace();
         } catch (Exception e1) {
             LOGGER.info("************************" + " " + e1.getMessage() + " " + "************************");
