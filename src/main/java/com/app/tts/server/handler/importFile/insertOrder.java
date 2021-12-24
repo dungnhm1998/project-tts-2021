@@ -40,7 +40,7 @@ public class insertOrder implements Handler<RoutingContext> {
                 //  order
                 int quantity = 0;
 
-                String country_name = "", reference_id = "", stateOr = "created", extra_fee = "", taxAmount = "", iossNumber = "";
+                String  reference_id = "", stateOr = "created", extra_fee = "", taxAmount = "", iossNumber = "";
                 // order prodduct
                 String price = "", sizeId = "", sizeName = "";
                 // shipping
@@ -66,6 +66,7 @@ public class insertOrder implements Handler<RoutingContext> {
                 shippingCity = ParamUtil.getString(m1, "S_SHIPPING_CITY");
                 country = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
                 userId = ParamUtil.getString(m1, "S_USER_ID");
+                shippingCountry = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
 
 
                 String order = String.valueOf(rand.nextInt(100000));
@@ -78,7 +79,7 @@ public class insertOrder implements Handler<RoutingContext> {
                         checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
 
                 Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
-                        shippingAddress2, shippingCity, stateOr, postalCode, country, country_name);
+                        shippingAddress2, shippingCity, stateOr, postalCode, shippingCountry, country);
 
 
                 for (String groupfile : Var) {
@@ -107,7 +108,6 @@ public class insertOrder implements Handler<RoutingContext> {
                             shippingCompany = ParamUtil.getString(s, "S_SHIPPING_COMPANY");
                             shippingZip = ParamUtil.getString(s, "S_SHIPPING_ZIP");
                             shippingProvince = ParamUtil.getString(s, "S_SHIPPING_PROVINCE");
-                            shippingCountry = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
                             designFrontUrl = ParamUtil.getString(s, "S_DESIGN_FRONT_URL");
                             designBackUrl = ParamUtil.getString(s, "S_DESIGN_BACK_URL");
                             mockupFrontUrl = ParamUtil.getString(s, "S_MOCKUP_FRONT_URL");
