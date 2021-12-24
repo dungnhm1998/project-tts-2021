@@ -40,7 +40,7 @@ public class insertOrder implements Handler<RoutingContext> {
                 //  order
                 int quantity = 0;
 
-                String  reference_id = "", stateOr = "created", extra_fee = "", taxAmount = "", iossNumber = "";
+                String reference_id = "", stateOr = "created", extra_fee = "", taxAmount = "", iossNumber = "";
                 // order prodduct
                 String price = "", sizeId = "", sizeName = "";
                 // shipping
@@ -86,75 +86,75 @@ public class insertOrder implements Handler<RoutingContext> {
                 for (String groupfile : Var) {
                     for (Map s : getfile) {
                         if (groupfile.matches(redex)) {
-                            String[] parts = groupfile.split("\\|");
-                            variantId = parts[0];
-                            sizeId = parts[1];
+                            String[] lineSku = groupfile.split("\\|");
+                            if (lineSku.length >= 2) {
+                                variantId = lineSku[0];
+                                sizeId = lineSku[1];
+
+                                String orDrId = String.valueOf(rand.nextInt(100000));
+                                String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
 
-                            String orDrId = String.valueOf(rand.nextInt(100000));
-                            String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
-
-
-                            ord = ParamUtil.getString(s, "S_ID");
-                            name = ParamUtil.getString(s, "S_REFERENCE_ORDER");
-                            financialStatus = ParamUtil.getString(s, "S_FINANCIAL_STATUS");
-                            dateAt = ParamUtil.getString(s, "D_CREATE");
+                                ord = ParamUtil.getString(s, "S_ID");
+                                name = ParamUtil.getString(s, "S_REFERENCE_ORDER");
+                                financialStatus = ParamUtil.getString(s, "S_FINANCIAL_STATUS");
+                                dateAt = ParamUtil.getString(s, "D_CREATE");
 //
-                            state = ParamUtil.getString(s, "S_STATE");
-                            lineitemQuantity = ParamUtil.getString(s, "S_LINEITEM_QUANTITY");
-                            quantity = Integer.parseInt(lineitemQuantity);
-                            lineitemName = ParamUtil.getString(s, "S_LINEITEM_NAME");
+                                state = ParamUtil.getString(s, "S_STATE");
+                                lineitemQuantity = ParamUtil.getString(s, "S_LINEITEM_QUANTITY");
+                                quantity = Integer.parseInt(lineitemQuantity);
+                                lineitemName = ParamUtil.getString(s, "S_LINEITEM_NAME");
 
-                            shippingStreet = ParamUtil.getString(s, "S_SHIPPING_STREET");
-                            shippingCompany = ParamUtil.getString(s, "S_SHIPPING_COMPANY");
-                            shippingZip = ParamUtil.getString(s, "S_SHIPPING_ZIP");
-                            shippingProvince = ParamUtil.getString(s, "S_SHIPPING_PROVINCE");
-                            designFrontUrl = ParamUtil.getString(s, "S_DESIGN_FRONT_URL");
-                            designBackUrl = ParamUtil.getString(s, "S_DESIGN_BACK_URL");
-                            mockupFrontUrl = ParamUtil.getString(s, "S_MOCKUP_FRONT_URL");
-                            mockupBackUrl = ParamUtil.getString(s, "S_MOCKUP_BACK_URL");
-                            location = ParamUtil.getString(s, "S_FULFILLMENT_LOCATION");
-                            store = ParamUtil.getString(s, "S_STORE_ID");
-
-
-                            Map get2 = AddOrderServiceImport.getVarById(variantId);
-                            String idm = ParamUtil.getString(get2, "S_VAR_ID");
-                            boolean dup = false;
-
-                            if (idm.equals(variantId)) {
-
-                                Map get1 = AddOrderServiceImport.getVariantId(idm);
-
-                                String imageId = ParamUtil.getString(get1, "S_IMAGE_ID");
-                                String color = ParamUtil.getString(get1, "S_COLOR_ID");
-                                Map colorId = AddOrderServiceImport.getColorById(color);
-                                String nameColor = ParamUtil.getString(colorId, "S_NAME");
-                                Map size = AddOrderServiceImport.getSize(sizeId);
-                                String nameSize = ParamUtil.getString(size, "NAME_SIZE");
-                                String dropshipPrice = ParamUtil.getString(size, "PRICE");
+                                shippingStreet = ParamUtil.getString(s, "S_SHIPPING_STREET");
+                                shippingCompany = ParamUtil.getString(s, "S_SHIPPING_COMPANY");
+                                shippingZip = ParamUtil.getString(s, "S_SHIPPING_ZIP");
+                                shippingProvince = ParamUtil.getString(s, "S_SHIPPING_PROVINCE");
+                                designFrontUrl = ParamUtil.getString(s, "S_DESIGN_FRONT_URL");
+                                designBackUrl = ParamUtil.getString(s, "S_DESIGN_BACK_URL");
+                                mockupFrontUrl = ParamUtil.getString(s, "S_MOCKUP_FRONT_URL");
+                                mockupBackUrl = ParamUtil.getString(s, "S_MOCKUP_BACK_URL");
+                                location = ParamUtil.getString(s, "S_FULFILLMENT_LOCATION");
+                                store = ParamUtil.getString(s, "S_STORE_ID");
 
 
-                                String colorValue = ParamUtil.getString(get1, "S_COLOR_VALUE");
-                                String baseId = ParamUtil.getString(get1, "S_BASE_ID");
-                                String FRONT_IMG_URL = ParamUtil.getString(get1, "S_FRONT_IMG_URL");
-                                String BACK_IMG_URL = ParamUtil.getString(get1, "S_BACK_IMG_URL");
-                                Map get = AddOrderServiceImport.getUrlImage(imageId);
+                                Map get2 = AddOrderServiceImport.getVarById(variantId);
+                                String idm = ParamUtil.getString(get2, "S_VAR_ID");
+                                boolean dup = false;
+
+                                if (!get2.isEmpty()) {
+
+                                    Map get1 = AddOrderServiceImport.getVariantId(idm);
+
+                                    String imageId = ParamUtil.getString(get1, "S_IMAGE_ID");
+                                    String color = ParamUtil.getString(get1, "S_COLOR_ID");
+                                    Map colorId = AddOrderServiceImport.getColorById(color);
+                                    String nameColor = ParamUtil.getString(colorId, "S_NAME");
+                                    Map size = AddOrderServiceImport.getSize(sizeId);
+                                    String nameSize = ParamUtil.getString(size, "NAME_SIZE");
+                                    String dropshipPrice = ParamUtil.getString(size, "PRICE");
 
 
-                                List<Map> orderProduct = AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, lineitemName,
-                                        baseId, FRONT_IMG_URL, BACK_IMG_URL, color, colorValue, nameColor, nameSize, unitAmount, designBackUrl, designFrontUrl);
+                                    String colorValue = ParamUtil.getString(get1, "S_COLOR_VALUE");
+                                    String baseId = ParamUtil.getString(get1, "S_BASE_ID");
+                                    String FRONT_IMG_URL = ParamUtil.getString(get1, "S_FRONT_IMG_URL");
+                                    String BACK_IMG_URL = ParamUtil.getString(get1, "S_BACK_IMG_URL");
+                                    Map get = AddOrderServiceImport.getUrlImage(imageId);
 
-                                List<Map> updateRows = AddOrderServiceImport.updateRows(pState, ord);
 
-                                data.put("Order", updateRows);
+                                    List<Map> orderProduct = AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, lineitemName,
+                                            baseId, FRONT_IMG_URL, BACK_IMG_URL, color, colorValue, nameColor, nameSize, unitAmount, designBackUrl, designFrontUrl);
 
-                            } else {
-                                LOGGER.info("variant in valid" + variantId);
-                                //do tạo order trước nhưng do variant k có lên delete or and shipping
-                                AddOrderServiceImport.deleteOr(orderId);
-                                AddOrderServiceImport.deleteShipping(shippingId);
+                                    List<Map> updateRows = AddOrderServiceImport.updateRows(pState, ord);
+
+                                    data.put("Order", updateRows);
+
+                                } else {
+                                    LOGGER.info("variant in valid" + variantId);
+                                    //do tạo order trước nhưng do variant k có lên delete or and shipping
+                                    AddOrderServiceImport.deleteOr(orderId);
+                                    AddOrderServiceImport.deleteShipping(shippingId);
+                                }
                             }
-
                         } else {
                             Map getSku = AddOrderServiceImport.getSkuBySku(groupfile);
 

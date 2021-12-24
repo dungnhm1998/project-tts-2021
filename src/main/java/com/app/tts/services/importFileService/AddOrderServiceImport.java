@@ -31,6 +31,18 @@ public class AddOrderServiceImport extends MasterService {
     private static final String GET_FILE = "{call PKG_IMPORT_FILE.get_file(?,?,?)}";
     private static final String DELETE_OR = "{call PKG_IMPORT_FILE.del_or(?,?,?,?)}";
     private static final String DELETE_SHIPPING = "{call PKG_IMPORT_FILE.del_shipping(?,?,?,?)}";
+    private static final String GET_SKUU = "{call PKG_IMPORT_FILE.get_sku1(?,?,?,?)}";
+
+
+    public static List<Map> get_sku1(String id) throws SQLException {
+
+        List<Map> resultMap = excuteQuery(GET_SKUU, new Object[]{id});
+
+        return resultMap;
+    }
+
+
+
 
     public static List<Map> deleteOr(String id) throws SQLException {
 
