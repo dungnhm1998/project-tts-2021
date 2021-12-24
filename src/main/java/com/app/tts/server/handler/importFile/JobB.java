@@ -26,64 +26,29 @@ public class JobB extends QuartzJobBean {
             Set<String> Var = new HashSet();
 
 
-            String ord = "";
-            String name = "";
-            String email = "";
-            String financialStatus = "";
-            String dateAt = "";
-
-            String state = "";
-            String lineitemQuantity = "";
-            String lineitemName = "";
-
-            String shippingName = "";
-            String shippingStreet = "";
-            String shippingAddress1 = "";
-            String shippingAddress2 = "";
-            String shippingCompany = "";
-            String shippingCity = "";
-            String shippingZip = "";
-            String shippingProvince = "";
-            String shippingCountry = "";
-            String shippingPhone = "";
-            String shippingMethod = "";
-            String notes = "";
-            String designFrontUrl = "";
-            String designBackUrl = "";
-            String mockupFrontUrl = "";
-            String mockupBackUrl = "";
-            String currency = "";
-            String unitAmount = "";
-            String location = "";
-            String store = "";
-            String source = "";
-            String note = "";
-            String country = "";
-            String variantId = "";
+            String ord = "", name = "", email = "", financialStatus = "", dateAt = "",
+                    state = "", lineitemQuantity = "", lineitemName = "", shippingName = "", shippingStreet = "",
+                    shippingAddress1 = "", shippingAddress2 = "", shippingCompany = "", shippingCity = "", shippingZip = "",
+                    shippingProvince = "", shippingCountry = "", shippingPhone = "", shippingMethod = "",
+                    notes = "", designFrontUrl = "", designBackUrl = "", mockupFrontUrl = "", mockupBackUrl = "",
+                    currency = "", unitAmount = "", location = "", store = "", source = "",
+                    note = "", country = "", variantId = "", userId = "";
             int checkValidAddress = 0;
-            String userId = "";
+
             //  order
             int quantity = 0;
 
-            String country_name = "";
-            String reference_id = "";
-            String stateOr = "created";
-            String extra_fee = "";
-            String taxAmount = "";
-            String iossNumber = "";
+            String reference_id = "", stateOr = "created", extra_fee = "", taxAmount = "", iossNumber = "";
             // order prodduct
-            String price = "";
-            String sizeId = "";
-            String sizeName = "";
+            String price = "", sizeId = "", sizeName = "";
             // shipping
-            String postalCode = "";
-            String pState = "approved";
-            String redex = "^(.*[a-zA-Z0-9].*)[|](.*[a-zA-Z0-9].*)$";
+            String postalCode = "", pState = "approved", redex = "^(.*[a-zA-Z0-9].*)[|](.*[a-zA-Z0-9].*)$";
             List<Map> getfile = AddOrderServiceImport.getFile();
             for (Map m : getfile) {
                 String sku1 = ParamUtil.getString(m, "S_LINEITEM_SKU");
                 Var.add(sku1);
             }
+            // order and shipping
             Map m1 = getfile.get(0);
             currency = ParamUtil.getString(m1, "S_CURRENCY");
             notes = ParamUtil.getString(m1, "S_NOTES");
@@ -100,6 +65,7 @@ public class JobB extends QuartzJobBean {
             shippingCity = ParamUtil.getString(m1, "S_SHIPPING_CITY");
             country = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
             userId = ParamUtil.getString(m1, "S_USER_ID");
+            shippingCountry = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
 
 
             String order = String.valueOf(rand.nextInt(100000));
@@ -112,7 +78,7 @@ public class JobB extends QuartzJobBean {
                     checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
 
             Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
-                    shippingAddress2, shippingCity, stateOr, postalCode, country, country_name);
+                    shippingAddress2, shippingCity, stateOr, postalCode, shippingCountry, country);
 
 
             for (String groupfile : Var) {
@@ -141,7 +107,6 @@ public class JobB extends QuartzJobBean {
                         shippingCompany = ParamUtil.getString(s, "S_SHIPPING_COMPANY");
                         shippingZip = ParamUtil.getString(s, "S_SHIPPING_ZIP");
                         shippingProvince = ParamUtil.getString(s, "S_SHIPPING_PROVINCE");
-                        shippingCountry = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
                         designFrontUrl = ParamUtil.getString(s, "S_DESIGN_FRONT_URL");
                         designBackUrl = ParamUtil.getString(s, "S_DESIGN_BACK_URL");
                         mockupFrontUrl = ParamUtil.getString(s, "S_MOCKUP_FRONT_URL");
@@ -181,8 +146,9 @@ public class JobB extends QuartzJobBean {
 
                             data.put("Order", updateRows);
 
-                        } else  {
-                            LOGGER.info("khoong co variant" + variantId);
+                        } else {
+                            LOGGER.info("variant in valid" + variantId);
+                            //do tạo order trước nhưng do variant k có lên delete or and shipping
                             AddOrderServiceImport.deleteOr(orderId);
                             AddOrderServiceImport.deleteShipping(shippingId);
                         }
@@ -237,11 +203,7 @@ public class JobB extends QuartzJobBean {
                         note = ParamUtil.getString(s, "S_NOTES");
                         country = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
 
-//                            Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
-//                                    checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
-//
-//                            Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
-//                                    shippingAddress2, shippingCity, stateOr, postalCode, country, country_name);
+
                         String orDrId = String.valueOf(rand.nextInt(100000));
                         String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
@@ -257,7 +219,6 @@ public class JobB extends QuartzJobBean {
                 }
             }
 
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -271,6 +232,7 @@ public class JobB extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         System.out.println(readOneLine());
     }
+
     private static final Logger LOGGER = Logger.getLogger(JobB.class.getName());
 
 }

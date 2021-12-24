@@ -50,6 +50,7 @@ public class insertOrder implements Handler<RoutingContext> {
                     String sku1 = ParamUtil.getString(m, "S_LINEITEM_SKU");
                     Var.add(sku1);
                 }
+                // order and shipping
                 Map m1 = getfile.get(0);
                 currency = ParamUtil.getString(m1, "S_CURRENCY");
                 notes = ParamUtil.getString(m1, "S_NOTES");
@@ -148,7 +149,8 @@ public class insertOrder implements Handler<RoutingContext> {
                                 data.put("Order", updateRows);
 
                             } else {
-                                LOGGER.info("khoong co variant" + variantId);
+                                LOGGER.info("variant in valid" + variantId);
+                                //do tạo order trước nhưng do variant k có lên delete or and shipping
                                 AddOrderServiceImport.deleteOr(orderId);
                                 AddOrderServiceImport.deleteShipping(shippingId);
                             }
