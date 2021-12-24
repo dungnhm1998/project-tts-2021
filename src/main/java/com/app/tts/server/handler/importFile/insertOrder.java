@@ -27,60 +27,24 @@ public class insertOrder implements Handler<RoutingContext> {
                 Set<String> Var = new HashSet();
 
 
-                String ord = "";
-                String name = "";
-                String email = "";
-                String financialStatus = "";
-                String dateAt = "";
-
-                String state = "";
-                String lineitemQuantity = "";
-                String lineitemName = "";
-
-                String shippingName = "";
-                String shippingStreet = "";
-                String shippingAddress1 = "";
-                String shippingAddress2 = "";
-                String shippingCompany = "";
-                String shippingCity = "";
-                String shippingZip = "";
-                String shippingProvince = "";
-                String shippingCountry = "";
-                String shippingPhone = "";
-                String shippingMethod = "";
-                String notes = "";
-                String designFrontUrl = "";
-                String designBackUrl = "";
-                String mockupFrontUrl = "";
-                String mockupBackUrl = "";
-                String currency = "";
-                String unitAmount = "";
-                String location = "";
-                String store = "";
-                String source = "";
-                String note = "";
-                String country = "";
-                String variantId = "";
+                String ord = "", name = "", email = "", financialStatus = "", dateAt = "",
+                        state = "", lineitemQuantity = "", lineitemName = "", shippingName = "", shippingStreet = "",
+                        shippingAddress1 = "", shippingAddress2 = "", shippingCompany = "", shippingCity = "", shippingZip = "",
+                        shippingProvince = "", shippingCountry = "", shippingPhone = "", shippingMethod = "",
+                        notes = "", designFrontUrl = "", designBackUrl = "", mockupFrontUrl = "", mockupBackUrl = "",
+                        currency = "", unitAmount = "", location = "", store = "", source = "",
+                        note = "", country = "", variantId = "", userId = "";
                 int checkValidAddress = 0;
                 Map data = new LinkedHashMap();
-                String userId = "";
+
                 //  order
                 int quantity = 0;
 
-                String country_name = "";
-                String reference_id = "";
-                String stateOr = "created";
-                String extra_fee = "";
-                String taxAmount = "";
-                String iossNumber = "";
+                String country_name = "", reference_id = "", stateOr = "created", extra_fee = "", taxAmount = "", iossNumber = "";
                 // order prodduct
-                String price = "";
-                String sizeId = "";
-                String sizeName = "";
+                String price = "", sizeId = "", sizeName = "";
                 // shipping
-                String postalCode = "";
-                String pState = "approved";
-                String redex = "^(.*[a-zA-Z0-9].*)[|](.*[a-zA-Z0-9].*)$";
+                String postalCode = "", pState = "approved", redex = "^(.*[a-zA-Z0-9].*)[|](.*[a-zA-Z0-9].*)$";
                 List<Map> getfile = AddOrderServiceImport.getFile();
                 for (Map m : getfile) {
                     String sku1 = ParamUtil.getString(m, "S_LINEITEM_SKU");
@@ -183,7 +147,7 @@ public class insertOrder implements Handler<RoutingContext> {
 
                                 data.put("Order", updateRows);
 
-                            } else  {
+                            } else {
                                 LOGGER.info("khoong co variant" + variantId);
                                 AddOrderServiceImport.deleteOr(orderId);
                                 AddOrderServiceImport.deleteShipping(shippingId);
