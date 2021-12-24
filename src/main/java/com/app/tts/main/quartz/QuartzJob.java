@@ -1,5 +1,6 @@
 package com.app.tts.main.quartz;
 
+import com.app.tts.services.OrderService;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -9,10 +10,11 @@ import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.io.FileNotFoundException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class QuartzJob implements Job {// extends QuartzJobBean {
 //c1
@@ -101,12 +103,12 @@ public class QuartzJob implements Job {// extends QuartzJobBean {
 //            Map<String , String> line = line1.toMap();
 
         // in ra 2.3
-        Map line = readOneLine2();
-        if(!line.isEmpty()){
-            //file A2075
-            for(String columnName : ReadFile.nameColumnList){
-                System.out.print(columnName + " = " + line.get(columnName) + "; ");
-            }
+//        Map line = readOneLine2();
+//        if(!line.isEmpty()){
+//            //file A2075
+//            for(String columnName : ReadFile.nameColumnList){
+//                System.out.print(columnName + " = " + line.get(columnName) + "; ");
+//            }
 
             //file createOrder
 //                System.out.println("order" + " = " + line.get("ORDER") + "; " +
@@ -125,7 +127,7 @@ public class QuartzJob implements Job {// extends QuartzJobBean {
 //                        "zipcode" + " = " + line.get("ZIPCODE") + "; "
 //                );
 
-        }
+//        }
 
         System.out.println("----------------------------------------------------------");
 
@@ -135,10 +137,11 @@ public class QuartzJob implements Job {// extends QuartzJobBean {
     public static Map readOneLine2(){
         int countRecord = ReadFile.count;
         List<Map> listRecords = ReadFile.listMapData;
-        Map record = new LinkedHashMap();
+        Map<String, String> record = new LinkedHashMap();
         if(countRecord < listRecords.size()){
             record = listRecords.get(countRecord);
             ReadFile.count++;
+
         }
         return record;
     }

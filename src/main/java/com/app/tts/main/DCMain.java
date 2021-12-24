@@ -26,6 +26,6 @@ public class DCMain {
 	public static void main(String[] args) throws Exception {
 		appContext = new ClassPathXmlApplicationContext("app-context.xml");
 
-		ReadFile.readFile();
+//		ReadFile.readFile();
 	}
 }

@@ -16,9 +16,12 @@ public class ReadFile {
     public static int count2 = 1;
     // danh sach ten cac cot trong file
     public static List<String> nameColumnList = new LinkedList<>();
+    public static String csvFile ;// = "C:\\Users\\Phuong\\Downloads\\Telegram Desktop\\dung_test_import.csv";
 
     public static void readFile() {
-        String csvFile = "C:\\Users\\Phuong\\Downloads\\Telegram Desktop\\A2075_lWepIUUrLYTNBUCBwwAp1PW0Z_1620898574338.csv";
+        listData = new LinkedList();
+        nameColumnList = new LinkedList<>();
+        listMapData = new LinkedList<>();
                 //"E:\\springboot\\createOrderData2.csv"; //Orders_export_1639471684871.csv";
         try (//{
              Reader reader = new FileReader(csvFile);
@@ -32,40 +35,44 @@ public class ReadFile {
                 listData.add(csvRecord);
             }
 
-            CSVRecord columnName = listData.get(0);
-            int countEmptyNameColumn = 0;
+            if(!listData.isEmpty()) {
+                CSVRecord columnName = listData.get(0);
+                int countEmptyNameColumn = 0;
 
-            for (String key : columnName) {
-                if (key.equals("")) {
-                    countEmptyNameColumn++;
-                }
-                // loai bo het dau cach thua; trim() loai bo dau cach dau, cuoi
-                nameColumnList.add(key.replaceAll("\\s\\s+", " ").trim());
-            }
-            System.out.println("co " + countEmptyNameColumn + " cot khong co ten cot");
-
-            List<String> nameColumnOutput = nameColumnOutputA2075();
-
-
-            boolean checkFullColumn = true;
-            for (String nameColumn : nameColumnOutput) {
-                if (!nameColumnList.contains(nameColumn)) {
-                    System.out.println("thieu cot: " + nameColumn);
-                    checkFullColumn = false;
-                }
-            }
-            if(checkFullColumn) {
-                for (int number = 1; number < listData.size(); number++) {
-                    CSVRecord csvRecord = listData.get(number);
-                    Map<String, String> mapOneLine = new LinkedHashMap<>();
-                    int countColumn = 0;
-                    for (String key : nameColumnList) { //columnName) {
-                        // them vao map key, value tuong ung
-                        mapOneLine.put(key, csvRecord.get(countColumn));
-                        countColumn++;
+                for (String key : columnName) {
+                    if (key.equals("")) {
+                        countEmptyNameColumn++;
                     }
-                    listMapData.add(mapOneLine);
+                    // loai bo het dau cach thua; trim() loai bo dau cach dau, cuoi
+                    nameColumnList.add(key.replaceAll("\\s\\s+", " ").trim());
                 }
+                System.out.println("co " + countEmptyNameColumn + " cot khong co ten cot");
+
+                List<String> nameColumnOutput = nameColumnOutputA2075();
+
+
+                boolean checkFullColumn = true;
+                for (String nameColumn : nameColumnOutput) {
+                    if (!nameColumnList.contains(nameColumn)) {
+                        System.out.println("thieu cot: " + nameColumn);
+                        checkFullColumn = false;
+                    }
+                }
+                if (checkFullColumn) {
+                    for (int number = 1; number < listData.size(); number++) {
+                        CSVRecord csvRecord = listData.get(number);
+                        Map<String, String> mapOneLine = new LinkedHashMap<>();
+                        int countColumn = 0;
+                        for (String key : nameColumnList) { //columnName) {
+                            // them vao map key, value tuong ung
+                            mapOneLine.put(key, csvRecord.get(countColumn));
+                            countColumn++;
+                        }
+                        listMapData.add(mapOneLine);
+                    }
+                }
+            }else{
+                System.out.println("-------------file trong------------------");
             }
             System.out.println("---------------start-----------");
             System.out.println("------------------------------------------");

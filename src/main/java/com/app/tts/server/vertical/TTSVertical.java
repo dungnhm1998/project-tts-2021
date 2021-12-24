@@ -169,6 +169,7 @@ public class TTSVertical extends AbstractVerticle {
         router.route(HttpMethod.POST, "/unirest-post2").handler(new UnirestPostHandler2());
         router.route(HttpMethod.GET, "/unirest-get2/:id").handler(new UnirestGetHandler2());
         router.route(HttpMethod.POST, "/quartz2").handler(new InsertOrderHandler2());
+        router.route(HttpMethod.POST, "/import-file-rows/:storeId").handler(new InsertFileRowsHandler());
         //api
 
         router.route(HttpMethod.POST, "/register").handler(new RegisterHandler());

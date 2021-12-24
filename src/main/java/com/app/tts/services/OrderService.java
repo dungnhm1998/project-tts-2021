@@ -34,6 +34,134 @@ public class OrderService extends MasterService {
     private static final String DELETE_PRODUCT_IN_ORDER = "{call PKG_DROPSHIP_ORDER_PHUONG.DELETE_PRODUCT_IN_ORDER" +
             "(?,?, ?,?,?)}";
 
+    private static final String INSERT_TB_DROPSHIP_IMPORT_FILE_ROWS = "{call PKG_DROPSHIP_ORDER_PHUONG.INSERT_TB_DROPSHIP_IMPORT_FILE_ROWS(" +
+            "?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?, ?,?,?)}";
+    private static final String GET_FILE_ROWS = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_TB_FILE_ROWS(?,?,?)}";
+    private static final String GET_PRO_VARIANT_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_PRO_VARIANT_BY_ID(?, ?,?,?)}";
+    public static final String UPDATE_FILE_ROWS_STATE = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_FILE_ROWS_STATE(?,?, ?,?,?)}";
+    public static final String GET_DESIGN_BY_ID_IN_TB_VARIANT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_DESIGN_BY_ID_IN_TB_VARIANT(?, ?,?,?)}";
+    public static final String GET_BASE_BY_ID_IN_TB_VARIANT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_BASE_BY_ID_IN_TB_VARIANT(?, ?,?,?)}";
+    public static final String GET_COLOR_BY_ID_IN_TB_VARIANT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_COLOR_BY_ID_IN_TB_VARIANT(?, ?,?,?)}";
+    public static final String GET_IMAGE_BY_ID_IN_TB_DESIGN = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_IMAGE_BY_ID_IN_TB_DESIGN(?, ?,?,?)}";
+    public static final String GET_SIZE_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_SIZE_BY_ID(?, ?,?,?)}";
+    public static final String GET_PRICE_BY_ID_BASE_SIZE = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_PRICE_BY_ID_BASE_SIZE(?,?, ?,?,?)}";
+    public static final String GET_SKU_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_SKU_BY_ID(?, ?,?,?)}";
+
+    public static Map getSkuById(String idSku) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_SKU_BY_ID, new Object[]{idSku});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map getPriceByIdBaseSize(String idBase, String idSize) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_PRICE_BY_ID_BASE_SIZE, new Object[]{idBase, idSize});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map getSizeById(String id) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_SIZE_BY_ID, new Object[]{id});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map getImageByIdInDesign(String id) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_IMAGE_BY_ID_IN_TB_DESIGN, new Object[]{id});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map getColorByIdInVariant(String id) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_COLOR_BY_ID_IN_TB_VARIANT, new Object[]{id});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map getBaseByIdInVariant(String id) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_BASE_BY_ID_IN_TB_VARIANT, new Object[]{id});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map getDesignByIdInVariant(String id) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_DESIGN_BY_ID_IN_TB_VARIANT, new Object[]{id});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map updateFileRowsState(String id, String state) throws SQLException{
+        List<Map> resultMap = excuteQuery(UPDATE_FILE_ROWS_STATE, new Object[]{id, state});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static Map getProVariantById(String variantId) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_PRO_VARIANT_BY_ID, new Object[]{variantId});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static List<Map> getFileRows() throws SQLException {
+        List<Map> resultMap = excuteQuery(GET_FILE_ROWS, new Object[]{});
+//        Map result = new LinkedHashMap();
+//        if(!resultMap.isEmpty()){
+//            result = resultMap.get(0);
+            return resultMap;
+//        }eturn new LinkedList<>();
+//        return resultlse{
+////            reMap
+//        }
+    }
+
+    public static List<Map> insertTBFileRows(
+            String userId, String storeId, String fileId,
+            String id,String  name,String  email,String  financialStatus,
+            Date createdAt,String  lineItemQuantity,String  lineItemName,String  lineItemSku,
+            String shippingName,String  shippingStreet,String  shippingAddress1,String  shippingAddress2,String  shippingCompany,String  shippingCity,
+            String shippingZip,String  shippingProvince,String  shippingCountry,String  shippingPhone,String  shippingMethod,
+            String notes,String  designFrontUrl,String  designBackUrl,String  mockFrontUrl,String  mockBackUrl,
+            String currency,String  unitAmount,String  location, String state
+            ) throws SQLException{
+
+        List<Map> resultMap = excuteQuery(INSERT_TB_DROPSHIP_IMPORT_FILE_ROWS, new Object[]{
+                userId, storeId, fileId,
+                id, name, email, financialStatus,
+                createdAt, lineItemQuantity, lineItemName, lineItemSku,
+                shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
+                shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod,
+                notes, designFrontUrl, designBackUrl, mockFrontUrl, mockBackUrl,
+                currency, unitAmount, location, state
+        });
+        return resultMap;
+    }
+
     public static Map deleteProductInOrder(String orderId, String productId) throws SQLException {
         List<Map> resultMap = excuteQuery(DELETE_PRODUCT_IN_ORDER, new Object[]{orderId, productId});
         Map result = new LinkedHashMap();

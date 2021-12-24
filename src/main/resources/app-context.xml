@@ -155,14 +155,14 @@
     <bean id="cronTriggerQuartzJob2"
           class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="QuartzJob2" />
-        <property name="cronExpression" value="0/10 * * * * ?" />
+        <property name="cronExpression" value="0/30 * * * * ?" />
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
         <property name="triggers">
             <list>
                 <ref bean="cronTriggerQuartzJob" />
-<!--                <ref bean="cronTriggerQuartzJob2" />-->
+                <ref bean="cronTriggerQuartzJob2" />
             </list>
         </property>
     </bean>
