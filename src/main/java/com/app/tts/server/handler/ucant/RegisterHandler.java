@@ -89,6 +89,6 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 		return true;
 	}
 	
-	private static final Logger LOGGER = Logger.getLogger(SubService.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(RegisterHandler.class.getName());
 }
 

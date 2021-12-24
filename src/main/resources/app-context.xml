@@ -129,8 +129,33 @@
     <bean id="baseService" class="com.app.tts.services.SubService">
         <property name="dataSource" ref="ttsDataSource"/>
     </bean>
-<!--    <bean id="baseService" class="com.app.tts.services.BaseService">-->
-<!--        <property name="dataSource" ref="ttsDataSource"/>-->
-<!--    </bean>-->
+    
+    <bean id="Job1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.app.tts.server.csv.Job1" />
+	</bean>
+	
+	<bean id="Job2" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.app.tts.server.csv.Job2" />
+	</bean>
+	
+	<bean id="cronTriggerJob1" 
+                class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="Job1" />
+		<property name="cronExpression" value="0/5 * * ? * * *" />
+	</bean>
+	
+	<bean id="cronTriggerJob2" 
+                class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail" ref="Job2" />
+		<property name="cronExpression" value="0/5 * * ? * * *" />
+	</bean>
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="cronTriggerJob2" />
+			</list>
+		</property>
+	</bean>
 
 </beans>
