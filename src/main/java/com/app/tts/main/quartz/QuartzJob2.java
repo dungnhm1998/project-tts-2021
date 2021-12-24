@@ -77,7 +77,8 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
             System.out.println("s_sku====================" + idSku);
             try {
                 Map skuRecord = OrderService.getSkuById(idSku);
-                String message = "fail";
+                String state = "fail";
+                String message = "";
                 if (!skuRecord.isEmpty()) {
                     //lay base
                     String sBaseId = ParamUtil.getString(skuRecord, "S_BASE_ID");
@@ -93,11 +94,14 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
                         countProduct = 0;
                         countOrderCustom++;
                     }
-                    message = insertProductCustom(fileRowsRecord, skuRecord, baseRecord, colorRecord, sizeRecord);
+                    state = insertProductCustom(fileRowsRecord, skuRecord, baseRecord, colorRecord, sizeRecord);
                 }
-                OrderService.updateFileRowsState(ParamUtil.getString(fileRowsRecord, AppParams.S_ID), message);
+                if(state.equals("fail")){
+                    message = "S_LINEITEM_SKU khong dung";
+                }
+                OrderService.updateFileRowsState(ParamUtil.getString(fileRowsRecord, AppParams.S_ID), state, message);
                 System.out.println("orderId = " + orderId + "; countProduct = " + countProduct);
-                System.out.println("message=============================================" + message);
+                System.out.println("message=============================================" + state);
                 System.out.println("================================================================");
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -245,7 +249,8 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
     public int checkVariantId(String variantId, String sizeId, Map fileRowsRecord, int countProductCamp ){
         try {
             Map proVariantRecord = OrderService.getProVariantById(variantId);
-            String message;
+            String state;
+            String message = "";
             if(!proVariantRecord.isEmpty()){
                 //lay thong tu cac bang lien quan
                 //lay design
@@ -272,15 +277,16 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
                     countProductCamp++;
                 }
                 // them product
-                message = insertProductFromFileRows(fileRowsRecord, imageRecord,
+                state = insertProductFromFileRows(fileRowsRecord, imageRecord,
                         baseRecord, colorRecord, sizeRecord, priceRecord, proVariantRecord);
             }else{
-                message = "fail";
+                state = "fail";
+                message = "variant_id khong dung";
             }
             // cap nhat bang file row
-            OrderService.updateFileRowsState(ParamUtil.getString(fileRowsRecord, AppParams.S_ID), message);
+            OrderService.updateFileRowsState(ParamUtil.getString(fileRowsRecord, AppParams.S_ID), state, message);
             System.out.println("orderId = " + orderId + "; countProduct = " + countProduct);
-            System.out.println("message=============================================" + message);
+            System.out.println("message=============================================" + state);
             System.out.println("================================================================");
         } catch (SQLException throwables) {
             throwables.printStackTrace();

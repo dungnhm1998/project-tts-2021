@@ -38,7 +38,7 @@ public class OrderService extends MasterService {
             "?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?, ?,?,?)}";
     private static final String GET_FILE_ROWS = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_TB_FILE_ROWS(?,?,?)}";
     private static final String GET_PRO_VARIANT_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_PRO_VARIANT_BY_ID(?, ?,?,?)}";
-    public static final String UPDATE_FILE_ROWS_STATE = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_FILE_ROWS_STATE(?,?, ?,?,?)}";
+    public static final String UPDATE_FILE_ROWS_STATE = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_FILE_ROWS_STATE(?,?,?, ?,?,?)}";
     public static final String GET_DESIGN_BY_ID_IN_TB_VARIANT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_DESIGN_BY_ID_IN_TB_VARIANT(?, ?,?,?)}";
     public static final String GET_BASE_BY_ID_IN_TB_VARIANT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_BASE_BY_ID_IN_TB_VARIANT(?, ?,?,?)}";
     public static final String GET_COLOR_BY_ID_IN_TB_VARIANT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_COLOR_BY_ID_IN_TB_VARIANT(?, ?,?,?)}";
@@ -110,8 +110,8 @@ public class OrderService extends MasterService {
         return result;
     }
 
-    public static Map updateFileRowsState(String id, String state) throws SQLException{
-        List<Map> resultMap = excuteQuery(UPDATE_FILE_ROWS_STATE, new Object[]{id, state});
+    public static Map updateFileRowsState(String id, String state, String error) throws SQLException{
+        List<Map> resultMap = excuteQuery(UPDATE_FILE_ROWS_STATE, new Object[]{id, state, error});
         Map result = new LinkedHashMap();
         if(!resultMap.isEmpty()){
             result = resultMap.get(0);
