@@ -1,0 +1,21 @@
+
+public class DBProcedureUtil {
+
+	public static Map execute(DataSource dataSource, String procedureCallStr) throws SQLException {
+
+		Connection connection = dataSource.getConnection();
+
+		CallableStatement callableStatement = connection.prepareCall(procedureCallStr);
+
+		callableStatement.execute();
+		}
+
+		if (connection != null) {
+			connection.close();
+		}
+		if (callableStatement != null) {
+			callableStatement.close();
+		}
+		return resultMap;
+	}
+}

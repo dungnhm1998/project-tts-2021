@@ -1,6 +1,6 @@
 package com.app.tts.services;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +19,13 @@ public class DropShipOrderService extends MasterService {
 	public static final String GET_ALL_ORDER = "{call PKG_TTS_TRUONG.getAllOrder(?, ?, ?)}";
 	public static final String GET_ORDER_BY_ID = "{call PKG_TTS_TRUONG.getOrderById(?, ?, ?, ?)}";
 	public static final String UPDATE_DSORDER = "{call PKG_TTS_TRUONG.updateOrder(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+	public static final String INSERT_ORDER = "{call PKG_TTS_TRUONG.insertOrder(?,?,?,?,?,?,?,?,?,?,?)}";
+
+	public static Map insertOrder(String id, String currency, String shipping_id, String store_id, String user_id,
+			String refernce_order, String source, String shipping_method) throws SQLException {
+		return excuteQuery1(INSERT_ORDER,
+				new Object[] { id, currency, shipping_id, store_id, user_id, refernce_order, source, shipping_method });
+	}
 
 	public static Map getAllOrder() throws SQLException {
 		return excuteQuery1(GET_ALL_ORDER, new Object[] {});
@@ -41,10 +48,10 @@ public class DropShipOrderService extends MasterService {
 
 		Map resultMap = new HashMap<>();
 		Map resultDataList = searchOne(UPDATE_DSORDER,
-				new Object[] { id, currency, sub_amount, shipping_fee, tax_amount, state, update_date, tracking_code, note, channel,
-						user_id, store_id, shipping_id, original_id, source, shipping_method, ioss_number, extra_fee,
-						amount, addr_verified, addr_verified_note });
-        return resultDataList;
+				new Object[] { id, currency, sub_amount, shipping_fee, tax_amount, state, update_date, tracking_code,
+						note, channel, user_id, store_id, shipping_id, original_id, source, shipping_method,
+						ioss_number, extra_fee, amount, addr_verified, addr_verified_note });
+		return resultDataList;
 
 	}
 
@@ -117,7 +124,7 @@ public class DropShipOrderService extends MasterService {
 		shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL));
 		shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, AppParams.S_PHONE));
 		shippingMap.put(AppParams.GIFT, ParamUtil.getBoolean(shippingInput, AppParams.N_GIFT));
-		
+
 		addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
 		addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
 		addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
@@ -135,27 +142,27 @@ public class DropShipOrderService extends MasterService {
 		for (Map productInput : productList) {
 			Map productMap = new LinkedHashMap();
 			productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID));
-			
+
 			Map baseMap = new LinkedHashMap();
 			baseMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
 			baseMap.put(AppParams.BASE_NAME, ParamUtil.getString(productInput, AppParams.S_BASE_NAME));
 			baseMap.put(AppParams.TYPE_ID, ParamUtil.getString(productInput, AppParams.S_TYPE_ID));
 			baseMap.put(AppParams.TYPE_NAME, ParamUtil.getString(productInput, AppParams.S_TYPE_NAME));
-			
+
 			Map groupMap = new LinkedHashMap();
 			groupMap.put(AppParams.GROUP_ID, ParamUtil.getString(productInput, AppParams.S_GROUP_ID));
 			groupMap.put(AppParams.GROUP_NAME, ParamUtil.getString(productInput, AppParams.S_GROUP_NAME));
-			
+
 			baseMap.put("group", groupMap);
 			productMap.put("bases", baseMap);
-			
+
 			Map campaignMap = new LinkedHashMap();
 			campaignMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_CAMPAIGN_ID));
 			campaignMap.put(AppParams.TITLE, ParamUtil.getString(productInput, AppParams.S_TITLE));
 			campaignMap.put(AppParams.DOMAIN, ParamUtil.getString(productInput, AppParams.S_DOMAIN));
 			campaignMap.put(AppParams.DOMAIN_ID, ParamUtil.getString(productInput, AppParams.S_DOMAIN_ID));
 			productMap.put("campaigns", campaignMap);
-			
+
 			productMap.put(AppParams.COLOR_VALUE, ParamUtil.getString(productInput, AppParams.S_COLOR_VALUE));
 			productMap.put(AppParams.COLOR_ID, ParamUtil.getString(productInput, AppParams.S_COLOR_ID));
 			productMap.put(AppParams.COLOR_NAME, ParamUtil.getString(productInput, AppParams.S_COLOR_NAME));
@@ -171,7 +178,7 @@ public class DropShipOrderService extends MasterService {
 			designsMap.put("mockup_front_url", ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
 			designsMap.put("mockup_back_url", ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
 			productMap.put(AppParams.DESIGNS, designsMap);
-			
+
 			productMap.put(AppParams.VARIANT_ID, ParamUtil.getString(productInput, AppParams.S_VARIANT_ID));
 			productMap.put(AppParams.PRODUCT_ID, ParamUtil.getString(productMap, AppParams.S_PRODUCT_ID));
 
@@ -185,7 +192,7 @@ public class DropShipOrderService extends MasterService {
 
 		return resultMap;
 	}
-	
+
 	public static Map formatOrder(Map orderInput, Map shippingInput, List<Map> productList) {
 		Map resultMap = new LinkedHashMap();
 
@@ -223,7 +230,7 @@ public class DropShipOrderService extends MasterService {
 		shippingMap.put(AppParams.EMAIL, ParamUtil.getString(shippingInput, AppParams.S_EMAIL));
 		shippingMap.put(AppParams.PHONE, ParamUtil.getString(shippingInput, AppParams.S_PHONE));
 		shippingMap.put(AppParams.GIFT, ParamUtil.getBoolean(shippingInput, AppParams.N_GIFT));
-		
+
 		addressMap.put(AppParams.LINE1, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE1));
 		addressMap.put(AppParams.LINE2, ParamUtil.getString(shippingInput, AppParams.S_ADD_LINE2));
 		addressMap.put(AppParams.CITY, ParamUtil.getString(shippingInput, AppParams.S_ADD_CITY));
@@ -241,27 +248,27 @@ public class DropShipOrderService extends MasterService {
 		for (Map productInput : productList) {
 			Map productMap = new LinkedHashMap();
 			productMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_ID));
-			
+
 			Map baseMap = new LinkedHashMap();
 			baseMap.put(AppParams.BASE_ID, ParamUtil.getString(productInput, AppParams.S_BASE_ID));
 			baseMap.put(AppParams.BASE_NAME, ParamUtil.getString(productInput, AppParams.S_BASE_NAME));
 			baseMap.put(AppParams.TYPE_ID, ParamUtil.getString(productInput, AppParams.S_TYPE_ID));
 			baseMap.put(AppParams.TYPE_NAME, ParamUtil.getString(productInput, AppParams.S_TYPE_NAME));
-			
+
 			Map groupMap = new LinkedHashMap();
 			groupMap.put(AppParams.GROUP_ID, ParamUtil.getString(productInput, AppParams.S_GROUP_ID));
 			groupMap.put(AppParams.GROUP_NAME, ParamUtil.getString(productInput, AppParams.S_GROUP_NAME));
-			
+
 			baseMap.put("group", groupMap);
 			productMap.put("bases", baseMap);
-			
+
 			Map campaignMap = new LinkedHashMap();
 			campaignMap.put(AppParams.ID, ParamUtil.getString(productInput, AppParams.S_CAMPAIGN_ID));
 			campaignMap.put(AppParams.TITLE, ParamUtil.getString(productInput, AppParams.S_TITLE));
 			campaignMap.put(AppParams.DOMAIN, ParamUtil.getString(productInput, AppParams.S_DOMAIN));
 			campaignMap.put(AppParams.DOMAIN_ID, ParamUtil.getString(productInput, AppParams.S_DOMAIN_ID));
 			productMap.put("campaigns", campaignMap);
-			
+
 			productMap.put(AppParams.COLOR_VALUE, ParamUtil.getString(productInput, AppParams.S_COLOR_VALUE));
 			productMap.put(AppParams.COLOR_ID, ParamUtil.getString(productInput, AppParams.S_COLOR_ID));
 			productMap.put(AppParams.COLOR_NAME, ParamUtil.getString(productInput, AppParams.S_COLOR_NAME));
@@ -277,7 +284,7 @@ public class DropShipOrderService extends MasterService {
 			designsMap.put("mockup_front_url", ParamUtil.getString(productInput, AppParams.S_VARIANT_FRONT_URL));
 			designsMap.put("mockup_back_url", ParamUtil.getString(productInput, AppParams.S_VARIANT_BACK_URL));
 			productMap.put(AppParams.DESIGNS, designsMap);
-			
+
 			productMap.put(AppParams.VARIANT_ID, ParamUtil.getString(productInput, AppParams.S_VARIANT_ID));
 			productMap.put(AppParams.PRODUCT_ID, ParamUtil.getString(productMap, AppParams.S_PRODUCT_ID));
 

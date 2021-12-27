@@ -8,7 +8,6 @@ import java.util.logging.Logger;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
-import com.app.tts.server.job.WriteFile;
 import com.app.tts.services.SubService;
 import com.app.tts.session.redis.SessionStore;
 
@@ -25,7 +24,7 @@ public class RegisterHandler implements Handler<RoutingContext>, SessionStore{
 				Map json = routingContext.getBodyAsJson().getMap();
 				Object jsonObject = routingContext.getBodyAsJson();
 				File file = new File("D:\\demofile.csv");
-				WriteFile.writeFile(file, jsonObject);
+//				WriteFile.writeFile(file, jsonObject);
 				
 		        
 //		        Trigger trigger = TriggerBuilder.newTrigger()

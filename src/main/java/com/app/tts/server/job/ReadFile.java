@@ -18,6 +18,7 @@ public class ReadFile {
 	public static List<CSVRecord> listData = new LinkedList();
 	public static List<Map> listMapData = new LinkedList<>();
 	public static int count = 0;
+	public static int countLine;
 	public static List<String> nameColumnList = new LinkedList<>();
 	public static List<String> nameColumnList1 = new LinkedList<>();
 
@@ -28,10 +29,12 @@ public class ReadFile {
 				CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 		) {
 			Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-
+			int countLine = 0;
 			for (CSVRecord csvRecord : csvRecords) {
 				listData.add(csvRecord);
+				countLine++;
 			}
+			System.out.println(countLine);
 
 			CSVRecord columnName = listData.get(0);
 			int countEmptyNameColumn = 0;
@@ -47,6 +50,11 @@ public class ReadFile {
 					checkFullColumn = false;
 				}else {
 					key = key.replaceAll("\\s\\s+", "");
+					String firstLetter = key.substring(0, 1);
+					String remainingLetters = key.substring(1, key.length());
+					firstLetter = firstLetter.toUpperCase();
+					remainingLetters = remainingLetters.toLowerCase();
+					key = firstLetter + remainingLetters;
 					nameColumnList.add(key);
 				}
 			}

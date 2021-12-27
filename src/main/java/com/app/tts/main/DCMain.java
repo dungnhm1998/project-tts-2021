@@ -5,17 +5,12 @@
  */
 package com.app.tts.main;
 
-import java.util.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.app.tts.server.job.ReadCSV;
-import com.app.tts.server.job.ReadFile;
-import com.app.tts.util.ParamUtil;
 
 /**
  *
@@ -31,7 +26,7 @@ public class DCMain {
 
 	public static void main(String[] args) throws Exception {
 //		ReadFileTXT.readFile();
-		ReadCSV.readFile();
+//		ReadCSV.readFile();
 //		Date date_update = new Date(System.currentTimeMillis());
 //		System.out.println(date_update);
 		String created_at = "7/24/2020  2:07:00 PM";

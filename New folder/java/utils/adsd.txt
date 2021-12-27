@@ -1,0 +1,55 @@
+package com.laptrinhjavaweb.dao.impl;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.sql.Types;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import com.laptrinhjavaweb.dao.GenericDAO;
+import com.laptrinhjavaweb.mapper.RowMapper;
+
+public class AbstractDAO<T> implements GenericDAO<T> {
+	
+	ResourceBundle resourceBundle = ResourceBundle.getBundle("db");
+	public Connection getConnection() {
+		try {
+			Class.forName(resourceBundle.getString("driverName"));
+
+			String url = resourceBundle.getString("url");
+			String user = resourceBundle.getString("user");
+			String password = resourceBundle.getString("password");
+			return DriverManager.getConnection(url, user, password);
+
+			// return
+			// DriverManager.getConnection("jdbc:mysql://localhost:3306/newservletdemo?autoReconnect=true&useSSL=false",
+			// "root", "0385339662");
+		} catch (ClassNotFoundException | SQLException e) {
+			return null;
+		}
+	}
+
+	public static Map execute(DataSource dataSource, String procedureCallStr) throws SQLException {
+
+		Connection connection = dataSource.getConnection();
+
+		CallableStatement callableStatement = connection.prepareCall(procedureCallStr);
+
+		callableStatement.execute();
+		}
+
+		if (connection != null) {
+			connection.close();
+		}
+		if (callableStatement != null) {
+			callableStatement.close();
+		}
+		return resultMap;
+	}
+}

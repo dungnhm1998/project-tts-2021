@@ -66,6 +66,7 @@ public class AppParams {
 	public static final String TYPE_ID = "type_id";
 	public static final String TITLE = "title";
 	public static final String URL = "url";
+	public static final String S_URL = "S_URL";
 	public static final String THUMB_URL = "thumb_url";
 	public static final String S_THUMB_URL = "S_THUMB_URL";
 	public static final String URI = "uri";
@@ -342,6 +343,9 @@ public class AppParams {
 	public static final String REFRESH_TOKEN = "refresh_token";
 	public static final String ACCESS_TOKEN = "access_token";
 	public static final String ERROR = "error";
+	public static final String ERROR_NOTE = "error_note";
+	public static final String S_ERROR = "s_error";
+	public static final String S_ERROR_NOTE = "s_error_note";
 
 	public static final String USERNAME = "username";
 	public static final String S_USERNAME = "TTS_USERNAME";

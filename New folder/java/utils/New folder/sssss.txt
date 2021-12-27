@@ -1,0 +1,67 @@
+
+create or replace NONEDITIONABLE package BASE_COLOR_SIZE
+as 
+    procedure CONNECTED_BASE_COLOR_SIZE
+    (S_IDCONNECTED IN TB_BASE.S_ID%type,
+    RSBASE OUT SYS_REFCURSOR,
+    RSCOLOR OUT SYS_REFCURSOR,
+    RSSIZE OUT SYS_REFCURSOR);
+END BASE_COLOR_SIZE;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+create or replace NONEDITIONABLE package BODY BASE_COLOR_SIZE
+as 
+    procedure CONNECTED_BASE_COLOR_SIZE
+    (S_IDCONNECTED IN TB_BASE.S_ID%type,
+    RSBASE OUT SYS_REFCURSOR,
+    RSCOLOR OUT SYS_REFCURSOR,
+    RSSIZE OUT SYS_REFCURSOR)
+is 
+ID_COLOR TB_BASE_COLOR.S_ID%type;
+
+begin 
+    OPEN RSBASE for 
+    SELECT * 
+    FROM TB_BASE
+    WHERE S_ID = S_IDCONNECTED;
+    
+    OPEN RSCOLOR for 
+    SELECT * 
+    FROM TB_BASE_COLOR color
+    WHERE color.S_ID IN (select color.S_ID 
+                        from TB_BASE_COLOR color, TB_BASE base
+                        where INSTR(base.s_colors,color.S_ID) > 0 and base.s_id = S_IDCONNECTED);
+
+    Open RSSIZE for
+    SELECT *
+    FROM TB_BASE_SIZE bsize
+    where bsize.s_id IN (select bsize.S_ID
+                        from TB_BASE_SIZE bsize, TB_BASE base
+                        where instr(base.S_SIZES, bsize.S_ID) > 0 and base.s_id = s_idconnected);
+
+--    OPEN RSSIZE for 
+--    SELECT * 
+--    FROM TB_BASE_COLOR color
+--    WHERE color.S_ID = (select color.S_ID 
+--    from TB_BASE_COLOR color, TB_BASE base
+--    where INSTR(base.s_colors,color.S_ID) = 1 and base.s_id = '8d_QKhXD-86igKPP');
+end;
+
+end BASE_COLOR_SIZE;

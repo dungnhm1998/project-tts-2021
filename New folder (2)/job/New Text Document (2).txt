@@ -1,0 +1,122 @@
+package com.app.tts.server.job;
+
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
+import org.springframework.scheduling.quartz.QuartzJobBean;
+
+import com.app.tts.server.handler.file.ImportFileHandler;
+import com.app.tts.services.FileService;
+import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
+
+public class InsertOrderByFileJob extends QuartzJobBean {
+
+	static int countRecord;
+//	static String file_id = ParamUtil.getString(lineMap, "file_id");
+	;/* = new LinkedList<>(); */
+
+	public static List<Map> allLineMap() {
+		Map mapRequest = ImportFileHandler.jsonRequest;
+		String file_id = ParamUtil.getString(mapRequest, "file_id");
+		List<Map> listRecords = null;
+		try {
+			listRecords = FileService.getDataImportFile(file_id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listRecords;
+	}
+
+	public static Map readOnelineMapCSV() {
+		countRecord = ImportFileHandler.countOrderImport;
+		Map record = new LinkedHashMap();
+		List<Map> listRecords = allLineMap();
+		if(!listRecords.isEmpty()) {
+			if (countRecord < listRecords.size()) {
+				record = listRecords.get(countRecord);
+				ImportFileHandler.countOrderImport++;
+				countRecord++;
+			}else {
+				countRecord = -1;
+			}
+		}
+		return record;
+	}
+
+	@Override
+	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+		Map listMap = readOnelineMapCSV();
+		if(countRecord > -1) {
+			String id = UUID.randomUUID().toString().substring(5, 20);
+			String shipping_name = ParamUtil.getString(listMap, "S_SHIPPING_NAME");
+			String email = ParamUtil.getString(listMap, AppParams.S_EMAIL);
+			String phone = ParamUtil.getString(listMap, "S_SHIPPING_PHONE");
+			String add_line1 = ParamUtil.getString(listMap, "S_SHIPPING_ADDRESS1");
+			String add_line2 = ParamUtil.getString(listMap, "S_SHIPPING_ADDRESS2");
+			String add_city = ParamUtil.getString(listMap, "S_SHIPPING_CITY");
+			String country_code = ParamUtil.getString(listMap, "S_SHIPPING_COUNTRY");
+			try {
+				FileService.insertShipping(id, shipping_name, email, phone, add_line1, add_line2, add_city,
+						country_code);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+//		String order_id = UUID.randomUUID().toString().substring(5, 20);
+//		String sku = ParamUtil.getString(listMap, "S_LINEITEM_SKU");
+//		String campaign_id;
+//		String variant_id;
+//		String size_id;
+//		String price;
+//		String shipping_fee;
+//		String currency;
+//		int quantity;
+//		String state;
+//		Date created;
+//		String variant_name;
+//		String amount;
+//		int status;
+//		String base_cost;
+//		String base_id;
+//		String line_item_id;
+//		int refunded_item;
+//		String variant_front_url;
+//		String variant_back_url;
+//		String color_id;
+//		String color_value;
+//		String partner_sku;
+//		String color_name;
+//		String size_name;
+//		String shipping_method;
+//		String unit_amount;
+//		int refund_item;
+//		String design_back_url;
+//		String design_front_url;
+//		int p = sku.indexOf('|');
+//		if (p >= 0) {
+//		    variant_id = sku.substring(0, p);
+//		    size_id = sku.substring(p + 1);
+//		    try {
+//				if(!FileService.getByVariantId(variant_id).isEmpty()) {
+//					price = ParamUtil.getString(listMap, "S_PRICE");
+//					
+//				}
+//			} catch (SQLException e) {
+//				e.printStackTrace();
+//			}
+//		}else {
+//			
+//		}
+		
+	}
+
+}
