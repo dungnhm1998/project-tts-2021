@@ -42,10 +42,15 @@ public class importFileOrderHandler implements Handler<RoutingContext> {
             try {
                 Map json = routingContext.getBodyAsJson().getMap();
 
+                Random ramdom = new Random();
+                String fileId = String.valueOf(ramdom.nextInt(100000));
                 String file_name = ParamUtil.getString(json, "file_name");
                 String source = ParamUtil.getString(json, "source");
                 String url = ParamUtil.getString(json, "url");
                 String userId = ParamUtil.getString(json, "user_id");
+
+
+
 
 
                 try (

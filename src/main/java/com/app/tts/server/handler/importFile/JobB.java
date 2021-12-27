@@ -95,7 +95,7 @@ public class JobB extends QuartzJobBean {
 
                 for (String groupfile : Var) {
                     if (groupfile.matches(redex)) {
-                        String[] lineSku = groupfile.split("\\|");
+                        String[] lineSku = groupfile.split("\\|", -1);
                         variantId = lineSku[0];
                         sizeId = lineSku[1];
 
