@@ -1,5 +1,6 @@
 package com.app.tts.googledrive.utils;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,7 +8,6 @@ import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
 
-import com.app.tts.googledrive.quickstart.DriveQuickstart;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -62,8 +62,10 @@ public class GoogleDriveUtils {
                     + " to folder: " + CREDENTIALS_FOLDER.getAbsolutePath());
         }
 
-        InputStream in =
-                DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
+//        InputStream in =
+//                DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
+        
+        InputStream in = new FileInputStream(clientSecretFilePath);
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

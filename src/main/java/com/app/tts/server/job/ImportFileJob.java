@@ -33,17 +33,18 @@ public class ImportFileJob extends QuartzJobBean {
 		} else {
 			countRecord = -1;
 		}
+
 		return record;
 	}
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		Map lineMap = readOnelineMapCSV();	
+		Map lineMap = readOnelineMapCSV();
 		System.out.println("sssssssssssssssssssss1");
 		Map importFileMap;
 		try {
 			importFileMap = FileService.getImportFile();
-			System.out.println("Line "+lineMap+countRecord);
+			System.out.println("Line " + lineMap + countRecord);
 			String file_id = ParamUtil.getString(importFileMap, AppParams.S_ID);
 			System.out.println(file_id);
 			if (countRecord > -1) {
@@ -83,14 +84,17 @@ public class ImportFileJob extends QuartzJobBean {
 				String currency = ParamUtil.getString(lineMap, "Currency");
 				String unit_amount = ParamUtil.getString(lineMap, "Unit amount");
 				String location = ParamUtil.getString(lineMap, "Location");
-				String group_column = file_id+user_id+store_id+name;
+				String group_column = file_id + user_id + store_id + name;
 				FileService.importFile(id, file_id, user_id, store_id, name, email, shipping_name, shipping_street,
 						shipping_address1, shipping_address2, shipping_company, shipping_city, shipping_zip,
 						shipping_province, shipping_country, shipping_phone, notes, financial_status,
 						lineMapitem_quantity, lineMapitem_name, lineMapitem_sku, design_front_url, design_back_url,
 						mockup_front_url, mockup_back_url, check_vaild_adress, source, state, type, file_name,
 						shipping_method, currency, unit_amount, location, Md5Code.md5(group_column));
-				System.out.println("sssssssssssssssssssss3");
+
+//				System.out.println(countRecord);
+//				System.out.println("count line   "+ReadFile.countLine);
+
 			}
 		} catch (OracleException | SQLException e) {
 			e.printStackTrace();

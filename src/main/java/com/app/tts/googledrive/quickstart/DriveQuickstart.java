@@ -52,8 +52,10 @@ public class DriveQuickstart {
         }
 
         // Load client secrets.
-        InputStream in =
-                DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
+//        InputStream in =
+//                DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
+        
+        InputStream in = new FileInputStream(clientSecretFilePath);
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
