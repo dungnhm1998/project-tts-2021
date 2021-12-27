@@ -6,30 +6,26 @@
 package com.app.tts.server.vertical;
 
 
-import com.app.tts.server.handler.Order.AddOrderHandler;
-import com.app.tts.server.handler.Order.GetListOrderProductHandler;
-import com.app.tts.server.handler.Order.GetOrderByIdHandler;
-import com.app.tts.server.handler.Order.UpdateOrderHandler;
-import com.app.tts.server.handler.Order.updateDemoHanler;
-import com.app.tts.server.handler.importFile.importFileOrderHandler;
-import com.app.tts.server.handler.importFile.insertOrder;
-import com.app.tts.server.handler.user.GetAllUserHandler;
-import com.app.tts.server.handler.user.PostOrderHandler;
-import com.app.tts.server.handler.user.PutOrderHandler;
-import com.app.tts.server.handler.user.UsHandler;
-import com.app.tts.server.handler.user.getBaseHandler1;
 import com.app.tts.server.handler.base.ListBaseGroupColorSizeHandler;
 import com.app.tts.server.handler.base.ListBaseHandler;
 import com.app.tts.server.handler.base.ListBaseHandler2;
 import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
+import com.app.tts.server.handler.importFile.GoogleApiHandler;
+import com.app.tts.server.handler.importFile.importFileOrderHandler;
+import com.app.tts.server.handler.importFile.insertOrder;
+import com.app.tts.server.handler.leagen.CreateCampaignHandler;
 import com.app.tts.server.handler.leagen.GetCampaignHandler;
 import com.app.tts.server.handler.leagen.Get_OrderHandler;
-import com.app.tts.server.handler.leagen.CreateCampaignHandler;
 import com.app.tts.server.handler.leagen.getBaseHandler;
 import com.app.tts.server.handler.option.OptionHandler;
 import com.app.tts.server.handler.option.OrderNotifyHandler;
+import com.app.tts.server.handler.user.GetAllUserHandler;
+import com.app.tts.server.handler.user.PostOrderHandler;
+import com.app.tts.server.handler.user.PutOrderHandler;
+import com.app.tts.server.handler.user.UsHandler;
+import com.app.tts.server.handler.user.getBaseHandler1;
 import com.app.tts.util.StringPool;
 import io.vertx.core.http.HttpClientOptions;
 import io.vertx.core.http.HttpMethod;
@@ -38,7 +34,6 @@ import io.vertx.rxjava.core.AbstractVerticle;
 import io.vertx.rxjava.core.http.HttpClient;
 import io.vertx.rxjava.core.http.HttpServer;
 import io.vertx.rxjava.ext.web.Router;
-
 import io.vertx.rxjava.ext.web.handler.BodyHandler;
 import io.vertx.rxjava.ext.web.handler.CookieHandler;
 import io.vertx.rxjava.ext.web.handler.ResponseTimeHandler;
@@ -172,17 +167,17 @@ public class TTSVertical extends AbstractVerticle {
 
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 //		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-		router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
-		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
-		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
-		router.route(HttpMethod.POST, "/addOrder").handler(new AddOrderHandler());
-
-		router.route(HttpMethod.POST, "/addOrders").handler(new updateDemoHanler());
+//		router.route(HttpMethod.PUT, "/update-order").handler(new UpdateOrderHandler());
+//		router.route(HttpMethod.GET, "/get_order_by_id").handler(new GetOrderByIdHandler());
+//		router.route(HttpMethod.GET, "/get_order_product").handler(new GetListOrderProductHandler());
+//		router.route(HttpMethod.POST, "/addOrder").handler(new AddOrderHandler());
+//
+//		router.route(HttpMethod.POST, "/addOrders").handler(new updateDemoHanler());
 
 		router.route(HttpMethod.POST, "/import-file").handler(new importFileOrderHandler());
 
 		router.route(HttpMethod.GET, "/select").handler(new insertOrder());
-
+		router.route(HttpMethod.POST, "/login-google").handler(new GoogleApiHandler());
 
 		router.route(HttpMethod.GET, "/test/:id").handler(new UsHandler());
 		router.route(HttpMethod.POST, "/test").handler(new PostOrderHandler());

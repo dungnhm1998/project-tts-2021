@@ -524,4 +524,5 @@ public class AppParams {
 	public static final String COUNTRY_NAME = "country_name";
 	public static final String COLOR = "color";
     public static final String GIFT = "gift";
+	public static final String ERROR_NOTE = "error_note";
 }

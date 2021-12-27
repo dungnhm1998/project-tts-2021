@@ -32,6 +32,31 @@ public class AddOrderServiceImport extends MasterService {
     private static final String DELETE_OR = "{call PKG_IMPORT_FILE.del_or(?,?,?,?)}";
     private static final String DELETE_SHIPPING = "{call PKG_IMPORT_FILE.del_shipping(?,?,?,?)}";
     private static final String GET_SKUU = "{call PKG_IMPORT_FILE.get_sku1(?,?,?,?)}";
+    private static final String INSERT_FILE = "{call PKG_IMPORT_FILE.insert_file(?,?,?,?)}";
+
+
+    public static Map insertFile(String  p_id,
+                                 String  p_file_name,
+                                 String  p_url,
+                                 String  p_type,
+                                 String  p_user_id,
+                                 String  p_store_id,
+                                 String  p_source,
+                                 String  p_state,
+                                 String  p_error_msg) throws SQLException {
+        Map result = searchOne(INSERT_FILE,
+                new Object[]{p_id,
+                        p_file_name,
+                        p_url,
+                        p_type,
+                        p_user_id,
+                        p_store_id,
+                        p_source,
+                        p_state,
+                        p_error_msg});
+        return result;
+    }
+
 
 
     public static List<Map> get_sku1(String id) throws SQLException {
@@ -40,8 +65,6 @@ public class AddOrderServiceImport extends MasterService {
 
         return resultMap;
     }
-
-
 
 
     public static List<Map> deleteOr(String id) throws SQLException {
@@ -87,7 +110,6 @@ public class AddOrderServiceImport extends MasterService {
 
         return resultMap;
     }
-
 
 
     public static Map getVarById(String variantId) throws SQLException {
@@ -137,7 +159,7 @@ public class AddOrderServiceImport extends MasterService {
 
     public static List<Map> importFileRows(
             String reference_order, String fileId, String user_id, String file_name, String email, String financial_status,
-            Date dateAt,String state,
+            Date dateAt, String state,
             String storeid, String lineitem_quantity, String lineitem_name, String lineitem_sku,
             String shipping_name, String shipping_street, String shipping_address1, String shipping_address2, String shipping_company,
             String shipping_city, String shipping_zip, String shipping_province, String shipping_country,
@@ -148,7 +170,7 @@ public class AddOrderServiceImport extends MasterService {
 
         List<Map> importFile = excuteQuery(IMPORT_FILE_ROWS, new Object[]{
                 reference_order, fileId, user_id, file_name, email,
-                financial_status, dateAt, state,  storeid, lineitem_quantity,
+                financial_status, dateAt, state, storeid, lineitem_quantity,
                 lineitem_name, lineitem_sku,
                 shipping_name, shipping_street, shipping_address1,
                 shipping_address2, shipping_company, shipping_city,
@@ -414,6 +436,24 @@ public class AddOrderServiceImport extends MasterService {
 
         return resultMap;
     }
+
+    public static Map format(Map inputMap) {
+        Map resultMap = new LinkedHashMap();
+
+        resultMap.put(AppParams.ID, ParamUtil.getString(inputMap, AppParams.S_ID));
+        resultMap.put(AppParams.FILE_NAME, ParamUtil.getString(inputMap, AppParams.S_FILE_NAME));
+        resultMap.put(AppParams.URL, ParamUtil.getString(inputMap, "S_URL"));
+        resultMap.put(AppParams.TYPE, ParamUtil.getString(inputMap, AppParams.S_TYPE));
+        resultMap.put(AppParams.USER_ID, ParamUtil.getString(inputMap, AppParams.S_USER_ID));
+        resultMap.put(AppParams.STORE_ID, ParamUtil.getString(inputMap, AppParams.S_STORE_ID));
+        resultMap.put(AppParams.CREATE_AT, ParamUtil.getString(inputMap, AppParams.D_CREATE));
+        resultMap.put(AppParams.STATE, ParamUtil.getString(inputMap, AppParams.S_STATE));
+        resultMap.put(AppParams.ERROR_NOTE, ParamUtil.getString(inputMap, "S_ERROR_NOTE"));
+        resultMap.put(AppParams.SOURCE, ParamUtil.getString(inputMap, AppParams.S_SOURCE));
+
+        return resultMap;
+    }
+
 }
 
 
