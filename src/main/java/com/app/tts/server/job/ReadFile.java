@@ -29,11 +29,12 @@ public class ReadFile {
 				CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 		) {
 			Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-			int countLine = 0;
+			int c = -1;
 			for (CSVRecord csvRecord : csvRecords) {
 				listData.add(csvRecord);
-				countLine++;
+				c++;
 			}
+			countLine = c;
 			System.out.println(countLine);
 
 			CSVRecord columnName = listData.get(0);
