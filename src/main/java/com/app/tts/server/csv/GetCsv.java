@@ -52,7 +52,7 @@ public class GetCsv {
 		header.add("Mockup front url");
 		header.add("Mockup back url");
 		header.add("Check vaild adress");
-		header.add("Currency");
+		header.add("currency");
 		header.add("Unit amount");
 		header.add("Location");
 		try (

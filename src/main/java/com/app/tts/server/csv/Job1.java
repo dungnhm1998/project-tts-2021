@@ -37,6 +37,7 @@ public class Job1 extends QuartzJobBean{
 		String userId = ParamUtil.getString(obj, "user_id");
     	String fileName = ParamUtil.getString(obj, "file_name");
     	String id = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
+    	String orderId = UUID.randomUUID().toString().replace("-", "").substring(0, 10);
     	String name = ParamUtil.getString(csv, "Name");		
 		String email = ParamUtil.getString(csv, "Email");
 		String financialStatus = ParamUtil.getString(csv, "Financial Status");
@@ -51,7 +52,7 @@ public class Job1 extends QuartzJobBean{
 		
 		String lineitemQuantity = ParamUtil.getString(csv, "Lineitem quantity");
 		String lineitemName = ParamUtil.getString(csv, "Lineitem name");
-		String lineitemSku = ParamUtil.getString(csv, "Lineitem quantity");
+		String lineitemSku = ParamUtil.getString(csv, "Lineitem sku");
 		String shippingName = ParamUtil.getString(csv, "Shipping Name");
 		String shippingStreet = ParamUtil.getString(csv, "Shipping Street");
 		String shippingAddress1 = ParamUtil.getString(csv, "Shipping Address1");
@@ -74,7 +75,7 @@ public class Job1 extends QuartzJobBean{
 		String location = ParamUtil.getString(csv, "Location");
 		String state = "created";
 		try {
-			List<Map> order = BaseService.importOrder(fileId, fileName, userId, name, email, financialStatus, created, lineitemQuantity, 
+			List<Map> order = BaseService.importOrder(fileId, fileName, userId, orderId, name, email, financialStatus, created, lineitemQuantity, 
 					lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, 
 					shippingCity, shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes, id, designFrontUrl, 
 					designBackUrl, mockupFrontUrl, mockupBackUrl, checkValidAddress, currency, unitAmount, location, state);
