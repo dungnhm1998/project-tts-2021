@@ -1,7 +1,0 @@
-đa kế thừa ?
-
-
-JBoss Seam, JSF, JPA, Richfaces, và Java EE 6
-
-
-Hiểu  biết về Core Java, bao gồm Generics, Reflection, Collections Framework.

@@ -26,13 +26,18 @@ public class ImportFileJob extends QuartzJobBean {
 		List<Map> listRecords = ReadFile.listMapData;
 		Map record = new LinkedHashMap();
 		System.out.println(countRecord);
-		if (countRecord < listRecords.size()) {
-			record = listRecords.get(countRecord);
-			ReadFile.count++;
-			countRecord++;
-		} else {
-			countRecord = -1;
+		if(countRecord < ReadFile.countLine) {
+			countRecord = 0;
+		}else {
+			if (countRecord < listRecords.size()) {
+				record = listRecords.get(countRecord);
+				ReadFile.count++;
+				countRecord++;
+			} else {
+				countRecord = -1;
+			}
 		}
+		
 
 		return record;
 	}
@@ -94,7 +99,10 @@ public class ImportFileJob extends QuartzJobBean {
 
 //				System.out.println(countRecord);
 //				System.out.println("count line   "+ReadFile.countLine);
-
+				if (countRecord == ReadFile.countLine) {
+					FileService.updateImportFile(file_id, "Done");
+				}
+				System.out.println("sssssssssssssssssssss3");
 			}
 		} catch (OracleException | SQLException e) {
 			e.printStackTrace();
