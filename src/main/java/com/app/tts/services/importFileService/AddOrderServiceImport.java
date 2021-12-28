@@ -32,8 +32,24 @@ public class AddOrderServiceImport extends MasterService {
     private static final String DELETE_OR = "{call PKG_IMPORT_FILE.del_or(?,?,?,?)}";
     private static final String DELETE_SHIPPING = "{call PKG_IMPORT_FILE.del_shipping(?,?,?,?)}";
     private static final String GET_SKUU = "{call PKG_IMPORT_FILE.get_sku1(?,?,?,?)}";
-    private static final String INSERT_FILE = "{call PKG_IMPORT_FILE.insert_file(?,?,?,?)}";
+    private static final String INSERT_FILE = "{call PKG_IMPORT_FILE.insert_file(?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String GET_FILE_1 = "{call PKG_IMPORT_FILE.get_file_1(?,?,?)}";
+    private static final String UPDATE_FILE = "{call PKG_IMPORT_FILE.update_file(?,?,?,?,?)}";
 
+    public static List<Map> updateFile1(String state, String id) throws SQLException {
+
+        List<Map> resultMap = excuteQuery(UPDATE_FILE, new Object[]{state, id});
+
+        return resultMap;
+    }
+
+
+    public static Map getFile1() throws SQLException {
+
+        Map resultMap = searchOne(GET_FILE_1, new Object[]{});
+
+        return resultMap;
+    }
 
     public static Map insertFile(String  p_id,
                                  String  p_file_name,
@@ -54,6 +70,7 @@ public class AddOrderServiceImport extends MasterService {
                         p_source,
                         p_state,
                         p_error_msg});
+
         return result;
     }
 

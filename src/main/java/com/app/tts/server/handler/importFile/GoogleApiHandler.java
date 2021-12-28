@@ -10,7 +10,6 @@ import io.vertx.rxjava.ext.web.RoutingContext;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +31,6 @@ public class GoogleApiHandler implements Handler<RoutingContext> {
                 String csvFile = ParamUtil.getString(jsonRequest, "file_name");
                 Random random = new Random();
                 String id = String.valueOf(random.nextInt(100000));
-                jsonRequest.put("file_id", id);
                 File uploadFile = new File(csvFile);
                 String nameFile = CreateGoogleApi.fileName(uploadFile);
                 com.google.api.services.drive.model.File googleFile = CreateGoogleApi.createGoogleFile("1o5VrvjzjSuEa-OZMWXplehBdz3vuG6A8", "text/plain", nameFile, uploadFile);

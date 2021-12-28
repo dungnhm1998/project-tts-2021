@@ -177,7 +177,7 @@ public class TTSVertical extends AbstractVerticle {
 		router.route(HttpMethod.POST, "/import-file").handler(new importFileOrderHandler());
 
 		router.route(HttpMethod.GET, "/select").handler(new insertOrder());
-		router.route(HttpMethod.POST, "/login-google").handler(new GoogleApiHandler());
+		router.route(HttpMethod.POST, "/select-google").handler(new GoogleApiHandler());
 
 		router.route(HttpMethod.GET, "/test/:id").handler(new UsHandler());
 		router.route(HttpMethod.POST, "/test").handler(new PostOrderHandler());

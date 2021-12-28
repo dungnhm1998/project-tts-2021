@@ -13,6 +13,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +60,7 @@ public class GoogleDriveUtils {
             throw new FileNotFoundException("Please copy " + CLIENT_SECRET_FILE_NAME //
                     + " to folder: " + CREDENTIALS_FOLDER.getAbsolutePath());
         }
+//        InputStream in = new FileInputStream(clientSecretFilePath);
 
         InputStream in = driverQuickStart.class.getResourceAsStream("/json/client_secret.json");
 

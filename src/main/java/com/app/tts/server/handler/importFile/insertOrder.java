@@ -1,5 +1,6 @@
 package com.app.tts.server.handler.importFile;
 
+import com.app.tts.server.handler.importFile.utilGoogle.DownloadFile;
 import com.app.tts.server.handler.leagen.getBaseHandler;
 import com.app.tts.services.importFileService.AddOrderServiceImport;
 import com.app.tts.util.AppParams;
@@ -7,224 +8,159 @@ import com.app.tts.util.ParamUtil;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Handler;
 import io.vertx.rxjava.ext.web.RoutingContext;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
-import java.util.HashSet;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.logging.Logger;
 
 public class insertOrder implements Handler<RoutingContext> {
-
+    private static int count = 0;
+    private static List<CSVRecord> listData = new LinkedList();
+    private static List<Map> listMapData = new LinkedList<>();
+    public static List<String> nameColumnList = new LinkedList<>();
     @Override
     public void handle(RoutingContext routingContext) {
         routingContext.vertx().executeBlocking(future -> {
             try {
 
-                Random rand = new Random();
-                Set<String> Var = new HashSet();
+                Map getFile = AddOrderServiceImport.getFile1();
+                String id = ParamUtil.getString(getFile, "S_ID");
+                String url = ParamUtil.getString(getFile, "S_URL");
+                String type = ParamUtil.getString(getFile, "S_TYPE");
+                String userId = ParamUtil.getString(getFile, "S_USER_ID");
+                String storeId = ParamUtil.getString(getFile, "S_STORE_ID");
+                String file_name = "D://react//jarr/dung.csv";
+
+                DownloadFile.Download(url, file_name);
 
 
-                String ord = "", name = "", email = "", financialStatus = "", dateAt = "",
-                        state = "", lineitemQuantity = "", lineitemName = "", shippingName = "", shippingStreet = "",
-                        shippingAddress1 = "", shippingAddress2 = "", shippingCompany = "", shippingCity = "", shippingZip = "",
-                        shippingProvince = "", shippingCountry = "", shippingPhone = "", shippingMethod = "",
-                        notes = "", designFrontUrl = "", designBackUrl = "", mockupFrontUrl = "", mockupBackUrl = "",
-                        currency = "", unitAmount = "", location = "", store = "", source = "",
-                        note = "", country = "", variantId = "", userId = "";
-                int checkValidAddress = 0;
-                Map data = new LinkedHashMap();
+                try (
+                        Reader reader = new FileReader(file_name);
 
-                //  order
-                int quantity = 0;
+                        CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 
-                String reference_id = "", stateOr = "created", extra_fee = "", taxAmount = "", iossNumber = "";
-                // order prodduct
-                String price = "", sizeId = "", sizeName = "";
-                // shipping
-                String postalCode = "", pState = "approved", redex = "^(.*[a-zA-Z0-9].*)[|](.*[a-zA-Z0-9].*)$";
-                List<Map> getfile = AddOrderServiceImport.getFile();
-                for (Map m : getfile) {
-                    String sku1 = ParamUtil.getString(m, "S_LINEITEM_SKU");
-                    Var.add(sku1);
-                }
-                // order and shipping
-                Map m1 = getfile.get(0);
-                currency = ParamUtil.getString(m1, "S_CURRENCY");
-                notes = ParamUtil.getString(m1, "S_NOTES");
-                source = ParamUtil.getString(m1, "S_SOURCE");
-                checkValidAddress = ParamUtil.getBoolean(m1, "S_BY_PASS_CHECK_ADRESS") ? 0 : 1;
-                note = ParamUtil.getString(m1, "S_NOTES");
-                shippingMethod = ParamUtil.getString(m1, "S_SHIPPING_METHOD");
-                unitAmount = ParamUtil.getString(m1, "S_UNIT_AMOUNT");
-                email = ParamUtil.getString(m1, "S_EMAIL");
-                shippingName = ParamUtil.getString(m1, "S_SHIPPING_NAME");
-                shippingPhone = ParamUtil.getString(m1, "S_SHIPPING_PHONE");
-                shippingAddress1 = ParamUtil.getString(m1, "S_SHIPPING_ADDRESS1");
-                shippingAddress2 = ParamUtil.getString(m1, "S_SHIPPING_ADDRESS2");
-                shippingCity = ParamUtil.getString(m1, "S_SHIPPING_CITY");
-                country = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
-                userId = ParamUtil.getString(m1, "S_USER_ID");
-                shippingCountry = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
+                ) {
+                    Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
-
-                String order = String.valueOf(rand.nextInt(100000));
-                String orderId = userId + "-" + "CT" + "-" + order;
-                String sipId = String.valueOf(rand.nextInt(100000));
-                String shippingId = userId + "-" + "CT" + "-" + sipId;
-
-
-                Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
-                        checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
-
-                Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
-                        shippingAddress2, shippingCity, stateOr, postalCode, shippingCountry, country);
-
-
-                for (String groupfile : Var) {
-                    for (Map s : getfile) {
-                        if (groupfile.matches(redex)) {
-                            String[] lineSku = groupfile.split("\\|");
-                            if (lineSku.length >= 2) {
-                                variantId = lineSku[0];
-                                sizeId = lineSku[1];
-
-                                String orDrId = String.valueOf(rand.nextInt(100000));
-                                String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
-
-
-                                ord = ParamUtil.getString(s, "S_ID");
-                                name = ParamUtil.getString(s, "S_REFERENCE_ORDER");
-                                financialStatus = ParamUtil.getString(s, "S_FINANCIAL_STATUS");
-                                dateAt = ParamUtil.getString(s, "D_CREATE");
-//
-                                state = ParamUtil.getString(s, "S_STATE");
-                                lineitemQuantity = ParamUtil.getString(s, "S_LINEITEM_QUANTITY");
-                                quantity = Integer.parseInt(lineitemQuantity);
-                                lineitemName = ParamUtil.getString(s, "S_LINEITEM_NAME");
-
-                                shippingStreet = ParamUtil.getString(s, "S_SHIPPING_STREET");
-                                shippingCompany = ParamUtil.getString(s, "S_SHIPPING_COMPANY");
-                                shippingZip = ParamUtil.getString(s, "S_SHIPPING_ZIP");
-                                shippingProvince = ParamUtil.getString(s, "S_SHIPPING_PROVINCE");
-                                designFrontUrl = ParamUtil.getString(s, "S_DESIGN_FRONT_URL");
-                                designBackUrl = ParamUtil.getString(s, "S_DESIGN_BACK_URL");
-                                mockupFrontUrl = ParamUtil.getString(s, "S_MOCKUP_FRONT_URL");
-                                mockupBackUrl = ParamUtil.getString(s, "S_MOCKUP_BACK_URL");
-                                location = ParamUtil.getString(s, "S_FULFILLMENT_LOCATION");
-                                store = ParamUtil.getString(s, "S_STORE_ID");
-
-
-                                Map get2 = AddOrderServiceImport.getVarById(variantId);
-                                String idm = ParamUtil.getString(get2, "S_VAR_ID");
-                                boolean dup = false;
-
-                                if (!get2.isEmpty()) {
-
-                                    Map get1 = AddOrderServiceImport.getVariantId(idm);
-
-                                    String imageId = ParamUtil.getString(get1, "S_IMAGE_ID");
-                                    String color = ParamUtil.getString(get1, "S_COLOR_ID");
-                                    Map colorId = AddOrderServiceImport.getColorById(color);
-                                    String nameColor = ParamUtil.getString(colorId, "S_NAME");
-                                    Map size = AddOrderServiceImport.getSize(sizeId);
-                                    String nameSize = ParamUtil.getString(size, "NAME_SIZE");
-                                    String dropshipPrice = ParamUtil.getString(size, "PRICE");
-
-
-                                    String colorValue = ParamUtil.getString(get1, "S_COLOR_VALUE");
-                                    String baseId = ParamUtil.getString(get1, "S_BASE_ID");
-                                    String FRONT_IMG_URL = ParamUtil.getString(get1, "S_FRONT_IMG_URL");
-                                    String BACK_IMG_URL = ParamUtil.getString(get1, "S_BACK_IMG_URL");
-                                    Map get = AddOrderServiceImport.getUrlImage(imageId);
-
-
-                                    List<Map> orderProduct = AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, lineitemName,
-                                            baseId, FRONT_IMG_URL, BACK_IMG_URL, color, colorValue, nameColor, nameSize, unitAmount, designBackUrl, designFrontUrl);
-
-                                    List<Map> updateRows = AddOrderServiceImport.updateRows(pState, ord);
-
-                                    data.put("Order", updateRows);
-
-                                } else {
-                                    LOGGER.info("variant in valid" + variantId);
-                                    //do tạo order trước nhưng do variant k có lên delete or and shipping
-                                    AddOrderServiceImport.deleteOr(orderId);
-                                    AddOrderServiceImport.deleteShipping(shippingId);
-                                }
-                            }
-                        } else {
-                            Map getSku = AddOrderServiceImport.getSkuBySku(groupfile);
-
-                            String sizeId1 = ParamUtil.getString(getSku, "S_SIZE_ID");
-                            String sizeName1 = ParamUtil.getString(getSku, "S_SIZE_NAME");
-                            String colorId1 = ParamUtil.getString(getSku, "S_COLOR_ID");
-                            String colorName1 = ParamUtil.getString(getSku, "S_COLOR_NAME");
-                            String colorValue1 = ParamUtil.getString(getSku, "S_COLOR_VALUE");
-                            String price1 = ParamUtil.getString(getSku, "S_PRICE");
-                            String baseID1 = ParamUtil.getString(getSku, "S_BASE_ID");
-
-                            userId = ParamUtil.getString(s, "S_USER_ID");
-
-
-                            ord = ParamUtil.getString(s, "S_ID");
-                            name = ParamUtil.getString(s, "S_REFERENCE_ORDER");
-                            email = ParamUtil.getString(s, "S_EMAIL");
-                            financialStatus = ParamUtil.getString(s, "S_FINANCIAL_STATUS");
-                            dateAt = ParamUtil.getString(s, "D_CREATE");
-//
-                            state = ParamUtil.getString(s, "S_STATE");
-                            lineitemQuantity = ParamUtil.getString(s, "S_LINEITEM_QUANTITY");
-                            quantity = Integer.parseInt(lineitemQuantity);
-                            lineitemName = ParamUtil.getString(s, "S_LINEITEM_NAME");
-
-                            shippingName = ParamUtil.getString(s, "S_SHIPPING_NAME");
-                            shippingStreet = ParamUtil.getString(s, "S_SHIPPING_STREET");
-                            shippingAddress1 = ParamUtil.getString(s, "S_SHIPPING_ADDRESS1");
-                            shippingAddress2 = ParamUtil.getString(s, "S_SHIPPING_ADDRESS2");
-                            shippingCompany = ParamUtil.getString(s, "S_SHIPPING_COMPANY");
-                            shippingCity = ParamUtil.getString(s, "S_SHIPPING_CITY");
-                            shippingZip = ParamUtil.getString(s, "S_SHIPPING_ZIP");
-                            shippingProvince = ParamUtil.getString(s, "S_SHIPPING_PROVINCE");
-                            shippingCountry = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
-                            shippingPhone = ParamUtil.getString(s, "S_SHIPPING_PHONE");
-                            shippingMethod = ParamUtil.getString(s, "S_SHIPPING_METHOD");
-                            notes = ParamUtil.getString(s, "S_NOTES");
-                            designFrontUrl = ParamUtil.getString(s, "S_DESIGN_FRONT_URL");
-                            designBackUrl = ParamUtil.getString(s, "S_DESIGN_BACK_URL");
-                            mockupFrontUrl = ParamUtil.getString(s, "S_MOCKUP_FRONT_URL");
-                            mockupBackUrl = ParamUtil.getString(s, "S_MOCKUP_BACK_URL");
-                            checkValidAddress = ParamUtil.getBoolean(s, "S_BY_PASS_CHECK_ADRESS") ? 0 : 1;
-                            currency = ParamUtil.getString(s, "S_CURRENCY");
-                            unitAmount = ParamUtil.getString(s, "S_UNIT_AMOUNT");
-                            location = ParamUtil.getString(s, "S_FULFILLMENT_LOCATION");
-                            store = ParamUtil.getString(s, "S_STORE_ID");
-                            source = ParamUtil.getString(s, "S_SOURCE");
-                            note = ParamUtil.getString(s, "S_NOTES");
-                            country = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
-
-
-                            String orDrId = String.valueOf(rand.nextInt(100000));
-                            String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
-
-                            List<Map> orderProduct = AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId1, price1, quantity, lineitemName,
-                                    baseID1, designFrontUrl, designBackUrl, colorId1, colorValue1, colorName1, sizeName1, unitAmount, designBackUrl, designFrontUrl);
-
-                            List<Map> updateRows = AddOrderServiceImport.updateRows(pState, ord);
-
-                            data.put("Order", updateRows);
-
-                        }
-
+                    for (CSVRecord csvRecord : csvRecords) {
+                        listData.add(csvRecord);
                     }
+
+                    CSVRecord columnName = listData.get(0);
+                    int countEmptyNameColumn = 0;
+
+                    for (String key : columnName) {
+                        if (key.equals("")) {
+                            countEmptyNameColumn++;
+                        }
+                        // loai bo het dau cach thua; trim() loai bo dau cach dau, cuoi
+                        nameColumnList.add(key.replaceAll("\\s\\s+", " ").trim());
+                    }
+                    System.out.println("co " + countEmptyNameColumn + " cot khong co ten cot");
+
+                    List<String> nameColumnOutput = nameColumnOutputA2075();
+
+
+                    boolean checkFullColumn = true;
+                    for (String nameColumn : nameColumnOutput) {
+                        if (!nameColumnList.contains(nameColumn)) {
+                            System.out.println("thieu cot: " + nameColumn);
+                            checkFullColumn = false;
+                        }
+                    }
+                    if (checkFullColumn) {
+                        for (int number = 1; number < listData.size(); number++) {
+                            CSVRecord csvRecord = listData.get(number);
+                            Map<String, String> mapOneLine = new LinkedHashMap<>();
+                            int countColumn = 0;
+                            for (String key : nameColumnList) { //columnName) {
+                                // them vao map key, value tuong ung
+                                mapOneLine.put(key, csvRecord.get(countColumn));
+                                countColumn++;
+                            }
+                            listMapData.add(mapOneLine);
+                        }
+                    }
+                    System.out.println("---------------loading...");
+
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+
+                Map data = new HashMap();
+                List<Map> importFile = new LinkedList<>();
+                Random rand = new Random();
+
+                for (Map s : listMapData) {
+                    String ord = String.valueOf(rand.nextInt(100000));
+                    String name = ParamUtil.getString(s, "Name");
+                    String email = ParamUtil.getString(s, "Email");
+                    String financialStatus = ParamUtil.getString(s, "Financial Status");
+                    String dateAt = ParamUtil.getString(s, "Created at");
+                    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+                    Date strDate = dateFormat.parse(dateAt);
+                    String state = "created";
+                    String lineitemQuantity = ParamUtil.getString(s, "Lineitem quantity");
+                    String lineitemName = ParamUtil.getString(s, "Lineitem name");
+                    String lineitemSku = ParamUtil.getString(s, "Lineitem sku");
+                    String shippingName = ParamUtil.getString(s, "Shipping Name");
+                    String shippingStreet = ParamUtil.getString(s, "Shipping Street");
+                    String shippingAddress1 = ParamUtil.getString(s, "Shipping Address1");
+                    String shippingAddress2 = ParamUtil.getString(s, "Shipping Address2");
+                    String shippingCompany = ParamUtil.getString(s, "Shipping Company");
+                    String shippingCity = ParamUtil.getString(s, "Shipping City");
+                    String shippingZip = ParamUtil.getString(s, "Shipping Zip");
+                    String shippingProvince = ParamUtil.getString(s, "Shipping Province");
+                    String shippingCountry = ParamUtil.getString(s, "Shipping Country");
+                    String shippingPhone = ParamUtil.getString(s, "Shipping Phone");
+                    String shippingMethod = ParamUtil.getString(s, "Shipping method");
+                    String notes = ParamUtil.getString(s, "Notes");
+                    String designFrontUrl = ParamUtil.getString(s, "Design front url");
+                    String designBackUrl = ParamUtil.getString(s, "Design back url");
+                    String mockupFrontUrl = ParamUtil.getString(s, "Mockup front url");
+                    String mockupBackUrl = ParamUtil.getString(s, "Design back url");
+                    String checkValidAddress = ParamUtil.getString(s, "Check vaild adress");
+                    String currency = ParamUtil.getString(s, "Currency");
+                    String unitAmount = ParamUtil.getString(s, "Unit amount");
+                    String location = ParamUtil.getString(s, "Location");
+
+                    importFile = AddOrderServiceImport.importFileRows(name, id, userId, file_name, email, financialStatus, strDate, state,
+                            storeId, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
+                            shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
+                            ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
+                            checkValidAddress, currency, unitAmount, location);
+                    String stateFile = "done";
+                    AddOrderServiceImport.updateFile1("done", id);
+
+                    System.out.println("map" + s);
+                }
+
+
+                data.put("import file rows", "success");
 
 
                 routingContext.put(AppParams.RESPONSE_CODE, HttpResponseStatus.OK.code());
                 routingContext.put(AppParams.RESPONSE_MSG, HttpResponseStatus.OK.reasonPhrase());
-                routingContext.put(AppParams.RESPONSE_DATA, data);
+                routingContext.put(AppParams.RESPONSE_DATA, getFile);
                 future.complete();
             } catch (Exception e) {
                 routingContext.fail(e);
@@ -240,5 +176,37 @@ public class insertOrder implements Handler<RoutingContext> {
 
     private static final Logger LOGGER = Logger.getLogger(getBaseHandler.class.getName());
 
+    public static List<String> nameColumnOutputA2075() {
+        List<String> nameColumnOutput = new LinkedList<>();
+        nameColumnOutput.add("Name");
+        nameColumnOutput.add("Email");
+        nameColumnOutput.add("Financial Status");
+        nameColumnOutput.add("Paid at");
+        nameColumnOutput.add("Created at");
+        nameColumnOutput.add("Lineitem quantity");
+        nameColumnOutput.add("Lineitem name");
+        nameColumnOutput.add("Lineitem sku");
+        nameColumnOutput.add("Shipping Name");
+        nameColumnOutput.add("Shipping Street");
+        nameColumnOutput.add("Shipping Address1");
+        nameColumnOutput.add("Shipping Address2");
+        nameColumnOutput.add("Shipping Company");
+        nameColumnOutput.add("Shipping City");
+        nameColumnOutput.add("Shipping Zip");
+        nameColumnOutput.add("Shipping Province");
+        nameColumnOutput.add("Shipping Country");
+        nameColumnOutput.add("Shipping Phone");
+        nameColumnOutput.add("Notes");
+        nameColumnOutput.add("Id");
+        nameColumnOutput.add("Design front url");
+        nameColumnOutput.add("Design back url");
+        nameColumnOutput.add("Mockup front url");
+        nameColumnOutput.add("Mockup back url");
+        nameColumnOutput.add("Check vaild adress");
+        nameColumnOutput.add("Currency");
+        nameColumnOutput.add("Unit amount");
+        nameColumnOutput.add("Location");
+        return nameColumnOutput;
+    }
 }
 
