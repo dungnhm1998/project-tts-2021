@@ -44,7 +44,7 @@ public class insertOrder implements Handler<RoutingContext> {
                 String type = ParamUtil.getString(getFile, "S_TYPE");
                 String userId = ParamUtil.getString(getFile, "S_USER_ID");
                 String storeId = ParamUtil.getString(getFile, "S_STORE_ID");
-                String file_name = "D://react//jarr" + userId;
+                String file_name = "D://react//jarr/dung.csv";
 
                 DownloadFile.Download(url, file_name);
 
