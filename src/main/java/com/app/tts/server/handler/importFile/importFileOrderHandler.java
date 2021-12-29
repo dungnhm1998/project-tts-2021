@@ -149,11 +149,7 @@ public class importFileOrderHandler implements Handler<RoutingContext> {
                     String unitAmount = ParamUtil.getString(s, "Unit amount");
                     String location = ParamUtil.getString(s, "Location");
                     String store = "id";
-                    importFile = AddOrderServiceImport.importFileRows(name, idFile, userId, file_name, email, financialStatus, strDate,state,
-                            store, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
-                            shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
-                            ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
-                            checkValidAddress, currency, unitAmount, location);
+
                     System.out.println("map" + s);
                 }
 

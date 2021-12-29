@@ -135,7 +135,7 @@
     <bean id="cronTriggerQuartzJob"
           class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="QuartzJob"/>
-        <property name="cronExpression" value="0/10 * * * * ?"/>
+        <property name="cronExpression" value="0/20 * * * * ?"/>
     </bean>
 
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">

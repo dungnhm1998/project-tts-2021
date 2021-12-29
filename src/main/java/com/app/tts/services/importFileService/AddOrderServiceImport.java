@@ -176,7 +176,7 @@ public class AddOrderServiceImport extends MasterService {
 
     public static List<Map> importFileRows(
             String reference_order, String fileId, String user_id, String file_name, String email, String financial_status,
-            Date dateAt, String state,
+             String state, String groupColumn,
             String storeid, String lineitem_quantity, String lineitem_name, String lineitem_sku,
             String shipping_name, String shipping_street, String shipping_address1, String shipping_address2, String shipping_company,
             String shipping_city, String shipping_zip, String shipping_province, String shipping_country,
@@ -187,7 +187,7 @@ public class AddOrderServiceImport extends MasterService {
 
         List<Map> importFile = excuteQuery(IMPORT_FILE_ROWS, new Object[]{
                 reference_order, fileId, user_id, file_name, email,
-                financial_status, dateAt, state, storeid, lineitem_quantity,
+                financial_status, state, groupColumn, storeid, lineitem_quantity,
                 lineitem_name, lineitem_sku,
                 shipping_name, shipping_street, shipping_address1,
                 shipping_address2, shipping_company, shipping_city,
