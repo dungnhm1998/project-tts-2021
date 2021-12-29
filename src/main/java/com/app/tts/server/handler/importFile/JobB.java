@@ -155,7 +155,8 @@ public class JobB extends QuartzJobBean {
                                     data.put("Order", updateRows);
 
                                 } else {
-                                    List<Map> updateRows = AddOrderServiceImport.updateRows(pState1, rowsId);
+
+                                    AddOrderServiceImport.updateRows(pState1, rowsId);
                                     LOGGER.info("{" + rowsId + "}" + " | " + "variant in valid" + ": " + variantId);
                                     //do tạo order trước nhưng do variant k có lên delete or and shipping
                                     AddOrderServiceImport.deleteOr(orderId);
@@ -236,7 +237,7 @@ public class JobB extends QuartzJobBean {
 
                             }
                         } else {
-                            List<Map> updateRows = AddOrderServiceImport.updateRows(pState1, rowsId);
+                            AddOrderServiceImport.updateRows(pState1, rowsId);
 
                             LOGGER.info("{" + rowsId + "}" + " | " + "variant in valid" + ": " + variantId);
                             //do tạo order trước nhưng do variant k có lên delete or and shipping

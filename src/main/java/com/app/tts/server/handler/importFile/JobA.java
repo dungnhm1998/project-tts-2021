@@ -9,11 +9,7 @@ import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -85,7 +81,7 @@ public class JobA extends QuartzJobBean {
             }
 
 
-        lst.clear();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e2) {
