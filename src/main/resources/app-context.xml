@@ -149,7 +149,7 @@
 	</bean>
 
 	<!-- Read Import File Job -->
-	<!-- <bean id="readImportFileRowsJob"
+	<bean id="readImportFileRowsJob"
 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass"
 			value="com.app.tts.server.job.ReadImportFileRowsJob" />
@@ -158,22 +158,11 @@
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="readImportFileRowsJob" />
 		<property name="cronExpression" value="0/1 * * ? * * *" />
-	</bean> -->
-
-	<!-- ImportFileJob -->
-	<!-- <bean id="importFile"
-		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
-		<property name="jobClass"
-			value="com.app.tts.server.job.ImportFileJob" />
 	</bean>
-	<bean id="cronTriggerImportFile"
-		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
-		<property name="jobDetail" ref="importFile" />
-		<property name="cronExpression" value="0/5 * * ? * * *" />
-	</bean> -->
+	
 
 	<!-- ShippingFileJob -->
-	<!-- <bean id="shippingFile"
+	<bean id="shippingFile"
 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass"
 			value="com.app.tts.server.job.InsertShippingByFileJob" />
@@ -182,10 +171,10 @@
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="shippingFile" />
 		<property name="cronExpression" value="0/5 * * ? * * *" />
-	</bean> -->
+	</bean> 
 
 
-	<!-- <bean id="orderProductFile"
+	<bean id="orderProductFile"
 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass"
 			value="com.app.tts.server.job.InsertOrderProductByFileJob" />
@@ -194,17 +183,16 @@
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="orderProductFile" />
 		<property name="cronExpression" value="0/5 * * ? * * *" />
-	</bean> -->
+	</bean>
 
 	<bean
 		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
 				<ref bean="cronTriggerReadImportFileJob" />
-				<!-- <ref bean="cronTriggerImportFile" /> -->
-				<!-- <ref bean="cronTriggerShippingFile" /> -->
-				<!-- <ref bean="cronTriggerReadImportFileRowsJob" /> -->
-				<!-- <ref bean="cronTriggerOrderProductFile" /> -->
+				<ref bean="cronTriggerShippingFile" />
+				<ref bean="cronTriggerReadImportFileRowsJob" />
+				<ref bean="cronTriggerOrderProductFile" />
 			</list>
 		</property>
 	</bean>

@@ -3,6 +3,8 @@ package com.app.tts.googledrive.example;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -82,13 +84,13 @@ public class CreateGoogleFile {
         String outFile = "D:/GOOGLE DRIVE API/" + "newfile.csv";
 //        DownloadFile.Download(googleFile.getWebContentLink(), outFile);
         URL url = new URL(googleFile.getWebContentLink());
-//        if(DownloadFile.Download(googleFile.getWebContentLink(), outFile) == true) {
-//        	System.out.println("OK");
-//        }else {
-//        	System.out.println("KO");
-//        }
-//  
-        DownloadFile.saveUrl(outFile, googleFile.getWebContentLink());
+        if(DownloadFile.Download(googleFile.getWebContentLink(), outFile) == true) {
+        	System.out.println("OK");
+        }else {
+        	System.out.println("KO");
+        }
+
+        Files.deleteIfExists(Paths.get(outFile));
 		System.out.println(outFile);
     }
     
