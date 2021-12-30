@@ -61,8 +61,8 @@ public class GoogleDriveUtils {
                     + " to folder: " + CREDENTIALS_FOLDER.getAbsolutePath());
         }
 //        InputStream in = new FileInputStream(clientSecretFilePath);
-
-        InputStream in = driverQuickStart.class.getResourceAsStream("/json/client_secret.json");
+        //InputStream in    = new FileInputStream("/json/client_secret.json");
+        InputStream in = DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

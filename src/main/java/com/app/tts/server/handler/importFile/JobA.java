@@ -8,6 +8,8 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,7 @@ public class JobA extends QuartzJobBean {
 
 
             List<Map> lst = Readfile.listMapData;
-
+            Files.deleteIfExists(Paths.get(file_name));
             for (Map s : lst) {
                 String ord = String.valueOf(rand.nextInt(100000));
                 String name = ParamUtil.getString(s, "Name");
@@ -64,12 +66,12 @@ public class JobA extends QuartzJobBean {
                 String mockupFrontUrl = ParamUtil.getString(s, "Mockup front url");
                 String mockupBackUrl = ParamUtil.getString(s, "Design back url");
                 String checkValidAddress = ParamUtil.getString(s, "Check vaild adress");
-
+                String type = ParamUtil.getString(s, "S_TYPE");
                 String currency = ParamUtil.getString(s, "Currency");
                 String unitAmount = ParamUtil.getString(s, "Unit amount");
                 String location = ParamUtil.getString(s, "Location");
                 String groupColumn = Md5Code.md5(id + storeId + userId + name);
-                AddOrderServiceImport.importFileRows(name, id, userId, file_name, email, financialStatus, state, groupColumn,
+                AddOrderServiceImport.importFileRows(name, id, userId, file_name, email, financialStatus, state, groupColumn, type ,
                         storeId, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
                         shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
                         ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
@@ -80,7 +82,7 @@ public class JobA extends QuartzJobBean {
                 System.out.println("map" + s);
             }
 
-
+            lst.clear();
 
         } catch (SQLException e) {
             e.printStackTrace();

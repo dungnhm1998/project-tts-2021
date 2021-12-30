@@ -9,6 +9,7 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -26,6 +27,7 @@ public class JobB extends QuartzJobBean {
             Random rand = new Random();
             Set<String> Var = new HashSet();
             Set<String> Var1 = new HashSet();
+            Set<String> Var2 = new HashSet();
 
 
             String ord = "", name = "", email = "", financialStatus = "", dateAt = "",
@@ -45,15 +47,22 @@ public class JobB extends QuartzJobBean {
             String price = "", sizeId = "", sizeName = "";
             // shipping
             String postalCode = "", pState = "approved", redex = "^(.*[a-zA-Z0-9].*)[|](.*[a-zA-Z0-9].*)$", redex1 = "^[0-9]*[-][0-9]*[-][0-9]*$";
-            List<Map> getRows = AddOrderServiceImport.getFile();
+            List<Map> getRows = new LinkedList<>();
+            getRows.clear();
+            getRows = AddOrderServiceImport.getFile();
+
+
             String file_id = "";
             String rowsId = "";
             for (Map m : getRows) {
                 String sku1 = ParamUtil.getString(m, "S_LINEITEM_SKU");
                 file_id = ParamUtil.getString(m, "S_FILE_ID");
                 rowsId = ParamUtil.getString(m, "S_ID");
-                Var.add(sku1);
+                String groupColumn = ParamUtil.getString(m, "S_GROUP_COLUMN");
+
                 Var1.add(rowsId);
+                Var2.add(groupColumn);
+
             }
 
             LOGGER.info("getRows" + " : " + getRows.size() + " | " + "file_id" + " : " + file_id + " | " + " " + Var1 + " ");
@@ -75,35 +84,36 @@ public class JobB extends QuartzJobBean {
             country = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
             userId = ParamUtil.getString(m1, "S_USER_ID");
             shippingCountry = ParamUtil.getString(m1, "S_SHIPPING_COUNTRY");
-            ord = ParamUtil.getString(m1, "S_ID");
 
 
-            String order = String.valueOf(rand.nextInt(100000));
-            String orderId = userId + "-" + "CT" + "-" + order;
-            String sipId = String.valueOf(rand.nextInt(100000));
-            String shippingId = userId + "-" + "CT" + "-" + sipId;
+//            List<Map> getColumnById1 = AddOrderServiceImport.getCloumn();
+
 
             if (currency.isEmpty()) {
                 LOGGER.info("rows id" + ": " + ord + " | " + " không có currency");
-                List<Map> updateRows = AddOrderServiceImport.updateRows(pState1, ord);
+                AddOrderServiceImport.updateRows(pState1, ord);
             } else {
+                String order = String.valueOf(rand.nextInt(100000));
+                String orderId = userId + "-" + "CT" + "-" + order;
+                String sipId = String.valueOf(rand.nextInt(100000));
+                String shippingId = userId + "-" + "CT" + "-" + sipId;
+
 
                 Map Order = AddOrderServiceImport.insertOrder(orderId, currency, stateOr, shippingId, notes, source, store, reference_id,
                         checkValidAddress, note, shippingMethod, taxAmount, unitAmount);
                 Map shipping = AddOrderServiceImport.insertShipping(shippingId, email, shippingName, shippingPhone, shippingAddress1,
                         shippingAddress2, shippingCity, stateOr, postalCode, shippingCountry, country);
 
-                for (String groupfile : Var) {
-                    if (groupfile.matches(redex)) {
-                        String[] lineSku = groupfile.split("\\|", -1);
-                        variantId = lineSku[0];
-                        sizeId = lineSku[1];
-
-                        if (lineSku.length >= 2) {
-                            for (Map s : getRows) {
-                                String orDrId = String.valueOf(rand.nextInt(100000));
-                                String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
-
+                for (Map s : getRows) {
+                    ord = ParamUtil.getString(s, "S_ID");
+                    String sku1 = ParamUtil.getString(s, "S_LINEITEM_SKU");
+                    Var.add(sku1);
+                    for (String groupfile : Var) {
+                        if (groupfile.matches(redex)) {
+                            String[] lineSku = groupfile.split("\\|", -1);
+                            variantId = lineSku[0];
+                            sizeId = lineSku[1];
+                            if (lineSku.length >= 2) {
                                 name = ParamUtil.getString(s, "S_REFERENCE_ORDER");
                                 financialStatus = ParamUtil.getString(s, "S_FINANCIAL_STATUS");
                                 dateAt = ParamUtil.getString(s, "D_CREATE");
@@ -145,7 +155,8 @@ public class JobB extends QuartzJobBean {
                                     String FRONT_IMG_URL = ParamUtil.getString(get1, "S_FRONT_IMG_URL");
                                     String BACK_IMG_URL = ParamUtil.getString(get1, "S_BACK_IMG_URL");
                                     Map get = AddOrderServiceImport.getUrlImage(imageId);
-
+                                    String orDrId = String.valueOf(rand.nextInt(100000));
+                                    String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
                                     List<Map> orderProduct = AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, lineitemName,
                                             baseId, FRONT_IMG_URL, BACK_IMG_URL, color, colorValue, nameColor, nameSize, unitAmount, designBackUrl, designFrontUrl);
@@ -164,14 +175,8 @@ public class JobB extends QuartzJobBean {
 
                                 }
                             }
-                        }
-                    } else {
-                        List<Map> sku1 = AddOrderServiceImport.get_sku1(groupfile);
-
-                        if (!sku1.isEmpty() && groupfile.matches(redex1)) {
-
-                            for (Map s : getRows) {
-
+                        } else {
+                            if (!sku1.isEmpty() && groupfile.matches(redex1)) {
 
                                 Map getSku = AddOrderServiceImport.getSkuBySku(groupfile);
 
@@ -221,8 +226,6 @@ public class JobB extends QuartzJobBean {
                                 source = ParamUtil.getString(s, "S_SOURCE");
                                 note = ParamUtil.getString(s, "S_NOTES");
                                 country = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
-
-
                                 String orDrId = String.valueOf(rand.nextInt(100000));
                                 String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
@@ -235,18 +238,27 @@ public class JobB extends QuartzJobBean {
                                 String state2 = ParamUtil.getString(map, "S_STATE");
                                 data.put("update Rows" + " | ", idrow + " ; " + "State" + ": " + state2 + "|");
 
-                            }
-                        } else {
-                            AddOrderServiceImport.updateRows(pState1, rowsId);
 
-                            LOGGER.info("{" + rowsId + "}" + " | " + "variant in valid" + ": " + variantId);
-                            //do tạo order trước nhưng do variant k có lên delete or and shipping
-                            AddOrderServiceImport.deleteOr(orderId);
-                            AddOrderServiceImport.deleteShipping(shippingId);
+                            } else {
+                                AddOrderServiceImport.updateRows(pState1, rowsId);
+
+                                LOGGER.info("{" + rowsId + "}" + " | " + "variant in valid" + ": " + variantId);
+                                //do tạo order trước nhưng do variant k có lên delete or and shipping
+                                AddOrderServiceImport.deleteOr(orderId);
+                                AddOrderServiceImport.deleteShipping(shippingId);
+                            }
+
+
                         }
+
+
                     }
+
                 }
+
+
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e2) {

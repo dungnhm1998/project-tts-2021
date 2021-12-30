@@ -16,7 +16,7 @@ public class AddOrderServiceImport extends MasterService {
     private static final String INSERT_ORDER = "{call PKG_IMPORT_FILE.insert_dropship_order(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String INS_ORDER_PRODUCT = "{call PKG_IMPORT_FILE.insert_dropship_order_product(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String INS_SHIPPING = "{call PKG_IMPORT_FILE.insert_shipping_shipping(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-    public static final String IMPORT_FILE_ROWS = "{call PKG_IMPORT_FILE.IMPORT_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    public static final String IMPORT_FILE_ROWS = "{call PKG_IMPORT_FILE.IMPORT_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
     private static final String GET_ID_VARIANT = "{call PKG_IMPORT_FILE.get_id_variant(?,?,?,?)}";
     private static final String UPDATE_ROWS = "{call PKG_IMPORT_FILE.update_rows(?,?,?,?,?)}";
@@ -35,6 +35,23 @@ public class AddOrderServiceImport extends MasterService {
     private static final String INSERT_FILE = "{call PKG_IMPORT_FILE.insert_file(?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String GET_FILE_1 = "{call PKG_IMPORT_FILE.get_file_1(?,?,?)}";
     private static final String UPDATE_FILE = "{call PKG_IMPORT_FILE.update_file(?,?,?,?,?)}";
+    private static final String GET_COLUMN = "{call PKG_IMPORT_FILE.get_column(?,?,?)}";
+    private static final String GET_COLUMN_BY_ID = "{call PKG_IMPORT_FILE.get_column_by_id(?,?,?,?)}";
+
+    public static List<Map> getCloumnById(String id) throws SQLException {
+
+        List<Map> resultMap = excuteQuery(GET_COLUMN_BY_ID, new Object[]{id});
+
+        return resultMap;
+    }
+
+    public static List<Map> getCloumn() throws SQLException {
+
+        List<Map> resultMap = excuteQuery(GET_COLUMN, new Object[]{});
+
+        return resultMap;
+    }
+
 
     public static List<Map> updateFile1(String state, String id) throws SQLException {
 
@@ -176,7 +193,7 @@ public class AddOrderServiceImport extends MasterService {
 
     public static List<Map> importFileRows(
             String reference_order, String fileId, String user_id, String file_name, String email, String financial_status,
-             String state, String groupColumn,
+             String state, String groupColumn, String type,
             String storeid, String lineitem_quantity, String lineitem_name, String lineitem_sku,
             String shipping_name, String shipping_street, String shipping_address1, String shipping_address2, String shipping_company,
             String shipping_city, String shipping_zip, String shipping_province, String shipping_country,
@@ -187,7 +204,7 @@ public class AddOrderServiceImport extends MasterService {
 
         List<Map> importFile = excuteQuery(IMPORT_FILE_ROWS, new Object[]{
                 reference_order, fileId, user_id, file_name, email,
-                financial_status, state, groupColumn, storeid, lineitem_quantity,
+                financial_status, state, groupColumn, type,storeid, lineitem_quantity,
                 lineitem_name, lineitem_sku,
                 shipping_name, shipping_street, shipping_address1,
                 shipping_address2, shipping_company, shipping_city,

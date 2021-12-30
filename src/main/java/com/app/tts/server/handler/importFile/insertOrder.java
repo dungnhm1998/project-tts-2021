@@ -85,11 +85,11 @@ public class insertOrder implements Handler<RoutingContext> {
                         String unitAmount = ParamUtil.getString(s, "Unit amount");
                         String location = ParamUtil.getString(s, "Location");
                         String groupColumn = Md5Code.md5(id + storeId+ userId+ name);
-                        List<Map> importFile = AddOrderServiceImport.importFileRows(name, id, userId, file_name, email, financialStatus,  state, groupColumn,
-                                storeId, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
-                                shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
-                                ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
-                                checkValidAddress, currency, unitAmount, location);
+//                        List<Map> importFile = AddOrderServiceImport.importFileRows(name, id, userId, file_name, email, financialStatus,  state, groupColumn,
+//                                storeId, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
+//                                shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
+//                                ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
+//                                checkValidAddress, currency, unitAmount, location);
 
                         AddOrderServiceImport.updateFile1("done", id);
 

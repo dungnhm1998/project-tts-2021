@@ -24,7 +24,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
 
-public class driverQuickStart {
+public class DriveQuickstart {
     private static final String APPLICATION_NAME = "Google Drive API Java Quickstart";
 
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();

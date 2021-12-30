@@ -23,7 +23,7 @@ public class Readfile {
     public static List<String> nameColumnList = new ArrayList<>();
 
     public static void readFile(String fileCsv) {
-        nameColumnList.clear();
+
         try (
                 Reader reader = new FileReader(fileCsv);
 
@@ -38,6 +38,9 @@ public class Readfile {
 
             CSVRecord columnName = listData.get(0);
             int countEmptyNameColumn = 0;
+
+            nameColumnList.clear();
+
 
             for (String key : columnName) {
                 if (key.equals("")) {
