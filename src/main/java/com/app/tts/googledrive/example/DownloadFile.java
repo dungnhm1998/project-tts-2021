@@ -11,7 +11,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
 public class DownloadFile {
-	public static void Download(String urlStr, String file) {
+	public static boolean Download(String urlStr, String file) {
 			URL url;
 			try {
 				url = new URL(urlStr);
@@ -19,9 +19,9 @@ public class DownloadFile {
 				URLConnection urlConnection;
 				try {
 					urlConnection = new URL(urlStr).openConnection();
-					urlConnection.addRequestProperty("User-Agent", "Mozilla");
-			        urlConnection.setReadTimeout(5000);
-			        urlConnection.setConnectTimeout(5000);
+					urlConnection.addRequestProperty("User-Agent", "Microsoft Edge");
+//			        urlConnection.setReadTimeout(5000);
+//			        urlConnection.setConnectTimeout(5000);
 
 					BufferedInputStream bis;
 					try {
@@ -36,6 +36,7 @@ public class DownloadFile {
 						fis.close();
 						bis.close();
 						System.out.println("Download success");
+						return true;
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -49,6 +50,7 @@ public class DownloadFile {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			return false;
 	}
 	
 	
@@ -60,4 +62,27 @@ public class DownloadFile {
             fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
         }
     }
+	
+	public static void saveUrl(final String filename, final String urlString)
+	        throws MalformedURLException, IOException {
+	    BufferedInputStream in = null;
+	    FileOutputStream fout = null;
+	    try {
+	        in = new BufferedInputStream(new URL(urlString).openStream());
+	        fout = new FileOutputStream(filename);
+
+	        final byte data[] = new byte[1024];
+	        int count;
+	        while ((count = in.read(data, 0, 1024)) != -1) {
+	            fout.write(data, 0, count);
+	        }
+	    } finally {
+	        if (in != null) {
+	            in.close();
+	        }
+	        if (fout != null) {
+	            fout.close();
+	        }
+	    }
+	}
 }

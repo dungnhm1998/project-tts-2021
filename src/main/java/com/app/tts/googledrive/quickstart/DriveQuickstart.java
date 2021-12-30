@@ -32,7 +32,7 @@ public class DriveQuickstart {
 
     // Directory to store user credentials for this application.
     private static final java.io.File CREDENTIALS_FOLDER //
-            = new java.io.File(System.getProperty("user.home"), "credentials");
+    = new java.io.File(System.getProperty("D:"), "/demo/credentials");
 
     private static final String CLIENT_SECRET_FILE_NAME = "client_secret.json";
 
@@ -46,17 +46,19 @@ public class DriveQuickstart {
 
         java.io.File clientSecretFilePath = new java.io.File(CREDENTIALS_FOLDER, CLIENT_SECRET_FILE_NAME);
 
+        
         if (!clientSecretFilePath.exists()) {
             throw new FileNotFoundException("Please copy " + CLIENT_SECRET_FILE_NAME //
                     + " to folder: " + CREDENTIALS_FOLDER.getAbsolutePath());
         }
 
         // Load client secrets.
-//        InputStream in =
-//                DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
-        
-        InputStream in = new FileInputStream(clientSecretFilePath);
+        InputStream in = new FileInputStream("D:/demo/credentials/client_secret.json");
+//      InputStream in =
+//      DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
 
+        System.out.println("ss");
+        System.out.println(in.toString());
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
         // Build flow and trigger user authorization request.
@@ -70,10 +72,6 @@ public class DriveQuickstart {
     public static void main(String... args) throws IOException, GeneralSecurityException {
 
         System.out.println("CREDENTIALS_FOLDER: " + CREDENTIALS_FOLDER.getAbsolutePath());
-        
-//        System.out.println(CREDENTIALS_FOLDER);
-        System.out.println("Working Directory = " +
-                System.getProperty("user.dir"));
 
         // 1: Create CREDENTIALS_FOLDER
         if (!CREDENTIALS_FOLDER.exists()) {

@@ -29,7 +29,7 @@ public class GoogleDriveUtils {
 
     // Directory to store user credentials for this application.
     private static final java.io.File CREDENTIALS_FOLDER //
-            = new java.io.File(System.getProperty("user.home"), "credentials");
+            = new java.io.File(System.getProperty("D:"), "/demo/credentials");
 
     private static final String CLIENT_SECRET_FILE_NAME = "client_secret.json";
 
@@ -65,7 +65,7 @@ public class GoogleDriveUtils {
 //        InputStream in =
 //                DriveQuickstart.class.getResourceAsStream("/json/client_secret.json");
         
-        InputStream in = new FileInputStream(clientSecretFilePath);
+        InputStream in = new FileInputStream("D:/demo/credentials/client_secret.json");
 
         GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 

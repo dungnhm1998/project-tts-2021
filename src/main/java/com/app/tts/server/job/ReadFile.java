@@ -24,6 +24,7 @@ public class ReadFile {
 
 	public static void readCSV(String csvFile) {
 //		String csvFile = "D://CSV file/dung_test_import.csv";
+		nameColumnList.clear();
 		try (
 				Reader reader = new FileReader(csvFile);
 				CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
@@ -34,9 +35,9 @@ public class ReadFile {
 				listData.add(csvRecord);
 				c++;
 			}
+			System.out.println("sssssss   "+listData);
 			countLine = c;
 			System.out.println(countLine);
-
 			CSVRecord columnName = listData.get(0);
 			int countEmptyNameColumn = 0;
 
@@ -71,7 +72,10 @@ public class ReadFile {
 				}
 			}
 			if (checkFullColumn) {
+				System.out.println("listData      "+listData);
+				System.out.println("listData.size()      "+listData.size());
 				for (int number = 1; number < listData.size(); number++) {
+					System.out.println(number);
 					CSVRecord csvRecord = listData.get(number);
 					Map<String, String> mapOneLine = new LinkedHashMap<>();
 					int countColumn = 0;
@@ -83,6 +87,8 @@ public class ReadFile {
 					listMapData.add(mapOneLine);
 				}
 			}
+			System.out.println(listMapData);
+			System.out.println("file count :"+count);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -161,7 +161,7 @@
 	</bean> -->
 
 	<!-- ImportFileJob -->
-	<bean id="importFile"
+	<!-- <bean id="importFile"
 		class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
 		<property name="jobClass"
 			value="com.app.tts.server.job.ImportFileJob" />
@@ -170,7 +170,7 @@
 		class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="importFile" />
 		<property name="cronExpression" value="0/5 * * ? * * *" />
-	</bean>
+	</bean> -->
 
 	<!-- ShippingFileJob -->
 	<!-- <bean id="shippingFile"
@@ -201,7 +201,7 @@
 		<property name="triggers">
 			<list>
 				<ref bean="cronTriggerReadImportFileJob" />
-				<ref bean="cronTriggerImportFile" />
+				<!-- <ref bean="cronTriggerImportFile" /> -->
 				<!-- <ref bean="cronTriggerShippingFile" /> -->
 				<!-- <ref bean="cronTriggerReadImportFileRowsJob" /> -->
 				<!-- <ref bean="cronTriggerOrderProductFile" /> -->

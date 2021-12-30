@@ -2,6 +2,7 @@ package com.app.tts.googledrive.example;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,14 +70,33 @@ public class CreateGoogleFile {
         java.io.File uploadFile = new java.io.File("D:/CSV file/dung_test_import.csv");
 
         // Create Google File:
-
+        
         File googleFile = createGoogleFile("1b26RpoYRUyk-4oKj0SuCEt68erZc3Mf7", "text/plain", "newfile.csv", uploadFile);
-
+//        File googleFile = createGoogleFile("1MCcpry7abv4GpFcKjVuiNm7zskZbkZ55", "text/plain", "newfile.csv", uploadFile);
+        System.out.println("ss");
         System.out.println("Created Google file!");
         System.out.println("WebContentLink: " + googleFile.getWebContentLink() );
 //        System.out.println("WebViewLink: " + googleFile.getWebViewLink() );
 
         System.out.println("Done!");
+        String outFile = "D:/GOOGLE DRIVE API/" + "newfile.csv";
+//        DownloadFile.Download(googleFile.getWebContentLink(), outFile);
+        URL url = new URL(googleFile.getWebContentLink());
+//        if(DownloadFile.Download(googleFile.getWebContentLink(), outFile) == true) {
+//        	System.out.println("OK");
+//        }else {
+//        	System.out.println("KO");
+//        }
+//  
+        DownloadFile.saveUrl(outFile, googleFile.getWebContentLink());
+		System.out.println(outFile);
     }
+    
+    public static String fileName(java.io.File uploadFile) {
+		String name = FilenameUtils.getBaseName(uploadFile.toString());
+		String type = FilenameUtils.getExtension(uploadFile.toString());
+		String fileName = name + "." + type;
+		return fileName;
 
+	}
 }
