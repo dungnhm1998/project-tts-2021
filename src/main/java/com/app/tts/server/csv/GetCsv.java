@@ -20,11 +20,10 @@ public class GetCsv {
 	public static int n = 0;
 	public static List<CSVRecord> listData = new LinkedList();
     public static List<Map> listMapData = new LinkedList<>();
-	public static String filename = "C:\\Users\\Admin\\Downloads\\Telegram Desktop\\dung_test_import.csv";
 	public static List<String> header = new ArrayList<>();
 	public static List<String> nameColumnList = new LinkedList<>();
 	
-	public static void readCSV() throws CsvValidationException, IOException {
+	public static void readCSV(String fileName) throws CsvValidationException, IOException {
 
 		header.add("Name");
 		header.add("Email");
@@ -52,11 +51,11 @@ public class GetCsv {
 		header.add("Mockup front url");
 		header.add("Mockup back url");
 		header.add("Check vaild adress");
-		header.add("currency");
+		header.add("Currency");
 		header.add("Unit amount");
 		header.add("Location");
 		try (
-	             Reader reader = new FileReader(filename);
+	             Reader reader = new FileReader(fileName);
 				CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
 	        ) {
 	            Iterable<CSVRecord> csvRecords = csvParser.getRecords();

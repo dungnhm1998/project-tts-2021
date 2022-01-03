@@ -31,7 +31,7 @@ public class ImportOrder implements Handler<RoutingContext>{
 	public void handle(RoutingContext rc) {
 		rc.vertx().executeBlocking(future -> {
 			try {
-				GetCsv.readCSV();
+//				GetCsv.readCSV();
 				json = rc.getBodyAsJson().getMap();
 				
 				rc.put(AppParams.RESPONSE_CODE, HttpResponseStatus.CREATED.code());

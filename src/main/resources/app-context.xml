@@ -141,7 +141,7 @@
 	<bean id="cronTriggerJob1" 
                 class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="Job1" />
-		<property name="cronExpression" value="0/5 * * ? * * *" />
+		<property name="cronExpression" value="0/10 * * ? * * *" />
 	</bean>
 	
 	<bean id="cronTriggerJob2" 

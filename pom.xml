@@ -345,6 +345,23 @@
 		    <artifactId>google-oauth-client-jetty</artifactId>
 		    <version>1.23.0</version>
 		</dependency>
+		
+		<dependency>
+		    <groupId>org.im4java</groupId>
+		    <artifactId>im4java</artifactId>
+		    <version>1.4.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.openjfx</groupId>
+		    <artifactId>javafx-controls</artifactId>
+		    <version>11.0.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openjfx</groupId>
+		    <artifactId>javafx-fxml</artifactId>
+		    <version>11.0.2</version>
+		</dependency>
 
 	</dependencies>
 
