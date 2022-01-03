@@ -2,13 +2,9 @@ package com.app.tts.server.handler.importFile;
 
 import com.app.tts.services.importFileService.AddOrderServiceImport;
 import com.app.tts.util.ParamUtil;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +12,8 @@ import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
 
-public class JobB extends QuartzJobBean {
-
-    @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        Map data = new LinkedHashMap();
-
+public class  importFileOrder  {
+    public static void importFileOrder() {
         try {
 
             Random rand = new Random();
@@ -105,8 +97,8 @@ public class JobB extends QuartzJobBean {
                         shippingAddress2, shippingCity, stateOr, postalCode, shippingCountry, country);
 
 
-                for (String groupfile : Var) {
 
+                for (String groupfile : Var) {
                     if (groupfile.matches(redex)) {
                         String[] lineSku = groupfile.split("\\|");
                         variantId = lineSku[0];
@@ -230,7 +222,7 @@ public class JobB extends QuartzJobBean {
                             AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId1, price1, quantity, lineitemName,
                                     baseID1, designFrontUrl, designBackUrl, colorId1, colorValue1, colorName1, sizeName1, unitAmount, designBackUrl, designFrontUrl);
 
-                            List<Map> updateRows = AddOrderServiceImport.updateRows(pState, ord);
+                            AddOrderServiceImport.updateRows(pState, ord);
                             LOGGER.info("update Rows" + " | " + rowsId + " ; " + "State" + ": " + pState + "|");
 
 
@@ -253,13 +245,11 @@ public class JobB extends QuartzJobBean {
             e2.printStackTrace();
         } catch (Exception e1) {
             LOGGER.info("************************" + " " + e1.getMessage() + " " + "************************");
-
         }
-
         LOGGER.info("************************" + "DONE" + "************************");
-
     }
+    private static final Logger LOGGER = Logger.getLogger(importFileOrder.class.getName());
 
-    private static final Logger LOGGER = Logger.getLogger(JobB.class.getName());
+
 
 }

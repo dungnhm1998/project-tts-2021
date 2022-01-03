@@ -68,25 +68,25 @@ public class AddOrderServiceImport extends MasterService {
         return resultMap;
     }
 
-    public static Map insertFile(String  p_id,
-                                 String  p_file_name,
-                                 String  p_url,
-                                 String  p_type,
-                                 String  p_user_id,
-                                 String  p_store_id,
-                                 String  p_source,
-                                 String  p_state,
-                                 String  p_error_msg) throws SQLException {
+    public static Map insertFile(String  id,
+                                 String  file_name,
+                                 String  url,
+                                 String  type,
+                                 String  user_id,
+                                 String  store_id,
+                                 String  source,
+                                 String  state,
+                                 String  error_msg) throws SQLException {
         Map result = searchOne(INSERT_FILE,
-                new Object[]{p_id,
-                        p_file_name,
-                        p_url,
-                        p_type,
-                        p_user_id,
-                        p_store_id,
-                        p_source,
-                        p_state,
-                        p_error_msg});
+                new Object[]{id,
+                        file_name,
+                        url,
+                        type,
+                        user_id,
+                        store_id,
+                        source,
+                        state,
+                        error_msg});
 
         return result;
     }
@@ -228,35 +228,35 @@ public class AddOrderServiceImport extends MasterService {
     }
 
     public static Map insertOrder(
-            String p_orderid,
-            String p_currency,
-            String p_state,
-            String shippingId,
-            String p_note,
-            String p_source,
-            String p_storeid,
-            String p_referenceid,
-            int p_addrverifiedin,
-            String p_addrverifiednote,
-            String p_shippingmethod,
-            String p_taxamount,
-            String p_iossnumber
+            String orderid,
+            String currency,
+            String state,
+            String ippingId,
+            String note,
+            String source,
+            String storeid,
+            String referenceid,
+            int    addrverifiedin,
+            String addrverifiednote,
+            String shippingmethod,
+            String taxamount,
+            String iossnumber
     ) throws SQLException {
         Map result = new HashMap();
         Map insertOrder = searchOne(INSERT_ORDER, new Object[]{
-                p_orderid,
-                p_currency,
-                p_state,
-                shippingId,
-                p_note,
-                p_source,
-                p_storeid,
-                p_referenceid,
-                p_addrverifiedin,
-                p_addrverifiednote,
-                p_shippingmethod,
-                p_taxamount,
-                p_iossnumber
+                orderid,
+                currency,
+                state,
+                ippingId,
+                note,
+                source,
+                storeid,
+                referenceid,
+                addrverifiedin,
+                addrverifiednote,
+                shippingmethod,
+                taxamount,
+                iossnumber
         });
 
         System.out.println("insertOrder" + insertOrder);
@@ -298,41 +298,41 @@ public class AddOrderServiceImport extends MasterService {
 
 
     public static List<Map> insertOrderProduct(
-            String p_id,
-            String p_order_id,
-            String p_size_id,
+            String id,
+            String orderId,
+            String sizeId,
             String price,
-            int p_quantity,
-            String p_variant_name,
-            String p_base_id,
-            String p_variant_front_url,
-            String p_variant_back_url,
-            String p_color_id,
-            String p_color_value,
-            String p_color_name,
-            String p_size_name,
-            String p_unit_amount,
-            String p_design_back_url,
-            String p_design_front_url
+            int    quantity,
+            String variantName,
+            String baseId,
+            String variantFrontUrl,
+            String variantBackUrl,
+            String colorId,
+            String colorValue,
+            String colorName,
+            String sizeName,
+            String unitAmount,
+            String designBackUrl,
+            String designFrontUrl
     ) throws SQLException {
         Map result = new HashMap();
         List<Map> insertOrProduct = excuteQuery(INS_ORDER_PRODUCT, new Object[]{
-                p_id,
-                p_order_id,
-                p_size_id,
+                id,
+                orderId,
+                sizeId,
                 price,
-                p_quantity,
-                p_variant_name,
-                p_base_id,
-                p_variant_front_url,
-                p_variant_back_url,
-                p_color_id,
-                p_color_value,
-                p_color_name,
-                p_size_name,
-                p_unit_amount,
-                p_design_back_url,
-                p_design_front_url
+                quantity,
+                variantName,
+                baseId,
+                variantFrontUrl,
+                variantBackUrl,
+                colorId,
+                colorValue,
+                colorName,
+                sizeName,
+                unitAmount,
+                designBackUrl,
+                designFrontUrl
         });
         System.out.println("insertOrProduct" + insertOrProduct);
 

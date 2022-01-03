@@ -13,7 +13,6 @@ import com.app.tts.server.handler.common.ExceptionHandler;
 import com.app.tts.server.handler.common.RequestLoggingHandler;
 import com.app.tts.server.handler.common.ResponseHandler;
 import com.app.tts.server.handler.importFile.GoogleApiHandler;
-import com.app.tts.server.handler.importFile.importFileOrderHandler;
 import com.app.tts.server.handler.importFile.insertOrder;
 import com.app.tts.server.handler.leagen.CreateCampaignHandler;
 import com.app.tts.server.handler.leagen.GetCampaignHandler;
@@ -174,7 +173,6 @@ public class TTSVertical extends AbstractVerticle {
 //
 //		router.route(HttpMethod.POST, "/addOrders").handler(new updateDemoHanler());
 
-		router.route(HttpMethod.POST, "/import-file").handler(new importFileOrderHandler());
 
 		router.route(HttpMethod.GET, "/select").handler(new insertOrder());
 		router.route(HttpMethod.POST, "/select-google").handler(new GoogleApiHandler());

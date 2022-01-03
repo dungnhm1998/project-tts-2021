@@ -73,47 +73,6 @@ public class Readfile {
                     }
                     listMapData.add(mapOneLine);
                 }
-
-
-//                for (int number = 1; number < listData.size(); number++) {
-//                    CSVRecord csvRecord = listData.get(number);
-//                    Map mapOneLine = new HashMap();
-//                    int countColumn = 0;
-//
-//                        // them vao map key, value tuong ung
-//                        mapOneLine.put( "Name"                 , csvRecord.get(0));
-//                        mapOneLine.put( "Email"                , csvRecord.get(1));
-//                        mapOneLine.put( "Financial Status"     , csvRecord.get(2));
-//                        mapOneLine.put( "Paid at"              , csvRecord.get(3));
-//                        mapOneLine.put( "Created at"           , csvRecord.get(4));
-//                        mapOneLine.put( "Lineitem quantity"    , csvRecord.get(5));
-//                        mapOneLine.put( "Lineitem name"        , csvRecord.get(6));
-//                        mapOneLine.put( "Lineitem sku"         , csvRecord.get(7));
-//                        mapOneLine.put( "Shipping Name"        , csvRecord.get(8));
-//                        mapOneLine.put( "Shipping Street"      , csvRecord.get(9));
-//                        mapOneLine.put( "Shipping Address1"    , csvRecord.get(10));
-//                        mapOneLine.put( "Shipping Address2"    , csvRecord.get(11));
-//                        mapOneLine.put( "Shipping Company"     , csvRecord.get(12));
-//                        mapOneLine.put( "Shipping City"        , csvRecord.get(13));
-//                        mapOneLine.put( "Shipping Zip"         , csvRecord.get(14));
-//                        mapOneLine.put( "Shipping Province"    , csvRecord.get(15));
-//                        mapOneLine.put( "Shipping Country"     , csvRecord.get(16));
-//                        mapOneLine.put( "Shipping Phone"       , csvRecord.get(17));
-//                        mapOneLine.put( "Shipping method"      , csvRecord.get(18));
-//                        mapOneLine.put( "Notes"                , csvRecord.get(19));
-//                        mapOneLine.put( "Id"                   , csvRecord.get(20));
-//                        mapOneLine.put( "Design front url"     , csvRecord.get(21));
-//                        mapOneLine.put( "Design back url"      , csvRecord.get(22));
-//                        mapOneLine.put( "Mockup front url"     , csvRecord.get(23));
-//                        mapOneLine.put( "Mockup back url"      , csvRecord.get(24));
-//                        mapOneLine.put( "Check vaild adress"   , csvRecord.get(25));
-//                        mapOneLine.put( "Currency"             , csvRecord.get(26));
-//                        mapOneLine.put( "Unit amount"          , csvRecord.get(27));
-//                        mapOneLine.put( "Location"             , csvRecord.get(28));
-//
-//                    listMapData.add(mapOneLine);
-//                }
-
             }
             System.out.println("---------------loading...");
 

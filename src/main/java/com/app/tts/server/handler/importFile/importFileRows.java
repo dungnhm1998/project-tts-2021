@@ -5,46 +5,37 @@ import com.app.tts.server.handler.importFile.utilGoogle.DownloadFile;
 import com.app.tts.services.importFileService.AddOrderServiceImport;
 import com.app.tts.util.ParamUtil;
 import org.apache.commons.io.FilenameUtils;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.logging.Logger;
 
-public class JobA extends QuartzJobBean {
-
-
-    @Override
-    protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
+public class importFileRows {
+    public static void importFileRow() {
         try {
-
             Map getFile = AddOrderServiceImport.getFile1();
             String id = ParamUtil.getString(getFile, "S_ID");
             String url = ParamUtil.getString(getFile, "S_URL");
             String userId = ParamUtil.getString(getFile, "S_USER_ID");
             String storeId = ParamUtil.getString(getFile, "S_STORE_ID");
 
-            String prefix = id + "-" + "quy.csv";
-            String file_name = "D://react//jarr/" + prefix;
+            String prefix = id + "-" + "userQ.csv";
+            String file_name = "D://react//jarr//" + prefix;
             String type = FilenameUtils.getExtension(file_name);
 
-            System.out.println("---------");
+
+            System.out.println("1---2---3---loading......");
             System.out.println(getFile);
 
+
+            // download file save in TB_DROPSHIP_IMPORT_FILE
             DownloadFile.Download(url, file_name);
 
-            Readfile.readFile(file_name);
             Random rand = new Random();
-
-
             List<Map> lst = Readfile.listMapData;
-            Files.deleteIfExists(Paths.get(file_name));
+//            Files.deleteIfExists(Paths.get(file_name)); // xóa File khi download xong
             for (Map s : lst) {
                 String ord = String.valueOf(rand.nextInt(100000));
                 String name = ParamUtil.getString(s, "Name");
@@ -85,7 +76,9 @@ public class JobA extends QuartzJobBean {
 
                 System.out.println("map" + s);
             }
+
             lst.clear();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException e2) {
@@ -93,11 +86,7 @@ public class JobA extends QuartzJobBean {
             e2.printStackTrace();
         } catch (Exception e1) {
             LOGGER.info("************************" + " " + e1.getMessage() + " " + "************************");
-
         }
     }
-
-    private static final Logger LOGGER = Logger.getLogger(JobA.class.getName());
-
-
+    private static final Logger LOGGER = Logger.getLogger(importFileRows.class.getName());
 }

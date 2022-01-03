@@ -43,7 +43,6 @@ public class GetOrderByIdHandler implements Handler<RoutingContext> {
             }
         });
     }
-
     public static Map getOrder(String id) throws SQLException {
         Map result = OrderService.getOrderById(id);
         return result;
