@@ -1,6 +1,9 @@
 package com.app.tts.main.quartz;
 
+import com.app.tts.encode.Md5Code;
 import com.app.tts.services.OrderService;
+import com.app.tts.util.AppParams;
+import com.app.tts.util.ParamUtil;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -9,6 +12,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -21,8 +25,9 @@ public class QuartzJob implements Job {// extends QuartzJobBean {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         System.out.println("--------------QuartzJob - ReadFile---------------");
+        insertTBFile();
 //        System.out.println(readOneLine());
-//        System.out.println("-------------------------------------");
+        System.out.println("----------------end QuartzJob---------------------");
 
 //    }
 
@@ -133,7 +138,88 @@ public class QuartzJob implements Job {// extends QuartzJobBean {
 
     }
 
-    // c2.3
+    public void insertTBFile() {
+        try {
+            Map data = OrderService.getTBFileOld();
+
+            if (!data.isEmpty()) {
+                String fileId = ParamUtil.getString(data, AppParams.S_ID);
+                String userId = ParamUtil.getString(data, AppParams.S_USER_ID);
+                String storeId = ParamUtil.getString(data, AppParams.S_STORE_ID);
+                String source = ParamUtil.getString(data, AppParams.S_SOURCE);
+
+                ReadFile.csvFile = "E:\\fileDriveTest\\" + fileId;
+                ReadFile.readFile();
+
+                //insert 1 lan het file.csv vao tb_file_row
+                int countRecord = 0;
+                List<Map> listRecords = ReadFile.listMapData;
+                while (countRecord < listRecords.size()) {
+                    Map<String, String> record = listRecords.get(countRecord);
+                    countRecord++;
+
+                    //file_rows
+                    Random rand = new Random();
+                    String id = String.valueOf(rand.nextInt(1000000000));
+                    String name = record.get("Name");
+                    String email = record.get("Email");
+                    String financialStatus = record.get("Financial Status");
+
+                    String groupColumn = Md5Code.md5(fileId + "," + storeId + "," + userId + "," + name);
+                    String lineItemQuantity = record.get("Lineitem quantity");
+                    String lineItemName = record.get("Lineitem name");
+                    String lineItemSku = record.get("Lineitem sku");
+
+                    String shippingName = record.get("Shipping Name");
+                    String shippingStreet = record.get("Shipping Street");
+                    String shippingAddress1 = record.get("Shipping Address1");
+                    String shippingAddress2 = record.get("Shipping Address2");
+                    String shippingCompany = record.get("Shipping Company");
+                    String shippingCity = record.get("Shipping City");
+
+                    String shippingZip = record.get("Shipping Zip");
+                    String shippingProvince = record.get("Shipping Province");
+                    String shippingCountry = record.get("Shipping Country");
+                    String shippingPhone = record.get("Shipping Phone");
+                    String shippingMethod = record.get("Shipping method");
+
+                    String notes = record.get("Notes");
+                    String designFrontUrl = record.get("Design front url");
+                    String designBackUrl = record.get("Design back url");
+                    String mockFrontUrl = record.get("Mockup front url");
+                    String mockBackUrl = record.get("Mockup back url");
+
+                    String currency = record.get("Currency");
+                    String unitAmount = record.get("Unit amount");
+                    String location = record.get("Location");
+                    String state = "Created";
+
+                    List<Map> resultMap = OrderService.insertTBFileRows(
+                            userId, storeId, fileId, source,
+                            id, name, email, financialStatus,
+                            groupColumn, lineItemQuantity, lineItemName, lineItemSku,
+                            shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
+                            shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod,
+                            notes, designFrontUrl, designBackUrl, mockFrontUrl, mockBackUrl,
+                            currency, unitAmount, location, state
+                    );
+                }
+                System.out.println("inserted file : " + fileId);
+                // update state = done trong tb_file
+                OrderService.updateImportFile(fileId, "done");
+                System.out.println("updated file : " + fileId);
+
+                File file = new File(ReadFile.csvFile);
+                //xoa file tren may, de nguyen thong tin file trong tb_file
+                ReadFile.deleteFile(file);
+                System.out.println("=======================================================================================");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+        // c2.3
     public static Map readOneLine2(){
         int countRecord = ReadFile.count;
         List<Map> listRecords = ReadFile.listMapData;

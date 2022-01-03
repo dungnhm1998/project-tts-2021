@@ -35,8 +35,8 @@ public class OrderService extends MasterService {
             "(?,?, ?,?,?)}";
 
     private static final String INSERT_TB_DROPSHIP_IMPORT_FILE_ROWS = "{call PKG_DROPSHIP_ORDER_PHUONG.INSERT_TB_DROPSHIP_IMPORT_FILE_ROWS(" +
-            "?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?, ?,?,?)}";
-    private static final String GET_FILE_ROWS = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_TB_FILE_ROWS(?,?,?)}";
+            "?,?,?,?, ?,?,?,?, ?,?,?,?, ?,?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?, ?,?,?)}";
+    private static final String GET_TB_FILE_ROWS = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_TB_FILE_ROWS(?,?,?)}";
     private static final String GET_PRO_VARIANT_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_PRO_VARIANT_BY_ID(?, ?,?,?)}";
     public static final String UPDATE_FILE_ROWS_STATE = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_FILE_ROWS_STATE(?,?,?, ?,?,?)}";
     public static final String GET_DESIGN_BY_ID_IN_TB_VARIANT = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_DESIGN_BY_ID_IN_TB_VARIANT(?, ?,?,?)}";
@@ -46,6 +46,37 @@ public class OrderService extends MasterService {
     public static final String GET_SIZE_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_SIZE_BY_ID(?, ?,?,?)}";
     public static final String GET_PRICE_BY_ID_BASE_SIZE = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_PRICE_BY_ID_BASE_SIZE(?,?, ?,?,?)}";
     public static final String GET_SKU_BY_ID = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_SKU_BY_ID(?, ?,?,?)}";
+
+    public static final String GET_IMPORT_FILE = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_IMPORT_FILE(?,?,?, ?,?,?)}";
+    public static final String INSERT_IMPORT_FILE = "{call PKG_DROPSHIP_ORDER_PHUONG.INSERT_IMPORT_FILE(?,?,?, ?,?,?,?, ?,?,?)}";
+    public static final String GET_TB_FILE_OLD = "{call PKG_DROPSHIP_ORDER_PHUONG.GET_TB_FILE_OLD(?,?,?)}";
+    public static final String UPDATE_IMPORT_FILE = "{call PKG_DROPSHIP_ORDER_PHUONG.UPDATE_IMPORT_FILE(?,?, ?,?,?)}";
+
+    public static List<Map> updateImportFile(String fileId, String state) throws SQLException{
+        List<Map> resultMap = excuteQuery(UPDATE_IMPORT_FILE, new Object[]{fileId, state});
+        return resultMap;
+    }
+
+    public static Map getTBFileOld() throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_TB_FILE_OLD, new Object[]{});
+        Map result = new LinkedHashMap();
+        if(!resultMap.isEmpty()){
+            result = resultMap.get(0);
+        }
+        return result;
+    }
+
+    public static List<Map> insertImportFile(String fileId, String  fileName, String urlFile,
+                                             String userId, String storeId, String source, String state) throws SQLException {
+        List<Map> resultMap = excuteQuery(INSERT_IMPORT_FILE, new Object[]{fileId, fileName, urlFile,
+                                                                        userId, storeId, source, state});
+        return resultMap;
+    }
+
+    public static List<Map> getImportFile(String fileName, String userId, String storeId) throws SQLException{
+        List<Map> resultMap = excuteQuery(GET_IMPORT_FILE, new Object[]{fileName, userId, storeId});
+        return resultMap;
+    }
 
     public static Map getSkuById(String idSku) throws SQLException{
         List<Map> resultMap = excuteQuery(GET_SKU_BY_ID, new Object[]{idSku});
@@ -129,7 +160,7 @@ public class OrderService extends MasterService {
     }
 
     public static List<Map> getFileRows() throws SQLException {
-        List<Map> resultMap = excuteQuery(GET_FILE_ROWS, new Object[]{});
+        List<Map> resultMap = excuteQuery(GET_TB_FILE_ROWS, new Object[]{});
 //        Map result = new LinkedHashMap();
 //        if(!resultMap.isEmpty()){
 //            result = resultMap.get(0);
@@ -141,9 +172,9 @@ public class OrderService extends MasterService {
     }
 
     public static List<Map> insertTBFileRows(
-            String userId, String storeId, String fileId,
+            String userId, String storeId, String fileId, String source,
             String id,String  name,String  email,String  financialStatus,
-            Date createdAt,String  lineItemQuantity,String  lineItemName,String  lineItemSku,
+            String groupColumn,String  lineItemQuantity,String  lineItemName,String  lineItemSku,
             String shippingName,String  shippingStreet,String  shippingAddress1,String  shippingAddress2,String  shippingCompany,String  shippingCity,
             String shippingZip,String  shippingProvince,String  shippingCountry,String  shippingPhone,String  shippingMethod,
             String notes,String  designFrontUrl,String  designBackUrl,String  mockFrontUrl,String  mockBackUrl,
@@ -151,9 +182,9 @@ public class OrderService extends MasterService {
             ) throws SQLException{
 
         List<Map> resultMap = excuteQuery(INSERT_TB_DROPSHIP_IMPORT_FILE_ROWS, new Object[]{
-                userId, storeId, fileId,
+                userId, storeId, fileId, source,
                 id, name, email, financialStatus,
-                createdAt, lineItemQuantity, lineItemName, lineItemSku,
+                groupColumn, lineItemQuantity, lineItemName, lineItemSku,
                 shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
                 shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod,
                 notes, designFrontUrl, designBackUrl, mockFrontUrl, mockBackUrl,

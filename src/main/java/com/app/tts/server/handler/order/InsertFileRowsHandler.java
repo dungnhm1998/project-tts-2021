@@ -97,22 +97,23 @@ public class InsertFileRowsHandler implements Handler<RoutingContext> {
         String  location = record.get("Location");
         String state = "Created";
 
-        try {
-            List<Map> resultMap = OrderService.insertTBFileRows(
-                    userId, storeId, fileId,
-                    id, name, email, financialStatus,
-                    createdAt, lineItemQuantity, lineItemName, lineItemSku,
-                    shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
-                    shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod,
-                    notes, designFrontUrl, designBackUrl, mockFrontUrl, mockBackUrl,
-                    currency, unitAmount, location, state
-            );
-            if(!resultMap.isEmpty()){
-                message = "successed";
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+//        try {
+            //ham insertTBFileRows da thay doi cac tham so
+//            List<Map> resultMap = OrderService.insertTBFileRows(
+//                    userId, storeId, fileId,
+//                    id, name, email, financialStatus,
+//                    createdAt, lineItemQuantity, lineItemName, lineItemSku,
+//                    shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
+//                    shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod,
+//                    notes, designFrontUrl, designBackUrl, mockFrontUrl, mockBackUrl,
+//                    currency, unitAmount, location, state
+//            );
+//            if(!resultMap.isEmpty()){
+//                message = "successed";
+//            }
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
 
         }
         return message;

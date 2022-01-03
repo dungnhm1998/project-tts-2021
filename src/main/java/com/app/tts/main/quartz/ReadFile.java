@@ -18,17 +18,25 @@ public class ReadFile {
     public static List<String> nameColumnList = new LinkedList<>();
     public static String csvFile ;// = "C:\\Users\\Phuong\\Downloads\\Telegram Desktop\\dung_test_import.csv";
 
+    public static void deleteFile(File file){
+        if(file.delete()){
+            System.out.println("Deleted the file: " + file.getName());
+        } else {
+            System.out.println("Failed to delete the file.");
+        }
+    }
+
     public static void readFile() {
         listData = new LinkedList();
         nameColumnList = new LinkedList<>();
         listMapData = new LinkedList<>();
                 //"E:\\springboot\\createOrderData2.csv"; //Orders_export_1639471684871.csv";
-        try (//{
+        try {
              Reader reader = new FileReader(csvFile);
              //CSVParser csvParser = null;
 //                try{
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);//.withHeader() chi dinh key = ten cot
-        ) {
+//        ) {
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
 
             for (CSVRecord csvRecord : csvRecords) {
@@ -78,6 +86,8 @@ public class ReadFile {
             System.out.println("------------------------------------------");
             System.out.println("----------------------------------------------");
 
+            csvParser.close();
+            reader.close();
 //            }catch (IllegalArgumentException e){
 //                    // chi chap nhan 1 cot k co nameColumn con lai se nhay vao ngoai le nay
 //                    System.out.println("-------------------------------");

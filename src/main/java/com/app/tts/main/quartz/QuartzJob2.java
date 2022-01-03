@@ -30,13 +30,16 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
         System.out.println("------------QuartzJob2 - c2 - CreateOrder---------------");
 //        insertOrder2();
         checkSKU();
-        System.out.println("--------------------------------------");
+        System.out.println("-------------------end QuartzJob2-------------------");
         System.out.println("--------------------------------------");
     }
     public static String orderId;
     public static int countProduct;
+    public static int countOrder;
 
     public void checkSKU(){
+        countProduct = 0;
+        countOrder = 0;
         try {
             List<Map> listFileRowsRecord = OrderService.getFileRows();
 //            System.out.println("listFileRowsRecord = " + listFileRowsRecord);
@@ -71,7 +74,7 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
     }
 
     public void insertOrderDoNotHaveCamp(List<Map> listCustomRecord){
-        int countOrderCustom = 0;
+//        int countOrderCustom = 0;
         for(Map fileRowsRecord: listCustomRecord) {
             String idSku = ParamUtil.getString(fileRowsRecord, "S_LINEITEM_SKU");
             System.out.println("s_sku====================" + idSku);
@@ -89,10 +92,11 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
                     //lay size
                     String sSizeId = ParamUtil.getString(skuRecord, "S_SIZE_ID");
                     Map sizeRecord = OrderService.getSizeById(sSizeId);
-                    if(countOrderCustom == 0) {
+                    if(countOrder == 0) {
                         orderId = insertOrderCustom(fileRowsRecord);
                         countProduct = 0;
-                        countOrderCustom++;
+                        countOrder++;
+//                        countOrderCustom++;
                     }
                     state = insertProductCustom(fileRowsRecord, skuRecord, baseRecord, colorRecord, sizeRecord);
                 }
@@ -233,7 +237,7 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
     }
 
     public void insertOrderHaveCamp(List<Map> listCampRecord){
-        int countProductCamp = 0;
+//        int countProductCamp = 0;
         for(Map fileRowsRecord : listCampRecord) {
             String sku = ParamUtil.getString(fileRowsRecord, "S_LINEITEM_SKU");
             int index = sku.indexOf("|");
@@ -242,11 +246,12 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
             System.out.println("variantId =====================" + variantId);
             System.out.println("sizeId=====================" + sizeId);
 
-            countProductCamp = checkVariantId(variantId, sizeId, fileRowsRecord, countProductCamp);
+            checkVariantId(variantId, sizeId, fileRowsRecord);
+
         }
     }
 
-    public int checkVariantId(String variantId, String sizeId, Map fileRowsRecord, int countProductCamp ){
+    public void checkVariantId(String variantId, String sizeId, Map fileRowsRecord){
         try {
             Map proVariantRecord = OrderService.getProVariantById(variantId);
             String state;
@@ -271,10 +276,10 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
                 Map priceRecord = OrderService.getPriceByIdBaseSize(sBaseId, sizeId);
 
                 // them order neu la san pham dau tien
-                if(countProductCamp == 0) {
+                if(countOrder == 0) {
                     orderId = insertOrderFromFileRows(fileRowsRecord);
                     countProduct = 0;
-                    countProductCamp++;
+                    countOrder++;
                 }
                 // them product
                 state = insertProductFromFileRows(fileRowsRecord, imageRecord,
@@ -291,7 +296,7 @@ public class QuartzJob2 /*implements Job*/ extends QuartzJobBean {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return countProductCamp;
+//        return countProductCamp;
     }
 
     public String insertProductFromFileRows(Map fileRowsRecord, Map imageRecord,
