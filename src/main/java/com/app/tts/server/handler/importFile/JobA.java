@@ -4,6 +4,7 @@ import com.app.tts.encode.Md5Code;
 import com.app.tts.server.handler.importFile.utilGoogle.DownloadFile;
 import com.app.tts.services.importFileService.AddOrderServiceImport;
 import com.app.tts.util.ParamUtil;
+import org.apache.commons.io.FilenameUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -28,7 +29,12 @@ public class JobA extends QuartzJobBean {
             String url = ParamUtil.getString(getFile, "S_URL");
             String userId = ParamUtil.getString(getFile, "S_USER_ID");
             String storeId = ParamUtil.getString(getFile, "S_STORE_ID");
-            String file_name = "D://react//jarr/" + id + "-" + "quy.csv";
+
+            String prefix = id + "-" + "quy.csv";
+            String file_name = "D://react//jarr/" + prefix;
+            String type = FilenameUtils.getExtension(file_name);
+
+
             System.out.println("---------");
             System.out.println(getFile);
 
@@ -66,12 +72,11 @@ public class JobA extends QuartzJobBean {
                 String mockupFrontUrl = ParamUtil.getString(s, "Mockup front url");
                 String mockupBackUrl = ParamUtil.getString(s, "Design back url");
                 String checkValidAddress = ParamUtil.getString(s, "Check vaild adress");
-                String type = ParamUtil.getString(s, "S_TYPE");
                 String currency = ParamUtil.getString(s, "Currency");
                 String unitAmount = ParamUtil.getString(s, "Unit amount");
                 String location = ParamUtil.getString(s, "Location");
                 String groupColumn = Md5Code.md5(id + storeId + userId + name);
-                AddOrderServiceImport.importFileRows(name, id, userId, file_name, email, financialStatus, state, groupColumn, type ,
+                AddOrderServiceImport.importFileRows(name, id, userId, prefix, email, financialStatus, state, groupColumn, type,
                         storeId, lineitemQuantity, lineitemName, lineitemSku, shippingName, shippingStreet, shippingAddress1, shippingAddress2, shippingCompany, shippingCity,
                         shippingZip, shippingProvince, shippingCountry, shippingPhone, shippingMethod, notes,
                         ord, designFrontUrl, designBackUrl, mockupFrontUrl, mockupBackUrl,
