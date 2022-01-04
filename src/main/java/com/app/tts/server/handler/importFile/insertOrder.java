@@ -13,6 +13,7 @@ import org.apache.commons.csv.CSVRecord;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -23,9 +24,9 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 public class insertOrder implements Handler<RoutingContext> {
-    private static int count = 0;
-    private static List<CSVRecord> listData = new LinkedList();
-    private static List<Map> listMapData = new LinkedList<>();
+    private static final int count = 0;
+    private static final List<CSVRecord> listData = new ArrayList<>();
+    private static final List<Map> listMapData = new LinkedList<>();
     public static List<String> nameColumnList = new LinkedList<>();
 
     @Override

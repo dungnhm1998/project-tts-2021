@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class AddOrderServiceImport extends MasterService {
     private static final String INSERT_ORDER = "{call PKG_IMPORT_FILE.insert_dropship_order(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-    private static final String INS_ORDER_PRODUCT = "{call PKG_IMPORT_FILE.insert_dropship_order_product(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    private static final String INS_ORDER_PRODUCT = "{call PKG_IMPORT_FILE.insert_dropship_order_product(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     private static final String INS_SHIPPING = "{call PKG_IMPORT_FILE.insert_shipping_shipping(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
     public static final String IMPORT_FILE_ROWS = "{call PKG_IMPORT_FILE.IMPORT_ORDER(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
@@ -303,6 +303,7 @@ public class AddOrderServiceImport extends MasterService {
             String sizeId,
             String price,
             int    quantity,
+            String state,
             String variantName,
             String baseId,
             String variantFrontUrl,
@@ -322,6 +323,7 @@ public class AddOrderServiceImport extends MasterService {
                 sizeId,
                 price,
                 quantity,
+                state,
                 variantName,
                 baseId,
                 variantFrontUrl,

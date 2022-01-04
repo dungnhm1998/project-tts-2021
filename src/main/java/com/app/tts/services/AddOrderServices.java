@@ -16,7 +16,7 @@ public class AddOrderServices extends MasterService {
     private static final String INS_ORDER_PRODUCT = "{call PKG_QUY.insert_dropship_order_product(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 
     private static final String INS_SHIPPING = "{call PKG_QUY.insert_shipping_shipping(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
-
+                                                    
 
     public static Map insertOrder(
             String p_orderid,
@@ -88,41 +88,41 @@ public class AddOrderServices extends MasterService {
 
 
     public static List<Map> insertOrderProduct(
-            String p_id,
-            String p_order_id,
-            String p_size_id,
+            String id,
+            String order_id,
+            String size_id,
             String price,
-            int p_quantity,
-            String p_variant_name,
-            String p_base_id,
-            String p_variant_front_url,
-            String p_variant_back_url,
-            String p_color_id,
-            String p_color_value,
-            String p_color_name,
-            String p_size_name,
-            String p_unit_amount,
-            String p_design_back_url,
-            String p_design_front_url
+            int quantity,
+            String variant_name,
+            String base_id,
+            String variant_front_url,
+            String variant_back_url,
+            String color_id,
+            String color_value,
+            String color_name,
+            String size_name,
+            String unit_amount,
+            String design_back_url,
+            String design_front_url
     ) throws SQLException {
         Map result = new HashMap();
         List<Map> insertOrProduct = excuteQuery(INS_ORDER_PRODUCT, new Object[]{
-                p_id,
-                p_order_id,
-                p_size_id,
+                id,
+                order_id,
+                size_id,
                 price,
-                p_quantity,
-                p_variant_name,
-                p_base_id,
-                p_variant_front_url,
-                p_variant_back_url,
-                p_color_id,
-                p_color_value,
-                p_color_name,
-                p_size_name,
-                p_unit_amount,
-                p_design_back_url,
-                p_design_front_url
+                quantity,
+                variant_name,
+                base_id,
+                variant_front_url,
+                variant_back_url,
+                color_id,
+                color_value,
+                color_name,
+                size_name,
+                unit_amount,
+                design_back_url,
+                design_front_url
         });
         System.out.println("insertOrProduct"+ insertOrProduct);
 

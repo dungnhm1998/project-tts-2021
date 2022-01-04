@@ -41,7 +41,6 @@ public class AddOrderHandler implements Handler<RoutingContext> {
                 String name = ParamUtil.getString(shipping, "name");
                 String phone = ParamUtil.getString(shipping, "phone");
                 String phone_ext = ParamUtil.getString(shipping, "phone_ext");
-
                 Map address = ParamUtil.getMapData(shipping, "address");
 
                 String line1 = ParamUtil.getString(address, "line1");
@@ -109,7 +108,7 @@ public class AddOrderHandler implements Handler<RoutingContext> {
             }
         }, asyncResult -> {
             if (asyncResult.succeeded()) {
-                routingContext.next();
+               routingContext.next();
             } else {
                 routingContext.fail(asyncResult.cause());
             }

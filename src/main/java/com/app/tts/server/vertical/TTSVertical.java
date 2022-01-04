@@ -43,126 +43,124 @@ import io.vertx.rxjava.ext.web.sstore.LocalSessionStore;
 import java.util.logging.Logger;
 
 /**
- *
  * @author hungdt
  */
 public class TTSVertical extends AbstractVerticle {
 
-	private String serverHost;
-	private int serverPort;
-	private boolean connectionKeepAlive;
-	private long connectionTimeOut;
-	private int connectionIdleTimeOut;
-	private String apiPrefix;
+    private String serverHost;
+    private int serverPort;
+    private boolean connectionKeepAlive;
+    private long connectionTimeOut;
+    private int connectionIdleTimeOut;
+    private String apiPrefix;
 
-	public static HttpClient httpClient;
-	public static HttpClient httpsClient;
+    public static HttpClient httpClient;
+    public static HttpClient httpsClient;
 
-	public void setServerHost(String serverHost) {
-		this.serverHost = serverHost;
-	}
+    public void setServerHost(String serverHost) {
+        this.serverHost = serverHost;
+    }
 
-	public void setServerPort(int serverPort) {
-		this.serverPort = serverPort;
-	}
+    public void setServerPort(int serverPort) {
+        this.serverPort = serverPort;
+    }
 
-	public void setConnectionKeepAlive(boolean connectionKeepAlive) {
-		this.connectionKeepAlive = connectionKeepAlive;
-	}
+    public void setConnectionKeepAlive(boolean connectionKeepAlive) {
+        this.connectionKeepAlive = connectionKeepAlive;
+    }
 
-	public void setConnectionTimeOut(long connectionTimeOut) {
-		this.connectionTimeOut = connectionTimeOut;
-	}
+    public void setConnectionTimeOut(long connectionTimeOut) {
+        this.connectionTimeOut = connectionTimeOut;
+    }
 
-	public void setConnectionIdleTimeOut(int connectionIdleTimeOut) {
-		this.connectionIdleTimeOut = connectionIdleTimeOut;
-	}
+    public void setConnectionIdleTimeOut(int connectionIdleTimeOut) {
+        this.connectionIdleTimeOut = connectionIdleTimeOut;
+    }
 
-	public void setApiPrefix(String apiPrefix) {
-		this.apiPrefix = apiPrefix;
-	}
+    public void setApiPrefix(String apiPrefix) {
+        this.apiPrefix = apiPrefix;
+    }
 
-	@Override
-	public void start() throws Exception {
+    @Override
+    public void start() throws Exception {
 
-		LOGGER.info("[INIT] STARTING UP ORDER API SERVER...");
+        LOGGER.info("[INIT] STARTING UP ORDER API SERVER...");
 
-		httpClient = vertx.createHttpClient();
-		httpsClient = vertx.createHttpClient(new HttpClientOptions().setSsl(true).setTrustAll(true));
+        httpClient = vertx.createHttpClient();
+        httpsClient = vertx.createHttpClient(new HttpClientOptions().setSsl(true).setTrustAll(true));
 
-		super.start();
+        super.start();
 
-		Router router = Router.router(vertx);
-		router.route().handler(CookieHandler.create());
-		router.route().handler(BodyHandler.create());
-		router.route().handler(io.vertx.rxjava.ext.web.handler.CorsHandler.create("*")
-				.allowedMethod(io.vertx.core.http.HttpMethod.GET)
-				.allowedMethod(io.vertx.core.http.HttpMethod.POST)
-				.allowedMethod(io.vertx.core.http.HttpMethod.OPTIONS)
-				.allowedHeader("Access-Control-Request-Method")
-				.allowedHeader("Access-Control-Allow-Credentials")
-				.allowedHeader("Access-Control-Allow-Origin")
-				.allowedHeader("Access-Control-Allow-Headers")
-				.allowedHeader("Content-Type"));
+        Router router = Router.router(vertx);
+        router.route().handler(CookieHandler.create());
+        router.route().handler(BodyHandler.create());
+        router.route().handler(io.vertx.rxjava.ext.web.handler.CorsHandler.create("*")
+                .allowedMethod(io.vertx.core.http.HttpMethod.GET)
+                .allowedMethod(io.vertx.core.http.HttpMethod.POST)
+                .allowedMethod(io.vertx.core.http.HttpMethod.OPTIONS)
+                .allowedHeader("Access-Control-Request-Method")
+                .allowedHeader("Access-Control-Allow-Credentials")
+                .allowedHeader("Access-Control-Allow-Origin")
+                .allowedHeader("Access-Control-Allow-Headers")
+                .allowedHeader("Content-Type"));
 
-		router.route().handler(ResponseTimeHandler.create());
-		router.route().handler(TimeoutHandler.create(connectionTimeOut));
-		router.route().handler(new RequestLoggingHandler());
+        router.route().handler(ResponseTimeHandler.create());
+        router.route().handler(TimeoutHandler.create(connectionTimeOut));
+        router.route().handler(new RequestLoggingHandler());
 
-		router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx, "test tts", 30000))
-				.setCookieHttpOnlyFlag(true).setCookieSecureFlag(true));
+        router.route().handler(SessionHandler.create(LocalSessionStore.create(vertx, "test tts", 30000))
+                .setCookieHttpOnlyFlag(true).setCookieSecureFlag(true));
 
-		router.mountSubRouter(apiPrefix, initAPI());
+        router.mountSubRouter(apiPrefix, initAPI());
 
-		router.route().failureHandler(new ExceptionHandler());
-		router.route().last().handler(new ResponseHandler());
+        router.route().failureHandler(new ExceptionHandler());
+        router.route().last().handler(new ResponseHandler());
 
-		HttpServerOptions httpServerOptions = new HttpServerOptions();
+        HttpServerOptions httpServerOptions = new HttpServerOptions();
 
-		httpServerOptions.setHost(serverHost);
-		httpServerOptions.setPort(serverPort);
-		httpServerOptions.setTcpKeepAlive(connectionKeepAlive);
-		httpServerOptions.setIdleTimeout(connectionIdleTimeOut);
+        httpServerOptions.setHost(serverHost);
+        httpServerOptions.setPort(serverPort);
+        httpServerOptions.setTcpKeepAlive(connectionKeepAlive);
+        httpServerOptions.setIdleTimeout(connectionIdleTimeOut);
 
-		HttpServer httpServer = vertx.createHttpServer(httpServerOptions);
+        HttpServer httpServer = vertx.createHttpServer(httpServerOptions);
 
-		httpServer.requestHandler(router);
+        httpServer.requestHandler(router);
 
-		httpServer.listen(result -> {
-			if (result.failed()) {
-				LOGGER.info("Failed to[INIT] START TTS API ERROR " + result.cause() + "\uD83D\uDE02");
-			} else {
-				LOGGER.info("[INIT] TTS SERVER STARTED AT " + " \uD83D\uDE02" + StringPool.SPACE + serverHost + StringPool.COLON + serverPort + " \uD83D\uDE02 ");
-			}
-		});
-	}
+        httpServer.listen(result -> {
+            if (result.failed()) {
+                LOGGER.info("Failed to[INIT] START TTS API ERROR " + result.cause() + "\uD83D\uDE02");
+            } else {
+                LOGGER.info("[INIT] TTS SERVER STARTED AT " + " \uD83D\uDE02" + StringPool.SPACE + serverHost + StringPool.COLON + serverPort + " \uD83D\uDE02 ");
+            }
+        });
+    }
 
-	private Router initAPI() {
+    private Router initAPI() {
 
-		Router router = Router.router(vertx);
-		
-		// xet uri de xem handler nao se bat login, handler nao khong bat login
-		router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
-		router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
+        Router router = Router.router(vertx);
 
-		//api
-		router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
-		router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
+        // xet uri de xem handler nao se bat login, handler nao khong bat login
+        router.route(HttpMethod.POST, "/notifyOrder/:source").handler(new OrderNotifyHandler());
+        router.route(HttpMethod.OPTIONS, "/login").handler(new OptionHandler());
 
-
+        //api
+        router.route(HttpMethod.GET, "/base").handler(new getBaseHandler());
+        router.route(HttpMethod.GET, "/base1").handler(new getBaseHandler1());
 
 
-		router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
+        router.route(HttpMethod.GET, "/list_base").handler(new ListBaseGroupColorSizeHandler());
 //		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 //		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
-		router.route(HttpMethod.GET, "/get-order").handler(new Get_OrderHandler());
-		router.route(HttpMethod.GET, "/list-campaign").handler(new GetCampaignHandler());
-		router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
-		router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
+        router.route(HttpMethod.GET, "/get-order").handler(new Get_OrderHandler());
+        router.route(HttpMethod.GET, "/list-campaign").handler(new GetCampaignHandler());
+        router.route(HttpMethod.POST, "/create-campaign").handler(new CreateCampaignHandler());
+        router.route(HttpMethod.GET, "/list-base").handler(new ListBaseHandler());
 
-		router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
-		router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
+        router.route(HttpMethod.GET, "/list_base_test").handler(new ListBaseHandler2());
+        router.route(HttpMethod.GET, "/list-user").handler(new GetAllUserHandler());
+        router.route(HttpMethod.GET, "/listbase").handler(new getBaseHandler1());
 
 //		router.route(HttpMethod.POST, "/user").handler(new RegisterUserHandler());
 //		router.route(HttpMethod.DELETE, "/delete_user").handler(new DeleteUserHandler());
@@ -174,14 +172,14 @@ public class TTSVertical extends AbstractVerticle {
 //		router.route(HttpMethod.POST, "/addOrders").handler(new updateDemoHanler());
 
 
-		router.route(HttpMethod.GET, "/select").handler(new insertOrder());
-		router.route(HttpMethod.POST, "/select-google").handler(new GoogleApiHandler());
+        router.route(HttpMethod.GET, "/select").handler(new insertOrder());
+        router.route(HttpMethod.POST, "/select-google").handler(new GoogleApiHandler());
 
-		router.route(HttpMethod.GET, "/test/:id").handler(new UsHandler());
-		router.route(HttpMethod.POST, "/test").handler(new PostOrderHandler());
-		router.route(HttpMethod.PUT, "/test1").handler(new PutOrderHandler());
-		return router;
-	}
+        router.route(HttpMethod.GET, "/test/:id").handler(new UsHandler());
+        router.route(HttpMethod.POST, "/test").handler(new PostOrderHandler());
+        router.route(HttpMethod.PUT, "/test1").handler(new PutOrderHandler());
+        return router;
+    }
 
-	private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TTSVertical.class.getName());
 }

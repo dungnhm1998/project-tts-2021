@@ -148,7 +148,7 @@ public class  importFileOrder  {
                                 String orDrId = String.valueOf(rand.nextInt(100000));
                                 String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
-                                AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, lineitemName,
+                                AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, stateOr,lineitemName,
                                         baseId, FRONT_IMG_URL, BACK_IMG_URL, color, colorValue, nameColor, nameSize, unitAmount, designBackUrl, designFrontUrl);
 
                                 AddOrderServiceImport.updateRows(pState, rowsId);
@@ -219,7 +219,7 @@ public class  importFileOrder  {
                             country = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
                             String orDrId = String.valueOf(rand.nextInt(100000));
                             String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
-                            AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId1, price1, quantity, lineitemName,
+                            AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId1, price1, quantity, stateOr,lineitemName,
                                     baseID1, designFrontUrl, designBackUrl, colorId1, colorValue1, colorName1, sizeName1, unitAmount, designBackUrl, designFrontUrl);
 
                             AddOrderServiceImport.updateRows(pState, ord);

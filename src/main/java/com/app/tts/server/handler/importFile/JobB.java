@@ -30,6 +30,7 @@ public class JobB extends QuartzJobBean {
             Set<String> Var2 = new HashSet();
 
 
+
             String ord = "", name = "", email = "", financialStatus = "", dateAt = "",
                     state = "", lineitemQuantity = "", lineitemName = "", shippingName = "", shippingStreet = "",
                     shippingAddress1 = "", shippingAddress2 = "", shippingCompany = "", shippingCity = "", shippingZip = "",
@@ -156,21 +157,17 @@ public class JobB extends QuartzJobBean {
                                 String orDrId = String.valueOf(rand.nextInt(100000));
                                 String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
 
-                                AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, lineitemName,
+                                AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId, dropshipPrice, quantity, stateOr,lineitemName,
                                         baseId, FRONT_IMG_URL, BACK_IMG_URL, color, colorValue, nameColor, nameSize, unitAmount, designBackUrl, designFrontUrl);
 
                                 AddOrderServiceImport.updateRows(pState, rowsId);
                                 LOGGER.info("update Rows" + " | " + rowsId + " ; " + "State" + ": " + pState + "|");
-
-
                             } else {
-
                                 AddOrderServiceImport.updateRows(pState1, rowsId);
                                 LOGGER.info("{" + rowsId + "}" + " | " + "variant in valid" + ": " + variantId);
                                 //do tạo order trước nhưng do variant k có lên delete or and shipping
                                 AddOrderServiceImport.deleteOr(orderId);
                                 AddOrderServiceImport.deleteShipping(shippingId);
-
                             }
                         }
                     } else {
@@ -200,7 +197,6 @@ public class JobB extends QuartzJobBean {
                             lineitemQuantity = ParamUtil.getString(s, "S_LINEITEM_QUANTITY");
                             quantity = Integer.parseInt(lineitemQuantity);
                             lineitemName = ParamUtil.getString(s, "S_LINEITEM_NAME");
-
                             shippingName = ParamUtil.getString(s, "S_SHIPPING_NAME");
                             shippingStreet = ParamUtil.getString(s, "S_SHIPPING_STREET");
                             shippingAddress1 = ParamUtil.getString(s, "S_SHIPPING_ADDRESS1");
@@ -227,7 +223,7 @@ public class JobB extends QuartzJobBean {
                             country = ParamUtil.getString(s, "S_SHIPPING_COUNTRY");
                             String orDrId = String.valueOf(rand.nextInt(100000));
                             String orDrId1 = userId + "-" + "CT" + "-" + orDrId;
-                            AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId1, price1, quantity, lineitemName,
+                            AddOrderServiceImport.insertOrderProduct(orDrId1, orderId, sizeId1, price1, quantity, stateOr,lineitemName,
                                     baseID1, designFrontUrl, designBackUrl, colorId1, colorValue1, colorName1, sizeName1, unitAmount, designBackUrl, designFrontUrl);
 
                             List<Map> updateRows = AddOrderServiceImport.updateRows(pState, ord);

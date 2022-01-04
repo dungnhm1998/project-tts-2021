@@ -39,7 +39,7 @@ public class JobA extends QuartzJobBean {
 
             DownloadFile.Download(url, file_name);
 
-            Readfile.readFile(file_name);
+            Readfile.readFile(file_name);   
             Random rand = new Random();
 
 

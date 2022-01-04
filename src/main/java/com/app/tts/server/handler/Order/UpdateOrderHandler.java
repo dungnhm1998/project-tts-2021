@@ -114,7 +114,6 @@ public class UpdateOrderHandler implements Handler<RoutingContext> {
 
 
                 // UPDATE ORDER BY ID
-
                 Map orderResultList = OrderService.updateOrder(orderId, currency, state, shippingId, tracking_code,
                         note, channel, subAmount ,shippingFree, source, originalId,
                         storeId, userId, referenceId, statusF ,quantityOrder, addrVerified,
