@@ -43,6 +43,7 @@ public class JobA extends QuartzJobBean {
             Random rand = new Random();
 
 
+
             List<Map> lst = Readfile.listMapData;
             Files.deleteIfExists(Paths.get(file_name));
             for (Map s : lst) {
@@ -93,12 +94,8 @@ public class JobA extends QuartzJobBean {
             e2.printStackTrace();
         } catch (Exception e1) {
             LOGGER.info("************************" + " " + e1.getMessage() + " " + "************************");
-
         }
     }
-
     private static final Logger LOGGER = Logger.getLogger(JobA.class.getName());
-
-
 }
 
