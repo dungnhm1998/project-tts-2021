@@ -66,7 +66,7 @@ public class MasterService {
 		outNames.put(beginIdx + 3, AppParams.RESULT_DATA);
 
 		Map queryResult = DBProcedureUtil.execute(dataSource, query, inArgs, outTypes, outNames);
-
+		
 		int resultCode = ParamUtil.getInt(queryResult, AppParams.RESULT_CODE);
 
 		if (resultCode != HttpResponseStatus.OK.code() && resultCode != HttpResponseStatus.CREATED.code()) {
